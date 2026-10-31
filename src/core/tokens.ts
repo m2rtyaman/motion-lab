@@ -125,3 +125,17 @@ export type EasingKey = keyof typeof EASING;
 export type DurationKey = keyof typeof DURATIONS;
 export type SpringPresetKey = keyof typeof SPRING;
 export type PaletteKey = keyof typeof PALETTE;
+
+/** Recipe constants: src/core/recipes.ts uses only these. */
+export const RECIPE = {
+  shakeStep: 0.06,
+  shakeSteps: 5,
+  shakeAmplitudePx: 12,
+  shakeRollDeg: 1.6,
+  revealBlurPx: 16,
+  revealScaleFrom: 1.12,
+  wipeDuration: 0.5,
+  settleOvershoot: 1.06,
+  settleIn: 0.18,
+  settleOut: 0.42,
+} as const;

@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { useCurrentFrame } from 'remotion';
-import { useRemotionGSAP } from '../core/useRemotionGSAP';
-import { animateCamera } from '../core/choreography';
+import { useRemotionGSAP } from '../../core/useRemotionGSAP';
+import { animateCamera } from '../../core/choreography';
 import {
   WorldStage,
   CharacterActor,
@@ -9,8 +9,8 @@ import {
   type ActorMotionSegment,
   type SfxTrigger,
   type TorchLightPoint,
-} from '../world';
-import { ShockwaveRoar, AtmosphereParticles } from '../vfx';
+} from '../../world';
+import { ShockwaveRoar, AtmosphereParticles } from '../../vfx';
 
 export interface SceneProps {
   aspect?: '9:16' | '16:9';
@@ -178,7 +178,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '9:16' }) => {
   return (
     <WorldStage
       aspect={aspect}
-      backgroundSrc="assets/arena_bg.png"
+      backgroundSrc="projects/dwarf-arena/arena_bg.png"
       torchLights={TORCH_LIGHTS}
       sfxTriggers={SFX_TRIGGERS}
       roarFlashIntensity={isShouting ? 0.85 : 0}
@@ -187,7 +187,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '9:16' }) => {
       <AtmosphereParticles count={26} variant="embers" />
 
       {/* 2. 60 FPS PROSEDÜREL KUKLA FİZİKLİ CÜCE AKTÖR */}
-      <CharacterActor segments={DWARF_SEGMENTS} />
+      <CharacterActor segments={DWARF_SEGMENTS} spriteBase="projects/dwarf-arena/sprites" />
 
       {/* 3. SONİK ŞOK DALGASI, DARBE ÇİZGİLERİ VE SAVAŞ ÇIĞLIĞI VFX */}
       <ShockwaveRoar

@@ -7,8 +7,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const inputPath = path.join(rootDir, 'public', 'assets', 'dwarf_spritesheet.png');
-const outDir = path.join(rootDir, 'public', 'assets', 'sprites');
+// Kullanım: node scripts/sprite-analyzer.mjs --project <slug> [--sheet dosya.png]
+const argv = process.argv.slice(2);
+const argOf = (k, d) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : d);
+const projectSlug = argOf('--project', 'dwarf-arena');
+const sheetName = argOf('--sheet', 'dwarf_spritesheet.png');
+const projectPublic = path.join(rootDir, 'public', 'projects', projectSlug);
+const inputPath = path.join(projectPublic, sheetName);
+const outDir = path.join(projectPublic, 'sprites');
 
 if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true });
@@ -45,7 +51,7 @@ fs.createReadStream(inputPath)
     const targetFootY = 148;
 
     const manifest = {
-      source: 'assets/dwarf_spritesheet.png',
+      source: `projects/${projectSlug}/${sheetName}`,
       canvasSize: { width: canvasW, height: canvasH },
       footBaselineY: targetFootY,
       recommendedRunCycle: ['run_1', 'run_2', 'walk_recover'],
@@ -134,7 +140,7 @@ fs.createReadStream(inputPath)
       outPng.pack().pipe(fs.createWriteStream(outFilePath));
 
       manifest.frames[reg.name] = {
-        file: `assets/sprites/${fileName}`,
+        file: `projects/${projectSlug}/sprites/${fileName}`,
         role: reg.role,
         trimmedWidth: spriteW,
         trimmedHeight: spriteH,

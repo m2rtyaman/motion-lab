@@ -18,7 +18,9 @@ export interface ActorMotionSegment {
 
 export interface CharacterActorProps {
   segments: ActorMotionSegment[];
-  /** Run cycle sprite filenames inside public/assets/sprites/ */
+  /** Sprite klasörü (public/ köküne göre); proje başına verilir. */
+  spriteBase?: string;
+  /** Run cycle sprite filenames inside spriteBase */
   runSprites?: string[];
   shoutSprite?: string;
   idleSprite?: string;
@@ -83,6 +85,7 @@ export const evaluateActorPose = (
  */
 export const CharacterActor: FC<CharacterActorProps> = ({
   segments,
+  spriteBase = 'assets/sprites',
   runSprites = ['run_1', 'run_2', 'walk_recover'],
   shoutSprite = 'shout',
   idleSprite = 'idle',
@@ -205,7 +208,7 @@ export const CharacterActor: FC<CharacterActorProps> = ({
           }}
         >
           <img
-            src={staticFile(`assets/sprites/${spriteName}.png`)}
+            src={staticFile(`${spriteBase}/${spriteName}.png`)}
             alt=""
             className="w-full h-full object-contain"
           />
@@ -226,7 +229,7 @@ export const CharacterActor: FC<CharacterActorProps> = ({
         }}
       >
         <img
-          src={staticFile(`assets/sprites/${spriteName}.png`)}
+          src={staticFile(`${spriteBase}/${spriteName}.png`)}
           alt="Animated Character"
           className="w-full h-full object-contain"
           style={{

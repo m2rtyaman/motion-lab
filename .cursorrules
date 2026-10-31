@@ -1,6 +1,17 @@
 Always refer to and enforce AGENTS.md, .agent/skills/motion-director/SKILL.md, and rules.md for all creative coding, motion design, and UI animation tasks.
 
-- Aksi belirtilmedikçe tüm video ve animasyon üretimleri 9:16 dikey (1080x1920, 60 FPS) formatındadır.
-- Sahnelerde sarı/ilkel SVG kafa çizimi, mor/cyan neon parıltılar, drop-shadow glow ve sebepsiz bento kutuları yasaktır.
-- Animasyonlar deterministik kare köprüsü (useRemotionGSAP) ile yazılmalıdır.
-- Kod yazımı bittiğinde durma; terminalde `pnpm render` çalıştırarak MP4 çıktısını doğrula.
+MULTI-PROJECT ARCHITECTURE:
+- Her video/sahne `src/projects/<slug>/` altında bağımsız bir projedir (`direction.md`, `spec.json`, `Scene.tsx`, `vision-notes.md`).
+- Yeni video başlatma: `pnpm new <slug> --mode <cinematic-world|editorial-ui|kinetic-poster> [--aspect 9:16|16:9] [--duration 6]`
+- Tek bir devasa prompt ile kod yazma; aşamalı üretim zincirini izle:
+  1. Direction: `src/projects/<slug>/direction.md`
+  2. Spec: `src/projects/<slug>/spec.json`
+  3. Code: `src/projects/<slug>/Scene.tsx` (Animasyonlar deterministik `useRemotionGSAP` ile yazılmalıdır)
+  4. Vision: `pnpm render:contact-sheet --project <slug>` -> `out/<slug>/visual-audit-grid.png` dosyasını `read_file` ile aç ve `vision-notes.md` dosyasına kare referanslı (`f130`) gözlem yaz.
+  5. Render: `pnpm render --project <slug>`
+
+ZERO-TOLERANCE RULES (Enforced by AST & Slop Linters):
+- Yasak: linear ease, easeInOut, drop-shadow glow, neon mor/cyan renkler, mikro-font (<18px), layout tweening (top/left/width).
+- Determinizm: Math.random, Date.now, setTimeout, CSS transitions kesinlikle yasaktır; her şey `frame` indeksine kilitlidir.
+- Süreler ve eğriler `src/core/tokens.ts` ve `src/core/recipes.ts` üzerinden okunmalıdır.
+- Kod yazımı bittiğinde durma; `pnpm check --project <slug>` ve `pnpm render --project <slug>` çalıştırarak fiziksel MP4 çıktısını doğrula.
