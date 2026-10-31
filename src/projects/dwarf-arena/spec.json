@@ -1,5 +1,5 @@
 {
-  "$schema": "./motion-spec.schema.json",
+  "$schema": "../../../specs/motion-spec.schema.json",
   "version": 1,
   "title": "Berserker Dwarf Arena",
   "mode": "cinematic-world",

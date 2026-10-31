@@ -9,6 +9,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build:css": "npx @tailwindcss/cli -i src/index.css -o src/output.css",
+    "registry": "node scripts/gen-registry.mjs",
+    "new": "node scripts/new-project.mjs",
     "audit:spec": "node scripts/validate-spec.mjs",
     "audit:ast": "node scripts/ast-lint.mjs",
     "audit:slop": "node scripts/slop-linter.mjs",
@@ -17,12 +19,12 @@
     "studio:next": "node scripts/studio.mjs next",
     "studio:check": "node scripts/studio.mjs check",
     "studio:run": "node scripts/studio.mjs run",
-    "check": "pnpm audit:spec && pnpm audit:ast && pnpm audit:slop && tsc --noEmit",
+    "check": "node scripts/gen-registry.mjs && node scripts/validate-spec.mjs && node scripts/ast-lint.mjs && node scripts/slop-linter.mjs && tsc --noEmit",
     "render:5s": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-9x16-5s out/repo-news-5s.mp4 --gl=angle",
     "render": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-9x16 out/repo-news-9x16.mp4 --gl=angle",
     "render:16x9": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-16x9 out/repo-news-16x9.mp4 --gl=angle",
     "render:contact-sheet": "pnpm build:css && node scripts/contact-sheet.mjs",
-    "render:still": "pnpm build:css && remotion still src/remotion/index.ts RepoNews-9x16 out/preview.png --frame=60"
+    "render:still": "pnpm build:css && remotion still src/remotion/index.ts dwarf-arena out/dwarf-arena/preview.png --frame=60"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.10",

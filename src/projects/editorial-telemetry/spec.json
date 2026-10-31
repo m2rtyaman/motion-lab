@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Cloud Telemetry",
+  "mode": "editorial-ui",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 4,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "beats": [
+    { "id": "headline", "startFrame": 0, "endFrame": 89, "intent": "Hero başlık ve 3D kamera süzülüşü", "action": "headline" },
+    { "id": "metric", "startFrame": 90, "endFrame": 179, "intent": "Telemetri kartı girişi ve sayaç akışı", "action": "telemetry" },
+    { "id": "settle", "startFrame": 180, "endFrame": 240, "intent": "Kapanış derinlik itişi ve kilitlenme", "action": "settle" }
+  ],
+  "camera": [
+    { "at": 0.05, "duration": 1.4, "ease": "expo.inOut", "intent": "3D sahneye sinematik süzülüş" },
+    { "at": 1.5, "duration": 0.9, "ease": "expo.out", "intent": "Veri paneline odaklanma" },
+    { "at": 2.6, "duration": 1.35, "ease": "power2.inOut", "intent": "Kapanışa yavaş derinlik itişi" }
+  ],
+  "shakes": [],
+  "sfx": []
+}

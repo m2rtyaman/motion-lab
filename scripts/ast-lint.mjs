@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { parseArgs, resolveTargets, scopeDirs, walk, rootDir } from "./lib/projects.mjs";
 
 /**
  * AST LINTER (Faz 5) — regex değil, gerçek sözdizimi ağacı (@babel/parser).
@@ -14,16 +14,15 @@ import { fileURLToPath } from "node:url";
  * A005 JSX style'da CSS transition/animation (Remotion render'ında kare-kilitsiz)
  * A006 spring damping çok düşük (aşırı zıplama) veya sihirli spring sayıları
  *
- * Muafiyet: animateCamera(...) argümanlarındaki sayılar spec (validate-spec) tarafından
+ * Kullanım: node scripts/ast-lint.mjs [--project <slug>]; kapsam = motor + seçilen projeler.`n * Muafiyet: animateCamera(...) argümanlarındaki sayılar spec (validate-spec) tarafından
  * doğrulanır; src/core/tokens.ts token tanımıdır.
  */
 const require = createRequire(import.meta.url);
 const { parse } = require("@babel/parser");
-const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
-const SKIP_DIRS = new Set(["stage"]);
-const SKIP_FILES = new Set(["vite-env.d.ts", "App.tsx", "main.tsx", "tokens.ts"]);
+const SKIP_FILES = new Set(["vite-env.d.ts", "registry.generated.ts", "tokens.ts"]);
 const TIMING_KEYS = new Set(["duration", "stagger", "delay", "repeatDelay"]);
 const LAYOUT_KEYS = new Set(["top", "left", "right", "bottom", "width", "height", "margin", "padding", "marginTop", "marginLeft", "paddingTop", "paddingLeft"]);
 const TWEEN_METHODS = new Set(["to", "from", "fromTo", "set"]);
@@ -31,14 +30,6 @@ const EASE_BANNED = /^(linear|none|ease|ease-?in|ease-?out|ease-?in-?out|easeInO
 const EASE_OK = /^(power[1-4]|expo|circ|sine|back|quart|quint|cubic)\.(in|out|inOut)(\(\s*[\d.]+\s*\))?$/;
 const FORBIDDEN_CALLS = new Set(["setTimeout", "setInterval", "requestAnimationFrame"]);
 const MIN_DAMPING = 10;
-
-function collect(dir) {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
-    const full = path.join(dir, e.name);
-    if (e.isDirectory()) return SKIP_DIRS.has(e.name) ? [] : collect(full);
-    return /\.(ts|tsx)$/.test(e.name) && !SKIP_FILES.has(e.name) ? [full] : [];
-  });
-}
 
 const violations = [];
 const keyName = (p) => (p.key?.type === "Identifier" ? p.key.name : p.key?.type === "StringLiteral" ? p.key.value : null);
@@ -113,10 +104,11 @@ function lintFile(file) {
   visit(ast.program, []);
 }
 
-const files = collect(path.join(rootDir, "src"));
+const targets = resolveTargets(parseArgs());
+const files = [...new Set(scopeDirs(targets).flatMap((d) => walk(d, new Set([".ts", ".tsx"]))))].filter((f) => !SKIP_FILES.has(path.basename(f)));
 files.forEach(lintFile);
 
-console.log(`\n${BOLD}==== AST LINTER v1 (${files.length} dosya) ====${RESET}`);
+console.log(`\n${BOLD}==== AST LINTER v2 (${files.length} dosya, ${targets.length} proje) ====${RESET}`);
 if (violations.length) {
   violations.forEach((v) => console.log(`${RED}${BOLD}[${v.rule}] ${v.rel}:${v.line}${RESET} ${v.msg}\n   Çözüm → ${v.fix}\n`));
   console.log(`${RED}${BOLD}[AST: BAŞARISIZ] ${violations.length} ihlal. Düzeltilene kadar çıktı geçersizdir.${RESET}\n`);
