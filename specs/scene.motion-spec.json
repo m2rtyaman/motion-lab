@@ -1,0 +1,37 @@
+{
+  "$schema": "./motion-spec.schema.json",
+  "version": 1,
+  "title": "Berserker Dwarf Arena",
+  "mode": "cinematic-world",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "beats": [
+    { "id": "run-in", "startFrame": 0, "endFrame": 98, "intent": "Soldan arena önüne öfkeli koşu", "action": "run" },
+    { "id": "roar-1", "startFrame": 99, "endFrame": 165, "intent": "Ani fren ve 1. savaş çığlığı", "action": "shout", "text": "KİMSE YOK MUUU?!" },
+    { "id": "depth-run", "startFrame": 166, "endFrame": 249, "intent": "Derindeki heykele perspektif koşusu", "action": "run" },
+    { "id": "roar-2", "startFrame": 250, "endFrame": 312, "intent": "Sola dönüp 2. savaş çığlığı", "action": "shout", "text": "NERDESİNİZ BE?!" },
+    { "id": "charge", "startFrame": 313, "endFrame": 360, "intent": "Kameraya son taarruz", "action": "run" }
+  ],
+  "camera": [
+    { "at": 0.05, "duration": 1.55, "ease": "power2.out", "intent": "Koşan cüceyi pan ile takip" },
+    { "at": 1.65, "duration": 0.18, "ease": "back.out(2.4)", "intent": "1. çığlık darbe zoom" },
+    { "at": 2.15, "duration": 0.55, "ease": "power2.out", "intent": "Darbe sonrası yerleşme" },
+    { "at": 2.75, "duration": 1.38, "ease": "expo.inOut", "intent": "Derinliğe pan" },
+    { "at": 4.16, "duration": 0.18, "ease": "back.out(2.2)", "intent": "2. çığlık darbe zoom" },
+    { "at": 4.6, "duration": 0.55, "ease": "power2.out", "intent": "Darbe sonrası yerleşme" },
+    { "at": 5.2, "duration": 0.8, "ease": "power2.inOut", "intent": "Son taarruzda ön plana kilit" }
+  ],
+  "shakes": [
+    { "at": 1.83, "steps": 5, "stepDuration": 0.06, "amplitudePx": 14 },
+    { "at": 4.34, "steps": 5, "stepDuration": 0.06, "amplitudePx": 14 }
+  ],
+  "sfx": [
+    { "frame": 2, "sfx": "whoosh-pan" },
+    { "frame": 99, "sfx": "roar-shockwave" },
+    { "frame": 166, "sfx": "whoosh-pan" },
+    { "frame": 250, "sfx": "roar-shockwave" },
+    { "frame": 313, "sfx": "whoosh-pan" }
+  ]
+}
