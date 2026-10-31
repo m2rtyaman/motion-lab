@@ -29,6 +29,7 @@ const SPEC_PATH = path.join(rootDir, "specs", "scene.motion-spec.json");
 const DIRECTION_PATH = path.join(studioDir, "01-direction.md");
 const NOTES_PATH = path.join(studioDir, "04-vision-notes.md");
 const GRID_PATH = path.join(rootDir, "out", "visual-audit-grid.png");
+const MANIFEST_PATH = path.join(rootDir, "out", "vision", "manifest.json");
 const VIDEO_PATH = path.join(rootDir, "out", "repo-news-9x16.mp4");
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", DIM = "\x1b[2m", RESET = "\x1b[0m";
@@ -173,7 +174,7 @@ const STAGES = [
     id: "vision",
     title: "Görsel denetim (contact-sheet + yazılı gözlem)",
     artifact: () => `${rel(GRID_PATH)} + ${rel(NOTES_PATH)}`,
-    hash: () => sha(Buffer.concat([readIf(GRID_PATH) ?? Buffer.alloc(0), readIf(NOTES_PATH) ?? Buffer.alloc(0)])),
+    hash: () => sha(Buffer.concat([readIf(GRID_PATH) ?? Buffer.alloc(0), readIf(MANIFEST_PATH) ?? Buffer.alloc(0), readIf(NOTES_PATH) ?? Buffer.alloc(0)])),
     prompt: () => {
       const spec = readSpec();
       const ids = (spec?.beats ?? []).map((b) => b.id).join(", ");
@@ -181,7 +182,8 @@ const STAGES = [
         skills: [skill("anti-slop-auditor")],
         task:
           `1) \`pnpm render:contact-sheet\` çalıştır. 2) \`${rel(GRID_PATH)}\` görselini AÇIP İNCELE (read_file ile).\n` +
-          `3) \`${rel(NOTES_PATH)}\` dosyasına HER beat için (${ids}) ayrı bir madde yaz: gördüğün şey, ` +
+          `3) \`${rel(NOTES_PATH)}\` dosyasına HER beat için (${ids}) AYRI SATIR yaz; satır beat id'sini ve örneklenen kare numaralarından en az birini "f130" biçiminde içersin ` +
+          `(kare listesi: ${rel(MANIFEST_PATH)}; tekil kareler out/vision/frames/). Satırda: gördüğün şey, ` +
           `sorun var mı (metin/karakter çakışması, kırpılma, güvenli alan, hareket hissi), karar.\n` +
           `Sorun bulursan kodu düzelt ve aşamayı baştan yap. Notlar grid'den SONRA yazılmış olmalı.`,
       };
@@ -193,8 +195,23 @@ const STAGES = [
       const notes = readIf(NOTES_PATH)?.toString("utf-8");
       if (!notes) return fail(`${rel(NOTES_PATH)} yok. Görseli inceleyip yazılı gözlem bırak.`);
       if (mtime(NOTES_PATH) < mtime(GRID_PATH)) return fail("Notlar grid'den önce yazılmış; görseli inceledikten sonra yaz.");
-      const missing = (readSpec()?.beats ?? []).filter((b) => !notes.includes(b.id)).map((b) => b.id);
-      if (missing.length) return fail(`Notlarda şu beat'ler yok: ${missing.join(", ")}`);
+      const manifest = (() => { try { return JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf-8")); } catch { return null; } })();
+      if (!manifest) return fail(`${rel(MANIFEST_PATH)} yok/bozuk. \`pnpm render:contact-sheet\` yeniden çalıştır.`);
+      if (mtime(MANIFEST_PATH) < mtime(SPEC_PATH)) return fail("Manifest spec'ten eski; contact-sheet'i yeniden üret.");
+      const specBeats = readSpec()?.beats ?? [];
+      const covered = new Set(manifest.beats.map((b) => b.beat));
+      const uncovered = specBeats.filter((b) => !covered.has(b.id)).map((b) => b.id);
+      if (uncovered.length) return fail(`Manifest şu beat'leri örneklemiyor: ${uncovered.join(", ")}`);
+      const stat = manifest.beats.filter((b) => b.static).map((b) => `${b.beat} (hareket ${b.motion} < ${manifest.minMotion})`);
+      if (stat.length) return fail(`Statik beat tespit edildi (kare-farkı): ${stat.join("; ")}\nBeat içinde hareket yok; animasyonu düzeltip grid'i yeniden üret.`);
+      const problems = [];
+      for (const b of manifest.beats) {
+        if (!notes.includes(b.beat)) { problems.push(`beat "${b.beat}" notlarda yok`); continue; }
+        const line = notes.split("\n").filter((l) => l.includes(b.beat)).join(" ");
+        if (!b.frames.some((f) => new RegExp(`f0*${f}\\b`).test(line)))
+          problems.push(`beat "${b.beat}" satırı örneklenen karelerden birine atıf yapmıyor (örn. ${b.frames.map((f) => "f" + f).join(", ")})`);
+      }
+      if (problems.length) return fail(`Vision notları yetersiz:\n- ${problems.join("\n- ")}`);
       if (notes.trim().length < 200) return fail("Notlar çok kısa (<200 karakter); somut gözlem yaz.");
       return pass();
     },
