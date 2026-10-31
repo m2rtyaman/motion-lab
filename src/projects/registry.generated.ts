@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
+import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
 
 export type ProjectAspect = '9:16' | '16:9';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster';
@@ -52,5 +53,16 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_kinetic_poster_demo,
+  },
+  {
+    slug: "octosift-ad",
+    title: "Octosift B2B Lead Engine",
+    mode: "editorial-ui",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 360,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_octosift_ad,
   },
 ];
