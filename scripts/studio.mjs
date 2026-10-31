@@ -165,6 +165,8 @@ const STAGES = [
       if (v.code !== 0) return fail(`Spec ↔ kod uyumsuz:\n${tail(v.out, 30)}`);
       const t = run("npx", ["tsc", "--noEmit"]);
       if (t.code !== 0) return fail(`tsc hatası:\n${tail(t.out, 25)}`);
+      const a = run("node", ["scripts/ast-lint.mjs"]);
+      if (a.code !== 0) return fail(`ast-lint başarısız:\n${tail(a.out, 30)}`);
       const l = run("node", ["scripts/slop-linter.mjs"]);
       if (l.code !== 0) return fail(`slop-linter başarısız:\n${tail(l.out, 30)}`);
       return pass();

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Kalite kapısı: spec + AST + slop + tsc geçmeden commit yok.
+pnpm check || { echo 'pre-commit: pnpm check başarısız, commit iptal.'; exit 1; }
