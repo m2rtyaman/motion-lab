@@ -1,6 +1,14 @@
 Always refer to and enforce AGENTS.md, .agent/skills/motion-director/SKILL.md, and rules.md for all creative coding, motion design, and UI animation tasks.
 
+PIPELINE (ZORUNLU): Tek seferde konsept→kod üretme. Aşamalar sırayla ilerler ve her biri bir artifact üretir:
+direction → spec → code → vision → render.
+- Başlat: `pnpm studio:init "<brief>"`
+- Aktif aşamanın odaklı prompt'u: `pnpm studio:next` (yalnızca o aşamanın skill'lerini içerir)
+- Doğrula ve mühürle: `pnpm studio:check` (geçersizse "Çözüm →" satırlarını uygula)
+- Spec (specs/scene.motion-spec.json) onaylanmadan Scene.tsx'e dokunma. Önceki artifact değişirse sonraki aşamalar stale olur.
+- Vision aşamasında out/visual-audit-grid.png dosyasını gerçekten aç, beat başına yazılı gözlem bırak.
+
 - Aksi belirtilmedikçe tüm video ve animasyon üretimleri 9:16 dikey (1080x1920, 60 FPS) formatındadır.
 - Sahnelerde sarı/ilkel SVG kafa çizimi, mor/cyan neon parıltılar, drop-shadow glow ve sebepsiz bento kutuları yasaktır.
 - Animasyonlar deterministik kare köprüsü (useRemotionGSAP) ile yazılmalıdır.
-- Kod yazımı bittiğinde durma; terminalde `pnpm render` çalıştırarak MP4 çıktısını doğrula.
+- Kod yazımı bittiğinde durma; `pnpm studio:run` (veya `pnpm render`) çalıştırarak MP4 çıktısını doğrula.
