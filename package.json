@@ -1,0 +1,41 @@
+{
+  "name": "motion-lab",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build:css": "npx @tailwindcss/cli -i src/index.css -o src/output.css",
+    "audit:slop": "node scripts/slop-linter.mjs",
+    "render:5s": "pnpm build:css && pnpm audit:slop && remotion render src/remotion/index.ts RepoNews-9x16-5s out/repo-news-5s.mp4 --gl=angle",
+    "render": "pnpm build:css && pnpm audit:slop && remotion render src/remotion/index.ts RepoNews-9x16 out/repo-news-9x16.mp4 --gl=angle",
+    "render:16x9": "pnpm build:css && pnpm audit:slop && remotion render src/remotion/index.ts RepoNews-16x9 out/repo-news-16x9.mp4 --gl=angle",
+    "render:contact-sheet": "pnpm build:css && node scripts/contact-sheet.mjs",
+    "render:still": "pnpm build:css && remotion still src/remotion/index.ts RepoNews-9x16 out/preview.png --frame=60"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.539",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "pngjs": "^7.0.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@remotion/player": "^4.0.539",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.65.0",
+    "motion": "^14.9.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.539",
+    "tailwind-merge": "^3.7.0"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "source": "assets/dwarf_spritesheet.png",
+  "canvasSize": {
+    "width": 160,
+    "height": 160
+  },
+  "footBaselineY": 148,
+  "recommendedRunCycle": [
+    "run_1",
+    "run_2",
+    "walk_recover"
+  ],
+  "frames": {
+    "idle": {
+      "file": "assets/sprites/idle.png",
+      "role": "idle",
+      "trimmedWidth": 105,
+      "trimmedHeight": 89,
+      "footBaselineY": 148
+    },
+    "run_1": {
+      "file": "assets/sprites/run_1.png",
+      "role": "run",
+      "trimmedWidth": 118,
+      "trimmedHeight": 95,
+      "footBaselineY": 148
+    },
+    "run_2": {
+      "file": "assets/sprites/run_2.png",
+      "role": "run",
+      "trimmedWidth": 113,
+      "trimmedHeight": 107,
+      "footBaselineY": 148
+    },
+    "jump": {
+      "file": "assets/sprites/jump.png",
+      "role": "leap",
+      "trimmedWidth": 99,
+      "trimmedHeight": 110,
+      "footBaselineY": 148
+    },
+    "walk_recover": {
+      "file": "assets/sprites/walk_recover.png",
+      "role": "run",
+      "trimmedWidth": 84,
+      "trimmedHeight": 89,
+      "footBaselineY": 148
+    },
+    "shield": {
+      "file": "assets/sprites/shield.png",
+      "role": "guard",
+      "trimmedWidth": 105,
+      "trimmedHeight": 90,
+      "footBaselineY": 148
+    },
+    "shout": {
+      "file": "assets/sprites/shout.png",
+      "role": "shout",
+      "trimmedWidth": 78,
+      "trimmedHeight": 89,
+      "footBaselineY": 148
+    }
+  }
+}
