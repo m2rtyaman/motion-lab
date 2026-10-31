@@ -28,3 +28,9 @@ Sen `studio-router` tarafından seçilen moda göre `src/components/Scene.tsx` d
 1. `pnpm build:css && pnpm audit:slop && npx tsc --noEmit`
 2. `pnpm render:contact-sheet` -> `read_file` ile `out/visual-audit-grid.png` görsel kontrolü
 3. `pnpm render` -> Sesli ve 60 FPS `out/repo-news-9x16.mp4` üretimi.
+
+
+## Altın Standart Tarifler (Faz 4)
+- `src/core/recipes.ts`: `impactShake`, `blurScaleReveal`, `maskWipeReveal`, `springSettle` (yalnızca transform/opacity/filter, sihirli sayı yok; sabitler tokens.ts `RECIPE`).
+- Referans sahneler: cinematic-world için `src/components/Scene.tsx` + `specs/scene.motion-spec.json`; kinetic-poster için `src/examples/KineticPosterExample.tsx`; editorial-ui için `src/archetypes/`.
+- Yeni sahnede önce tarifleri kullan; kendi tween'ini yazmak zorundaysan süre/ease'i tokens.ts'ten al (AST linter A001/A002).

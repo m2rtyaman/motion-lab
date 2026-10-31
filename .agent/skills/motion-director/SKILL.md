@@ -21,3 +21,9 @@ Temel Prensibin: **Asla web geliştirici gibi `12px` fontlu düz CSS kutuları �
    - Aktif olmayan geçmiş kartlar `scale: 0.92, opacity: 0.42, filter: blur(4px)` ile arka plana itilerek aktif kartla arasında dramatik bir optik kontrast oluşturulur.
 4. **Kelime Fiziği (`KineticText` & `animateWordBurst`):**
    - Tüm başlık ve diyalog cümleleri kelime kelime `back.out(1.6)` yay fiziğiyle sahneye fırlar.
+
+
+## Altın Standart Tarifler (Faz 4)
+- `src/core/recipes.ts`: `impactShake`, `blurScaleReveal`, `maskWipeReveal`, `springSettle` (yalnızca transform/opacity/filter, sihirli sayı yok; sabitler tokens.ts `RECIPE`).
+- Referans sahneler: cinematic-world için `src/components/Scene.tsx` + `specs/scene.motion-spec.json`; kinetic-poster için `src/examples/KineticPosterExample.tsx`; editorial-ui için `src/archetypes/`.
+- Yeni sahnede önce tarifleri kullan; kendi tween'ini yazmak zorundaysan süre/ease'i tokens.ts'ten al (AST linter A001/A002).
