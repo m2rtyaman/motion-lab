@@ -6,3 +6,4 @@ export * from './procedural-audio';
 export * from './camera-math';
 export * from './render-contract';
 export * from './web-recorder';
+export * from './fourier-dft';

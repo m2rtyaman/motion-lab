@@ -111,3 +111,7 @@ export {
   PaperTextureOverlay,
   type PaperTextureOverlayProps,
 } from './PaperTextureOverlay';
+export {
+  ChalkboardStage,
+  type ChalkboardStageProps,
+} from './ChalkboardStage';
