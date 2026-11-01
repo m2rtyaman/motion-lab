@@ -145,16 +145,17 @@ function lintProjectScene(project) {
   };
   collectJSX(ast.program);
 
-  // SLOP-004: Görsel Girdi / detectedWidgets Denetimi
-  if (Array.isArray(spec.detectedWidgets) && spec.detectedWidgets.length > 0) {
-    for (const widget of spec.detectedWidgets) {
+  // SLOP-004: Görsel Girdi / componentStack Denetimi
+  const expectedWidgets = spec.componentStack || spec.detectedWidgets;
+  if (Array.isArray(expectedWidgets) && expectedWidgets.length > 0) {
+    for (const widget of expectedWidgets) {
       if (!jsxElements.has(widget)) {
         violations.push({
           rule: "SLOP-004",
           rel: relPath,
           line: 1,
           msg: `Görsel Girdi Denetimi İhlali: spec.json içinde belirtilen '${widget}' bileşeni Scene.tsx içinde JSX öğesi olarak kullanılmadı.`,
-          fix: `<${widget} ... /> bileşenini sahneye entegre edin veya spec.json'daki detectedWidgets listesini güncelleyin.`
+          fix: `<${widget} ... /> bileşenini sahneye entegre edin veya spec.json'daki componentStack listesini güncelleyin.`
         });
       }
     }
@@ -162,7 +163,7 @@ function lintProjectScene(project) {
 
   // SLOP-001: Boş Alan (Dead Space) Denetimi (editorial-ui)
   if (spec.mode === "editorial-ui") {
-    const STRUCTURAL_SHELLS = ["SpatialCamera", "AppShell", "BrowserFrame", "SpotlightStage", "BentoGrid"];
+    const STRUCTURAL_SHELLS = ["SpatialCamera", "AppShell", "BrowserFrame", "SpotlightStage", "BentoGrid", "VirtualCanvas", "WorldStage"];
     const hasStructure = STRUCTURAL_SHELLS.some((shell) => jsxElements.has(shell));
     if (!hasStructure) {
       violations.push({
@@ -170,7 +171,23 @@ function lintProjectScene(project) {
         rel: relPath,
         line: 1,
         msg: "Boş Alan (Dead Space) İhlali: Sahne yapısal bir iskelet veya sahne motoru içermiyor (yalnızca tek bir kart veya düz zemin kullanılamaz).",
-        fix: "<SpatialCamera>, <AppShell>, <BrowserFrame> veya <SpotlightStage> primitiflerinden en az birini kullanın."
+        fix: "<SpatialCamera>, <VirtualCanvas>, <AppShell>, <BrowserFrame> veya <SpotlightStage> primitiflerinden en az birini kullanın."
+      });
+    }
+  }
+
+  // SLOP-005: Katman Çıkış / Hayalet Eleman Denetimi (Anti-Ghosting Layer Exit)
+  const OVERLAY_WIDGETS = ["ModalDialog", "SlideOverDrawer"];
+  const activeOverlays = OVERLAY_WIDGETS.filter((w) => jsxElements.has(w));
+  if (activeOverlays.length > 1) {
+    // Birden fazla örtücü katman varsa, aynı anda görünmemeli (isOpen koşulu veya beat kontrolü)
+    if (!code.includes("isOpen") && !code.includes("currentBeat") && !code.includes("activeModal")) {
+      violations.push({
+        rule: "SLOP-005",
+        rel: relPath,
+        line: 1,
+        msg: `Katman Çakışması İhlali: Sahne birden fazla overlay içeriyor (${activeOverlays.join(", ")}) ancak dinamik görünürlük koşulu (isOpen/currentBeat) bulunamadı.`,
+        fix: "Overlay bileşenlerine `isOpen={...}` prop'u geçerek beat bazlı açılıp kapanmalarını sağlayın."
       });
     }
   }

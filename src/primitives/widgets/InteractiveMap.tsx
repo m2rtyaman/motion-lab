@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
-import type { ThemeConfig } from '../../core/theme-contract';
-import { LIGHT_SAAS_THEME } from '../../core/theme-contract';
+import type { ThemeConfig } from '../../engine';
+import { LIGHT_SAAS_THEME } from '../../engine';
 
 export interface MapPin {
   id: string;

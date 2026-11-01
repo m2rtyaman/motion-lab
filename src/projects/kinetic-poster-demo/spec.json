@@ -8,9 +8,9 @@
   "durationInSeconds": 3,
   "safeZone": { "top": 250, "bottom": 300 },
   "beats": [
-    { "id": "reveal", "startFrame": 0, "endFrame": 59, "intent": "Başlık derinlikten flu ve büyük gelir, keskinleşir", "action": "reveal" },
-    { "id": "stamp", "startFrame": 60, "endFrame": 119, "intent": "Damga aşırı-atışla oturur, darbe sarsıntısı", "action": "stamp" },
-    { "id": "hold", "startFrame": 120, "endFrame": 180, "intent": "Yavaş itme ile tutuş", "action": "hold" }
+    { "id": "reveal", "startFrame": 0, "endFrame": 45, "intent": "Başlık derinlikten flu ve büyük gelir, keskinleşir", "action": "reveal" },
+    { "id": "stamp", "startFrame": 46, "endFrame": 105, "intent": "Damga aşırı-atışla oturur, darbe sarsıntısı", "action": "stamp" },
+    { "id": "hold", "startFrame": 106, "endFrame": 180, "intent": "Yavaş itme ile tutuş", "action": "hold" }
   ],
   "camera": [
     { "at": 0.05, "duration": 1.2, "ease": "power2.out", "intent": "Başlık girişinde geri çekilme" },

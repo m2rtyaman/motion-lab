@@ -1,0 +1,45 @@
+{
+  "kpiCards": [
+    {
+      "id": "volume",
+      "title": "24S Küresel Likidite",
+      "badge": "+38.4%",
+      "value": "$428.6M",
+      "subtitle": "USDC / ETH Havuzu",
+      "stats": [
+        { "label": "EMİR DOLUMU", "value": "99.94%" },
+        { "label": "DERİNLİK", "value": "$12.4M" }
+      ]
+    },
+    {
+      "id": "latency",
+      "title": "Uçtan Uca Takas Hızı",
+      "badge": "0.18ms",
+      "value": "Sub-ms",
+      "subtitle": "Direkt L1 Köprüsü",
+      "stats": [
+        { "label": "SLIPPAGE", "value": "<0.01%" },
+        { "label": "BLOK ONAYI", "value": "Anlık" }
+      ]
+    },
+    {
+      "id": "yield",
+      "title": "Kurumsal Yıllık Getiri",
+      "badge": "Net APY",
+      "value": "14.85%",
+      "subtitle": "Otomatik Bileşik",
+      "stats": [
+        { "label": "KİLİTLİ VARLIK", "value": "$1.2B" },
+        { "label": "RİSK SKORU", "value": "AAA" }
+      ]
+    }
+  ],
+  "chartData": [
+    { "label": "00:00", "value": 42 },
+    { "label": "04:00", "value": 68 },
+    { "label": "08:00", "value": 115 },
+    { "label": "12:00", "value": 185 },
+    { "label": "16:00", "value": 290 },
+    { "label": "20:00", "value": 428 }
+  ]
+}

@@ -5,8 +5,20 @@ export { SpatialCamera, type SpatialCameraProps } from '../stage/SpatialCamera';
 // Shells
 export { BrowserFrame, type BrowserFrameProps } from './shells/BrowserFrame';
 export { AppShell, type AppShellProps, type AppShellNavItem } from './shells/AppShell';
+export { VirtualCanvas, type VirtualCanvasProps } from './shells/VirtualCanvas';
 
 // Widgets
+export {
+  DataTable,
+  type DataTableProps,
+  type DataTableColumn,
+  type DataTableRow,
+} from './widgets/DataTable';
+export {
+  MetricCardRow,
+  type MetricCardRowProps,
+  type MetricCardItem,
+} from './widgets/MetricCardRow';
 export {
   InteractiveMap,
   type InteractiveMapProps,
@@ -31,9 +43,15 @@ export {
   type KanbanCardData,
   type KanbanColumnData,
 } from './widgets/KanbanBoard';
+export {
+  ChartCanvas,
+  type ChartCanvasProps,
+  type ChartDataPoint,
+} from './widgets/ChartCanvas';
 
-// Actors
+// Actors & Typography
 export { SimulatedCursor, type SimulatedCursorProps } from './actors/SimulatedCursor';
+export { KineticHeadline, type KineticHeadlineProps } from './typography/KineticHeadline';
 
 // Legacy / Specialized primitives
 export {

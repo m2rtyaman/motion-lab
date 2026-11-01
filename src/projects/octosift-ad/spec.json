@@ -7,84 +7,88 @@
   "fps": 60,
   "durationInSeconds": 6,
   "safeZone": { "top": 250, "bottom": 300 },
+  "narrativeArc": "Product-Flow-Tour",
   "theme": {
     "surfaceMode": "light"
   },
-  "detectedWidgets": [
+  "componentStack": [
+    "VirtualCanvas",
     "BrowserFrame",
     "AppShell",
-    "InteractiveMap",
+    "MetricCardRow",
+    "DataTable",
     "SlideOverDrawer",
-    "ModalDialog",
     "CalendarGrid",
-    "KanbanBoard",
-    "SimulatedCursor"
+    "ModalDialog",
+    "InteractiveMap",
+    "SimulatedCursor",
+    "KineticHeadline"
   ],
   "beats": [
     {
-      "id": "map-radar",
+      "id": "radar-discovery",
       "startFrame": 0,
-      "endFrame": 80,
-      "intent": "İzmir Alsancak B2B harita keşfi ve canlı pin taraması",
-      "action": "map-view"
+      "endFrame": 49,
+      "intent": "Müşteri listesi ve 3 KPI telemetrisi ile makro B2B keşif",
+      "action": "table-view"
     },
     {
-      "id": "lead-drawer",
-      "startFrame": 81,
-      "endFrame": 160,
-      "intent": "Varuna Gezgin müşteri istihbaratı ve çekmece detayları",
+      "id": "lead-intel",
+      "startFrame": 50,
+      "endFrame": 144,
+      "intent": "Varuna Gezgin müşteri çekmecesi ve web analizi içgörüsü",
       "action": "drawer-view"
     },
     {
-      "id": "appointment-modal",
-      "startFrame": 161,
-      "endFrame": 240,
-      "intent": "Randevu takvim modalı ve toplantı oluşturma",
+      "id": "appointment-action",
+      "startFrame": 145,
+      "endFrame": 209,
+      "intent": "Takvim üzerinde merkezi randevu diyalogu ve anında kaydetme",
       "action": "modal-view"
     },
     {
-      "id": "pipeline-kanban",
-      "startFrame": 241,
-      "endFrame": 310,
-      "intent": "₺120.000 satış takip panosu ve aşama taşıma",
-      "action": "kanban-view"
+      "id": "field-route",
+      "startFrame": 210,
+      "endFrame": 304,
+      "intent": "İzmir Alsancak vektörel haritası ve animasyonlu plasiyer rotası",
+      "action": "map-view"
     },
     {
-      "id": "cta-resolve",
-      "startFrame": 311,
+      "id": "hero-resolve",
+      "startFrame": 305,
       "endFrame": 360,
-      "intent": "2.5D izometrik stüdyo kapanışı ve Octosift CTA",
+      "intent": "3D derinlikte süzülen stüdyo kapanışı ve Octosift CTA kartı",
       "action": "cta-view"
     }
   ],
   "camera": [
     {
       "at": 0.05,
-      "duration": 1.2,
+      "duration": 0.7,
       "ease": "expo.out",
-      "intent": "3D izometrik açıdan harita merkezine süzülüş"
+      "intent": "3D izometrik açıdan müşteri tablosuna ve KPI kartlarına yaklaşma"
     },
     {
-      "at": 1.35,
-      "duration": 1.15,
+      "at": 0.85,
+      "duration": 1.3,
       "ease": "expo.out",
-      "intent": "Müşteri çekmecesine ve 65/100 fırsat skoruna yaklaşma"
+      "intent": "Sağa pan ve çekmecedeki web analiz kutusuna odaklanma"
     },
     {
-      "at": 2.6,
-      "duration": 1.2,
+      "at": 2.35,
+      "duration": 0.95,
       "ease": "expo.out",
-      "intent": "Randevu modal penceresine odaklanma"
+      "intent": "Merkeze dönüş ve randevu modal penceresine odaklanma"
     },
     {
-      "at": 3.9,
-      "duration": 1.15,
+      "at": 3.45,
+      "duration": 1.35,
       "ease": "expo.out",
-      "intent": "Satış takip panosu sütunlarına uzamsal kayış"
+      "intent": "Saha haritasına ve rota eğrisine uzamsal süzülüş"
     },
     {
-      "at": 5.1,
-      "duration": 0.85,
+      "at": 4.95,
+      "duration": 0.95,
       "ease": "expo.inOut",
       "intent": "2.5D stüdyo eğimine geri çekilme ve marka kilitlenmesi"
     }
@@ -92,9 +96,9 @@
   "shakes": [],
   "sfx": [
     { "frame": 5, "sfx": "whoosh-pan" },
-    { "frame": 82, "sfx": "ui-lock" },
-    { "frame": 162, "sfx": "ui-lock" },
-    { "frame": 242, "sfx": "whoosh-pan" },
-    { "frame": 312, "sfx": "ui-lock" }
+    { "frame": 52, "sfx": "ui-lock" },
+    { "frame": 148, "sfx": "ui-lock" },
+    { "frame": 212, "sfx": "whoosh-pan" },
+    { "frame": 308, "sfx": "ui-lock" }
   ]
 }

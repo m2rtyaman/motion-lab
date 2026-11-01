@@ -11,7 +11,7 @@ export const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 export const projectsDir = path.join(rootDir, "src", "projects");
 export const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 /** Paylaşılan motor klasörleri (tüm projelerin bağımlı olduğu kod) */
-export const ENGINE_DIRS = ["core", "primitives", "world", "vfx", "archetypes", "remotion"];
+export const ENGINE_DIRS = ["engine", "core", "primitives", "world", "vfx", "archetypes", "remotion"];
 export const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster"];
 export const ASPECT_DIMS = { "9:16": [1080, 1920], "16:9": [1920, 1080] };
 
