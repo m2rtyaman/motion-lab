@@ -95,14 +95,22 @@ function lintProjectArchitecture(t, mode) {
     if (!content.includes("WorldStage") || !content.includes("CharacterActor"))
       add("Cinematic-World Motor İhlali", "Karakter/mekan sahneleri 'WorldStage' (tam ekran 2.5D dünya) ve 'CharacterActor' kullanmak zorundadır.", "Missing <WorldStage> or <CharacterActor>");
   } else if (mode === "editorial-ui") {
-    if (!content.includes("SpotlightStage") || !content.includes("CameraRig"))
-      add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpotlightStage' ve 'CameraRig' primitiflerini kullanmak zorundadır.", "Missing <SpotlightStage> or <CameraRig>");
+    const usesSpatial = content.includes("SpatialCamera");
+    const usesSpotlight = content.includes("SpotlightStage") && content.includes("CameraRig");
+    if (!usesSpatial && !usesSpotlight)
+      add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpatialCamera' veya 'SpotlightStage + CameraRig' primitiflerini kullanmak zorundadır.", "Missing <SpatialCamera> or <SpotlightStage>");
   } else if (mode === "kinetic-poster") {
     if (!content.includes("useRemotionGSAP"))
       add("Kinetic-Poster Motor İhlali", "Kinetik poster sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
   }
-  if (!content.includes("animateCamera"))
-    add("Sinematik Kamera İhlali", "Sahne sabit kalamaz; 'src/core/choreography' içinden 'animateCamera' ile kamera hareketi tanımlanmalıdır.", "Missing animateCamera(tl, ...) choreography call");
+  const hasCameraChoreography =
+    content.includes("animateCamera") ||
+    content.includes("applyIsometricTilt") ||
+    content.includes("applyFocusZoom") ||
+    content.includes("applyCanvasPan") ||
+    content.includes("applyCameraSettle");
+  if (!hasCameraChoreography)
+    add("Sinematik Kamera İhlali", "Sahne sabit kalamaz; kamera hareketi ('animateCamera' veya 'applyIsometricTilt/FocusZoom') tanımlanmalıdır.", "Missing camera choreography call");
 }
 
 // ---- tarama ----

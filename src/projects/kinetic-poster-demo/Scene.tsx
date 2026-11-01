@@ -15,9 +15,9 @@ export interface SceneProps {
  * Tarifler: derinlikten gelen başlık, maske silmeli çizgi, aşırı-atışlı damga, darbe sarsıntısı.
  */
 const BEATS = [
-  { id: 'reveal', startFrame: 0, endFrame: 59 },
-  { id: 'stamp', startFrame: 60, endFrame: 119 },
-  { id: 'hold', startFrame: 120, endFrame: 180 },
+  { id: 'reveal', startFrame: 0, endFrame: 45 },
+  { id: 'stamp', startFrame: 46, endFrame: 105 },
+  { id: 'hold', startFrame: 106, endFrame: 180 },
 ] as const;
 
 export const Scene: FC<SceneProps> = () => {

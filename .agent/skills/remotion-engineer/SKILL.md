@@ -1,36 +1,37 @@
 ---
 name: remotion-engineer
-description: Remotion & GSAP systems engineer specializing in 60 FPS deterministic video rendering across Cinematic World (src/world, src/vfx) and Editorial UI (src/primitives, src/archetypes) modes.
+description: Remotion & GSAP systems engineer specializing in 60 FPS deterministic video rendering across Cinematic World (src/world, src/vfx) and Editorial UI (src/primitives, src/stage) modes.
 ---
 
-# Skill: Remotion Systems Engineer (Çok-Modlu 60 FPS Motor Mühendisi)
+# Skill: Remotion Systems Engineer (Universal 60 FPS Motor Mühendisi v5.5)
 
 ## 1. ROL VE SORUMLULUK
-Sen `studio-router` tarafından seçilen moda göre `src/components/Scene.tsx` dosyasını inşa eden Kıdemli Remotion ve GSAP Sistem Mühendisisin.
+Sen seçilen moda göre `src/projects/<slug>/Scene.tsx` dosyasını inşa eden Kıdemli Remotion ve GSAP Sistem Mühendisisin.
+Kodun deterministik, GPU-pure ve sıfır-slop olmasından sorumlusun.
 
 ---
 
 ## 2. MODA GÖRE KULLANILACAK MOTOR KATMANLARI
 
 ### MOD A: `cinematic-world` (Karakter, Sprite & Mekan Animasyonu)
-- **Sahne & Ses:** `<WorldStage backgroundSrc="..." torchLights={[...]} sfxTriggers={[...]} roarFlashIntensity={...}>`
-- **Karakter Fiziği:** `<CharacterActor segments={[...]} />` ve `evaluateActorPose(frame, segments)`
-- **VFX & Partikül:** `<ShockwaveRoar active={...} roarStartFrame={...} originX={...} originY={...} actorScale={...} text="..." />` ve `<AtmosphereParticles variant="embers" />`
-- **Kamera Takibi:** `useRemotionGSAP` içinde `animateCamera(tl, '.camera-rig', keyframes)` ile tam ekran yatay/dikey kamera Pan, Zoom ve bağırma anında sarsıntı (`cameraShake`).
+- **Sahne & Ses:** `<WorldStage>` + `<CharacterActor>` + `<ShockwaveRoar>` + `<AtmosphereParticles>`
+- **Kamera:** `useRemotionGSAP` ile `animateCamera` ve `cameraShake`.
 
-### MOD B: `editorial-ui` (Kurumsal UI, Diyalog & Telemetri)
-- **Sahne & Kamera:** `<SpotlightStage>` + `<CameraRig>` + `animateCamera`
-- **Bileşenler:** `src/archetypes/` (`EditorialDialogueCard`, `MetricTelemetryCard`, `PipelineTerminalCard`, `SplitComparisonCard`, `HeroStatement`) + `src/primitives/` (`KineticText`, `SpecularCard`, `AnimatedCounter`, `VectorDraw`).
+### MOD B: `editorial-ui` (SaaS, Veri, Mobil, Fintech & Lansman)
+- **Sahne Motoru:** `<SpatialCamera>` (3D perspektif, dinamik tema zemin dokusu, imleç yuvası).
+- **Sanal Tuval (Virtual Canvas):** Masaüstü arayüzler `<VirtualCanvas width={1440} height={900}>` içinde render edilir. 9:16 çıktıda `<SpatialCamera>` aksiyonun olduğu koordinata (`targetX, targetY, scale`) odaklanır. Sütun ezilmesi veya sağdan taşma (clipping) kesinlikle engellenir.
+- **Sürekli Nefes:** Her karede `ambientDrift(frame)` çalıştırılır; sahnede diff < 1.2 olan donuk kare kalamaz.
+- **Evrensel Primitifler:**
+  - Kabuklar: `<BrowserFrame>`, `<AppShell>`, `<MobileDeviceFrame>`, `<BentoStage>`.
+  - Veri & UI: `<DataTable>`, `<MetricCardRow>`, `<InteractiveMap>`, `<CalendarGrid>`, `<KanbanBoard>`, `<SlideOverDrawer>`, `<ModalDialog>`, `<ChartCanvas>`.
+  - Aktörler: `<SimulatedCursor>`, `<KineticHeadline>`.
+- **Katman Disiplini (Anti-Ghosting):**
+  - Modal/Drawer açıldığında arka plan `filter: blur(6px) brightness(0.92)` ve `opacity: 0.35` ile karartılır.
+  - Sahneler arası geçişte eski bileşen <= 12 karede kapanır; iki katman yarı şeffaf üst üste binemez.
 
 ---
 
-## 3. DOĞRULAMA ZİNCİRİ
-1. `pnpm build:css && pnpm audit:slop && npx tsc --noEmit`
-2. `pnpm render:contact-sheet` -> `read_file` ile `out/visual-audit-grid.png` görsel kontrolü
-3. `pnpm render` -> Sesli ve 60 FPS `out/repo-news-9x16.mp4` üretimi.
-
-
-## Altın Standart Tarifler (Faz 4)
-- `src/core/recipes.ts`: `impactShake`, `blurScaleReveal`, `maskWipeReveal`, `springSettle` (yalnızca transform/opacity/filter, sihirli sayı yok; sabitler tokens.ts `RECIPE`).
-- Referans sahneler: cinematic-world için `src/components/Scene.tsx` + `specs/scene.motion-spec.json`; kinetic-poster için `src/examples/KineticPosterExample.tsx`; editorial-ui için `src/archetypes/`.
-- Yeni sahnede önce tarifleri kullan; kendi tween'ini yazmak zorundaysan süre/ease'i tokens.ts'ten al (AST linter A001/A002).
+## 3. DOĞRULAMA VE TESLİMAT ZİNCİRİ
+1. `pnpm check --project <slug>` (spec, AST, slop-linter ve tsc).
+2. `pnpm render:contact-sheet --project <slug>` -> `read_file` ile `visual-audit-grid.png` ve `manifest.json` diffs analizi (tüm diffs >= 1.2 olmalıdır).
+3. `node scripts/render.mjs --project <slug>` -> 60 FPS `out/<slug>/<slug>.mp4` üretimi.

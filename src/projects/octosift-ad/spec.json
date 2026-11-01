@@ -1,0 +1,104 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Octosift B2B Lead Engine",
+  "mode": "editorial-ui",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "narrativeArc": "Product-Flow-Tour",
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "componentStack": [
+    "VirtualCanvas",
+    "BrowserFrame",
+    "AppShell",
+    "MetricCardRow",
+    "DataTable",
+    "SlideOverDrawer",
+    "CalendarGrid",
+    "ModalDialog",
+    "InteractiveMap",
+    "SimulatedCursor",
+    "KineticHeadline"
+  ],
+  "beats": [
+    {
+      "id": "radar-discovery",
+      "startFrame": 0,
+      "endFrame": 49,
+      "intent": "Müşteri listesi ve 3 KPI telemetrisi ile makro B2B keşif",
+      "action": "table-view"
+    },
+    {
+      "id": "lead-intel",
+      "startFrame": 50,
+      "endFrame": 144,
+      "intent": "Varuna Gezgin müşteri çekmecesi ve web analizi içgörüsü",
+      "action": "drawer-view"
+    },
+    {
+      "id": "appointment-action",
+      "startFrame": 145,
+      "endFrame": 209,
+      "intent": "Takvim üzerinde merkezi randevu diyalogu ve anında kaydetme",
+      "action": "modal-view"
+    },
+    {
+      "id": "field-route",
+      "startFrame": 210,
+      "endFrame": 304,
+      "intent": "İzmir Alsancak vektörel haritası ve animasyonlu plasiyer rotası",
+      "action": "map-view"
+    },
+    {
+      "id": "hero-resolve",
+      "startFrame": 305,
+      "endFrame": 360,
+      "intent": "3D derinlikte süzülen stüdyo kapanışı ve Octosift CTA kartı",
+      "action": "cta-view"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 0.7,
+      "ease": "expo.out",
+      "intent": "3D izometrik açıdan müşteri tablosuna ve KPI kartlarına yaklaşma"
+    },
+    {
+      "at": 0.85,
+      "duration": 1.3,
+      "ease": "expo.out",
+      "intent": "Sağa pan ve çekmecedeki web analiz kutusuna odaklanma"
+    },
+    {
+      "at": 2.35,
+      "duration": 0.95,
+      "ease": "expo.out",
+      "intent": "Merkeze dönüş ve randevu modal penceresine odaklanma"
+    },
+    {
+      "at": 3.45,
+      "duration": 1.35,
+      "ease": "expo.out",
+      "intent": "Saha haritasına ve rota eğrisine uzamsal süzülüş"
+    },
+    {
+      "at": 4.95,
+      "duration": 0.95,
+      "ease": "expo.inOut",
+      "intent": "2.5D stüdyo eğimine geri çekilme ve marka kilitlenmesi"
+    }
+  ],
+  "shakes": [],
+  "sfx": [
+    { "frame": 5, "sfx": "whoosh-pan" },
+    { "frame": 52, "sfx": "ui-lock" },
+    { "frame": 148, "sfx": "ui-lock" },
+    { "frame": 212, "sfx": "whoosh-pan" },
+    { "frame": 308, "sfx": "ui-lock" }
+  ]
+}

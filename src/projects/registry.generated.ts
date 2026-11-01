@@ -2,7 +2,9 @@
 import type { FC } from 'react';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
+import { Scene as Scene_fintech_teaser } from './fintech-teaser/Scene';
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
+import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
 
 export type ProjectAspect = '9:16' | '16:9';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster';
@@ -43,6 +45,17 @@ export const PROJECTS: ProjectEntry[] = [
     Scene: Scene_editorial_telemetry,
   },
   {
+    slug: "fintech-teaser",
+    title: "Institutional Liquidity Terminal Teaser",
+    mode: "editorial-ui",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 240,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_fintech_teaser,
+  },
+  {
     slug: "kinetic-poster-demo",
     title: "Ship It Kinetic Poster",
     mode: "kinetic-poster",
@@ -52,5 +65,16 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_kinetic_poster_demo,
+  },
+  {
+    slug: "octosift-ad",
+    title: "Octosift B2B Lead Engine",
+    mode: "editorial-ui",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 360,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_octosift_ad,
   },
 ];

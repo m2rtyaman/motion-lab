@@ -74,6 +74,27 @@ for (const project of targets) {
     if (spec.safeZone.bottom < 300) err("S009", "safeZone.bottom", `${spec.safeZone.bottom} < 300`, "alt güvenli alan en az 300px");
   }
 
+  // ---- Tema & Görsel Girdi (v5/v6) ----
+  if (spec.theme) {
+    const validModes = ["light", "dark", "vibrant-brand", "editorial-warm"];
+    if (!validModes.includes(spec.theme.surfaceMode)) {
+      err("S015", "theme.surfaceMode", `geçersiz surfaceMode: ${spec.theme.surfaceMode}`, validModes.join(" | "));
+    }
+  }
+
+  const declaredComponents = spec.componentStack || spec.detectedWidgets;
+  if (declaredComponents !== undefined) {
+    if (!Array.isArray(declaredComponents)) {
+      err("S016", "componentStack", "componentStack / detectedWidgets bir dize dizisi olmalı", '["InteractiveMap", "ChartCanvas", ...]');
+    } else {
+      declaredComponents.forEach((w, idx) => {
+        if (typeof w !== "string" || !w.trim()) {
+          err("S017", `componentStack[${idx}]`, "bileşen adı boş veya dize değil", "bileşen adını PascalCase olarak yaz");
+        }
+      });
+    }
+  }
+
   const fps = 60;
   const totalFrames = isNum(spec.durationInSeconds) ? Math.round(spec.durationInSeconds * fps) : 0;
 
@@ -101,6 +122,21 @@ for (const project of targets) {
   });
   if (beats.length && totalFrames && beats[beats.length - 1].endFrame !== totalFrames) {
     err("S026", "beats[last].endFrame", `${beats[beats.length - 1].endFrame} ≠ toplam ${totalFrames} kare`, `endFrame: ${totalFrames}`);
+  }
+
+  // Anti-Monotonluk / Nefes Alma Eğrisi Kontrolü (Pacing Anti-Monotony Law)
+  if (beats.length >= 3) {
+    const durations = beats.map((b) => b.endFrame - b.startFrame + 1);
+    const minDur = Math.min(...durations);
+    const maxDur = Math.max(...durations);
+    if (maxDur - minDur < 10) {
+      err(
+        "S027",
+        "beats.durations",
+        `Tüm beat süreleri neredeyse eşit (aralık: ${maxDur - minDur}f < 10f). Monotonluğu engellemek için nefes alma eğrisi ekleyin (staccato 35-55f, focus 75-110f).`,
+        "en az bir beat süresini diğerlerinden farklılaştırarak ritim varyansı oluştur"
+      );
+    }
   }
 
   // ---- Kamera ----

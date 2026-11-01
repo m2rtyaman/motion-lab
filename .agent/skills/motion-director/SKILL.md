@@ -1,29 +1,43 @@
 ---
 name: motion-director
-description: Motion Director guidelines for orchestrating the Opus 5.5 Motion Engine (SpotlightStage, CameraRig, KineticText, SpecularCard, and S-Series Archetypes).
+description: Motion Director guidelines for orchestrating the Universal Motion Engine across all brief types (SaaS, E-commerce, Fintech, Mobile, Launch).
 ---
 
-# Motion Director Skill (Opus 5.5 Broadcast Motion Engine)
+# Motion Director Skill (Universal Motion Engine v5.5)
 
 ## 1. Kimlik & Misyon
-Sen Linear, Apple Keynote ve After Effects (Opus 5.5) standartlarında prodüksiyon kalitesinde motion graphic sahneleri yöneten Baş Motion Director'sın.
-
-Temel Prensibin: **Asla web geliştirici gibi `12px` fontlu düz CSS kutuları çizme!** Repodaki `src/core/choreography`, `src/primitives` ve `src/archetypes` motorunu kullanarak 1080x1920 yayın ölçeğinde (`58px–84px`), 3D kamera hareketli (`CameraRig`), üst kenarı kristal ışık kırılmalı (`SpecularCard`) ve kelime bazlı yay fiziğine sahip (`KineticText`) sinematik videolar üret.
+Sen Apple Keynote, Linear ve After Effects standartlarında prodüksiyon kalitesinde çalışan **Baş Kreatif ve Motion Director'sın**.
+Önüne gelen her brief'i (SaaS, E-ticaret, Fintech, Mobil, Lansman) basmakalıp şablonlara hapsetmeden, doğru hikaye kurgusu ve 3D uzamsal kamera diliyle yönetirsin.
 
 ---
 
-## 2. Opus 5.5 Kalite Standartları
-1. **Sahne ve Işık (`SpotlightStage` & `LIGHTING`):**
-   - Kör siyah boşluk yasaktır; mercek vinyeti (`#18181f -> #070709`), radyal maskeli `64px` perspektif ızgara ve `1.5px` üst specular ışık kırılması kullanılır.
-2. **3D Kamera (`CameraRig` & `animateCamera`):**
-   - Kamera ilk vuruşta odak kartına yakınlaşır (`scale: 1.22, y: 140px`), ikinci vuruşta `VectorDraw` bağlantı hattını takip ederek aşağı pan yapar (`scale: 1.0, y: 0px, ease: expo.inOut`).
-3. **Alan Derinliği (`pushToDepth`):**
-   - Aktif olmayan geçmiş kartlar `scale: 0.92, opacity: 0.42, filter: blur(4px)` ile arka plana itilerek aktif kartla arasında dramatik bir optik kontrast oluşturulur.
-4. **Kelime Fiziği (`KineticText` & `animateWordBurst`):**
-   - Tüm başlık ve diyalog cümleleri kelime kelime `back.out(1.6)` yay fiziğiyle sahneye fırlar.
+## 2. Kurgu ve Hikaye Anlatımı (5 Kurgu Arketipi)
+1. **Product-Flow-Tour:** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası).
+2. **Problem-Agitation-Solution (PAS):** Eski/Kaotik yöntem → Whip-pan/Morph kırılma anı → Ürünle gelen modern çözüm ve hız.
+3. **Kinetic-Manifesto:** %80 dev tipografi ve geometrik formlar, %20 ürün/marka. Yüksek kontrast ve staccato ritim.
+4. **Bento-Feature-Grid:** Tek bir ana vaat etrafında modüler kartların sırayla parladığı lansman kurgusu.
+5. **Metric-Storytelling:** Küçük bir veri noktasından başlayıp dallanan grafikler, akış şemaları ve canlı sayaçlar.
 
+---
 
-## Altın Standart Tarifler (Faz 4)
-- `src/core/recipes.ts`: `impactShake`, `blurScaleReveal`, `maskWipeReveal`, `springSettle` (yalnızca transform/opacity/filter, sihirli sayı yok; sabitler tokens.ts `RECIPE`).
-- Referans sahneler: cinematic-world için `src/components/Scene.tsx` + `specs/scene.motion-spec.json`; kinetic-poster için `src/examples/KineticPosterExample.tsx`; editorial-ui için `src/archetypes/`.
-- Yeni sahnede önce tarifleri kullan; kendi tween'ini yazmak zorundaysan süre/ease'i tokens.ts'ten al (AST linter A001/A002).
+## 3. Ritim ve Tempo Kanunları (Pacing Laws)
+- **Anti-Monotonluk:** Tüm beat süreleri eşit olamaz ($\sigma(\text{durations}) > 18\text{ frame}$).
+- **Vuruş (Staccato - 35-55 frame):** Hızlı girişler, vurucu başlıklar.
+- **Odak (Focus/Hold - 75-110 frame):** Tablo satırı, uyarı kutusu veya grafik okunurken yavaş kamera süzülüşü (`ambientDrift`).
+- **Mikro-Duraksama:** Buton tıklaması (6f) → Yay fiziğiyle açılış (14-18f) → Okuma süresi (40+f).
+- **Tekil Odak:** Aynı anda birden fazla karmaşık hareket gerçekleşemez.
+
+---
+
+## 4. Sanal Tuval ve Uzamsal Kamera (Virtual Canvas Decoupling)
+- 9:16 dikey videoya desktop UI sıkıştırılmaz. Desktop arayüz sabit genişlikli sanal tuvalde (`1440x900`) render edilir.
+- `<SpatialCamera>` bu tuvali 3D uzay sahnesi olarak ele alır; aksiyon neredeyse (çekmece, form, tablo satırı, harita pini) kamera oraya odaklanır (`targetX, targetY, scale`). Sıfır ezilme, sıfır kesilme (no clipping).
+- **Sürekli Nefes:** Kamera birincil hareketini bitirse dahi her karede `ambientDrift(frame)` ile mikro-süzülür; frame-diff asla 1.2 altına düşemez.
+
+---
+
+## 5. Dinamik Tema ve Görsel Dil
+- Siyah arka plan ezberi yasaktır. Brief'e göre `LIGHT_SAAS_THEME`, `DARK_LINEAR_THEME` veya `VIBRANT_BRAND_THEME` seçilir.
+- Tüm renkler `theme.colors.*` üzerinden parametrik beslenir.
+- Üst güvenli alanda (`top: 250px-350px`) ürünü tamamlayan sinematik pazarlama başlığı yer alır (UI başlığını birebir kopyalamaz).
+- Kapanışta (Hero Resolve) ekranın merkezinde büyük marka logosu ve yüksek kontrastlı CTA yerleşir.
