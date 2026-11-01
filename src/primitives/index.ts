@@ -94,3 +94,8 @@ export {
   type RoughCanvasProps,
   type RoughShape,
 } from './RoughCanvas';
+export {
+  ContainerMorph,
+  type ContainerMorphProps,
+  type MorphStage,
+} from './ContainerMorph';
