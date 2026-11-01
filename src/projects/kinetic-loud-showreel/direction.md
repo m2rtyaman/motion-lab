@@ -1,5 +1,8 @@
 # Direction — MAKE IT LOUD (Hybrid 3D Kinetic Showreel)
 
+## Tek Cümlelik İzleyici Hedefi
+İzleyici videodan çıktığında şunu hatırlamalı: Motion Lab, 144 BPM ritme kilitli 3D hibrit primitiflerle yayın kalitesinde kinetik showreel üreten deterministik bir hareket stüdyosudur.
+
 ## Paradigm
 editorial-ui (Hybrid 3D + Precision DOM Telemetry)
 

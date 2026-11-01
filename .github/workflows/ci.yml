@@ -1,0 +1,43 @@
+name: Motion Studio CI Quality Gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: ['feat/*', 'scene/*', 'fix/*', 'feat/**', 'chore/*']
+
+jobs:
+  audit-and-verify:
+    name: Motion Lab Quality & Determinist Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install Dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build CSS
+        run: pnpm build:css
+
+      - name: Run Full Quality Gate (Spec, AST, Slop, Critic, Glyph, Types)
+        run: pnpm check
+
+      - name: Run 14-Point Studio Doctor Health Audit
+        run: pnpm audit:doctor
+
+      - name: Verify Pre-Render Gate on Default Projects
+        run: |
+          pnpm gate --project octosift-commercial
+          pnpm gate --project kinetic-loud-showreel
