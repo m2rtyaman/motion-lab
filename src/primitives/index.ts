@@ -69,3 +69,23 @@ export {
   type AnimatedCounterProps,
 } from './AnimatedCounter';
 export { VectorDraw, type VectorDrawProps } from './VectorDraw';
+
+// 3D Hybrid & Kinetic Primitives (v6 Engine Gold Reference Additions)
+export {
+  InstancedPinGrid3D,
+  type InstancedPinGrid3DProps,
+} from './InstancedPinGrid3D';
+export {
+  LiquidChromeTorus3D,
+  type LiquidChromeTorus3DProps,
+  type ChromeGeometryType,
+} from './LiquidChromeTorus3D';
+export {
+  MobiusTypeRibbon3D,
+  type MobiusTypeRibbon3DProps,
+} from './MobiusTypeRibbon3D';
+export {
+  TechnicalDraftingStage,
+  type TechnicalDraftingStageProps,
+  type DraftingGridTheme,
+} from './TechnicalDraftingStage';

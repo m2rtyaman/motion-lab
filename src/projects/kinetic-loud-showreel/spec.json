@@ -1,0 +1,89 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "MAKE IT LOUD",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 10,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "beats": [
+    {
+      "id": "pin-matrix",
+      "startFrame": 0,
+      "endFrame": 119,
+      "intent": "Dokunsal 3D Voxel pin dalgası ve açılış manifestosu",
+      "action": "pin-matrix"
+    },
+    {
+      "id": "mobius-ribbon",
+      "startFrame": 120,
+      "endFrame": 299,
+      "intent": "Acid Lime zemininde 3D Möbius tipografi şeridi dönüşü",
+      "action": "mobius-ribbon"
+    },
+    {
+      "id": "chrome-torus",
+      "startFrame": 300,
+      "endFrame": 459,
+      "intent": "Teknik eskiz kağıdı üzerinde dönen sıvı krom torus düğümü",
+      "action": "chrome-torus"
+    },
+    {
+      "id": "chrome-star",
+      "startFrame": 460,
+      "endFrame": 600,
+      "intent": "Şişirilmiş 3D sıvı krom yıldız ve final manifestosu",
+      "action": "chrome-star"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Kamera dokunsal pin matrisine odaklanır"
+    },
+    {
+      "at": 1.6,
+      "duration": 1.1,
+      "ease": "expo.inOut",
+      "intent": "Pin dalgası boyunca kamera süzülüşü"
+    },
+    {
+      "at": 3.0,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "Möbius tipografi şeridine keskin geçiş"
+    },
+    {
+      "at": 4.6,
+      "duration": 1.2,
+      "ease": "power3.out",
+      "intent": "Şerit etrafında orbital kavis"
+    },
+    {
+      "at": 6.2,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Teknik eskiz paftasına pan ve torus odağı"
+    },
+    {
+      "at": 7.8,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "Sıvı krom yıldızın yükselişi"
+    },
+    {
+      "at": 9.2,
+      "duration": 0.75,
+      "ease": "expo.out",
+      "intent": "Kapanış telemetrisine kilitlenme"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}

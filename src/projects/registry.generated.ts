@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
 import { Scene as Scene_fintech_teaser } from './fintech-teaser/Scene';
+import { Scene as Scene_kinetic_loud_showreel } from './kinetic-loud-showreel/Scene';
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
 import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
 
@@ -54,6 +55,17 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_fintech_teaser,
+  },
+  {
+    slug: "kinetic-loud-showreel",
+    title: "MAKE IT LOUD",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 600,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_kinetic_loud_showreel,
   },
   {
     slug: "kinetic-poster-demo",
