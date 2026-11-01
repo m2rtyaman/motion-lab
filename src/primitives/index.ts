@@ -89,3 +89,8 @@ export {
   type TechnicalDraftingStageProps,
   type DraftingGridTheme,
 } from './TechnicalDraftingStage';
+export {
+  RoughCanvas,
+  type RoughCanvasProps,
+  type RoughShape,
+} from './RoughCanvas';
