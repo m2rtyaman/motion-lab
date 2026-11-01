@@ -14,12 +14,21 @@
     "audit:spec": "node scripts/validate-spec.mjs",
     "audit:ast": "node scripts/ast-lint.mjs",
     "audit:slop": "node scripts/slop-linter.mjs",
+    "audit:critic": "node scripts/critic-audit.mjs",
+    "audit:glyph": "node scripts/glyph-audit.mjs",
+    "audit:doctor": "node scripts/studio-doctor.mjs",
+    "inspect": "node scripts/inspect-frame.mjs",
+    "studio:brief": "node scripts/studio-brief.mjs",
+    "studio:doctor": "node scripts/studio-doctor.mjs",
+    "gate": "node scripts/pre-render-gate.mjs",
+    "music:map": "node scripts/music-mapper.mjs",
+    "export:skill": "node scripts/export-skill.mjs",
     "studio": "node scripts/studio.mjs",
     "studio:init": "node scripts/studio.mjs init",
     "studio:next": "node scripts/studio.mjs next",
     "studio:check": "node scripts/studio.mjs check",
     "studio:run": "node scripts/studio.mjs run",
-    "check": "node scripts/gen-registry.mjs && node scripts/validate-spec.mjs && node scripts/ast-lint.mjs && node scripts/slop-linter.mjs && tsc --noEmit",
+    "check": "node scripts/gen-registry.mjs && node scripts/validate-spec.mjs && node scripts/ast-lint.mjs && node scripts/slop-linter.mjs && node scripts/critic-audit.mjs && node scripts/glyph-audit.mjs && tsc --noEmit",
     "render:5s": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-9x16-5s out/repo-news-5s.mp4 --gl=angle",
     "render": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-9x16 out/repo-news-9x16.mp4 --gl=angle",
     "render:16x9": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts RepoNews-16x9 out/repo-news-16x9.mp4 --gl=angle",
@@ -28,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^8.0.10",
+    "@react-three/drei": "^10.7.9",
     "@remotion/cli": "^4.0.539",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.3.0",
@@ -40,7 +50,10 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@react-three/fiber": "^9.8.2",
     "@remotion/player": "^4.0.539",
+    "@remotion/three": "^4.0.539",
+    "@types/three": "^0.187.0",
     "clsx": "^2.1.1",
     "gsap": "^3.15.0",
     "lucide-react": "^1.65.0",
@@ -48,6 +61,8 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "remotion": "^4.0.539",
-    "tailwind-merge": "^3.7.0"
+    "roughjs": "^4.6.6",
+    "tailwind-merge": "^3.7.0",
+    "three": "^0.187.0"
   }
 }

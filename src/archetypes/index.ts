@@ -16,3 +16,8 @@ export {
   SplitComparisonCard,
   type SplitComparisonCardProps,
 } from './SplitComparisonCard';
+export {
+  ProductWorkflowChain,
+  type ProductWorkflowChainProps,
+  type WorkflowPhase,
+} from './ProductWorkflowChain';
