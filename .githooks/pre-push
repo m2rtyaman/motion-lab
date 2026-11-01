@@ -1,0 +1,26 @@
+#!/bin/sh
+# MOTION LAB — PRE-PUSH GUARD
+# Direct push to 'main' is strictly forbidden!
+
+while read local_ref local_oid remote_ref remote_oid
+do
+  if [ "$remote_ref" = "refs/heads/main" ] || [ "$remote_ref" = "main" ]; then
+    echo ""
+    echo "\033[1;31m============================================================\033[0m"
+    echo "\033[1;31m[PUSH ENGELLENDİ] 'main' dalına doğrudan push atmak YASAKTIR!\033[0m"
+    echo "\033[1;31m============================================================\033[0m"
+    echo ""
+    echo "Motion Lab mimarisinde tüm değişiklikler Pull Request (PR) ile yapılmalıdır."
+    echo ""
+    echo "Çözüm Adımları:"
+    echo "  1. Yeni bir geliştirme dalı açın:"
+    echo "     \033[36mgit checkout -b feat/ozellik-adi\033[0m"
+    echo "  2. Dalınızı GitHub'a pushlayın:"
+    echo "     \033[36mgit push origin feat/ozellik-adi\033[0m"
+    echo "  3. GitHub üzerinden 'main' dalına bir Pull Request (PR) açın."
+    echo ""
+    exit 1
+  fi
+done
+
+exit 0
