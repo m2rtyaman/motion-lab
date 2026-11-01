@@ -1,30 +1,37 @@
-# Direction — NEURA // Autonomous AI Supercluster
+# Direction — KORTEX // Next-Gen Autonomous AI Compute Platform
 
 ## Tek Cümlelik İzleyici Hedefi
-İzleyici videodan çıktığında şunu hatırlamalı: Neura, küresel yapay zeka modellerini 1.2 ms gecikmeyle çalıştıran dünyanın en hızlı otonom işlem ve telemetri mimarisidir.
+İzleyici videodan çıktığında şunu hissetmeli: KORTEX, küresel yapay zeka modellerini mikrosaniye gecikmeyle çalıştıran dünyanın en akıcı, en hızlı ve en prestijli otonom süper-işlem altyapısıdır.
 
 ## Paradigm
-editorial-ui (Apple Keynote & Linear tarzı koyu cam arayüz, 3D uzamsal kamera süzülüşü ve canlı veri telemetrisi)
+editorial-ui (Pristine Modern Motion Graphics, akıcı geçiş motoru, sıfır köşe kirliliği, kaya gibi sakin ve amaca yönelik kamera dili)
 
 ## Format & Resolution
 - **En/Boy Oranı:** 16:9 Yatay ($1920 \times 1080$)
-- **Kare Hızı:** 60 FPS kilitli
+- **Kare Hızı:** 60 FPS kilitli deterministik motor
 - **Süre:** 10 Saniye (600 Frame)
 - **Güvenli Alan:** Üst 250px, Alt 300px
 
-## Storyboard & Değer Akışı
-1. **Beat 1: The Awakening (0.0s–2.5s | f000–f149):**
-   - Kanca: Derin obsidyen boşlukta uyanan otonom hesaplama çekirdeği. "AUTONOMOUS COMPUTE FABRIC" maskeli metin girişi.
-2. **Beat 2: Single Container Morph & Telemetry (2.5s–5.0s | f150–f299):**
-   - Tek Kap İlkesi: Çekirdek rozeti kesintisiz açılarak koyu cam telemetri panosuna dönüşür. Canlı gecikme düşüşü ($240\text{ms} \to 1.2\text{ms}$) ve $8,420\text{ TFLOPS}$ işlem gücü sayacı.
-3. **Beat 3: Global Distributed Topology (5.0s–7.5s | f300–f449):**
-   - 3D Uzamsal Kamera Eğim Panı (`rotateX: 14`, `rotateY: -18`): Küresel dağıtık düğümler (Tokyo, Frankfurt, San Francisco, İstanbul) ve yeşil sağlık nabızları.
-4. **Beat 4: Executive Closing & CTA (7.5s–10.0s | f450–f600):**
-   - Mikro-durgunluk sonrası telemetri panosu mühür rozetine ve monolitik manifesto kapanışına morflanır: "SCALE AT THE SPEED OF THOUGHT."
+## Hareket Grameri & Akıcı Geçişler (Motion Transitions)
+1. **Beat 1: Kuantum Çekirdek Uyanışı (0.0s–2.17s | f000–f129):**
+   - Açılışta sakin kamera yerleşimi (`at: 0.1s`). KORTEX monolitik çekirdeği, canlı frekans spektrumu ve canlı telemetri metrikleri belirir.
+   - İzleme odağında kamera rock-steady kalır; anlamsız titreşimler yoktur.
+   - **Geçiş 1 (2.0s): `transitionWhipPan`:** Yüksek hızlı kinetik ışık şeridi (`whip-streak`) eşliğinde tam ekran savrulma geçişi.
+
+2. **Beat 2: Otonom İşlem Boru Hattı (2.17s–4.67s | f130–f279):**
+   - 3 bağlı mimari düğüm (Yönlendirme → Çıkarım → Konsensüs) ve aralarında sürekli akan fotonik enerji huzmesi.
+   - Veri okuma süresince kamera kaya gibi sabit durur.
+   - **Geçiş 2 (4.55s): `transitionMaskWipe`:** Ekranı açılı kesen speküler kenarlı ışık bıçağı (`mask-specular-beam`) ile küresel matrise kesintisiz geçiş.
+
+3. **Beat 3: Küresel Dağıtık Uç Matrisi (4.67s–7.17s | f280–f429):**
+   - Tokyo, Frankfurt, San Francisco ve İstanbul uç merkezleri canlı durum, gecikme ve SVG sparkline grafikleriyle senkronize parlar.
+   - **Geçiş 3 (6.95s): `transitionZoomPunch`:** Diyafram derinlik dalışı ve çift portal şok dalgasıyla sahnenin merkezine dalınır.
+
+4. **Beat 4: Zirve Otorite & İcra Kilidi (7.17s–10.0s | f430–f600):**
+   - KORTEX monolitik 3D amblemi, kristal yansıma ve yüksek kontrastlı eylem çağrısı (CTA).
+   - Tam okunabilirlik ve yetkin kapanış (`at: 8.0s`).
 
 ## Tipografi ve Renk Sistemi
-- **Zemin:** `#07080c` (Mat derin obsidyen).
-- **Yüzeyler:** Specular cam kartlar (`rgba(255, 255, 255, 0.03)`), ince 1px yansımalı sınırlar (`rgba(255, 255, 255, 0.08)`).
-- **Vurgu:** Zümrüt yeşili (`#10b981`) ve sıcak amber (`#f59e0b`).
-- **Tipografi:** Plus Jakarta Sans & JetBrains Mono (Yayın ölçeği: min 18px, başlıklar 48-64px).
-- **Fizik:** GPU saflığı (`transform`, `opacity`, `filter`), sıfır elastik gevşeklik, pürüzsüz `expo.inOut` ve `power3.out`.
+- **Zemin:** Zengin gece yarısı safir degrade (`#0a0e1a` → `#0f172a`), buzlu cam (`backdrop-blur-2xl`) ve zümrüt/kobalt mercek aydınlatması.
+- **Vurgular:** İndigo (`#6366f1`), Kraliyet Mavisi (`#2563eb`), Zümrüt (`#10b981`), Kobalt (`#1d4ed8`).
+- **Tipografi:** Plus Jakarta Sans & JetBrains Mono (Min 18px broadcast standardı).

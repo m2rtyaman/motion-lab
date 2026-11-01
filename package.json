@@ -30,7 +30,7 @@
     "studio:next": "node scripts/studio.mjs next",
     "studio:check": "node scripts/studio.mjs check",
     "studio:run": "node scripts/studio.mjs run",
-    "check": "node scripts/gen-registry.mjs && node scripts/validate-spec.mjs && node scripts/ast-lint.mjs && node scripts/slop-linter.mjs && node scripts/critic-audit.mjs && node scripts/glyph-audit.mjs && tsc --noEmit",
+    "check": "node scripts/check-runner.mjs",
     "render:commercial": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts octosift-commercial out/octosift-commercial/octosift-commercial.mp4 --gl=angle",
     "render:showreel": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts kinetic-loud-showreel out/kinetic-loud-showreel/kinetic-loud-showreel.mp4 --gl=angle",
     "render:arena": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts dwarf-arena out/dwarf-arena/dwarf-arena.mp4 --gl=angle",

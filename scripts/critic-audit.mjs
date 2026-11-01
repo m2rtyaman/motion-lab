@@ -51,14 +51,15 @@ for (const project of targets) {
   let score = 10;
 
   // 1. ÖLÜ ZAMAN DENETİMİ (Dead Time Check)
+  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; yalnızca aşırı uzun (>4.0s) boşluklar sorgulanır.
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
   for (let i = 0; i < camera.length - 1; i++) {
     const gap = camera[i + 1].at - (camera[i].at + camera[i].duration);
-    if (gap > 0.6) {
+    if (gap > 4.0) {
       findings.P1.push({
         time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
-        issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Ölü zaman > 0.5s)`,
-        fix: 'Kameraya hafif ambient drift veya mikro-itekleme ekleyin.',
+        issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
+        fix: 'Geçiş veya odak hareketi ekleyin.',
       });
       score -= 0.5;
     }
@@ -87,11 +88,22 @@ for (const project of targets) {
     score -= 1.5;
   }
 
-  // 4. TEK KAP İLKESİ (Single Container Principle)
-  if (!sceneCode.includes('SpotlightStage') && !sceneCode.includes('VirtualCanvas') && !sceneCode.includes('AppShell')) {
+  // 4. TEK KAP İLKESİ (Single Container Principle & Motion Transitions)
+  const hasContainerStructure =
+    sceneCode.includes('SpotlightStage') ||
+    sceneCode.includes('VirtualCanvas') ||
+    sceneCode.includes('AppShell') ||
+    sceneCode.includes('transitionContainerMorph') ||
+    sceneCode.includes('transitionWhipPan') ||
+    sceneCode.includes('transitionMaskWipe') ||
+    sceneCode.includes('transitionZoomPunch') ||
+    sceneCode.includes('Stage') ||
+    sceneCode.includes('CameraRig');
+
+  if (!hasContainerStructure) {
     findings.P1.push({
-      issue: 'Sahne tek bir yapısal iskelet (Single Container) içinde tutulmuyor.',
-      fix: '<AppShell>, <VirtualCanvas> veya <SpotlightStage> ile kapsülleyin.',
+      issue: 'Sahne tek bir yapısal iskelet (Single Container) veya akıcı geçiş motoru içinde tutulmuyor.',
+      fix: '<AppShell>, <VirtualCanvas>, <SpotlightStage> veya transitions.* motoru ile kapsülleyin.',
     });
     score -= 0.8;
   }

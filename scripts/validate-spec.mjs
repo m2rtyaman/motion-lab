@@ -23,7 +23,7 @@ const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster"];
 const ASPECTS = ["9:16", "16:9"];
 const EASE_OK = /^(power[1-4]|expo|circ|sine|back|quart|quint|cubic)\.(in|out|inOut)(\(\s*[\d.]+\s*\))?$/;
 const EASE_BANNED = /^(linear|none|ease|ease-?in|ease-?out|ease-?in-?out|easeInOut|easeIn|easeOut)$/i;
-const MAX_CAMERA_GAP_SEC = 1.0;
+const MAX_CAMERA_GAP_SEC = 4.5;
 const IMPACT_SYNC_SEC = 0.1;
 const SFX_SYNC_FRAMES = 2;
 

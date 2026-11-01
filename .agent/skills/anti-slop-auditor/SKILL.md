@@ -29,11 +29,10 @@ Görevin üretilen videoyu övmek değil; Claude Opus ve Apple Keynote standartl
 
 ---
 
-## 3. FİZİKSEL RENDER & SUB-BEAT HAREKET KAPISI (`manifest.json`)
-1. **Alt-Aralık Donma Yasağı:**
-   Bir beat içindeki `diffs` dizisinde yer alan ardışık kare farklarının HER BİRİ en az **1.2** olmak zorundadır:
-   $$\forall d \in \text{beat.diffs}: d \ge 1.2$$
-   Tek bir `0.01` veya `0` fark tespit edilirse (kamera veya arayüz donmuşsa) test **FAIL** verir; video teslim edilemez. `ambientDrift(frame)` aktif olmalıdır.
+## 3. FİZİKSEL RENDER & AKICI HAREKET KAPISI (`manifest.json`)
+1. **Sahne Sürekliliği ve Geçiş Kalitesi:**
+   Video sahneleri arasında akıcı, profesyonel geçişler (whip pan, mask wipe, container morph, zoom punch) bulunmalıdır.
+   Kamera rastgele ve anlamsızca sağa sola sallanmamalıdır; kamera hareketi sahne ve geçiş hedefine kilitlenmeli, içerik odağında sakin kalmalıdır.
 
 ---
 

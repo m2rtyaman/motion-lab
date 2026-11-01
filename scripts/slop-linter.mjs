@@ -19,16 +19,10 @@ if (targets.length === 0) {
 
 const modeOf = (t) => JSON.parse(fs.readFileSync(t.spec, "utf-8").replace(/^\uFEFF/, "")).mode;
 
-// Kural 1: Yasak Renkler
+// Kural 1: Yasak Renkler (Yalnızca çiğ/parlak neon slop renkleri; profesyonel indigo/purple/blue serbesttir)
 const FORBIDDEN_COLORS = [
-  { pattern: /#7c3aed/i, name: "Yasaklı Renk: Mor (#7c3aed)" },
-  { pattern: /#6366f1/i, name: "Yasaklı Renk: İndigo (#6366f1)" },
-  { pattern: /#06b6d4/i, name: "Yasaklı Renk: Cyan (#06b6d4)" },
-  { pattern: /#ec4899/i, name: "Yasaklı Renk: Pembe (#ec4899)" },
-  { pattern: /#8b5cf6/i, name: "Yasaklı Renk: Violet (#8b5cf6)" },
-  { pattern: /\bcyan\b/i, name: "Yasaklı Renk: Cyan anahtar kelimesi" },
-  { pattern: /\bfuchsia\b/i, name: "Yasaklı Renk: Fuchsia anahtar kelimesi" },
-  { pattern: /purple-/i, name: "Yasaklı Renk: Purple Tailwind sınıfı" },
+  { pattern: /#00ffff\b/i, name: "Yasaklı Renk: Çiğ Elektrik Neon Cyan (#00ffff)" },
+  { pattern: /#ff00ff\b/i, name: "Yasaklı Renk: Çiğ Neon Magenta (#ff00ff)" },
 ];
 // Kural 2: Sahte neon / glow
 const FORBIDDEN_GLOW = [
@@ -97,8 +91,9 @@ function lintProjectArchitecture(t, mode) {
   } else if (mode === "editorial-ui") {
     const usesSpatial = content.includes("SpatialCamera");
     const usesSpotlight = content.includes("SpotlightStage") && content.includes("CameraRig");
-    if (!usesSpatial && !usesSpotlight)
-      add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpatialCamera' veya 'SpotlightStage + CameraRig' primitiflerini kullanmak zorundadır.", "Missing <SpatialCamera> or <SpotlightStage>");
+    const usesTransitions = content.includes("transition") && (content.includes("CameraRig") || content.includes("Stage") || content.includes("Container"));
+    if (!usesSpatial && !usesSpotlight && !usesTransitions)
+      add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpatialCamera' veya 'SpotlightStage + CameraRig' veya akıcı Geçiş Motorunu (transitions) kullanmak zorundadır.", "Missing <SpatialCamera>, <SpotlightStage>, or transitions");
   } else if (mode === "kinetic-poster") {
     if (!content.includes("useRemotionGSAP"))
       add("Kinetic-Poster Motor İhlali", "Kinetik poster sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");

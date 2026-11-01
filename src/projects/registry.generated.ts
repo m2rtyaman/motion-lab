@@ -82,7 +82,7 @@ export const PROJECTS: ProjectEntry[] = [
   },
   {
     slug: "my-video",
-    title: "NEURA CLOUD",
+    title: "KORTEX COMPUTE",
     mode: "editorial-ui",
     aspect: "16:9",
     fps: 60,

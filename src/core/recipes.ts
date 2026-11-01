@@ -1,4 +1,5 @@
-﻿import { DURATIONS, EASING, RECIPE } from './tokens';
+import { DURATIONS, EASING, RECIPE } from './tokens';
+export * from './transitions';
 
 /**
  * ALTIN STANDART TARİFLER (yalnızca transform / opacity / filter; sıfır sihirli sayı).
