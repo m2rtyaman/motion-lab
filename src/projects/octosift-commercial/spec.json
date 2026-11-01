@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "OCTOSIFT B2B SAAS",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 12,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "beats": [
+    {
+      "id": "lead-discovery",
+      "startFrame": 0,
+      "endFrame": 169,
+      "intent": "Müşteri listesi, 250 kredi ve yapay zeka fırsat skoru",
+      "action": "lead-discovery"
+    },
+    {
+      "id": "field-route",
+      "startFrame": 170,
+      "endFrame": 359,
+      "intent": "İnteraktif harita, İzmir pinleri ve plasiyer saha rotası",
+      "action": "field-route"
+    },
+    {
+      "id": "drawer-intelligence",
+      "startFrame": 360,
+      "endFrame": 539,
+      "intent": "Detay çekmecesi, web sitesi yok uyarısı ve 25.000 TL teklif",
+      "action": "drawer-intelligence"
+    },
+    {
+      "id": "kanban-closing",
+      "startFrame": 540,
+      "endFrame": 720,
+      "intent": "Satış takip panosu, satış yapıldı sütunu ve Octosift CTA",
+      "action": "kanban-closing"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Müşteri listesi ve metrik kartlarına süzülüş"
+    },
+    {
+      "at": 1.6,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "Fırsat skoru ve arama tablosuna odaklanma"
+    },
+    {
+      "at": 3.0,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "Harita moduna yumuşak geçiş ve pinlere yaklaşma"
+    },
+    {
+      "at": 4.6,
+      "duration": 1.2,
+      "ease": "power3.out",
+      "intent": "Saha rotası ve plasiyer rotasına pan"
+    },
+    {
+      "at": 6.2,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Müşteri detay çekmecesinin açılışına odaklanma"
+    },
+    {
+      "at": 7.8,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "Teklif tutarı ve analiz uyarısına pan"
+    },
+    {
+      "at": 9.4,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Kanban satış panosuna geçiş ve kapanış CTA"
+    },
+    {
+      "at": 10.9,
+      "duration": 1.0,
+      "ease": "expo.out",
+      "intent": "Octosift logo ve marka mührü"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}

@@ -6,6 +6,7 @@ import { Scene as Scene_fintech_teaser } from './fintech-teaser/Scene';
 import { Scene as Scene_kinetic_loud_showreel } from './kinetic-loud-showreel/Scene';
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
 import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
+import { Scene as Scene_octosift_commercial } from './octosift-commercial/Scene';
 
 export type ProjectAspect = '9:16' | '16:9';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster';
@@ -88,5 +89,16 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_octosift_ad,
+  },
+  {
+    slug: "octosift-commercial",
+    title: "OCTOSIFT B2B SAAS",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 720,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_octosift_commercial,
   },
 ];
