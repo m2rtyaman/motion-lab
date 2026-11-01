@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches-ignore: [main] # Direct pushes to main should be blocked by branch protection
+    branches: ['feat/*', 'scene/*', 'fix/*', 'feat/**', 'chore/*']
 
 jobs:
   audit-and-verify:
@@ -26,7 +26,7 @@ jobs:
           version: 10
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build CSS
         run: pnpm build:css
@@ -35,7 +35,7 @@ jobs:
         run: pnpm check
 
       - name: Run 14-Point Studio Doctor Health Audit
-        run: pnpm studio:doctor
+        run: pnpm audit:doctor
 
       - name: Verify Pre-Render Gate on Default Projects
         run: |

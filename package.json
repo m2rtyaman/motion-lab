@@ -20,6 +20,7 @@
     "audit:critic": "node scripts/critic-audit.mjs",
     "audit:glyph": "node scripts/glyph-audit.mjs",
     "audit:doctor": "node scripts/studio-doctor.mjs",
+    "studio:doctor": "node scripts/studio-doctor.mjs",
     "inspect": "node scripts/inspect-frame.mjs",
     "studio:brief": "node scripts/studio-brief.mjs",
     "music:map": "node scripts/music-mapper.mjs",
