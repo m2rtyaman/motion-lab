@@ -99,3 +99,11 @@ export {
   type ContainerMorphProps,
   type MorphStage,
 } from './ContainerMorph';
+export {
+  SplineCamera3D,
+  type SplineCamera3DProps,
+} from './SplineCamera3D';
+export {
+  TesseractWireframe3D,
+  type TesseractWireframe3DProps,
+} from './TesseractWireframe3D';
