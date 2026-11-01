@@ -1,5 +1,8 @@
 # Direction — Octosift 16:9 B2B SaaS Commercial
 
+## Tek Cümlelik İzleyici Hedefi
+İzleyici videodan çıktığında şunu hatırlamalı: Octosift, potansiyel müşteri bulmadan saha rotasına ve satış kapamaya kadar tüm B2B boru hattını tek ekranda yöneten otonom satış motorudur.
+
 ## Paradigm
 editorial-ui (Apple / Linear tarzı aydınlık ve şık kurumsal B2B arayüz)
 
