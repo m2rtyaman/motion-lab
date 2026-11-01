@@ -107,3 +107,7 @@ export {
   TesseractWireframe3D,
   type TesseractWireframe3DProps,
 } from './TesseractWireframe3D';
+export {
+  PaperTextureOverlay,
+  type PaperTextureOverlayProps,
+} from './PaperTextureOverlay';

@@ -19,6 +19,7 @@
     "inspect": "node scripts/inspect-frame.mjs",
     "studio:brief": "node scripts/studio-brief.mjs",
     "music:map": "node scripts/music-mapper.mjs",
+    "export:skill": "node scripts/export-skill.mjs",
     "studio": "node scripts/studio.mjs",
     "studio:init": "node scripts/studio.mjs init",
     "studio:next": "node scripts/studio.mjs next",
