@@ -7,68 +7,94 @@
   "fps": 60,
   "durationInSeconds": 6,
   "safeZone": { "top": 250, "bottom": 300 },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "detectedWidgets": [
+    "BrowserFrame",
+    "AppShell",
+    "InteractiveMap",
+    "SlideOverDrawer",
+    "ModalDialog",
+    "CalendarGrid",
+    "KanbanBoard",
+    "SimulatedCursor"
+  ],
   "beats": [
     {
-      "id": "radar-hook",
+      "id": "map-radar",
       "startFrame": 0,
-      "endFrame": 85,
-      "intent": "Müşteri arama zorluğu kancası ve B2B Radar taraması",
-      "action": "headline"
+      "endFrame": 80,
+      "intent": "İzmir Alsancak B2B harita keşfi ve canlı pin taraması",
+      "action": "map-view"
     },
     {
-      "id": "lead-intel",
-      "startFrame": 86,
-      "endFrame": 195,
-      "intent": "Hedef müşteri istihbaratı ve 65/100 fırsat skoru kartı",
-      "action": "intel-card"
+      "id": "lead-drawer",
+      "startFrame": 81,
+      "endFrame": 160,
+      "intent": "Varuna Gezgin müşteri istihbaratı ve çekmece detayları",
+      "action": "drawer-view"
     },
     {
-      "id": "pipeline-stream",
-      "startFrame": 196,
-      "endFrame": 290,
-      "intent": "₺120.000 satış boru hattı ve canlı metrik sayacı",
-      "action": "telemetry"
+      "id": "appointment-modal",
+      "startFrame": 161,
+      "endFrame": 240,
+      "intent": "Randevu takvim modalı ve toplantı oluşturma",
+      "action": "modal-view"
+    },
+    {
+      "id": "pipeline-kanban",
+      "startFrame": 241,
+      "endFrame": 310,
+      "intent": "₺120.000 satış takip panosu ve aşama taşıma",
+      "action": "kanban-view"
     },
     {
       "id": "cta-resolve",
-      "startFrame": 291,
+      "startFrame": 311,
       "endFrame": 360,
-      "intent": "Octosift logo rozeti ve web CTA yerleşimi",
-      "action": "cta"
+      "intent": "2.5D izometrik stüdyo kapanışı ve Octosift CTA",
+      "action": "cta-view"
     }
   ],
   "camera": [
     {
       "at": 0.05,
-      "duration": 1.35,
-      "ease": "expo.inOut",
-      "intent": "3D sahneye sinematik süzülüş ve başlığa yaklaşma"
-    },
-    {
-      "at": 1.45,
-      "duration": 1.1,
-      "ease": "expo.out",
-      "intent": "Müşteri analiz kartına odaklanma"
-    },
-    {
-      "at": 2.8,
       "duration": 1.2,
       "ease": "expo.out",
-      "intent": "Boru hattı metrik paneline derinlik geçişi"
+      "intent": "3D izometrik açıdan harita merkezine süzülüş"
     },
     {
-      "at": 4.2,
-      "duration": 1.65,
-      "ease": "power2.inOut",
-      "intent": "Kapanış marka damgasına geri çekilme ve kilitlenme"
+      "at": 1.35,
+      "duration": 1.15,
+      "ease": "expo.out",
+      "intent": "Müşteri çekmecesine ve 65/100 fırsat skoruna yaklaşma"
+    },
+    {
+      "at": 2.6,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Randevu modal penceresine odaklanma"
+    },
+    {
+      "at": 3.9,
+      "duration": 1.15,
+      "ease": "expo.out",
+      "intent": "Satış takip panosu sütunlarına uzamsal kayış"
+    },
+    {
+      "at": 5.1,
+      "duration": 0.85,
+      "ease": "expo.inOut",
+      "intent": "2.5D stüdyo eğimine geri çekilme ve marka kilitlenmesi"
     }
   ],
   "shakes": [],
   "sfx": [
     { "frame": 5, "sfx": "whoosh-pan" },
-    { "frame": 88, "sfx": "ui-lock" },
-    { "frame": 198, "sfx": "whoosh-pan" },
-    { "frame": 204, "sfx": "ui-lock" },
-    { "frame": 292, "sfx": "ui-lock" }
+    { "frame": 82, "sfx": "ui-lock" },
+    { "frame": 162, "sfx": "ui-lock" },
+    { "frame": 242, "sfx": "whoosh-pan" },
+    { "frame": 312, "sfx": "ui-lock" }
   ]
 }

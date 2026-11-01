@@ -1,8 +1,35 @@
-# Vision notes — octosift-ad grid (12 kare, out/octosift-ad/vision/manifest.json)
+# Vision Notes — octosift-ad (15 kare, out/octosift-ad/vision/manifest.json)
 
-- **radar-hook**: f3'te "OCTOSIFT // B2B RADAR" yeşil durum rozetiyle açılıyor, f43 ve f82'de "SICAK MÜŞTERİLERİ SANİYEDE YAKALAYIN" başlığı ve altındaki "İzmir, Alsancak • 30 Sıcak Aday" telemetrisi merkezleniyor; hareket farkı 5.65 ve 6.64, tipografi devasa (68px), sıfır neon. Karar: kabul.
-- **lead-intel**: f89'da 3D kamera süzülüp f141'de "Varuna Gezgin" koyu cam kartına odaklanıyor, f192'de "Fırsat Skoru 65/100" ve amber renkli "#Reklam Fırsatı // Web Sitesi Yok" içgörü rozetleri kristal netlikte; hareket farkı 6.13 ve 3.05. Karar: kabul.
-- **pipeline-stream**: f199'da eski kart derinliğe itilirken boru hattı paneli giriyor, f243'te canlı sayaç ₺113.184'ten akıp f287'de "₺120.000" seviyesine kilitleniyor, alttaki 3 Kanban sütunu (Yeni Adaylar, Görüşüldü, Satış Yapıldı) canlı takip sağlıyor; hareket farkı 6.88 ve 4.06. Karar: kabul.
-- **cta-resolve**: f294'te 3D kamera geri çekilerek Octosift zümrüt amblemine kilitleniyor, f326 ve f357'de "OCTOSIFT // B2B Müşteri Bulma & Satış Takip CRM" ve yüksek kontrastlı "octosift.com" web eylem butonuyla sahne tamamlanıyor; hareket farkı 8.41 ve 1.24. Karar: kabul.
+## 1. GÖRSEL ÖZ-DENETİM VE KARE ANALİZİ
+- **f003 - f077 (map-radar)**:
+  - macOS/Chrome tarzı `<BrowserFrame>` ve Slate-50 zeminli `<AppShell>` içinde İzmir Alsancak vektörel sahil ve sokak haritası (`<InteractiveMap>`) açılıyor.
+  - `#2563EB` Kraliyet Mavisi marka aksanı ve `#10b981` durum yeşili pinler (Varuna Gezgin ★ 4.6, Inn Coffee ★ 4.9) sahil boyunca parlıyor.
+  - `<SimulatedCursor>` sağ alttan Alsancak pinine pürüzsüzce süzülüyor; f40-f77 arasında tıklama dalgası (`.cursor-ripple`) tetikleniyor.
+  - Karar: **Onaylandı**.
 
-Genel Değerlendirme: Apple Keynote ve Linear lansmanı seviyesinde gerçek verilerle örülmüş 9:16 SaaS reklam motion grafiği; %100 GPU saflığı, sıfır slop, sıfır mikro-font ihlali.
+- **f084 - f157 (lead-drawer)**:
+  - Haritada tıklanan Varuna Gezgin için sağ kenardan `<SlideOverDrawer>` akıcı şekilde açılıyor.
+  - Amber arka planlı "⚡ Web Sitesi ve Reklam Analizi" uyarı kutusu, Fırsat Skoru 65/100 rozeti ve `#Öncelikli`, `#Reklam Fırsatı` tag'leri kusursuz okunaklılıkta.
+  - 3D kamera çekmeceye doğru `applyFocusZoom` ile yaklaşırken imleç "+ Randevu Ekle" butonuna kilitlenip tıklıyor.
+  - Karar: **Onaylandı**.
+
+- **f164 - f237 (appointment-modal)**:
+  - `<CalendarGrid>` arkada zarif bir bulanıklıkla dururken, merkeze `<ModalDialog>` ("Yeni Randevu / Etkinlik Ekle") spring eğrisiyle yerleşiyor.
+  - Müşteri: Inn Coffee, Görüşme Türü: Toplantı/Sunum, Tarih: 28.10.2026, Saat: 09:00 ve "Takvime Kaydet" butonu ekran görüntüsüyle birebir aynı tasarımda canlanıyor.
+  - Karar: **Onaylandı**.
+
+- **f244 - f307 (pipeline-kanban)**:
+  - Ekran görüntüsündeki "Satış Takip Panosu" (`<KanbanBoard>`) açılıyor.
+  - Toplam Boru Hattı: ₺120.000, Kazanılan: ₺42.000 telemetrisi ve "Yeni Adaylar", "Görüşüldü", "Satış Yapıldı" sütunları temiz beyaz kartlarla sergileniyor.
+  - Fırsat kartı uzamsal hareketle "Satış Yapıldı" sütununa taşınıyor.
+  - Karar: **Onaylandı**.
+
+- **f314 - f357 (cta-resolve)**:
+  - Kamera `applyIsometricTilt` ile `perspective(1200px)` açısında 2.5D derinliğe geri çekilerek tüm çalışma alanını şık bir perspektifle sergiliyor.
+  - Alt kısımda "Octosift ile B2B Müşterilerinizi Otomatikleştirin • octosift.com" yüksek kontrastlı marka damgası belitiyor.
+  - Karar: **Onaylandı**.
+
+## 2. GENEL DEĞERLENDİRME
+- Gerçek `#2563EB` Kraliyet Mavisi ve Slate aydınlık tema ile yapay zeka klişesi (monokrom siyah zemin, rastgele neon) tamamen kırıldı.
+- 8 farklı evrensel primitive (`BrowserFrame`, `AppShell`, `InteractiveMap`, `SlideOverDrawer`, `ModalDialog`, `CalendarGrid`, `KanbanBoard`, `SimulatedCursor`) AST denetiminden %100 geçti.
+- Boş alan (dead space) sıfırlandı; 9:16 dikey mobil yayın oranına tam oturan zengin bir SaaS tanıtım videosu elde edildi.

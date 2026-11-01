@@ -108,6 +108,76 @@ const targets = resolveTargets(parseArgs());
 const files = [...new Set(scopeDirs(targets).flatMap((d) => walk(d, new Set([".ts", ".tsx"]))))].filter((f) => !SKIP_FILES.has(path.basename(f)));
 files.forEach(lintFile);
 
+function lintProjectScene(project) {
+  if (!fs.existsSync(project.scene) || !fs.existsSync(project.spec)) return;
+  const relPath = path.relative(rootDir, project.scene).replaceAll("\\", "/");
+  const code = fs.readFileSync(project.scene, "utf-8");
+  let spec;
+  try {
+    spec = JSON.parse(fs.readFileSync(project.spec, "utf-8").replace(/^\uFEFF/, ""));
+  } catch {
+    return;
+  }
+
+  let ast;
+  try {
+    ast = parse(code, { sourceType: "module", plugins: ["typescript", "jsx"], errorRecovery: false });
+  } catch {
+    return;
+  }
+
+  const jsxElements = new Set();
+  const collectJSX = (node) => {
+    if (!node) return;
+    if (node.type === "JSXOpeningElement") {
+      if (node.name.type === "JSXIdentifier") {
+        jsxElements.add(node.name.name);
+      } else if (node.name.type === "JSXMemberExpression" && node.name.property) {
+        jsxElements.add(node.name.property.name);
+      }
+    }
+    for (const key of Object.keys(node)) {
+      if (key === "loc" || key === "start" || key === "end" || key === "extra") continue;
+      const child = node[key];
+      if (Array.isArray(child)) child.forEach(collectJSX);
+      else if (child && typeof child === "object") collectJSX(child);
+    }
+  };
+  collectJSX(ast.program);
+
+  // SLOP-004: Görsel Girdi / detectedWidgets Denetimi
+  if (Array.isArray(spec.detectedWidgets) && spec.detectedWidgets.length > 0) {
+    for (const widget of spec.detectedWidgets) {
+      if (!jsxElements.has(widget)) {
+        violations.push({
+          rule: "SLOP-004",
+          rel: relPath,
+          line: 1,
+          msg: `Görsel Girdi Denetimi İhlali: spec.json içinde belirtilen '${widget}' bileşeni Scene.tsx içinde JSX öğesi olarak kullanılmadı.`,
+          fix: `<${widget} ... /> bileşenini sahneye entegre edin veya spec.json'daki detectedWidgets listesini güncelleyin.`
+        });
+      }
+    }
+  }
+
+  // SLOP-001: Boş Alan (Dead Space) Denetimi (editorial-ui)
+  if (spec.mode === "editorial-ui") {
+    const STRUCTURAL_SHELLS = ["SpatialCamera", "AppShell", "BrowserFrame", "SpotlightStage", "BentoGrid"];
+    const hasStructure = STRUCTURAL_SHELLS.some((shell) => jsxElements.has(shell));
+    if (!hasStructure) {
+      violations.push({
+        rule: "SLOP-001",
+        rel: relPath,
+        line: 1,
+        msg: "Boş Alan (Dead Space) İhlali: Sahne yapısal bir iskelet veya sahne motoru içermiyor (yalnızca tek bir kart veya düz zemin kullanılamaz).",
+        fix: "<SpatialCamera>, <AppShell>, <BrowserFrame> veya <SpotlightStage> primitiflerinden en az birini kullanın."
+      });
+    }
+  }
+}
+
+targets.forEach(lintProjectScene);
+
 console.log(`\n${BOLD}==== AST LINTER v2 (${files.length} dosya, ${targets.length} proje) ====${RESET}`);
 if (violations.length) {
   violations.forEach((v) => console.log(`${RED}${BOLD}[${v.rule}] ${v.rel}:${v.line}${RESET} ${v.msg}\n   Çözüm → ${v.fix}\n`));

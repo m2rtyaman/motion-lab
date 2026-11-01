@@ -74,6 +74,26 @@ for (const project of targets) {
     if (spec.safeZone.bottom < 300) err("S009", "safeZone.bottom", `${spec.safeZone.bottom} < 300`, "alt güvenli alan en az 300px");
   }
 
+  // ---- Tema & Görsel Girdi (v5) ----
+  if (spec.theme) {
+    const validModes = ["light", "dark", "vibrant-brand", "editorial-warm"];
+    if (!validModes.includes(spec.theme.surfaceMode)) {
+      err("S015", "theme.surfaceMode", `geçersiz surfaceMode: ${spec.theme.surfaceMode}`, validModes.join(" | "));
+    }
+  }
+
+  if (spec.detectedWidgets !== undefined) {
+    if (!Array.isArray(spec.detectedWidgets)) {
+      err("S016", "detectedWidgets", "detectedWidgets bir dize dizisi olmalı", '["InteractiveMap", "SlideOverDrawer", ...]');
+    } else {
+      spec.detectedWidgets.forEach((w, idx) => {
+        if (typeof w !== "string" || !w.trim()) {
+          err("S017", `detectedWidgets[${idx}]`, "widget adı boş veya dize değil", "bileşen adını PascalCase olarak yaz");
+        }
+      });
+    }
+  }
+
   const fps = 60;
   const totalFrames = isNum(spec.durationInSeconds) ? Math.round(spec.durationInSeconds * fps) : 0;
 

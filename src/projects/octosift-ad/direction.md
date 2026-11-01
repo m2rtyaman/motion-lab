@@ -1,13 +1,27 @@
-# Direction — Octosift B2B Lead Engine
+# OCTOSIFT — B2B MÜŞTERİ BULMA & CRM YAZILIMI REKLAM TANITIMI
 
-## Paradigm
-editorial-ui
+## 1. MARKA KİMLİĞİ VE TEMA KARARLARI
+- **Ürün:** Octosift (B2B Lead Generation, Saha Satış & Pipeline CRM Platformu).
+- **Surface Mode:** `light` (`LIGHT_SAAS_THEME`).
+- **Renk Paleti:**
+  - `accentPrimary`: `#2563EB` (Kraliyet Mavisi / Royal Blue) — Güvenilir, kurumsal, modern B2B SaaS.
+  - `bgPrimary`: `#f8fafc` (Slate-50 nötr açık zemin).
+  - `bgSurface`: `#ffffff` (Saf beyaz pencereler ve kartlar).
+  - `textPrimary`: `#0f172a` (Slate-900 yüksek kontrastlı okunaklı tipografi).
+  - `statusSuccess`: `#10b981` (Fırsat skoru, aktif pinler, kazanılan satışlar).
+- **Tipografi Karakteri:** `geometric-sans` (Modern SaaS, Linear/Apple seviyesi netlik).
 
-## Concept
-Octosift B2B Müşteri Bulma ve CRM platformunun 6 saniyelik yüksek tempolu, prestijli SaaS lansman reklamı. Video, geleneksel manuel müşteri arama zorluğunu saniyeler içinde "Radar Taraması", "Otomatik Fırsat Skoru" ve "₺120.000 Satış Boru Hattı" adımlarıyla görselleştirir. Sahne Apple/Linear tarzı koyu cam arayüzler, 3D kamera süzülüşleri ve mikro-etkileşimlerle ilerler.
+## 2. GÖRSEL WİDGET AKIŞI (DETECTED WIDGETS)
+1. **`BrowserFrame` & `AppShell`**: Sahnede boş alan kalmasını önleyen profesyonel SaaS tarayıcı ve uygulama kabuğu.
+2. **`InteractiveMap`**: İzmir/Alsancak vektörel sahil ve sokak haritası, canlı radar pinleri ve saha satış rotası.
+3. **`SlideOverDrawer`**: Haritadaki pine tıklandığında sağdan pürüzsüzce kayan Varuna Gezgin müşteri istihbarat çekmecesi.
+4. **`ModalDialog` & `CalendarGrid`**: Takvim görünümü üzerinde beliren "Yeni Randevu / Etkinlik Ekle" diyalogu.
+5. **`KanbanBoard`**: ₺120.000 toplam boru hattına sahip Satış Takip Panosu ve aşamalar arası sürüklenen kartlar.
+6. **`SimulatedCursor`**: Parallax sapması olmaması için `<SpatialCamera>` içine monte edilen, koordinattan koordinata uçan ve tıklama dalgası yaratan imleç aktörü.
 
-## Physics
-Tok ve kararlı endüstriyel hareket fiziği: kart girişlerinde expo.out ve power3.out ile pürüzsüz oturma, aşırı yaylanma yok. Kart geçişlerinde katmanlı derinlik itişi (pushToDepth: eski kart -28px yukarı, scale 0.92, blur 4px). Sayaçlar 0'dan hedefe (65 Skor ve ₺120.000) smoothOut eğrisiyle hızlanıp yavaşlayarak kilitlenir. Kamera 3D uzayda pitch ve yaw eksenlerinde sürekli mikro-akış halindedir.
-
-## Typography & Palette
-Tipografi broadcast ölçeğinde devasa ve okunaklı: 72px Hero başlıklar, 58px metrik değerleri, 20px mono teknik etiketler (18px altı kesinlikle yok). Palet nötr Zinc-950 tabanı (#09090b), aktif cam yüzeyler (#121216), 1px kristal specular rim ışığı ve anlamsal mat zümrüt (#10b981) ve amber (#f59e0b) rozetler. Neon mor/cyan ışıma yok.
+## 3. UZAMSAL KAMERA KOREOGRAFİSİ (SPATIAL CONTINUITY)
+- **Beat 1 (f0-f80):** `IsometricTilt` (2.5D derinlikli arayüz girişi) → Haritaya süzülüş.
+- **Beat 2 (f81-f160):** `FocusZoom` (Detay çekmecesine ve fırsat skoruna yaklaşma).
+- **Beat 3 (f161-f240):** `FocusZoom` & Center (Randevu takvim modalına odaklanma).
+- **Beat 4 (f241-f310):** `CanvasPan` (Boru hattı panosunda sütunlar boyu kayış).
+- **Beat 5 (f311-f360):** `IsometricTilt` & Settle (Büyüleyici 3D kapanış açısı ve CTA rozeti).
