@@ -21,7 +21,11 @@ const spec = JSON.parse(fs.readFileSync(project.spec, "utf-8").replace(/^\uFEFF/
 
 const framesDir = path.join(project.visionDir, "frames");
 const COMP_ID = project.slug;
-const MAX_FRAMES = 16, COLS = 4, TILE_W = 270, TILE_H = 480, CONCURRENCY = 4;
+const is16by9 = spec.aspect === "16:9";
+const MAX_FRAMES = 16, COLS = 4;
+const TILE_W = is16by9 ? 480 : 270;
+const TILE_H = is16by9 ? 270 : 480;
+const CONCURRENCY = 4;
 const MIN_MOTION = 0.8;
 
 // CSS güncelliğini garanti et

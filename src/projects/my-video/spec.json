@@ -1,0 +1,97 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "NEURA CLOUD",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 10,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "componentStack": [
+    "SpotlightStage",
+    "CameraRig",
+    "InstancedPinGrid3D"
+  ],
+  "beats": [
+    {
+      "id": "awakening",
+      "startFrame": 0,
+      "endFrame": 119,
+      "intent": "Obsidyen boşlukta otonom çekirdeğin uyanışı ve kanca başlığı",
+      "action": "awakening"
+    },
+    {
+      "id": "telemetry-morph",
+      "startFrame": 120,
+      "endFrame": 299,
+      "intent": "Tek Kap İlkesi: Çekirdek rozetinin cam telemetri panosuna kesintisiz morflanması",
+      "action": "morph"
+    },
+    {
+      "id": "global-topology",
+      "startFrame": 300,
+      "endFrame": 459,
+      "intent": "3D izometrik eğimle küresel dağıtık düğümlerin ve gecikme grafiğinin sunumu",
+      "action": "topology"
+    },
+    {
+      "id": "executive-lock",
+      "startFrame": 460,
+      "endFrame": 600,
+      "intent": "Durgunluk sonrası monolitik mühür kapanışı ve CTA",
+      "action": "outro"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.2,
+      "ease": "power3.out",
+      "intent": "Obsidyen void açılış süzülüşü"
+    },
+    {
+      "at": 1.45,
+      "duration": 0.65,
+      "ease": "expo.inOut",
+      "intent": "Kanca başlığına yaklaşma"
+    },
+    {
+      "at": 2.45,
+      "duration": 1.1,
+      "ease": "power2.out",
+      "intent": "Telemetri panosu morflanışı"
+    },
+    {
+      "at": 4.1,
+      "duration": 0.95,
+      "ease": "expo.inOut",
+      "intent": "Metrik sayaçlarına kilit"
+    },
+    {
+      "at": 5.5,
+      "duration": 1.2,
+      "ease": "expo.inOut",
+      "intent": "3D izometrik topolojiye eğim"
+    },
+    {
+      "at": 7.2,
+      "duration": 0.95,
+      "ease": "power3.out",
+      "intent": "Durgunluk sonrası CTA kapanışına geri çekilme"
+    },
+    {
+      "at": 8.65,
+      "duration": 1.3,
+      "ease": "power2.out",
+      "intent": "Son kare monoliti kilit"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}
