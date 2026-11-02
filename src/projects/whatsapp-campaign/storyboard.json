@@ -1,0 +1,109 @@
+{
+  "projectSlug": "whatsapp-campaign",
+  "canvasSize": {
+    "width": 2400,
+    "height": 2400
+  },
+  "beats": [
+    {
+      "beatId": "phone-battery-drain",
+      "startFrame": 0,
+      "endFrame": 140,
+      "title": "Telefonunuz kapalı mı? Hiç sorun değil.",
+      "cameraMove": "Macro focus on iPhone battery drain -> Screen fades to black",
+      "transitionType": "spatial-camera-glide",
+      "canvasRegion": { "x": 1200, "y": 1400, "width": 800, "height": 900 },
+      "cameraKeyframe": {
+        "frame": 0,
+        "x": 0,
+        "y": 140,
+        "scale": 1.15,
+        "rotateX": 2,
+        "rotateY": -1,
+        "dofBlur": 0,
+        "focalTarget": "mobile-phone",
+        "easing": "power3.out"
+      }
+    },
+    {
+      "beatId": "desktop-web-open",
+      "startFrame": 141,
+      "endFrame": 280,
+      "title": "Masaüstünde kesintisiz bağlantı.",
+      "cameraMove": "Smooth camera pan up to desktop browser window opening WhatsApp Web",
+      "transitionType": "spatial-camera-glide",
+      "canvasRegion": { "x": 1200, "y": 900, "width": 880, "height": 900 },
+      "cameraKeyframe": {
+        "frame": 141,
+        "x": 0,
+        "y": -60,
+        "scale": 1.08,
+        "rotateX": -1,
+        "rotateY": 1,
+        "dofBlur": 0,
+        "focalTarget": "desktop-browser",
+        "easing": "expo.inOut"
+      }
+    },
+    {
+      "beatId": "message-delivery",
+      "startFrame": 281,
+      "endFrame": 430,
+      "title": "Anında iletildi. Çift tik onaylandı.",
+      "cameraMove": "Push in on active conversation as real message types and delivers",
+      "transitionType": "spatial-camera-glide",
+      "canvasRegion": { "x": 1200, "y": 950, "width": 800, "height": 800 },
+      "cameraKeyframe": {
+        "frame": 281,
+        "x": 40,
+        "y": -20,
+        "scale": 1.2,
+        "rotateX": 0,
+        "rotateY": 0,
+        "dofBlur": 0,
+        "focalTarget": "chat-stream",
+        "easing": "power3.out"
+      }
+    },
+    {
+      "beatId": "encrypted-group-call",
+      "startFrame": 431,
+      "endFrame": 580,
+      "title": "32 kişiye kadar kristal netliğinde sesli arama.",
+      "cameraMove": "Glide to right-docked group call HUD with real audio spectrums",
+      "transitionType": "spatial-camera-glide",
+      "canvasRegion": { "x": 1200, "y": 1000, "width": 880, "height": 800 },
+      "cameraKeyframe": {
+        "frame": 431,
+        "x": -30,
+        "y": 10,
+        "scale": 1.15,
+        "rotateX": 1,
+        "rotateY": -1,
+        "dofBlur": 0,
+        "focalTarget": "group-call-card",
+        "easing": "power2.inOut"
+      }
+    },
+    {
+      "beatId": "brand-outro",
+      "startFrame": 581,
+      "endFrame": 720,
+      "title": "Daima bağlı. Uçtan uca şifreli.",
+      "cameraMove": "Graceful pull-back revealing full airy canvas with official WhatsApp logo",
+      "transitionType": "spatial-camera-glide",
+      "canvasRegion": { "x": 1200, "y": 1200, "width": 1080, "height": 1920 },
+      "cameraKeyframe": {
+        "frame": 581,
+        "x": 0,
+        "y": 0,
+        "scale": 0.95,
+        "rotateX": 0,
+        "rotateY": 0,
+        "dofBlur": 0,
+        "focalTarget": "brand-outro",
+        "easing": "spring"
+      }
+    }
+  ]
+}

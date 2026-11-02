@@ -73,12 +73,25 @@ export interface ThemeGeometry {
   shadowStyle: 'soft-ambient' | 'crisp-border' | 'glass-specular' | 'flat';
 }
 
+export interface BeatColorBlock {
+  id: string;
+  bgPrimary: string;
+  bgSurface: string;
+  textPrimary: string;
+  textMuted: string;
+  accentPrimary: string;
+  accentSecondary: string;
+  borderSubtle: string;
+}
+
 export interface ThemeConfig {
   surfaceMode: SurfaceMode;
   colors: ThemeColors;
   typography: ThemeTypography;
   geometry: ThemeGeometry;
   theme3D?: Theme3D;
+  /** Beat'ler arası tam ekran renk kontrastı (Color Blocking) palet dizisi */
+  beatPalettes?: BeatColorBlock[];
 }
 
 // -----------------------------------------------------------------------------
@@ -285,6 +298,7 @@ export function createTheme(
     typography?: Partial<ThemeTypography>;
     geometry?: Partial<ThemeGeometry>;
     theme3D?: Partial<Theme3D>;
+    beatPalettes?: BeatColorBlock[];
   }
 ): ThemeConfig {
   if (!overrides) return base;
@@ -294,5 +308,128 @@ export function createTheme(
     typography: { ...base.typography, ...overrides.typography },
     geometry: { ...base.geometry, ...overrides.geometry },
     theme3D: overrides.theme3D || base.theme3D ? { ...base.theme3D, ...overrides.theme3D } as Theme3D : undefined,
+    beatPalettes: overrides.beatPalettes ?? base.beatPalettes,
   };
+}
+
+/** Sıcak Editoryal / Kâğıt Teması (krem zemin, mürekkep metin, terracotta vurgu) */
+export const EDITORIAL_WARM_THEME: ThemeConfig = {
+  surfaceMode: 'editorial-warm',
+  colors: {
+    bgPrimary: '#f4ede1',
+    bgSurface: '#fbf7ef',
+    bgSurfaceSubtle: '#ebe2d2',
+    textPrimary: '#1c1917',
+    textMuted: '#57534e',
+    textGhost: '#a8a29e',
+    accentPrimary: '#c2410c',
+    accentSecondary: '#0f766e',
+    borderSubtle: 'rgba(28, 25, 23, 0.10)',
+    borderFocus: 'rgba(194, 65, 12, 0.5)',
+    statusSuccess: '#15803d',
+    statusWarning: '#b45309',
+    statusDanger: '#b91c1c',
+  },
+  typography: {
+    character: 'humanist-serif',
+    heroClass: 'text-[84px] font-black tracking-[-0.03em] leading-[1.02]',
+    titleClass: 'text-[48px] font-bold tracking-[-0.02em] leading-[1.12]',
+    bodyClass: 'text-[22px] font-medium leading-relaxed',
+    monoClass: 'text-[18px] font-mono tracking-tight',
+    badgeClass: 'text-[16px] font-mono font-semibold uppercase tracking-[0.16em]',
+  },
+  geometry: {
+    radiusSm: '6px',
+    radiusMd: '12px',
+    radiusLg: '20px',
+    shadowStyle: 'soft-ambient',
+  },
+};
+
+/** Çok-Beatli Renk Kontrastı (Color Blocking) Marka Teması — WhatsApp & Yüksek Kontrastlı Kampanyalar */
+export const WHATSAPP_COLOR_BLOCK_THEME: ThemeConfig = {
+  surfaceMode: 'vibrant-brand',
+  colors: {
+    bgPrimary: '#0B141A',
+    bgSurface: '#111B21',
+    bgSurfaceSubtle: '#202C33',
+    textPrimary: '#E9EDEF',
+    textMuted: '#8696A0',
+    textGhost: '#53BDEB',
+    accentPrimary: '#25D366',
+    accentSecondary: '#00A884',
+    borderSubtle: 'rgba(233, 237, 239, 0.12)',
+    borderFocus: 'rgba(37, 211, 102, 0.6)',
+    statusSuccess: '#25D366',
+    statusWarning: '#F59E0B',
+    statusDanger: '#F15C6D',
+  },
+  typography: {
+    character: 'geometric-sans',
+    heroClass: 'text-[76px] font-black tracking-[-0.04em] leading-[1.02]',
+    titleClass: 'text-[48px] font-extrabold tracking-[-0.03em] leading-[1.10]',
+    bodyClass: 'text-[22px] font-medium leading-relaxed',
+    monoClass: 'text-[19px] font-mono tracking-tight',
+    badgeClass: 'text-[18px] font-mono font-bold uppercase tracking-[0.18em]',
+  },
+  geometry: {
+    radiusSm: '12px',
+    radiusMd: '24px',
+    radiusLg: '36px',
+    shadowStyle: 'glass-specular',
+  },
+  beatPalettes: [
+    {
+      id: 'phone-offline',
+      bgPrimary: '#0B141A',
+      bgSurface: '#111B21',
+      textPrimary: '#E9EDEF',
+      textMuted: '#8696A0',
+      accentPrimary: '#F15C6D',
+      accentSecondary: '#25D366',
+      borderSubtle: 'rgba(241, 92, 109, 0.28)',
+    },
+    {
+      id: 'desktop-sync',
+      bgPrimary: '#00A884',
+      bgSurface: '#111B21',
+      textPrimary: '#FFFFFF',
+      textMuted: '#D9FDD3',
+      accentPrimary: '#25D366',
+      accentSecondary: '#53BDEB',
+      borderSubtle: 'rgba(255, 255, 255, 0.24)',
+    },
+    {
+      id: 'communities-call',
+      bgPrimary: '#F5F2EF',
+      bgSurface: '#FFFFFF',
+      textPrimary: '#0B141A',
+      textMuted: '#54656F',
+      accentPrimary: '#00A884',
+      accentSecondary: '#25D366',
+      borderSubtle: 'rgba(11, 20, 26, 0.12)',
+    },
+    {
+      id: 'hero-resolve',
+      bgPrimary: '#071E18',
+      bgSurface: '#111B21',
+      textPrimary: '#E9EDEF',
+      textMuted: '#8696A0',
+      accentPrimary: '#25D366',
+      accentSecondary: '#00A884',
+      borderSubtle: 'rgba(37, 211, 102, 0.35)',
+    },
+  ],
+};
+
+/** spec.theme.surfaceMode -> hazır tema. Sahneler renkleri BURADAN çeker, hex gömmez. */
+export function getTheme(mode: SurfaceMode = 'dark'): ThemeConfig {
+  switch (mode) {
+    case 'light': return LIGHT_SAAS_THEME;
+    case 'vibrant-brand': return VIBRANT_BRAND_THEME;
+    case 'editorial-warm': return EDITORIAL_WARM_THEME;
+    case 'kinetic-acid': return KINETIC_ACID_THEME;
+    case 'technical-drafting': return TECHNICAL_DRAFTING_THEME;
+    default: return DARK_LINEAR_THEME;
+  }
 }

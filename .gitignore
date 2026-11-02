@@ -54,3 +54,8 @@ Desktop.ini
 tmp/
 temp/
 *.tmp
+
+# Heavy / External Reference Repositories (do not push to remote)
+html-video/
+motion-graphics-main/
+awesome-claude-opus-5.5-video-main/

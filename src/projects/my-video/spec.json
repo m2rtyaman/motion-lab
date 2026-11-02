@@ -1,0 +1,102 @@
+{
+    "$schema":  "../../../specs/motion-spec.schema.json",
+    "version":  1,
+    "title":  "KORTEX COMPUTE",
+    "mode":  "editorial-ui",
+    "aspect":  "16:9",
+    "fps":  60,
+    "durationInSeconds":  10,
+    "safeZone":  {
+                     "top":  250,
+                     "bottom":  300
+                 },
+    "theme":  {
+                  "surfaceMode":  "dark"
+              },
+    "componentStack":  [
+                           "SpotlightStage",
+                           "CameraRig"
+                       ],
+    "beats":  [
+                  {
+                      "id":  "awakening",
+                      "startFrame":  0,
+                      "endFrame":  129,
+                      "intent":  "Kuantum kuadran uyanışı ve kinetik tipografi kancası",
+                      "action":  "awakening"
+                  },
+                  {
+                      "id":  "neural-pipeline",
+                      "startFrame":  130,
+                      "endFrame":  279,
+                      "intent":  "Otonom model boru hattı ve akıcı fotonik veri akışı",
+                      "action":  "pipeline"
+                  },
+                  {
+                      "id":  "global-matrix",
+                      "startFrame":  280,
+                      "endFrame":  429,
+                      "intent":  "Küresel dağıtık uç bilişim ve düşük gecikme matrisi",
+                      "action":  "matrix"
+                  },
+                  {
+                      "id":  "apex-climax",
+                      "startFrame":  430,
+                      "endFrame":  600,
+                      "intent":  "Monolitik zirve otorite kapanışı ve eylem çağrısı",
+                      "action":  "outro"
+                  }
+              ],
+    "camera":  [
+                   {
+                       "at":  0.1,
+                       "duration":  0.8,
+                       "ease":  "power3.out",
+                       "intent":  "Açılış derinlik yaklaşması ve sakin odak kilidi"
+                   },
+                   {
+                       "at":  2.0,
+                       "duration":  0.65,
+                       "ease":  "expo.inOut",
+                       "intent":  "Boru hattına akıcı geçiş ivmesi"
+                   },
+                   {
+                       "at":  4.55,
+                       "duration":  0.7,
+                       "ease":  "expo.inOut",
+                       "intent":  "Küresel uç matrisine uzamsal süzülüş"
+                   },
+                   {
+                       "at":  6.95,
+                       "duration":  0.8,
+                       "ease":  "expo.inOut",
+                       "intent":  "Zirve monolite diyafram derinlik dalışı"
+                   },
+                   {
+                       "at":  8.0,
+                       "duration":  1.0,
+                       "ease":  "power2.out",
+                       "intent":  "Final otorite yerleşimi ve kapanış"
+                   }
+               ],
+    "shakes":  [
+
+               ],
+    "sfx":  [
+
+            ],
+    "transitions":  [
+                        {
+                            "atFrame":  130,
+                            "type":  "whip-pan"
+                        },
+                        {
+                            "atFrame":  280,
+                            "type":  "mask-wipe"
+                        },
+                        {
+                            "atFrame":  430,
+                            "type":  "zoom-punch"
+                        }
+                    ]
+}

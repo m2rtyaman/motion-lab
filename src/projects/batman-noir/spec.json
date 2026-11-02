@@ -1,0 +1,116 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Batman: Dark Deco Rooftop Ambush",
+  "mode": "cinematic-world",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "narrativeArc": "Cinematic-Climax",
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "continuousShot": true,
+  "componentStack": [
+    "WorldStage",
+    "CharacterActor",
+    "GothamSkylineBackdrop",
+    "BatDropSilhouette",
+    "CombatSmearClash",
+    "GiantMoonLedgeStage",
+    "GCPDBlimpCity",
+    "TiedThugsSpotlight"
+  ],
+  "beats": [
+    {
+      "id": "rooftop-ambush",
+      "startFrame": 0,
+      "endFrame": 73,
+      "intent": "Fötr şapkalı çetecilerin gergin bekleyişi ve Batman'in dev kanat gibi açılan peleriniyle tepeden yırtıcı inişi",
+      "action": "bat-drop"
+    },
+    {
+      "id": "combat-counter",
+      "startFrame": 74,
+      "endFrame": 151,
+      "intent": "Savrulan sağ yumruğun beyaz smear yayıyla savuşturulması, sivri kulaklı maske odaklanması ve sert karşı darbe",
+      "action": "counter-strike"
+    },
+    {
+      "id": "moonlit-throw-blackout",
+      "startFrame": 152,
+      "endFrame": 283,
+      "intent": "Dev dolunay önünde çete üyesinin parabolik savruluşu ve kamerayı karartan palto geçişi",
+      "action": "hood-into-cam"
+    },
+    {
+      "id": "gotham-blimp-search",
+      "startFrame": 284,
+      "endFrame": 373,
+      "intent": "Alçak açı Gotham Art Deco silüeti, süzülen GCPD zeplini ve arama ışıkları altından koşan silüet polisler",
+      "action": "blimp-patrol"
+    },
+    {
+      "id": "spotlight-resolution",
+      "startFrame": 374,
+      "endFrame": 480,
+      "intent": "Dairesel arama ışığının bacaya sırt sırta yarasa halatıyla bağlanmış baygın çetecilere kilitlenişi",
+      "action": "spotlight-lock"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.15,
+      "ease": "power2.out",
+      "intent": "Yukarıdan inen Batman'in iniş darbesine ve çöken üç nokta silüetine odaklanma"
+    },
+    {
+      "at": 1.25,
+      "duration": 1.25,
+      "ease": "expo.out",
+      "intent": "Yumruk savuşturma anında Batman'in sivri maskesine ve beyaz gözlerine hızlı yaklaşma"
+    },
+    {
+      "at": 2.55,
+      "duration": 2.15,
+      "ease": "power2.inOut",
+      "intent": "Dev dolunay önündeki parabolik savrulmaya ve lensi örten paltodan ani kararışa kilitlenme"
+    },
+    {
+      "at": 4.75,
+      "duration": 1.45,
+      "ease": "power1.inOut",
+      "intent": "Alçak açı Gotham Art Deco gökdelenleri ve süzülen GCPD zeplinini yatay sinematik takip"
+    },
+    {
+      "at": 6.25,
+      "duration": 1.7,
+      "ease": "power2.out",
+      "intent": "Çatı zeminine kilitlenen dairesel arama ışığına ve bağlı çetecilere yumuşak iniş"
+    }
+  ],
+  "shakes": [],
+  "sfx": [
+    {
+      "frame": 25,
+      "sfx": "whoosh-pan"
+    },
+    {
+      "frame": 55,
+      "sfx": "step-stone"
+    },
+    {
+      "frame": 115,
+      "sfx": "roar-shockwave"
+    },
+    {
+      "frame": 410,
+      "sfx": "ui-lock"
+    }
+  ]
+}

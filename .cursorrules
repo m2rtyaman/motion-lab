@@ -1,17 +1,33 @@
 Always refer to and enforce AGENTS.md, .agent/skills/motion-director/SKILL.md, and rules.md for all creative coding, motion design, and UI animation tasks.
 
+# MANDATORY PRE-COMPUTATION GATE
+1. Before generating or editing any scene, template, or Remotion component, you MUST load and execute `.agent/skills/anti-slop-deep-thinker/SKILL.md`.
+2. **PHASE 0 (LIVE WEB & VECTOR INTELLIGENCE):** Never draw brand logos, product UIs, or transitions from memory. You MUST run the 4 targeted `search_web` queries (1. Official Brand Kit & Exact SVG `<path d="...">` from SimpleIcons/Wikimedia/brand guidelines; 2. Real Product UI Tear-Down & Screen Anatomy from official blogs/changelogs/Mobbin; 3. Elite Motion Studio Case Study Breakdowns from Ordinary Folk/Buck/ManvsMachine/Ravie/Motionographer for Match-Cuts & 3D Exploded Views; 4. Codrops/GSAP SVG `<defs>` filters & 3D `preserve-3d` techniques) and record them in `src/projects/<project-name>/choreography-blueprint.md`.
+3. You are physically prohibited from outputting `.tsx` code until you have generated the complete Phase 0–7 Choreography Blueprint (including the Phase 0 Web Dossier, Bounding-Box Math, 8-row Frame Matrix, `SvgFilterLab` + `LayeredStage3D` architecture, and the 10-point Adversarial Gate) in `src/projects/<project-name>/choreography-blueprint.md`.
+4. Any `.tsx` file that omits animations, `SvgFilterLab` `<defs>`, `LayeredStage3D` 3D Z-planes, or DOM nodes promised in `choreography-blueprint.md` is considered a critical failure.
+
 MULTI-PROJECT ARCHITECTURE:
 - Her video/sahne `src/projects/<slug>/` altında bağımsız bir projedir (`direction.md`, `spec.json`, `Scene.tsx`, `vision-notes.md`).
 - Yeni video başlatma: `pnpm new <slug> --mode <cinematic-world|editorial-ui|kinetic-poster> [--aspect 9:16|16:9] [--duration 6]`
 - Tek bir devasa prompt ile kod yazma; aşamalı üretim zincirini izle:
   1. Direction: `src/projects/<slug>/direction.md`
   2. Spec: `src/projects/<slug>/spec.json`
-  3. Code: `src/projects/<slug>/Scene.tsx` (Animasyonlar deterministik `useRemotionGSAP` ile yazılmalıdır)
+  3. Code: `src/projects/<slug>/Scene.tsx` (Animasyonlar deterministik `useRemotionGSAP` veya deklaratif `TemplateFrame` ile yazılmalıdır)
   4. Vision: `pnpm render:contact-sheet --project <slug>` -> `out/<slug>/visual-audit-grid.png` dosyasını `read_file` ile aç ve `vision-notes.md` dosyasına kare referanslı (`f130`) gözlem yaz.
   5. Render: `pnpm render --project <slug>`
 
-ZERO-TOLERANCE RULES (Enforced by AST & Slop Linters):
-- Yasak: linear ease, easeInOut, drop-shadow glow, neon mor/cyan renkler, mikro-font (<18px), layout tweening (top/left/width).
-- Determinizm: Math.random, Date.now, setTimeout, CSS transitions kesinlikle yasaktır; her şey `frame` indeksine kilitlidir.
-- Süreler ve eğriler `src/core/tokens.ts` ve `src/core/recipes.ts` üzerinden okunmalıdır.
-- Kod yazımı bittiğinde durma; `pnpm check --project <slug>` ve `pnpm render --project <slug>` çalıştırarak fiziksel MP4 çıktısını doğrula.
+HYBRID TEMPLATE & TIME-DRIVER ARCHITECTURE (html-video integration):
+- İki motor paradigması bir arada çalışır:
+  1. Phase 1 Bridge (`HtmlFrameDriver`): HTML/CSS/GSAP şablonlarını iframe içinde deterministik zaman köprüsüyle çalıştırır. `doc.getAnimations()` ve `win.gsap.globalTimeline` Remotion'ın `frame / fps` saatine kilitlenir. Headless Chromium'da FOUT ve siyah kareleri önlemek için render-blocking font linkleri `media="print" onload="this.media='all'"` ile nötralize edilir.
+  2. Phase 2 Native Remotion (`DataRollup`): Saf React .tsx Remotion bileşenleri `spring()` ve `interpolate()` ile canlı veri animasyonu yapar, sistem fontu kullanır.
+  3. Deklaratif Şablon Çağrısı: Her sahne `src/primitives/TemplateFrame.tsx` üzerinden `frame-data-rollup`, `frame-bold-poster`, `frame-swiss-grid` vb. 23 şablonu tema ve veriyle doğrudan render edebilir.
+- RFC-07 Üç Katmanlı Kaynak/Sözleşme (Provenance): L1 origin (tasarım ilhamı), L2 via_skill (açık kaynak kod tabanı), L3 transformation (yapılan dönüştürme) şeffaf şekilde korunur.
+- ContentGraph Ara Temsilcisi (RFC-06): `entity`, `data`, `text` düğümleri ve `sequence`, `contrast`, `dependency` kenarlarıyla sahne akış planlaması yapılır.
+
+ZERO-TOLERANCE MOTION GRAPHIC LAWS (Enforced by AST, Slop, Critic & Motion Linters):
+- **Emoji Yasağı & Gerçek Vektör (SVG) Zorunluluğu:** Sahne içinde sistem emojisi (`💬`, `👥`, `📞`, `📢`, `🎙️`, `⚡`, `🚀`, `💻`, `🎨`, `🔒` vb.) kullanmak kesinlikle yasaktır. Her ikon, grafik, kilit ve ses dalgası çok parçalı `<svg>`, `<path>`, `<circle>`, `<rect>`, `strokeDasharray` / `strokeDashoffset` olarak çizilmelidir.
+- **3'lü Sandviç Şablonu Yasağı:** Her beat'te aynı "Sabit Üst Başlık + Ortada Kutu + Sabit Alt Footer" (`<header> + box + <footer>`) şablonunu tekrarlamak yasaktır; her beat kendine özgü tam ekran (full-bleed) motion graphic kompozisyonuna sahip olmalıdır.
+- **Beat'ler Arası Renk Kontrastı (Color Blocking):** Tüm videoyu tekdüze koyu arka planda geçirmek yerine `theme-contract.ts` (`beatPalettes` / `WHATSAPP_COLOR_BLOCK_THEME`) ile sahneler arasında kontrast renk bloklaması (Koyu `#0B141A` -> Tam Ekran Zümrüt `#00A884` / `#25D366` -> Sıcak Aydınlık Krem `#F5F2EF` -> Koyu Zümrüt Mühür `#071E18`) uygulanmalıdır.
+- **Gerçek Nesne Morphing & Mikro-Koreografi:** GSAP tween'lerinde `0.01s - 10s` arası pozitif süreler, daktilo/SVG çizimi için `none` / `linear` ease, nesne morphing için `width`, `height`, `borderRadius`, `strokeDashoffset` ve zarif marka gölgeleri (`drop-shadow`, `box-shadow`) serbesttir. Çiğ neon (`#00ffff`, `#ff00ff`), mikro-font (<18px) ve `top`/`left`/`margin` reflow tween'leri yasaktır.
+- **Determinizm:** `Math.random`, `Date.now`, `setTimeout`, CSS transitions kesinlikle yasaktır; her şey `frame` indeksine kilitlidir.
+- Kod yazımı bittiğinde durma; `pnpm check --project <slug>`, `pnpm render:contact-sheet --project <slug>` ve `pnpm render --project <slug>` çalıştırarak fiziksel MP4 çıktısını doğrula.

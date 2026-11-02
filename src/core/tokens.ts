@@ -2,28 +2,40 @@ export const EASING = {
   expoOut: 'expo.out',
   expoInOut: 'expo.inOut',
   powerOut: 'power3.out',
+  powerInOut: 'power2.inOut',
   circOut: 'circ.out',
   backOut: 'back.out(1.6)',
   smoothOut: [0.16, 1, 0.3, 1] as const,
   quickIn: 'power2.in',
+  sineInOut: 'sine.inOut',
 } as const;
 
 export const DURATIONS = {
   instant: 0.12,
   micro: 0.2,
+  fast: 0.24,
   word: 0.38,
+  glide: 0.4,
   panel: 0.45,
-  camera: 0.65,
-  scene: 0.6,
-  item: 0.35,
   depthPush: 0.48,
+  focus: 0.5,
+  morph: 0.52,
+  sweep: 0.55,
+  scene: 0.6,
+  camera: 0.65,
+  long: 0.8,
+  item: 0.35,
   exit: 0.32,
 } as const;
 
 /** Gecikme / stagger ve bindirme sabitleri (saniye) */
 export const TIMING = {
-  wordStagger: 0.06,
+  charStagger: 0.025,
+  streakStagger: 0.04,
   itemStagger: 0.055,
+  wordStagger: 0.06,
+  layerStagger: 0.07,
+  digitStagger: 0.08,
   itemLead: 0.14,
   crossCutOverlap: 0.16,
 } as const;
@@ -51,6 +63,8 @@ export const SPRING = {
   // Sıfır zıplama, tok ve endüstriyel fizik
   snappy: { stiffness: 240, damping: 28, mass: 0.8 },
   rigid: { stiffness: 300, damping: 35, mass: 1 },
+  bouncy: { stiffness: 180, damping: 14, mass: 0.9 },
+  gentle: { stiffness: 120, damping: 18, mass: 1 },
 } as const;
 
 export const PALETTE = {
@@ -138,4 +152,27 @@ export const RECIPE = {
   settleOvershoot: 1.06,
   settleIn: 0.18,
   settleOut: 0.42,
+  scrambleDuration: 0.48,
+  scrambleStep: 0.04,
+  odometerDuration: 0.65,
+  odometerDigitHeight: 48,
+  baselineWipeY: 36,
+  splitFlapPerspective: 800,
+  splitFlapDuration: 0.38,
+  cursorTravelDuration: 0.48,
+  cursorPressScale: 0.88,
+  rippleScale: 2.4,
+  magneticPullMaxPx: 24,
+  indicatorGlideDuration: 0.32,
+  indicatorStretchScaleX: 1.18,
+  vertigoZoomForegroundScale: 1.35,
+  vertigoZoomBackgroundScale: 0.78,
+  rackFocusBlurPx: 14,
+  parallaxNearRatio: 1.5,
+  parallaxMidRatio: 1.0,
+  parallaxFarRatio: 0.45,
+  lightLeakDistance: 1920,
+  speedStreakDistance: 1200,
+  glintDistance: 600,
+  dockOvershootScale: 1.14,
 } as const;

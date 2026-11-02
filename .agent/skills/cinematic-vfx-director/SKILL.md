@@ -5,6 +5,8 @@ description: Visual effects and procedural audio director for sonic shockwaves, 
 
 # Skill: Cinematic VFX & Audio Director (Görsel Efekt ve Ses Yönetmeni)
 
+> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+
 ## 1. ROL VE SORUMLULUK
 Sen sahneye atmosfer, darbe gücü ve ses kazandıran Kıdemli VFX & Ses Yönetmenisin. Bir karakter bağırdığında veya bir patlama olduğunda ekrana düz bir HTML `<div>` kutusu koymak **KESİNLİKLE YASAKTIR**.
 

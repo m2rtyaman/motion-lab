@@ -26,6 +26,12 @@ export interface TechnicalDraftingStageProps {
   gridTheme?: DraftingGridTheme;
   /** Segmentli ilerleme cetvelini göster/gizle */
   showRuler?: boolean;
+  /** Sahte telemetrileri (FR, LAT) göster/gizle (Varsayılan: false) */
+  showTelemetries?: boolean;
+  /** BPM rozetini göster/gizle (Varsayılan: false) */
+  showBpm?: boolean;
+  /** Köşe artı işaretlerini göster/gizle (Varsayılan: false) */
+  showGridCorners?: boolean;
   /** Konteyner CSS sınıfı */
   className?: string;
   /** İçerik veya çocuk bileşenler */
@@ -35,13 +41,16 @@ export interface TechnicalDraftingStageProps {
 export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
   sectionIndex = 1,
   sectionTotal = 4,
-  sectionTag = '01 / MOTION ENGINE',
+  sectionTag,
   headline = 'MAKE IT LOUD.',
   subheadline = 'ZERO BORING FRAMES. SOUND / LIGHT / DEPTH.',
   bpm = 144,
   badgeText = 'FRAME-PERFECT',
   gridTheme = 'acid-dark',
-  showRuler = true,
+  showRuler = false,
+  showTelemetries = false,
+  showBpm = false,
+  showGridCorners = false,
   className = 'w-full h-full relative overflow-hidden flex flex-col justify-between p-12 pointer-events-none',
   children,
 }) => {
@@ -121,46 +130,51 @@ export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
         </defs>
         <rect width="100%" height="100%" fill="url(#drafting-grid)" />
 
-        {/* 4 Köşe ve Merkez Artı İşaretleri (+) */}
-        <g stroke={themeStyles.crossColor} strokeWidth="1.5">
-          <path d="M 48 38 L 48 58 M 38 48 L 58 48" />
-          <path d="M 1872 38 L 1872 58 M 1862 48 L 1882 48" />
-          <path d="M 48 1022 L 48 1042 M 38 1032 L 58 1032" />
-          <path d="M 1872 1022 L 1872 1042 M 1862 1032 L 1882 1032" />
-          {/* Merkez Artı */}
-          <path d="M 960 530 L 960 550 M 950 540 L 970 540" />
-        </g>
+        {/* 4 Köşe ve Merkez Artı İşaretleri (+) - Yalnızca istendiğinde */}
+        {showGridCorners && (
+          <g stroke={themeStyles.crossColor} strokeWidth="1.5">
+            <path d="M 48 38 L 48 58 M 38 48 L 58 48" />
+            <path d="M 1872 38 L 1872 58 M 1862 48 L 1882 48" />
+            <path d="M 48 1022 L 48 1042 M 38 1032 L 58 1032" />
+            <path d="M 1872 1022 L 1872 1042 M 1862 1032 L 1882 1032" />
+            <path d="M 960 530 L 960 550 M 950 540 L 970 540" />
+          </g>
+        )}
       </svg>
 
-      {/* 2. ÜST TELEMETRİ BARI (HEADER) */}
-      <div className="relative z-20 flex items-center justify-between w-full font-mono text-[19px] uppercase tracking-wider">
-        {/* Sol Üst: Bölüm İndeksi */}
-        <div className="flex items-center space-x-4">
-          <span className={`px-3 py-1 font-bold rounded-sm ${themeStyles.badgeBg}`}>
-            {pad(sectionIndex)} - {pad(sectionTotal)}
-          </span>
-          <span className={`font-semibold ${themeStyles.textColor}`}>
-            {sectionTag}
-          </span>
-        </div>
+      {/* 2. ÜST BİLGİ BARI (Yalnızca sectionTag veya telemetriler istendiğinde) */}
+      {(sectionTag || showTelemetries || showBpm) && (
+        <div className="relative z-20 flex items-center justify-between w-full font-mono text-[19px] uppercase tracking-wider">
+          {sectionTag && (
+            <div className="flex items-center space-x-4">
+              <span className={`px-3 py-1 font-bold rounded-sm ${themeStyles.badgeBg}`}>
+                {pad(sectionIndex)} - {pad(sectionTotal)}
+              </span>
+              <span className={`font-semibold ${themeStyles.textColor}`}>
+                {sectionTag}
+              </span>
+            </div>
+          )}
 
-        {/* Orta: Frame ve Koordinat Canlı Sayaç */}
-        <div className={`hidden md:flex items-center space-x-6 text-[18px] ${themeStyles.mutedColor}`}>
-          <span>FR: {pad(frame)}</span>
-          <span>LAT: 52.3676° N</span>
-          <span>16:9 60FPS</span>
-        </div>
+          {showTelemetries && (
+            <div className={`hidden md:flex items-center space-x-6 text-[18px] ${themeStyles.mutedColor}`}>
+              <span>FR: {pad(frame)}</span>
+              <span>16:9 60FPS</span>
+            </div>
+          )}
 
-        {/* Sağ Üst: BPM ve Frame-Perfect Rozeti */}
-        <div className="flex items-center space-x-3">
-          <span className={`px-3 py-1 border text-[18px] font-bold rounded-sm ${themeStyles.badgeBorder} ${themeStyles.accentColor}`}>
-            {bpm} BPM
-          </span>
-          <span className={`px-3 py-1 border text-[18px] font-bold rounded-sm ${themeStyles.badgeBorder} ${themeStyles.textColor}`}>
-            {badgeText}
-          </span>
+          {showBpm && (
+            <div className="flex items-center space-x-3">
+              <span className={`px-3 py-1 border text-[18px] font-bold rounded-sm ${themeStyles.badgeBorder} ${themeStyles.accentColor}`}>
+                {bpm} BPM
+              </span>
+              <span className={`px-3 py-1 border text-[18px] font-bold rounded-sm ${themeStyles.badgeBorder} ${themeStyles.textColor}`}>
+                {badgeText}
+              </span>
+            </div>
+          )}
         </div>
-      </div>
+      )}
 
       {/* 3. ORTA ALAN (İÇERİK VEYA BAŞLIKLAR) */}
       <div className="relative z-10 my-auto flex flex-col justify-center">
@@ -178,16 +192,9 @@ export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
         )}
       </div>
 
-      {/* 4. ALT TELEMETRİ VE SEGMENTLİ CETVEL (FOOTER) */}
-      <div className="relative z-20 flex items-end justify-between w-full font-mono text-[18px] uppercase">
-        {/* Sol Alt: Marka & Sistem Durumu */}
-        <div className={`flex flex-col space-y-1 ${themeStyles.mutedColor}`}>
-          <span className="font-bold tracking-widest">OPUS 5.5 / MOTION-LAB</span>
-          <span className="text-[18px] opacity-75">DETERMINISTIC HYBRID ENGINE</span>
-        </div>
-
-        {/* Orta Alt: Segmentli İlerleme Cetveli (——+——+—— 03/04) */}
-        {showRuler && (
+      {/* 4. ALT İLERLEME CETVELİ (Opsiyonel) */}
+      {showRuler && (
+        <div className="relative z-20 flex items-end justify-between w-full font-mono text-[18px] uppercase">
           <div className="flex items-center space-x-2">
             {Array.from({ length: sectionTotal }).map((_, idx) => {
               const isActive = idx + 1 === sectionIndex;
@@ -213,13 +220,8 @@ export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
               {pad(sectionIndex)}/{pad(sectionTotal)}
             </span>
           </div>
-        )}
-
-        {/* Sağ Alt: Emniyet Kilidi Bilgisi */}
-        <div className={`text-right ${themeStyles.mutedColor}`}>
-          <span>SOUND / LIGHT / DEPTH</span>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -21,6 +21,7 @@ import {
   InteractiveMap,
   SimulatedCursor,
   KineticHeadline,
+  TemplateFrame,
   type MapPin,
   type CalendarEvent,
   type MetricCardItem,
@@ -389,6 +390,24 @@ export const Scene: FC<SceneProps> = () => {
                 <div className="view-table-layer absolute inset-0 w-full h-full flex flex-col gap-5 overflow-hidden z-10">
                   {/* KPI Kartları Satırı */}
                   <MetricCardRow theme={LIGHT_SAAS_THEME} cards={METRIC_CARDS} />
+
+                  {/* Hibrit Şablon Motoru: Canlı Veri Yuvarlama Telemetrisi (frame-data-rollup) */}
+                  <div className="telemetry-rollup-panel w-full h-[180px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-white shrink-0">
+                    <TemplateFrame
+                      templateId="frame-data-rollup"
+                      theme={LIGHT_SAAS_THEME}
+                      data={{
+                        title: 'Doğrulama ve Eşleşme Oranı',
+                        unit: '%',
+                        items: [
+                          { label: 'Telefon', value: 94 },
+                          { label: 'E-posta', value: 88 },
+                          { label: 'Yetkili', value: 76 },
+                          { label: 'Randevu', value: 64 },
+                        ],
+                      }}
+                    />
+                  </div>
 
                   {/* Müşteri Veri Tablosu */}
                   <DataTable

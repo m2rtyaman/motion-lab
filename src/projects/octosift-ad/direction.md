@@ -2,6 +2,7 @@
 
 ## 1. MARKA KİMLİĞİ VE TEMA KARARLARI
 - **Ürün:** Octosift (B2B Müşteri Bulma, Satış İstihbaratı & Saha CRM Platformu).
+- **Hedef:** Bu videonun tek cümlelik hedefi şu: B2B satış ekiplerine Octosift platformunun uçtan uca müşteri bulma ve saha CRM gücünü aktarmak.
 - **Surface Mode:** `light` (`LIGHT_SAAS_THEME`).
 - **Renk Paleti:**
   - `accentPrimary`: `#2563EB` (Kraliyet Mavisi / Royal Blue) — Güvenilir, kurumsal, modern B2B SaaS.

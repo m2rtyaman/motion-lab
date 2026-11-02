@@ -1,0 +1,102 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "LUMEN LAUNCH",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 14,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "componentStack": [
+    "CameraRig",
+    "BackdropField"
+  ],
+  "transitions": [
+    {
+      "type": "whip-pan",
+      "atFrame": 190
+    },
+    {
+      "type": "mask-wipe",
+      "atFrame": 440
+    },
+    {
+      "type": "zoom-punch",
+      "atFrame": 630
+    }
+  ],
+  "beats": [
+    {
+      "id": "command",
+      "startFrame": 0,
+      "endFrame": 199,
+      "intent": "Minimalist komut çubuğu ve akıllı niyet yakalama",
+      "action": "command",
+      "text": "LUMEN COMMAND"
+    },
+    {
+      "id": "calendar",
+      "startFrame": 200,
+      "endFrame": 449,
+      "intent": "Akıllı takvim ve otonom çakışma çözümü",
+      "action": "calendar",
+      "text": "AUTONOMOUS REALIGNMENT"
+    },
+    {
+      "id": "telemetry",
+      "startFrame": 450,
+      "endFrame": 639,
+      "intent": "Kazanılan zaman telemetrisi ve SVG sparkline",
+      "action": "telemetry",
+      "text": "FOCUS METRICS"
+    },
+    {
+      "id": "payoff",
+      "startFrame": 640,
+      "endFrame": 840,
+      "intent": "Zirve marka vaadi ve eylem çağrısı",
+      "action": "payoff",
+      "text": "RECLAIM YOUR FOCUS"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.0,
+      "ease": "power3.out",
+      "intent": "Açılışta komut çubuğuna odaklanma"
+    },
+    {
+      "at": 3.17,
+      "duration": 0.65,
+      "ease": "expo.inOut",
+      "intent": "Geçiş 1 ile takvim matrisine itiş"
+    },
+    {
+      "at": 7.33,
+      "duration": 0.65,
+      "ease": "expo.inOut",
+      "intent": "Geçiş 2 ile telemetri panosuna süzülüş"
+    },
+    {
+      "at": 10.50,
+      "duration": 0.70,
+      "ease": "expo.inOut",
+      "intent": "Geçiş 3 ile marka rozetine dalış"
+    },
+    {
+      "at": 11.50,
+      "duration": 1.00,
+      "ease": "power2.out",
+      "intent": "Zirve marka kapanışında dingin yerleşme"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "WhatsApp Multi-Device Continuity & Group Calls",
+  "mode": "editorial-ui",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 12,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "narrativeArc": "Product-Flow-Tour",
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "continuousShot": true,
+  "transitions": [
+    "transitionContainerMorph",
+    "transitionCameraGlide",
+    "transitionContentReveal",
+    "transitionLogoOutro"
+  ],
+  "componentStack": [
+    "VirtualCameraRig",
+    "AmbientAliveDriver",
+    "DeviceMockupStage",
+    "EncryptedChatStream",
+    "ParticipantStudioTile",
+    "SpringStaggerGroup"
+  ],
+  "beats": [
+    {
+      "id": "phone-battery-drain",
+      "startFrame": 0,
+      "endFrame": 90,
+      "intent": "Aydınlık ferah kanvasta telefon pili tükenir ve ekran kararır",
+      "action": "phone-disconnect"
+    },
+    {
+      "id": "desktop-web-open",
+      "startFrame": 91,
+      "endFrame": 250,
+      "intent": "Kamera dizüstü bilgisayara kayar ve WhatsApp Web arayüzü kesintisiz açılır",
+      "action": "desktop-sync"
+    },
+    {
+      "id": "message-delivery",
+      "startFrame": 251,
+      "endFrame": 420,
+      "intent": "Klavye yazma sesiyle gerçek mesaj iletilir ve çift tik onaylanır",
+      "action": "message-send"
+    },
+    {
+      "id": "encrypted-group-call",
+      "startFrame": 421,
+      "endFrame": 580,
+      "intent": "Uçtan uca şifreli 32 kişilik grup araması kartı ve canlı ses radarı açılır",
+      "action": "group-call"
+    },
+    {
+      "id": "brand-outro",
+      "startFrame": 581,
+      "endFrame": 720,
+      "intent": "Kamera geri çekilerek WhatsApp logosu ve 'Daima bağlı' kapanış kartını gösterir",
+      "action": "hero-resolve"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.45,
+      "ease": "power2.out",
+      "intent": "Pil tükenen telefona odaklanma"
+    },
+    {
+      "at": 1.55,
+      "duration": 2.45,
+      "ease": "power3.inOut",
+      "intent": "Masaüstü ekranına yumuşak geçiş"
+    },
+    {
+      "at": 4.2,
+      "duration": 2.4,
+      "ease": "power2.inOut",
+      "intent": "Sohbet mesajına yakınlaşma"
+    },
+    {
+      "at": 7.05,
+      "duration": 2.4,
+      "ease": "power3.out",
+      "intent": "Grup araması kartına odaklanma"
+    },
+    {
+      "at": 9.7,
+      "duration": 2.2,
+      "ease": "expo.out",
+      "intent": "Geri çekilip tüm ekosistem logosunu gösterme"
+    }
+  ]
+}

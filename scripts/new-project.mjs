@@ -30,8 +30,16 @@ const getArg = (flag, def) => {
 const mode = getArg("--mode", "editorial-ui");
 const aspect = getArg("--aspect", "9:16");
 const duration = parseFloat(getArg("--duration", "6"));
+const themeArg = getArg("--theme", null);
 const title = getArg("--title", slug ? slug.replace(/-/g, " ").toUpperCase() : "Yeni Sahne");
 
+const THEMES = ["light", "dark", "vibrant-brand", "editorial-warm", "kinetic-acid", "technical-drafting"];
+const DEFAULT_THEME = { "editorial-ui": "light", "kinetic-poster": "editorial-warm", "cinematic-world": "dark" };
+const TRANSITION_CYCLE = [
+  { type: "whip-pan", fn: "transitionWhipPan" },
+  { type: "mask-wipe", fn: "transitionMaskWipe" },
+  { type: "zoom-punch", fn: "transitionZoomPunch" },
+];
 const RED = "\x1b[31m", GREEN = "\x1b[32m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
 
 if (!slug || !SLUG_RE.test(slug)) {
@@ -50,6 +58,12 @@ if (!ASPECT_DIMS[aspect]) {
   process.exit(1);
 }
 
+const surfaceMode = themeArg ?? DEFAULT_THEME[mode];
+if (!THEMES.includes(surfaceMode)) {
+  console.error(`${RED}${BOLD}[ERROR] Geçersiz tema:${RESET} "${surfaceMode}". Seçenekler: ${THEMES.join(" | ")}`);
+  process.exit(1);
+}
+
 const p = projectPaths(slug);
 
 if (fs.existsSync(p.dir)) {
@@ -61,6 +75,9 @@ fs.mkdirSync(p.dir, { recursive: true });
 
 // 1. direction.md
 const directionContent = `# Direction — ${title}
+
+## Tek Cümlelik Hedef
+${title} sahnesi ile izleyiciye net, dinamik ve akıcı bir görsel deneyim sunmak.
 
 ## Paradigm
 ${mode}
@@ -84,6 +101,7 @@ const midFrame = Math.round(totalFrames / 2);
 
 let beats = [];
 let camera = [];
+let transitions = [];
 
 if (mode === "cinematic-world") {
   beats = [
@@ -93,27 +111,31 @@ if (mode === "cinematic-world") {
   camera = [
     { at: 0.05, duration: 1.2, ease: "power2.out", intent: "Karaktere giriş takibi" },
     { at: midFrame / 60, duration: 0.2, ease: "back.out(2.0)", intent: "Aksiyon darbe zoom" },
-    { at: midFrame / 60 + 0.3, duration: 0.8, ease: "expo.out", intent: "Darbe sonrası yerleşme" },
-  ];
-} else if (mode === "editorial-ui") {
-  beats = [
-    { id: "headline", startFrame: 0, endFrame: midFrame - 1, intent: "Hero metin ve ana başlık girişi", action: "headline" },
-    { id: "telemetry", startFrame: midFrame, endFrame: totalFrames, intent: "Veri kartı ve metrik akışı", action: "telemetry" },
-  ];
-  camera = [
-    { at: 0.05, duration: 1.4, ease: "expo.inOut", intent: "3D sahneye sinematik süzülüş" },
-    { at: midFrame / 60, duration: 0.9, ease: "expo.out", intent: "Veri paneline odaklanma" },
+    { at: Number((midFrame / 60 + 0.3).toFixed(2)), duration: 0.8, ease: "expo.out", intent: "Darbe sonrası yerleşme" },
   ];
 } else {
-  // kinetic-poster
-  beats = [
-    { id: "burst", startFrame: 0, endFrame: midFrame - 1, intent: "Tipografik patlama", action: "burst" },
-    { id: "resolve", startFrame: midFrame, endFrame: totalFrames, intent: "Kapanış ve yerleşme", action: "resolve" },
-  ];
-  camera = [
-    { at: 0.05, duration: 1.0, ease: "power2.out", intent: "Kinetik başlığa yaklaşma" },
-    { at: midFrame / 60, duration: 1.2, ease: "power2.inOut", intent: "Son itme" },
-  ];
+  // editorial-ui & kinetic-poster: katmanlı beat'ler + beat sınırında geçiş (v2)
+  const beatCount = Math.min(6, Math.max(2, Math.round(duration / 3.5)));
+  const WEIGHTS = [1.0, 1.4, 0.8, 1.25, 0.9, 1.1].slice(0, beatCount);
+  const wSum = WEIGHTS.reduce((a, b) => a + b, 0);
+  const starts = WEIGHTS.map((_, i) => Math.round((WEIGHTS.slice(0, i).reduce((a, b) => a + b, 0) / wSum) * totalFrames));
+  const NAMES = ["hook", "proof", "flow", "scale", "payoff", "outro"];
+  beats = Array.from({ length: beatCount }, (_, i) => ({
+    id: NAMES[i],
+    startFrame: starts[i],
+    endFrame: i === beatCount - 1 ? totalFrames : starts[i + 1] - 1,
+    intent: i === 0 ? "Kanca: ana vaat" : i === beatCount - 1 ? "Kapanış: marka ve eylem çağrısı" : "Gelişme: kanıt ve akış",
+    action: NAMES[i],
+  }));
+  transitions = beats.slice(1).map((b, i) => ({
+    type: TRANSITION_CYCLE[i % TRANSITION_CYCLE.length].type,
+    atFrame: b.startFrame - 10,
+    bridge: `.scene-beat-${i + 1}-card`,
+  }));
+  camera = [{ at: 0.05, duration: 1.0, ease: "power3.out", intent: "Açılışta sahneye yerleşme" }];
+  transitions.forEach((t, i) => {
+    camera.push({ at: Number((t.atFrame / 60).toFixed(2)), duration: 0.65, ease: "expo.inOut", intent: `Geçiş ${i + 1} ile kilitli kamera itişi` });
+  });
 }
 
 const specContent = {
@@ -125,6 +147,8 @@ const specContent = {
   fps: 60,
   durationInSeconds: duration,
   safeZone: { top: 250, bottom: 300 },
+  theme: { surfaceMode },
+  ...(mode === "cinematic-world" ? { continuousShot: true } : { transitions }),
   beats,
   camera,
   shakes: [],
@@ -136,10 +160,12 @@ let sceneContent = "";
 
 if (mode === "cinematic-world") {
   sceneContent = `import { type FC } from 'react';
-import { useCurrentFrame } from 'remotion';
 import { useRemotionGSAP } from '../../core/useRemotionGSAP';
 import { animateCamera } from '../../core/choreography';
 import { WorldStage, CharacterActor, type ActorMotionSegment } from '../../world';
+
+// Başlangıç dünyası: dwarf-arena arka planı. Kendi sahnen için public/projects/<slug>/ altına arka plan ekle.
+export const SHOUT_TEXT = 'HAZIR MISIN?!';
 
 export interface SceneProps {
   aspect?: '9:16' | '16:9';
@@ -173,19 +199,17 @@ const ACTOR_SEGMENTS: ActorMotionSegment[] = [
 ];
 
 export const Scene: FC<SceneProps> = ({ aspect = '${aspect}' }) => {
-  const frame = useCurrentFrame();
-
   useRemotionGSAP((tl) => {
     animateCamera(tl, '.camera-rig', [
       { at: 0, duration: 0, scale: 1.05, x: 80, y: -40 },
       { at: 0.05, duration: 1.2, scale: 1.15, x: 0, y: -60, ease: 'power2.out' },
-      { at: ${(midFrame / 60).toFixed(2)}, duration: 0.2, scale: 1.28, x: 0, y: -90, ease: 'back.out(2.0)' },
-      { at: ${(midFrame / 60 + 0.3).toFixed(2)}, duration: 0.8, scale: 1.18, x: 0, y: -60, ease: 'expo.out' },
+      { at: ${Number((midFrame / 60).toFixed(2))}, duration: 0.2, scale: 1.28, x: 0, y: -90, ease: 'back.out(2.0)' },
+      { at: ${Number((midFrame / 60 + 0.3).toFixed(2))}, duration: 0.8, scale: 1.18, x: 0, y: -60, ease: 'expo.out' },
     ]);
   }, []);
 
   return (
-    <WorldStage aspect={aspect}>
+    <WorldStage aspect={aspect} backgroundSrc="projects/dwarf-arena/arena_bg.png">
       <CharacterActor segments={ACTOR_SEGMENTS} />
     </WorldStage>
   );
@@ -193,107 +217,76 @@ export const Scene: FC<SceneProps> = ({ aspect = '${aspect}' }) => {
 
 export default Scene;
 `;
-} else if (mode === "editorial-ui") {
-  sceneContent = `import { type FC } from 'react';
-import { useCurrentFrame } from 'remotion';
-import { useRemotionGSAP } from '../../core/useRemotionGSAP';
-import { animateCamera, enterSurface } from '../../core/choreography';
-import { SpotlightStage, CameraRig, KineticText, SpecularCard } from '../../primitives';
-import { PALETTE } from '../../core/tokens';
-
-export interface SceneProps {
-  aspect?: '9:16' | '16:9';
-}
-
-const BEATS = [
-  { id: 'headline', startFrame: 0, endFrame: ${midFrame - 1} },
-  { id: 'telemetry', startFrame: ${midFrame}, endFrame: ${totalFrames} },
-] as const;
-
-export const Scene: FC<SceneProps> = ({ aspect = '${aspect}' }) => {
-  const frame = useCurrentFrame();
-
-  useRemotionGSAP((tl) => {
-    animateCamera(tl, '.camera-rig', [
-      { at: 0, duration: 0, scale: 0.95, rotateX: 6 },
-      { at: 0.05, duration: 1.4, scale: 1, rotateX: 0, ease: 'expo.inOut' },
-      { at: ${(midFrame / 60).toFixed(2)}, duration: 0.9, scale: 1.04, y: -40, ease: 'expo.out' },
-    ]);
-    enterSurface(tl, '.metric-card', ${(midFrame / 60).toFixed(2)});
-  }, []);
-
-  return (
-    <SpotlightStage aspect={aspect}>
-      <CameraRig className="camera-rig">
-        <div className="flex flex-col items-center justify-center gap-10">
-          <KineticText
-            text="${title}"
-            variant="hero"
-            className="text-center font-extrabold tracking-tighter"
-          />
-          <div className="metric-card w-[860px]">
-            <SpecularCard active>
-              <div className="p-8 font-mono text-[24px]" style={{ color: PALETTE.textSecondary }}>
-                OPERATIONAL TELEMETRY: READY
-              </div>
-            </SpecularCard>
-          </div>
-        </div>
-      </CameraRig>
-    </SpotlightStage>
-  );
-};
-
-export default Scene;
-`;
 } else {
-  // kinetic-poster
-  sceneContent = `import { type FC } from 'react';
-import { AbsoluteFill, useCurrentFrame } from 'remotion';
-import { useRemotionGSAP } from '../../core/useRemotionGSAP';
-import { animateCamera } from '../../core/choreography';
-import { blurScaleReveal, maskWipeReveal } from '../../core/recipes';
-import { PALETTE } from '../../core/tokens';
-
-export interface SceneProps {
-  aspect?: '9:16' | '16:9';
-}
-
-const BEATS = [
-  { id: 'burst', startFrame: 0, endFrame: ${midFrame - 1} },
-  { id: 'resolve', startFrame: ${midFrame}, endFrame: ${totalFrames} },
-] as const;
-
-export const Scene: FC<SceneProps> = () => {
-  const frame = useCurrentFrame();
-
-  useRemotionGSAP((tl) => {
-    animateCamera(tl, '.poster-rig', [
-      { at: 0, duration: 0, scale: 1.08 },
-      { at: 0.05, duration: 1.0, scale: 1, ease: 'power2.out' },
-      { at: ${(midFrame / 60).toFixed(2)}, duration: 1.2, scale: 1.04, ease: 'power2.inOut' },
-    ]);
-    blurScaleReveal(tl, '.poster-h1', 0.1);
-    maskWipeReveal(tl, '.poster-rule', ${(midFrame / 60).toFixed(2)});
-  }, []);
-
-  return (
-    <AbsoluteFill style={{ backgroundColor: PALETTE.bgBase }}>
-      <div className="poster-rig absolute inset-0 flex flex-col items-center justify-center px-16">
-        <h1
-          className="poster-h1 text-[160px] font-extrabold tracking-tighter leading-none text-center"
-          style={{ color: PALETTE.textPrimary }}
-        >
-          ${title}
-        </h1>
-        <div className="poster-rule mt-10 h-[6px] w-[500px]" style={{ backgroundColor: PALETTE.semanticSuccess }} />
-      </div>
-    </AbsoluteFill>
-  );
-};
-
-export default Scene;
-`;
+  const poster = mode === "kinetic-poster";
+  const lines = [];
+  const L = (s = "") => lines.push(s);
+  L("import { type FC } from 'react';");
+  L("import { AbsoluteFill } from 'remotion';");
+  L("import { useRemotionGSAP } from '../../core/useRemotionGSAP';");
+  L("import { animateCamera } from '../../core/choreography';");
+  L("import { DURATIONS, EASING } from '../../core/tokens';");
+  L("import { BackdropField } from '../../primitives';");
+  L("import { getTheme, " + [...new Set(transitions.map((t) => TRANSITION_CYCLE.find((x) => x.type === t.type).fn))].join(", ") + " } from '../../core';");
+  L();
+  L("export interface SceneProps {");
+  L("  aspect?: '9:16' | '16:9';");
+  L("}");
+  L();
+  L("// Renkler HER ZAMAN temadan gelir (spec.theme.surfaceMode). Hex gömme.");
+  L("const theme = getTheme('" + surfaceMode + "');");
+  L();
+  L("export const BEATS = [");
+  beats.forEach((b) => L("  { id: '" + b.id + "', startFrame: " + b.startFrame + ", endFrame: " + b.endFrame + " },"));
+  L("] as const;");
+  L();
+  L("export const Scene: FC<SceneProps> = () => {");
+  L("  useRemotionGSAP((tl) => {");
+  L("    animateCamera(tl, '.camera-rig', [");
+  L("      { at: 0, duration: 0, scale: 1.04 },");
+  camera.forEach((cm, i) => {
+    L("      { at: " + cm.at + ", duration: " + cm.duration + ", scale: " + (i === 0 ? "1" : i % 2 ? "1.03" : "1") + ", ease: '" + cm.ease + "' },");
+  });
+  L("    ]);");
+  L();
+  beats.forEach((b, i) => {
+    const t0 = (b.startFrame / 60).toFixed(2);
+    L("    // Beat " + (i + 1) + " (" + b.id + "): giriş");
+    L("    tl.fromTo('.b" + (i + 1) + "-eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: DURATIONS.panel, ease: EASING.powerOut }, " + (i === 0 ? "0.15" : (b.startFrame / 60 + 0.1).toFixed(2)) + ");");
+    L("    tl.fromTo('.b" + (i + 1) + "-title', { opacity: 0, y: 48, filter: 'blur(12px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: DURATIONS.camera, ease: EASING.expoOut }, " + (i === 0 ? "0.25" : (b.startFrame / 60 + 0.2).toFixed(2)) + ");");
+    L("    tl.fromTo('.b" + (i + 1) + "-body', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: DURATIONS.panel, ease: EASING.powerOut }, " + (i === 0 ? "0.5" : (b.startFrame / 60 + 0.4).toFixed(2)) + ");");
+    if (i < beats.length - 1) {
+      const tr = transitions[i];
+      const at = (tr.atFrame / 60).toFixed(2);
+      const out = ".scene-beat-" + (i + 1), inc = ".scene-beat-" + (i + 2);
+      L("    // Geçiş " + (i + 1) + ": " + tr.type + " (beat sınırı)");
+      if (tr.type === "whip-pan") L("    transitionWhipPan(tl, '" + out + "', '" + inc + "', { at: " + at + ", direction: 'left', duration: DURATIONS.panel });");
+      else if (tr.type === "mask-wipe") L("    transitionMaskWipe(tl, '" + inc + "', { at: " + at + ", type: 'diagonal', duration: DURATIONS.scene, outgoingSelector: '" + out + "' });");
+      else L("    transitionZoomPunch(tl, '" + out + "', '" + inc + "', { at: " + at + ", duration: DURATIONS.camera });");
+    }
+    L();
+  });
+  L("  }, []);");
+  L();
+  L("  return (");
+  L("    <AbsoluteFill style={{ backgroundColor: theme.colors.bgPrimary, color: theme.colors.textPrimary }}>");
+  L("      <div className=\"camera-rig absolute inset-0\">");
+  beats.forEach((b, i) => {
+    const first = i === 0;
+    L("        <section className=\"scene-beat-" + (i + 1) + " absolute inset-0 flex flex-col items-" + (poster ? "start" : "center") + " justify-center gap-8 px-24\" style={{ opacity: " + (first ? 1 : 0) + ", backgroundColor: theme.colors." + (i % 2 ? "bgSurfaceSubtle" : "bgPrimary") + " }}>");
+    L("          <BackdropField theme={theme} variant=\"" + ["mesh", "grid", "rings", "rays"][i % 4] + "\" intensity={0.6} />");
+    L("          <p className=\"b" + (i + 1) + "-eyebrow " + (poster ? "text-[22px]" : "text-[20px]") + " font-mono font-semibold uppercase tracking-[0.18em]\" style={{ color: theme.colors.accentPrimary }}>" + String(i + 1).padStart(2, "0") + " / " + b.id + "</p>");
+    L("          <h1 className={`b" + (i + 1) + "-title ${theme.typography.heroClass} " + (poster ? "" : "text-center") + "`} style={{ color: theme.colors.textPrimary, fontSize: " + (poster ? 200 : 132) + ", lineHeight: 1.02 }}>" + (first ? title : "Beat " + (i + 1) + " headline") + "</h1>");
+    L("          <p className={`b" + (i + 1) + "-body ${theme.typography.bodyClass} max-w-[1100px]" + (poster ? "" : " text-center") + "`} style={{ color: theme.colors.textMuted, fontSize: 34 }}>" + b.intent + "</p>");
+    L("        </section>");
+  });
+  L("      </div>");
+  L("    </AbsoluteFill>");
+  L("  );");
+  L("};");
+  L();
+  L("export default Scene;");
+  sceneContent = lines.join("\n") + "\n";
 }
 
 fs.writeFileSync(p.direction, directionContent, "utf-8");
@@ -309,7 +302,8 @@ console.log(`  Paradigma : ${mode}`);
 console.log(`  Oran      : ${aspect} (${ASPECT_DIMS[aspect][0]}x${ASPECT_DIMS[aspect][1]})`);
 console.log(`  Süre      : ${duration}s (${totalFrames} kare @ 60 FPS)`);
 console.log(`\nSıradaki adımlar:`);
-console.log(`  1. İncele/Düzenle : ${rel(p.direction)} & ${rel(p.spec)}`);
-console.log(`  2. Pipeline Başlat: pnpm studio:init --project ${slug} "Açıklama"`);
-console.log(`  3. Kalite Denetimi: pnpm check --project ${slug}`);
-console.log(`  4. Render         : pnpm render --project ${slug}\n`);
+console.log(`  1. İncele/Düzenle       : ${rel(p.direction)} & ${rel(p.spec)}`);
+console.log(`  2. Storyboard Denetimi : pnpm audit:storyboard --project ${slug}`);
+console.log(`  3. Pipeline Başlat     : pnpm studio:init --project ${slug} "Açıklama"`);
+console.log(`  4. Kalite Denetimi     : pnpm check --project ${slug}`);
+console.log(`  5. Render               : pnpm render --project ${slug}\n`);
