@@ -4,7 +4,9 @@
 kinetic-poster
 
 ## Concept
-Tam ekran tek mesajlı tipografik poster: "SHIP IT" devasa başlığı derinlikten gelir, yeşil bir çizgi soldan çekilir ve "zero slop" damgası darbeyle yerine oturur. Kart, rozet ya da arayüz öğesi yok; yalnızca tipografi, bir çizgi ve kamera.
+Tam ekran tek mesajlı tipografik poster: "SHIP IT" devasa başlığı derinlikten gelir, yeşil bir çizgi soldan çekilir ve "zero slop" damgası darbeyle yerine oturur.
+Bu videonun tek cümlelik hedefi şu: Tipografik güç ve sıfır-slop disipliniyle anında canlıya çıkma (ship it) kararlılığını aşılamak.
+Kart, rozet ya da arayüz öğesi yok; yalnızca tipografi, bir çizgi ve kamera.
 
 ## Physics
 Başlık odaktan çıkan ağır bir nesne gibi gelir: büyük ve flu başlar, expo.out ile keskinleşir. Damga hızlıca hedefi aşar (overshoot) ve oturur; oturma anında kısa, sönümlenen bir darbe sarsıntısı vardır. Kamera çok yavaş bir itme yapar; yaylanma değil ağırlık hissi.

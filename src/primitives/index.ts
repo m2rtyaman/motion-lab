@@ -115,3 +115,41 @@ export {
   ChalkboardStage,
   type ChalkboardStageProps,
 } from './ChalkboardStage';
+export { BackdropField, type BackdropFieldProps, type BackdropVariant } from './BackdropField';
+export { TemplateFrame, type TemplateFrameProps } from './TemplateFrame';
+
+export {
+  SvgFilterLab,
+  SpeechBubbleTailSVG,
+  GooeyMorphGroup,
+  type SvgFilterLabProps,
+  type SpeechBubbleTailSVGProps,
+  type GooeyMorphGroupProps,
+} from './SvgFilterLab';
+export {
+  LayeredStage3D,
+  LayerPlane,
+  type LayeredStage3DProps,
+  type LayerPlaneProps,
+} from './LayeredStage3D';
+
+// Opus 5.5 Archival, Forensic & Visual Investigation Primitives
+export {
+  LoupeMagnifier,
+  type LoupeMagnifierProps,
+  type LoupePoint,
+} from './LoupeMagnifier';
+export {
+  LedgerCardStage,
+  type LedgerCardStageProps,
+  type LedgerEntry,
+} from './LedgerCardStage';
+export {
+  BroadcastPackageStrap,
+  type BroadcastPackageStrapProps,
+} from './BroadcastPackageStrap';
+export {
+  CutoutPuppetStage,
+  type CutoutPuppetStageProps,
+  type PuppetJointAngles,
+} from './CutoutPuppetStage';

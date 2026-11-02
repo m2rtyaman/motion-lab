@@ -5,6 +5,7 @@ editorial-ui
 
 ## Concept
 Cloud Telemetry sahnesi için görsel anlatı konsepti.
+Bu videonun tek cümlelik hedefi şu: Bulut altyapı performansını ve anlık işlem telemetrisini kristal netliğinde sunmak.
 Bu bölümde sahnenin amacı, mesaj hiyerarşisi ve ana odak elemanları tanımlanır.
 
 ## Physics

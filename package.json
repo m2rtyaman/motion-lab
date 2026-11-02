@@ -15,10 +15,16 @@
     "doctor": "node scripts/studio-doctor.mjs",
     "gate": "node scripts/pre-render-gate.mjs",
     "audit:spec": "node scripts/validate-spec.mjs",
+    "audit:storyboard": "node scripts/audit-storyboard.mjs",
     "audit:ast": "node scripts/ast-lint.mjs",
+    "audit:motion": "node scripts/motion-audit.mjs",
     "audit:slop": "node scripts/slop-linter.mjs",
+    "audit:craft": "node scripts/craft-audit.mjs",
+    "audit:visual": "node scripts/visual-qa.mjs",
     "audit:critic": "node scripts/critic-audit.mjs",
     "audit:glyph": "node scripts/glyph-audit.mjs",
+    "audit:templates": "node scripts/test-templates.mjs",
+    "gen:manifest": "node scripts/gen-template-manifest.mjs",
     "audit:doctor": "node scripts/studio-doctor.mjs",
     "studio:doctor": "node scripts/studio-doctor.mjs",
     "inspect": "node scripts/inspect-frame.mjs",
@@ -31,6 +37,7 @@
     "studio:check": "node scripts/studio.mjs check",
     "studio:run": "node scripts/studio.mjs run",
     "check": "node scripts/check-runner.mjs",
+    "render": "node scripts/render.mjs",
     "render:commercial": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts octosift-commercial out/octosift-commercial/octosift-commercial.mp4 --gl=angle",
     "render:showreel": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts kinetic-loud-showreel out/kinetic-loud-showreel/kinetic-loud-showreel.mp4 --gl=angle",
     "render:arena": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts dwarf-arena out/dwarf-arena/dwarf-arena.mp4 --gl=angle",
@@ -65,6 +72,7 @@
     "remotion": "^4.0.539",
     "roughjs": "^4.6.6",
     "tailwind-merge": "^3.7.0",
-    "three": "^0.187.0"
+    "three": "^0.187.0",
+    "yaml": "^2.9.1"
   }
 }

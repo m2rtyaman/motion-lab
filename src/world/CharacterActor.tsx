@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { staticFile, useCurrentFrame } from 'remotion';
 
 export type ActorActionState = 'run' | 'shout' | 'leap' | 'idle';
@@ -25,6 +25,11 @@ export interface CharacterActorProps {
   shoutSprite?: string;
   idleSprite?: string;
   leapSprite?: string;
+  hideShadow?: boolean;
+  hideDust?: boolean;
+  hideTrail?: boolean;
+  children?: ReactNode;
+  renderCustomActor?: (pose: ComputedActorPose, frame: number) => ReactNode;
 }
 
 export interface ComputedActorPose {
@@ -90,6 +95,11 @@ export const CharacterActor: FC<CharacterActorProps> = ({
   shoutSprite = 'shout',
   idleSprite = 'idle',
   leapSprite = 'jump',
+  hideShadow = false,
+  hideDust = false,
+  hideTrail = false,
+  children,
+  renderCustomActor,
 }) => {
   const frame = useCurrentFrame();
   const pose = evaluateActorPose(frame, segments);
@@ -160,22 +170,24 @@ export const CharacterActor: FC<CharacterActorProps> = ({
   return (
     <>
       {/* 1. ZEMİN TEMAS VE YAYILIM GÖLGESİ (Contact + Ambient Shadow) */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 will-change-transform"
-        style={{
-          width: '140px',
-          height: '34px',
-          borderRadius: '9999px',
-          background:
-            'radial-gradient(ellipse at center, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0) 78%)',
-          transform: `translate(calc(-50% + ${pose.x}px), calc(-50% + ${
-            pose.y + 68 * (pose.scale / 2.4)
-          }px)) scale(${pose.scale * 0.52 * (1 - Math.abs(stepBobY) * 0.008)})`,
-        }}
-      />
+      {!hideShadow && (
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 will-change-transform"
+          style={{
+            width: '140px',
+            height: '34px',
+            borderRadius: '9999px',
+            background:
+              'radial-gradient(ellipse at center, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0) 78%)',
+            transform: `translate(calc(-50% + ${pose.x}px), calc(-50% + ${
+              pose.y + 68 * (pose.scale / 2.4)
+            }px)) scale(${pose.scale * 0.52 * (1 - Math.abs(stepBobY) * 0.008)})`,
+          }}
+        />
+      )}
 
       {/* 2. ADIM TOZU PARTİKÜLLERİ (Footstep Stone Dust Puffs) */}
-      {showDust && (
+      {showDust && !hideDust && (
         <div
           className="pointer-events-none absolute left-1/2 top-1/2 will-change-transform"
           style={{
@@ -196,7 +208,7 @@ export const CharacterActor: FC<CharacterActorProps> = ({
       )}
 
       {/* 3. KOŞU HIZ İZİ (60 FPS Motion Trail Silhouette) */}
-      {pose.action === 'run' && (
+      {pose.action === 'run' && !hideTrail && (
         <div
           className="pointer-events-none absolute left-1/2 top-1/2 w-[160px] h-[160px] will-change-transform flex items-center justify-center"
           style={{
@@ -207,11 +219,17 @@ export const CharacterActor: FC<CharacterActorProps> = ({
             }px)) scale(${prevPose.scale * 0.96}) scaleX(${dirSign})`,
           }}
         >
-          <img
-            src={staticFile(`${spriteBase}/${spriteName}.png`)}
-            alt=""
-            className="w-full h-full object-contain"
-          />
+          {renderCustomActor ? (
+            renderCustomActor(prevPose, Math.max(0, frame - 3))
+          ) : children ? (
+            children
+          ) : (
+            <img
+              src={staticFile(`${spriteBase}/${spriteName}.png`)}
+              alt=""
+              className="w-full h-full object-contain"
+            />
+          )}
         </div>
       )}
 
@@ -228,17 +246,23 @@ export const CharacterActor: FC<CharacterActorProps> = ({
           }) scaleY(${stretchY})`,
         }}
       >
-        <img
-          src={staticFile(`${spriteBase}/${spriteName}.png`)}
-          alt="Animated Character"
-          className="w-full h-full object-contain"
-          style={{
-            filter:
-              pose.action === 'shout'
-                ? 'drop-shadow(0 12px 18px rgba(0,0,0,0.85)) drop-shadow(8px -6px 10px rgba(245,158,11,0.32)) contrast(1.08)'
-                : 'drop-shadow(0 10px 14px rgba(0,0,0,0.8)) contrast(1.04)',
-          }}
-        />
+        {renderCustomActor ? (
+          renderCustomActor(pose, frame)
+        ) : children ? (
+          children
+        ) : (
+          <img
+            src={staticFile(`${spriteBase}/${spriteName}.png`)}
+            alt="Animated Character"
+            className="w-full h-full object-contain"
+            style={{
+              filter:
+                pose.action === 'shout'
+                  ? 'drop-shadow(0 12px 18px rgba(0,0,0,0.85)) drop-shadow(8px -6px 10px rgba(245,158,11,0.32)) contrast(1.08)'
+                  : 'drop-shadow(0 10px 14px rgba(0,0,0,0.8)) contrast(1.04)',
+            }}
+          />
+        )}
       </div>
     </>
   );

@@ -185,7 +185,11 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
                       {/* Satır 1: inn coffee */}
                       <div className="px-6 py-5 flex items-center justify-between text-[19px] hover:bg-slate-50">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 font-bold flex items-center justify-center">IC</div>
+                          <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 font-bold flex items-center justify-center">
+                            <svg className="w-6 h-6 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3" />
+                            </svg>
+                          </div>
                           <div>
                             <div className="font-extrabold text-slate-900">inn coffee</div>
                             <div className="text-[18px] text-slate-500">Kahve dükkanı • Alsancak</div>
@@ -205,7 +209,13 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
                       {/* Satır 2: Varuna Gezgin */}
                       <div className="px-6 py-5 flex items-center justify-between text-[19px] bg-blue-50/50">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 font-bold flex items-center justify-center">VG</div>
+                          <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 font-bold flex items-center justify-center">
+                            <svg className="w-6 h-6 text-blue-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="12" cy="12" r="10" />
+                              <polygon points="12 6 15 12 12 18 9 12 12 6" fill="currentColor" opacity="0.3" />
+                              <polygon points="12 6 15 12 12 18 9 12 12 6" />
+                            </svg>
+                          </div>
                           <div>
                             <div className="font-extrabold text-slate-900">Varuna Gezgin</div>
                             <div className="text-[18px] text-slate-500">Kafe / Restoran • Alsancak</div>

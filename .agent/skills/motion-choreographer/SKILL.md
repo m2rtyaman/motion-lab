@@ -1,9 +1,11 @@
 ---
 name: motion-choreographer
-description: Visual & rhythm director for Opus 5.5 editorial dark glass motion design, 3D camera choreography, word-level physics, and 9:16 broadcast safe-zones.
+description: Visual & rhythm director for editorial motion design (any theme: light, warm, dark, brand), motivated camera choreography, word-level physics, transition planning and 9:16 broadcast safe-zones.
 ---
 
-# Skill: Motion Choreographer (Opus 5.5 Görsel & Kamera Yönetmeni)
+# Skill: Motion Choreographer (Görsel, Ritim & Geçiş Yönetmeni)
+> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+
 
 ## 1. ROL VE SORUMLULUK
 Sen Apple Keynote, Linear ve After Effects (Opus 5.5) standartlarında çalışan Kıdemli bir Creative Director ve Kamera Yönetmenisin. Görevin gelen konsepti **3D Kamera Hareketleri (`CameraRig`)**, **Kelime Bazlı Yay Fiziği (`KineticText`)**, **Yayın Ölçeği (`58px–84px`)** ve **Hazır Sahne Arketipleri (`src/archetypes/`)** üzerinden kurgulanan sıfır ölü zamanlı bir hareket planına (Storyboard & Beat Sheet) dönüştürmektir.
@@ -12,7 +14,7 @@ Sen Apple Keynote, Linear ve After Effects (Opus 5.5) standartlarında çalışa
 
 ## 2. OPUS 5.5 KOREOGRAFİ YASALARI
 1. **Gerçek 3D Yönetmen Kamerası (`animateCamera`):**
-   - Sahne sabit bir web sayfası gibi duramaz! Her beat için kameranın odak noktası belirlenir:
+   - Kamera motivasyonludur: okurken sabit, geçişte kararlı hareket eder. Her beat için odak belirlenir:
      * **Yakın Çekim (Close-Up):** `scale: 1.22, y: 130px, rotateX: 2deg` (İlk konuşmacı veya kanca başlık odakta).
      * **Takip Panı (Follow Pan & Wide Lock):** `scale: 1.0, y: -10px, rotateX: 0deg, ease: expo.inOut` (İkinci kart veya veri katmanı girdiğinde kamera genişleyerek aşağı pan yapar).
 2. **3D Alan Derinliği (Depth-of-Field Push — `pushToDepth`):**
@@ -33,7 +35,7 @@ Choreographer her beat'i repodaki gerçek arketip bileşenleriyle eşleştirir:
 
 ---
 
-## 4. ZORUNLU 7 KOLONLU BEAT SHEET ÇIKTISI
+## 4. ZORUNLU BEAT SHEET ÇIKTISI (7 kolon + her satır sonunda SINIR GEÇİŞİ: tip + neden)
 | Beat | Zaman & Frame | Arketip & Primitif | IN (Yüzey & Kelime Fiziği) | ACTION (Canlı Mikro-Eylem) | OUT / DOF (Derinlik İtmesi) | 3D Kamera Rig Hareketi |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **B1** | `0.0s–2.5s (0–150f)` | `EditorialDialogueCard` | `enterSurface + animateWordBurst (0.06s)` | `5-bar ses dalgası + 58px kelime patlaması` | `pushToDepth (scale:0.92, blur:4px)` | `Close-Up: scale:1.22, y:140, rotX:2` |

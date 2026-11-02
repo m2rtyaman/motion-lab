@@ -110,6 +110,9 @@ export function synthesizeProceduralWav(
   view.setUint32(36, 0x64617461, false); // "data"
   view.setUint32(40, totalSamples * 2, true);
 
+  // AAC sample-0 digital guard to prevent MDCT pre-echo/pops on t=0 impacts
+  applySample0Guard(floatBuffer, sampleRate, 2.0);
+
   // Float buffer'ı 16-bit PCM'e çevir
   const wavBytes = new Uint8Array(44 + totalSamples * 2);
   wavBytes.set(new Uint8Array(header), 0);
@@ -124,4 +127,29 @@ export function synthesizeProceduralWav(
   }
 
   return wavBytes;
+}
+
+/**
+ * Applies a micro-fade window at sample 0 to prevent AAC / MP3 MDCT pre-echo,
+ * DC offset pops, and digital clipping on hard impacts starting at t=0.
+ * 
+ * @param buffer Float32Array PCM audio buffer
+ * @param sampleRate Sampling rate in Hz
+ * @param fadeMs Micro-fade duration in milliseconds (default 2.0ms)
+ */
+export function applySample0Guard(
+  buffer: Float32Array,
+  sampleRate: number,
+  fadeMs: number = 2.0
+): void {
+  if (!buffer || buffer.length === 0) return;
+  const safeSampleRate = Number.isFinite(sampleRate) && sampleRate > 0 ? sampleRate : 44100;
+  const safeFadeMs = Number.isFinite(fadeMs) && fadeMs > 0 ? fadeMs : 2.0;
+  const fadeSamples = Math.min(buffer.length, Math.max(1, Math.floor(safeSampleRate * (safeFadeMs / 1000))));
+  for (let i = 0; i < fadeSamples; i++) {
+    // Half-Hann raised cosine micro-fade
+    const factor = 0.5 * (1 - Math.cos((Math.PI * i) / fadeSamples));
+    buffer[i] *= factor;
+  }
+  buffer[0] = 0;
 }

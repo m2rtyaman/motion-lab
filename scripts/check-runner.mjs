@@ -15,14 +15,29 @@ function run(cmd, cmdArgs) {
 console.log("[CHECK] Proje kayıt defteri güncelleniyor...");
 run("node", ["scripts/gen-registry.mjs"]);
 
+console.log("\n[CHECK] Stüdyo beceri bütünlüğü ve zorunluluk matrisi denetleniyor...");
+run("node", ["scripts/audit-skills.mjs"]);
+
 console.log("\n[CHECK] Spec sözleşmesi doğrulanıyor...");
 run("node", ["scripts/validate-spec.mjs", ...projectFlag]);
+
+console.log("\n[CHECK] Storyboard & kurgu yönetmeni denetleniyor (Shift-Left)...");
+run("node", ["scripts/audit-storyboard.mjs", ...projectFlag]);
 
 console.log("\n[CHECK] AST sözdizimi denetleniyor...");
 run("node", ["scripts/ast-lint.mjs", ...projectFlag]);
 
+console.log("\n[CHECK] Hareket kalitesi (geçiş / kesme) denetleniyor...");
+run("node", ["scripts/motion-audit.mjs", ...projectFlag]);
+
 console.log("\n[CHECK] Slop ve yayın standartları taranıyor...");
 run("node", ["scripts/slop-linter.mjs", ...projectFlag]);
+
+console.log("\n[CHECK] Motion Studio v5.0 Craft & Determinizm denetleniyor...");
+run("node", ["scripts/craft-audit.mjs", ...projectFlag]);
+
+console.log("\n[CHECK] Visual QA & Görsel Kanıt kontrol ediliyor...");
+run("node", ["scripts/visual-qa.mjs", ...projectFlag]);
 
 console.log("\n[CHECK] Opus Critic Audit çalıştırılıyor...");
 run("node", ["scripts/critic-audit.mjs", ...projectFlag]);
@@ -30,7 +45,14 @@ run("node", ["scripts/critic-audit.mjs", ...projectFlag]);
 console.log("\n[CHECK] Glif ve tipografi denetleniyor...");
 run("node", ["scripts/glyph-audit.mjs", ...projectFlag]);
 
+console.log("\n[CHECK] Çekirdek matematik birim testleri (Spring / Bézier / Scramble) çalıştırılıyor...");
+run("npx", ["tsx", "scripts/test-math-core.mjs"]);
+
+console.log("\n[CHECK] Şablon kütüphanesi ve zaman köprüsü denetleniyor...");
+run("node", ["scripts/test-templates.mjs"]);
+
 console.log("\n[CHECK] TypeScript tip denetimi yapılıyor...");
 run("npx", ["tsc", "--noEmit"]);
 
 console.log("\n\x1b[32m\x1b[1m[CHECK: TÜM TESTLER BAŞARIYLA GEÇTİ]\x1b[0m\n");
+

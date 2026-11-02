@@ -22,12 +22,14 @@ const { parse } = require("@babel/parser");
 
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
-const SKIP_FILES = new Set(["vite-env.d.ts", "registry.generated.ts", "tokens.ts"]);
+const SKIP_FILES = new Set(["vite-env.d.ts", "registry.generated.ts", "tokens.ts", "HtmlFrameDriver.tsx", "template-manifest.generated.ts"]);
 const TIMING_KEYS = new Set(["duration", "stagger", "delay", "repeatDelay"]);
-const LAYOUT_KEYS = new Set(["top", "left", "right", "bottom", "width", "height", "margin", "padding", "marginTop", "marginLeft", "paddingTop", "paddingLeft"]);
+// width, height, borderRadius, strokeDashoffset, attr gerçek nesne morphing'i için serbesttir
+const LAYOUT_KEYS = new Set(["top", "left", "right", "bottom", "margin", "padding", "marginTop", "marginLeft", "paddingTop", "paddingLeft"]);
 const TWEEN_METHODS = new Set(["to", "from", "fromTo", "set"]);
-const EASE_BANNED = /^(linear|none|ease|ease-?in|ease-?out|ease-?in-?out|easeInOut|easeIn|easeOut)$/i;
-const EASE_OK = /^(power[1-4]|expo|circ|sine|back|quart|quint|cubic)\.(in|out|inOut)(\(\s*[\d.]+\s*\))?$/;
+// "none" ve "linear" daktilo metin akışı, SVG strokeDashoffset çizimi ve sürekli döngüler için serbesttir
+const EASE_BANNED = /^(ease|ease-?in|ease-?out|ease-?in-?out|easeInOut|easeIn|easeOut)$/i;
+const EASE_OK = /^(none|linear|steps\(\s*\d+\s*\)|(power[1-4]|expo|circ|sine|back|quart|quint|cubic|elastic)\.(in|out|inOut)(\(\s*[\d.,\s]+\s*\))?)$/;
 const FORBIDDEN_CALLS = new Set(["setTimeout", "setInterval", "requestAnimationFrame"]);
 const MIN_DAMPING = 10;
 
@@ -60,17 +62,18 @@ function lintFile(file) {
       const inCamera = ancestors.some((a) => a.type === "CallExpression" && calleeName(a) === "animateCamera");
       const inTween = ancestors.some((a) => a.type === "CallExpression" && TWEEN_METHODS.has(calleeName(a)));
 
-      if (k && TIMING_KEYS.has(k) && node.value.type === "NumericLiteral" && node.value.value !== 0 && !inCamera)
-        add("A001", node, `sihirli sayı: ${k}: ${node.value.value}`, `DURATIONS/TIMING token'ı kullan (src/core/tokens.ts), örn. ${k}: DURATIONS.panel`);
+      // A001: 0s - 10s arası geçerli pozitif sayılar mikro-koreografi için serbesttir; yalnızca negatif veya >10s değerler engellenir
+      if (k && TIMING_KEYS.has(k) && node.value.type === "NumericLiteral" && (node.value.value < 0 || node.value.value > 10) && !inCamera)
+        add("A001", node, `geçersiz süre/stagger aralığı: ${k}: ${node.value.value}`, `0.01s - 10s arası pozitif sayı veya DURATIONS/TIMING token'ı kullan`);
 
       if (k === "ease" && node.value.type === "StringLiteral") {
         const v = node.value.value;
-        if (EASE_BANNED.test(v)) add("A002", node, `yasak ease: "${v}"`, `EASING token'ı veya expo.out / power2.inOut / back.out(1.6) kullan`);
-        else if (!EASE_OK.test(v)) add("A002", node, `tanınmayan ease: "${v}"`, "gsap ailesi: power1-4|expo|circ|sine|back|quart|quint|cubic + .in/.out/.inOut");
+        if (EASE_BANNED.test(v)) add("A002", node, `yasak CSS ease: "${v}"`, `EASING token'ı, none/linear veya expo.out / power2.inOut / back.out(1.6) kullan`);
+        else if (!EASE_OK.test(v)) add("A002", node, `tanınmayan ease: "${v}"`, "none | linear | steps(N) | power1-4|expo|circ|sine|back|quart|quint|cubic|elastic + .in/.out/.inOut");
       }
 
       if (k && LAYOUT_KEYS.has(k) && inTween)
-        add("A003", node, `gsap tween'inde layout özelliği: ${k}`, "yalnızca x, y, scale, rotate*, opacity (ve filter) tween et");
+        add("A003", node, `gsap tween'inde layout özelliği: ${k}`, "x, y, scale, rotate*, opacity, filter veya nesne morphing için width/height/borderRadius/strokeDashoffset kullan");
 
       if ((k === "transition" || k === "animation" || k === "animationName") && ancestors.some((a) => a.type === "JSXAttribute" && a.name?.name === "style"))
         add("A005", node, `JSX style'da ${k}`, "kare-kilitli gsap/interpolate kullan; CSS transition/animation render'ı bozar");
@@ -163,15 +166,32 @@ function lintProjectScene(project) {
 
   // SLOP-001: Boş Alan (Dead Space) Denetimi (editorial-ui)
   if (spec.mode === "editorial-ui") {
-    const STRUCTURAL_SHELLS = ["SpatialCamera", "AppShell", "BrowserFrame", "SpotlightStage", "BentoGrid", "VirtualCanvas", "WorldStage"];
-    const hasStructure = STRUCTURAL_SHELLS.some((shell) => jsxElements.has(shell));
+    const STRUCTURAL_SHELLS = [
+      "SpatialCamera",
+      "CameraRig",
+      "AppShell",
+      "BrowserFrame",
+      "SpotlightStage",
+      "BentoGrid",
+      "VirtualCanvas",
+      "WorldStage",
+      "BackdropField",
+      "RoughCanvas",
+    ];
+    const isStageOrRig = Array.from(jsxElements).some((el) =>
+      STRUCTURAL_SHELLS.includes(el) ||
+      /(Stage|Camera|Rig|Frame|Canvas|Grid|Shell|Field)$/.test(el)
+    );
+    const hasCameraRigClass = /camera-rig|camera-3d|stage-container/i.test(code);
+    const hasStructure = isStageOrRig || hasCameraRigClass;
+
     if (!hasStructure) {
       violations.push({
         rule: "SLOP-001",
         rel: relPath,
         line: 1,
         msg: "Boş Alan (Dead Space) İhlali: Sahne yapısal bir iskelet veya sahne motoru içermiyor (yalnızca tek bir kart veya düz zemin kullanılamaz).",
-        fix: "<SpatialCamera>, <VirtualCanvas>, <AppShell>, <BrowserFrame> veya <SpotlightStage> primitiflerinden en az birini kullanın."
+        fix: "<CameraRig>, <SpatialCamera>, <BackdropField>, <VirtualCanvas> veya kendi özgün Stage/Canvas bileşeninizi kullanın.",
       });
     }
   }

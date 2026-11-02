@@ -1,13 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawn } from "node:child_process";
+import { bundle } from "@remotion/bundler";
+import { renderStill, selectComposition } from "@remotion/renderer";
 import { PNG } from "pngjs";
 import { parseArgs, resolveProject, rel, rootDir, buildCss } from "./lib/projects.mjs";
 
 /**
  * VISION LOOP v3 (Çok Projeli)
  * - Örnekleme projenin spec.json beat'lerinden türetilir.
- * - Kareler Remotion still ile paralel render edilir (yarım çözünürlük 0.5x).
+ * - Kareler tek seferlik derlenen bundle üzerinden hızlıca render edilir.
  * - Çıktı: out/<slug>/visual-audit-grid.png + out/<slug>/vision/manifest.json
  * - Kare-farkı (frame-diff) metriği: beat içinde hareket yoksa hata raporlar.
  *
@@ -25,7 +26,6 @@ const is16by9 = spec.aspect === "16:9";
 const MAX_FRAMES = 16, COLS = 4;
 const TILE_W = is16by9 ? 480 : 270;
 const TILE_H = is16by9 ? 270 : 480;
-const CONCURRENCY = 4;
 const MIN_MOTION = 0.8;
 
 // CSS güncelliğini garanti et
@@ -58,42 +58,23 @@ fs.mkdirSync(framesDir, { recursive: true });
 
 const fileOf = (f) => path.join(framesDir, `f${String(f).padStart(3, "0")}.png`);
 
-const renderOne = (f) =>
-  new Promise((resolve, reject) => {
-    const renderArgs = [
-      "remotion",
-      "still",
-      "src/remotion/index.ts",
-      COMP_ID,
-      fileOf(f),
-      `--frame=${f}`,
-      "--scale=0.5",
-      "--gl=angle",
-    ];
-    const p = spawn("npx", renderArgs, {
-      cwd: rootDir,
-      shell: process.platform === "win32",
-      stdio: "pipe",
-    });
-    let log = "";
-    p.stdout.on("data", (d) => (log += d));
-    p.stderr.on("data", (d) => (log += d));
-    p.on("close", (c) => (c === 0 ? resolve() : reject(new Error(`kare ${f} render hatası:\n${log.slice(-600)}`))));
-  });
+console.log(`\nVISION LOOP v3 [${project.slug}] — ${frames.length} kare, ${spec.beats.length} beat`);
+console.log("Remotion paketi derleniyor (tek seferlik bundle)...");
+const bundleLocation = await bundle({ entryPoint: path.resolve(rootDir, "src/remotion/index.ts") });
+const composition = await selectComposition({ serveUrl: bundleLocation, id: COMP_ID });
 
-console.log(`\nVISION LOOP v3 [${project.slug}] — ${frames.length} kare, ${spec.beats.length} beat, paralellik: ${CONCURRENCY}`);
-
-const queue = [...frames];
 let done = 0;
-await Promise.all(
-  Array.from({ length: CONCURRENCY }, async () => {
-    while (queue.length) {
-      const item = queue.shift();
-      await renderOne(item.frame);
-      process.stdout.write(`\r  render: ${++done}/${frames.length}`);
-    }
-  })
-);
+for (const item of frames) {
+  await renderStill({
+    composition,
+    serveUrl: bundleLocation,
+    output: fileOf(item.frame),
+    frame: item.frame,
+    scale: 0.5,
+    chromiumOptions: { gl: "angle" },
+  });
+  process.stdout.write(`\r  render: ${++done}/${frames.length} (kare ${item.frame})`);
+}
 console.log();
 
 // ---- Izgara Birleştirme & Hareket Analizi ----

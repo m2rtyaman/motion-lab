@@ -1,72 +1,80 @@
 {
-  "$schema": "../../../specs/motion-spec.schema.json",
-  "version": 1,
-  "title": "Institutional Liquidity Terminal Teaser",
-  "mode": "editorial-ui",
-  "aspect": "9:16",
-  "fps": 60,
-  "durationInSeconds": 4,
-  "safeZone": { "top": 250, "bottom": 300 },
-  "narrativeArc": "Metric-Storytelling",
-  "theme": {
-    "surfaceMode": "dark"
-  },
-  "componentStack": [
-    "SpatialCamera",
-    "VirtualCanvas",
-    "MetricCardRow",
-    "ChartCanvas",
-    "KineticHeadline"
-  ],
-  "beats": [
-    {
-      "id": "liquidity-pulse",
-      "startFrame": 0,
-      "endFrame": 59,
-      "intent": "Kurumsal likidite telemetrisi ve KPI metriklerinin dinamik girişi",
-      "action": "telemetry-entry"
-    },
-    {
-      "id": "volume-surge",
-      "startFrame": 60,
-      "endFrame": 154,
-      "intent": "3D izometrik eğimle derinlik ve hacim grafiği patlaması",
-      "action": "chart-surge"
-    },
-    {
-      "id": "settle-resolve",
-      "startFrame": 155,
-      "endFrame": 240,
-      "intent": "Kameranın yerleşmesi ve sub-millisecond uzlaşma onayı",
-      "action": "macro-resolve"
-    }
-  ],
-  "camera": [
-    {
-      "at": 0.05,
-      "duration": 0.65,
-      "ease": "expo.out",
-      "intent": "3D izometrik telemetri açısına giriş"
-    },
-    {
-      "at": 0.95,
-      "duration": 0.65,
-      "ease": "power2.out",
-      "intent": "Hacim spline grafiğine odaklanma"
-    },
-    {
-      "at": 2.3,
-      "duration": 0.65,
-      "ease": "expo.out",
-      "intent": "Geriye yumuşak makro açılma"
-    },
-    {
-      "at": 3.2,
-      "duration": 0.65,
-      "ease": "expo.out",
-      "intent": "Kapanışta düzleme yerleşme"
-    }
-  ],
-  "shakes": [],
-  "sfx": []
+    "$schema":  "../../../specs/motion-spec.schema.json",
+    "version":  1,
+    "title":  "Institutional Liquidity Terminal Teaser",
+    "mode":  "editorial-ui",
+    "aspect":  "9:16",
+    "fps":  60,
+    "durationInSeconds":  4,
+    "safeZone":  {
+                     "top":  250,
+                     "bottom":  300
+                 },
+    "narrativeArc":  "Metric-Storytelling",
+    "theme":  {
+                  "surfaceMode":  "dark"
+              },
+    "componentStack":  [
+                           "SpatialCamera",
+                           "VirtualCanvas",
+                           "MetricCardRow",
+                           "ChartCanvas",
+                           "KineticHeadline"
+                       ],
+    "beats":  [
+                  {
+                      "id":  "liquidity-pulse",
+                      "startFrame":  0,
+                      "endFrame":  59,
+                      "intent":  "Kurumsal likidite telemetrisi ve KPI metriklerinin dinamik girişi",
+                      "action":  "telemetry-entry"
+                  },
+                  {
+                      "id":  "volume-surge",
+                      "startFrame":  60,
+                      "endFrame":  154,
+                      "intent":  "3D izometrik eğimle derinlik ve hacim grafiği patlaması",
+                      "action":  "chart-surge"
+                  },
+                  {
+                      "id":  "settle-resolve",
+                      "startFrame":  155,
+                      "endFrame":  240,
+                      "intent":  "Kameranın yerleşmesi ve sub-millisecond uzlaşma onayı",
+                      "action":  "macro-resolve"
+                  }
+              ],
+    "camera":  [
+                   {
+                       "at":  0.05,
+                       "duration":  0.65,
+                       "ease":  "expo.out",
+                       "intent":  "3D izometrik telemetri açısına giriş"
+                   },
+                   {
+                       "at":  0.95,
+                       "duration":  0.65,
+                       "ease":  "power2.out",
+                       "intent":  "Hacim spline grafiğine odaklanma"
+                   },
+                   {
+                       "at":  2.3,
+                       "duration":  0.65,
+                       "ease":  "expo.out",
+                       "intent":  "Geriye yumuşak makro açılma"
+                   },
+                   {
+                       "at":  3.2,
+                       "duration":  0.65,
+                       "ease":  "expo.out",
+                       "intent":  "Kapanışta düzleme yerleşme"
+                   }
+               ],
+    "shakes":  [
+
+               ],
+    "sfx":  [
+
+            ],
+    "legacy":  true
 }

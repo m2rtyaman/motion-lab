@@ -1,6 +1,7 @@
 # FINTECH TEASER — DIRECTION & CHOREOGRAPHY
 
 ## 1. Konsept & Arketip
+- **Hedef:** Bu videonun tek cümlelik hedefi şu: Kurumsal yatırımcılara sıfır gecikmeli algoritmik likidite büyümesini ve nihai mutabakat gücünü hissettirmek.
 - **Sektör:** Kurumsal Finans & Algoritmik Likidite Yönetimi
 - **Arketip:** `Metric-Storytelling` (Mikro telemetriden devasa hacim büyümesine ve nihai takasa uzanan analitik kurgu)
 - **Tema:** Dark Glass (`DARK_LINEAR_THEME` — Zinc-950, koyu cam speküler yansımalar, zümrüt yeşili likidite vurgusu)

@@ -76,7 +76,7 @@ for (const project of targets) {
 
   // ---- Tema & Görsel Girdi (v5/v6) ----
   if (spec.theme) {
-    const validModes = ["light", "dark", "vibrant-brand", "editorial-warm"];
+    const validModes = ["light", "dark", "vibrant-brand", "editorial-warm", "kinetic-acid", "technical-drafting"];
     if (!validModes.includes(spec.theme.surfaceMode)) {
       err("S015", "theme.surfaceMode", `geçersiz surfaceMode: ${spec.theme.surfaceMode}`, validModes.join(" | "));
     }
@@ -219,6 +219,24 @@ for (const project of targets) {
     }
   });
 
+  // ---- Geçiş sözleşmesi (S070-S074): her beat sınırı bir geçiş taşır ----
+  const TRANSITION_TYPE_RE = /^[a-z0-9][a-z0-9-]*$/;
+  const transitions = Array.isArray(spec.transitions) ? spec.transitions : [];
+  if (spec.legacy !== true && spec.continuousShot !== true && beats.length >= 2) {
+    if (transitions.length !== beats.length - 1)
+      err("S070", "transitions", `${transitions.length} geçiş / ${beats.length - 1} beat sınırı`, "her ardışık beat çifti için spec.transitions girdisi ekle");
+    transitions.forEach((tr, i) => {
+      const w = `transitions[${i}]`;
+      if (typeof tr.type !== "string" || !TRANSITION_TYPE_RE.test(tr.type))
+        err("S071", w, `geçersiz tip formatı: "${tr.type}"`, "kebab-case geçiş adı yazın (örn: whip-pan, mask-wipe, svg-morph, zoom-punch, container-morph)");
+      const next = beats[i + 1];
+      if (next && Number.isFinite(tr.atFrame) && Math.abs(tr.atFrame - next.startFrame) > 45)
+        err("S072", w, `atFrame ${tr.atFrame}, sonraki beat ${next.startFrame}'de başlıyor (>45 kare sapma)`, "geçişi beat sınırına hizala");
+      if (!Number.isFinite(tr.atFrame)) err("S073", w, "atFrame (kare) yok", "atFrame: <sınır kare>");
+    });
+    if (beats.length >= 3 && new Set(transitions.map((t) => t.type)).size < 2)
+      err("S074", "transitions", "3+ beat için tek tip geçiş", "en az 2 farklı geçiş tipi seç");
+  }
   // ---- Spec ↔ Scene.tsx kayma kontrolü ----
   if (fs.existsSync(scenePath)) {
     const code = fs.readFileSync(scenePath, "utf-8");
@@ -256,3 +274,4 @@ if (totalErrors > 0) {
 
 console.log(`\n${GREEN}${BOLD}[TÜM PROJE SPEC'LERİ GEÇERLİ]${RESET}\n`);
 process.exit(0);
+

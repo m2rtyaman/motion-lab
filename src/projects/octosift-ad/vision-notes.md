@@ -1,35 +1,35 @@
 # Vision Notes — octosift-ad (15 kare, out/octosift-ad/vision/manifest.json)
 
 ## 1. GÖRSEL ÖZ-DENETİM VE KARE ANALİZİ
-- **f003 - f077 (map-radar)**:
-  - macOS/Chrome tarzı `<BrowserFrame>` ve Slate-50 zeminli `<AppShell>` içinde İzmir Alsancak vektörel sahil ve sokak haritası (`<InteractiveMap>`) açılıyor.
-  - `#2563EB` Kraliyet Mavisi marka aksanı ve `#10b981` durum yeşili pinler (Varuna Gezgin ★ 4.6, Inn Coffee ★ 4.9) sahil boyunca parlıyor.
-  - `<SimulatedCursor>` sağ alttan Alsancak pinine pürüzsüzce süzülüyor; f40-f77 arasında tıklama dalgası (`.cursor-ripple`) tetikleniyor.
+- **f003 - f046 (radar-discovery)**:
+  - macOS/Chrome tarzı `<BrowserFrame>` ve Slate-50 zeminli `<AppShell>` içinde müşteri tablosu ve KPI kartları açılıyor.
+  - Yeni eklenen `<TemplateFrame>` (`frame-data-rollup`) canlı yay çubukları ve yuvarlanan sayılarla (%94, %88, %76, %64) B2B doğrulama telemetrisini kristal netlikte sergiliyor.
+  - `#2563EB` Kraliyet Mavisi ve `#0f172a` metin hiyerarşisi kusursuz; mikro-font ve neon parlaması yok.
   - Karar: **Onaylandı**.
 
-- **f084 - f157 (lead-drawer)**:
-  - Haritada tıklanan Varuna Gezgin için sağ kenardan `<SlideOverDrawer>` akıcı şekilde açılıyor.
-  - Amber arka planlı "⚡ Web Sitesi ve Reklam Analizi" uyarı kutusu, Fırsat Skoru 65/100 rozeti ve `#Öncelikli`, `#Reklam Fırsatı` tag'leri kusursuz okunaklılıkta.
-  - 3D kamera çekmeceye doğru `applyFocusZoom` ile yaklaşırken imleç "+ Randevu Ekle" butonuna kilitlenip tıklıyor.
+- **f053 - f141 (lead-intel)**:
+  - Tabloda tıklanan Varuna Gezgin satırı vurgulanırken, arka plandaki tablo ve telemetri katmanı zarifçe bulanıklaşıyor (`filter: blur(6px) brightness(0.92)`).
+  - Sağ kenardan `<SlideOverDrawer>` akıcı şekilde açılıyor.
+  - Amber arka planlı "⚡ Web Sitesi ve Reklam Analizi" uyarı kutusu ve Fırsat Skoru rozetleri yüksek kontrastla okunuyor.
+  - 3D kamera çekmeceye doğru `applyFocusZoom` ile yaklaşırken imleç satıra kilitleniyor.
   - Karar: **Onaylandı**.
 
-- **f164 - f237 (appointment-modal)**:
-  - `<CalendarGrid>` arkada zarif bir bulanıklıkla dururken, merkeze `<ModalDialog>` ("Yeni Randevu / Etkinlik Ekle") spring eğrisiyle yerleşiyor.
-  - Müşteri: Inn Coffee, Görüşme Türü: Toplantı/Sunum, Tarih: 28.10.2026, Saat: 09:00 ve "Takvime Kaydet" butonu ekran görüntüsüyle birebir aynı tasarımda canlanıyor.
+- **f148 - f206 (appointment-action)**:
+  - `<CalendarGrid>` arkada bulanık kalırken, merkeze `<ModalDialog>` ("Yeni Randevu / Etkinlik Ekle") spring eğrisiyle yerleşiyor.
+  - Müşteri: Inn Coffee, Tarih: 28.10.2026, Saat: 09:00 ve "Takvime Kaydet" butonu kusursuz ölçekte.
   - Karar: **Onaylandı**.
 
-- **f244 - f307 (pipeline-kanban)**:
-  - Ekran görüntüsündeki "Satış Takip Panosu" (`<KanbanBoard>`) açılıyor.
-  - Toplam Boru Hattı: ₺120.000, Kazanılan: ₺42.000 telemetrisi ve "Yeni Adaylar", "Görüşüldü", "Satış Yapıldı" sütunları temiz beyaz kartlarla sergileniyor.
-  - Fırsat kartı uzamsal hareketle "Satış Yapıldı" sütununa taşınıyor.
+- **f213 - f301 (field-route)**:
+  - İzmir Alsancak vektörel haritası (`<InteractiveMap>`) ve hareketli plasiyer rotası açılıyor.
+  - 5 hedef firma pini ve optimize edilmiş saha rotası yeşil/mavi aksanlarla animasyonlu akıyor.
   - Karar: **Onaylandı**.
 
-- **f314 - f357 (cta-resolve)**:
-  - Kamera `applyIsometricTilt` ile `perspective(1200px)` açısında 2.5D derinliğe geri çekilerek tüm çalışma alanını şık bir perspektifle sergiliyor.
-  - Alt kısımda "Octosift ile B2B Müşterilerinizi Otomatikleştirin • octosift.com" yüksek kontrastlı marka damgası belitiyor.
+- **f308 - f357 (hero-resolve)**:
+  - Kamera `applyIsometricTilt` ile 2.5D derinlikte stüdyo açısına geri çekiliyor.
+  - Koyu cam dokulu `<hero-brand-card>` merkezde açılarak "Octosift ile B2B Satışlarınızı Otomatikleştirin • octosift.com" damgasıyla videoyu kilitliyor.
   - Karar: **Onaylandı**.
 
-## 2. GENEL DEĞERLENDİRME
-- Gerçek `#2563EB` Kraliyet Mavisi ve Slate aydınlık tema ile yapay zeka klişesi (monokrom siyah zemin, rastgele neon) tamamen kırıldı.
-- 8 farklı evrensel primitive (`BrowserFrame`, `AppShell`, `InteractiveMap`, `SlideOverDrawer`, `ModalDialog`, `CalendarGrid`, `KanbanBoard`, `SimulatedCursor`) AST denetiminden %100 geçti.
-- Boş alan (dead space) sıfırlandı; 9:16 dikey mobil yayın oranına tam oturan zengin bir SaaS tanıtım videosu elde edildi.
+## 2. HİBRİT MOTOR & GENEL DEĞERLENDİRME
+- `html-video` motorunun deklaratif şablon mimarisi (`TemplateFrame`, `HtmlFrameDriver`, `DataRollup`) ve `motion-lab`'in `theme-contract.ts`, `SpatialCamera`, `primitives` sistemleri başarıyla birleştirildi.
+- 9:16 dikey mobil yayın oranına tam oturan, 60 FPS deterministik MP4 fiziksel olarak üretildi (`out/octosift-ad/octosift-ad.mp4`).
+- Sıfır tip hatası, %100 yeşil kalite kapısı (spec, AST, slop-linter, critic 10/10, glyph, math tests).

@@ -1,13 +1,17 @@
 // OTOMATİK ÜRETİLDİ: scripts/gen-registry.mjs — elle düzenleme.
 import type { FC } from 'react';
+import { Scene as Scene_batman_noir } from './batman-noir/Scene';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
 import { Scene as Scene_fintech_teaser } from './fintech-teaser/Scene';
 import { Scene as Scene_kinetic_loud_showreel } from './kinetic-loud-showreel/Scene';
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
+import { Scene as Scene_lumen_launch } from './lumen-launch/Scene';
 import { Scene as Scene_my_video } from './my-video/Scene';
 import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
 import { Scene as Scene_octosift_commercial } from './octosift-commercial/Scene';
+import { Scene as Scene_shy_cloud } from './shy-cloud/Scene';
+import { Scene as Scene_whatsapp_campaign } from './whatsapp-campaign/Scene';
 
 export type ProjectAspect = '9:16' | '16:9';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster';
@@ -25,6 +29,17 @@ export interface ProjectEntry {
 }
 
 export const PROJECTS: ProjectEntry[] = [
+  {
+    slug: "batman-noir",
+    title: "Batman: Dark Deco Rooftop Ambush",
+    mode: "cinematic-world",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 480,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_batman_noir,
+  },
   {
     slug: "dwarf-arena",
     title: "Berserker Dwarf Arena",
@@ -81,6 +96,17 @@ export const PROJECTS: ProjectEntry[] = [
     Scene: Scene_kinetic_poster_demo,
   },
   {
+    slug: "lumen-launch",
+    title: "LUMEN LAUNCH",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 840,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_lumen_launch,
+  },
+  {
     slug: "my-video",
     title: "KORTEX COMPUTE",
     mode: "editorial-ui",
@@ -112,5 +138,27 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1920,
     height: 1080,
     Scene: Scene_octosift_commercial,
+  },
+  {
+    slug: "shy-cloud",
+    title: "Shy Cloud",
+    mode: "cinematic-world",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 720,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_shy_cloud,
+  },
+  {
+    slug: "whatsapp-campaign",
+    title: "WhatsApp Multi-Device Continuity & Group Calls",
+    mode: "editorial-ui",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 720,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_whatsapp_campaign,
   },
 ];

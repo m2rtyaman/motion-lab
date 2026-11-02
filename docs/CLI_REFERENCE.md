@@ -6,8 +6,12 @@ Motion Lab provides an autonomous suite of developer tools and static linters.
 
 ## 1. Project Management
 
-### `pnpm new <slug> --mode <mode> [--aspect 9:16 | 16:9] [--duration 6]`
+### `pnpm new <slug> --mode <mode> [--aspect 9:16 | 16:9] [--duration 6] [--theme <surfaceMode>]`
 Scaffolds a new project with its `direction.md`, `spec.json`, and `Scene.tsx`, and updates the dynamic registry.
+
+- `--theme` selects the visual identity: `light` | `dark` | `vibrant-brand` | `editorial-warm` | `kinetic-acid` | `technical-drafting`. Defaults: `editorial-ui` -> `light`, `kinetic-poster` -> `editorial-warm`, `cinematic-world` -> `dark`.
+- `editorial-ui` and `kinetic-poster` scaffolds ship **layered, always-mounted beats**, a real transition at every beat boundary (`spec.transitions`), uneven beat lengths and theme-driven colors. They pass `pnpm check` out of the box; you replace the placeholder copy and compositions.
+- `cinematic-world` scaffolds declare `"continuousShot": true` (single take, camera carries beat changes).
 
 ### `pnpm studio:brief <slug> --topic "<topic>" --goal "<goal>"`
 Generates an Opus 7-part director brief and motion timeline contract for the project.
@@ -39,12 +43,21 @@ The definitive 7-point Pre-Render Quality Gate. Requires 7/7 passing checks befo
 
 ### `pnpm check [--project <slug>]`
 Runs the full static audit suite:
+- `audit:skills`: Verifies all 20 mandatory AI agent skills are active and intact
 - `audit:spec`: Spec continuity and camera gap checks
+- `audit:storyboard`: Shift-left storyboard and motion director rhythm checks
 - `audit:ast`: Babel AST parser detecting illegal layout tweens and banned eases
-- `audit:slop`: Zero neon glow, zero micro-font ($\ge 18\text{px}$) enforcement
-- `audit:critic`: Prompt 10 Director critic scoring engine
+- `audit:motion`: **slideshow detector** - requires a transition at every beat boundary (M001/M004), forbids beat-gated unmounts such as `{isBeat && <X/>}` (M002), requires 2+ distinct transition types for 3+ beats (M003), and warns on missing theme contract (M005/M006). Projects marked `"legacy": true` in `spec.json` get warnings instead of errors.
+- `audit:slop`: Zero neon glow, zero micro-font ($\ge 18\text{px}$) enforcement, and fake DevOps jargon bans
+- `audit:craft`: Motion Studio v5.0 craft & adversarial visual gate
+- `audit:critic`: Dynamic reading time calculation and comparison hold audit
 - `audit:glyph`: UTF-8 and Turkish typography glyph integrity
+- `test:math`: Runs 14 core mathematical unit tests (springs, Bézier, homography, readability, print-grade, audio guard)
+- `test:templates`: Verifies all 23 production templates and bridges
 - `tsc --noEmit`: Strict TypeScript compiler check
+
+### `pnpm render:contact-sheet --project <slug>`
+Extracts keyframes from beat boundaries and generates a 4x4 visual audit grid (`out/<slug>/visual-audit-grid.png`) for adversarial review.
 
 ---
 

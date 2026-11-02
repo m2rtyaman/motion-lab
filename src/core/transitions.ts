@@ -1,4 +1,4 @@
-import { DURATIONS, EASING, MOTION_OFFSET } from './tokens';
+import { DURATIONS, EASING, MOTION_OFFSET } from './tokens.ts';
 
 export type WhipPanDirection = 'left' | 'right' | 'up' | 'down';
 export type MaskWipeType = 'diagonal' | 'horizontal' | 'vertical' | 'iris';
@@ -204,6 +204,10 @@ export const transitionMaskWipe = (
       ease,
     },
     at
+  ).set(
+    incomingSelector,
+    { clipPath: 'none' },
+    at + duration
   );
 
   // Speküler ışık bıçağı süpürmesi

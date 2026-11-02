@@ -4,11 +4,13 @@ description: octosift-commercial stilinde (editorial-ui, 16:9, 60 FPS) yüksek k
 ---
 
 # OCTOSIFT B2B SAAS MOTION GRAPHIC SKILL
+> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+
 
 Bu beceri, **editorial-ui** paradigmasında 16:9 en-boy oranında, broadcast kalitesinde ve $60\text{ FPS}$ hızında profesyonel hareket tasarımı üretmek için geliştirilmiştir.
 
 ## Ne Zaman Kullanılır?
-- Kullanıcı "OCTOSIFT B2B SAAS" tarzında modern, koyu cam veya sinematik bir video istediğinde.
+- Kullanıcı "OCTOSIFT B2B SAAS" tarzında modern B2B SaaS videosu istediğinde (tema bilinçli seçilir: `light` varsayılan öneri, `dark` yalnızca teknik/developer konularında).
 - B2B SaaS, analitik pano, finans veya dijital ürün tanıtımı gerektiğinde.
 
 ## İş Akışı

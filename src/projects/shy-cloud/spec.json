@@ -1,0 +1,109 @@
+{
+    "$schema":  "../../../specs/motion-spec.schema.json",
+    "version":  1,
+    "title":  "Shy Cloud",
+    "mode":  "cinematic-world",
+    "aspect":  "16:9",
+    "fps":  60,
+    "durationInSeconds":  12,
+    "safeZone":  {
+                     "top":  250,
+                     "bottom":  300
+                 },
+    "beats":  [
+                  {
+                      "id":  "intro-float",
+                      "startFrame":  0,
+                      "endFrame":  174,
+                      "intent":  "Küçük sevimli bulutun ekranın solundan huzurlu bir gülümsemeyle ve pohpoh yaylanarak merkeze süzülüşü",
+                      "action":  "run"
+                  },
+                  {
+                      "id":  "sun-peek",
+                      "startFrame":  175,
+                      "endFrame":  359,
+                      "intent":  "Sağ üstten neşeli güneşin kafasını uzatıp göz kırpması, bulutun şaşkınlıkla gözlerinin kocaman açılması",
+                      "action":  "run"
+                  },
+                  {
+                      "id":  "shy-blush",
+                      "startFrame":  360,
+                      "endFrame":  534,
+                      "intent":  "Bulutun yanaklarının toz pembeye dönmesi, utanıp kendi içine doğru büzülerek küçülmesi",
+                      "action":  "run"
+                  },
+                  {
+                      "id":  "cloud-escape",
+                      "startFrame":  535,
+                      "endFrame":  720,
+                      "intent":  "Bulutun arkasını dönüp sol tarafa hızla kaçışı, güneşin hafif kıkırdaması ve sahnenin tatlı bir gün batımı tonunda kararması",
+                      "action":  "run"
+                  }
+              ],
+    "camera":  [
+                   {
+                       "at":  0.05,
+                       "duration":  1.8,
+                       "ease":  "power2.out",
+                       "intent":  "Bulutun gelişini yumuşak pan ile karşılama"
+                   },
+                   {
+                       "at":  3.0,
+                       "duration":  0.75,
+                       "ease":  "back.out(1.6)",
+                       "intent":  "Güneşin doğuşu ve bulutun şaşkınlık reaksiyonuna dinamik yakınlaşma"
+                   },
+                   {
+                       "at":  4.2,
+                       "duration":  1.4,
+                       "ease":  "power2.inOut",
+                       "intent":  "İki karakter arasındaki bakışmayı kadrajlama"
+                   },
+                   {
+                       "at":  6.0,
+                       "duration":  0.85,
+                       "ease":  "expo.out",
+                       "intent":  "Utanan ve büzülen buluta sıcak makro odak"
+                   },
+                   {
+                       "at":  9.0,
+                       "duration":  0.45,
+                       "ease":  "power2.in",
+                       "intent":  "Bulutun kaçış öncesi sıkışma ve hız hazırlığı odağı"
+                   },
+                   {
+                       "at":  9.45,
+                       "duration":  1.1,
+                       "ease":  "expo.out",
+                       "intent":  "Kaçan bulutun arkasından sola pan ve güneşe doğru genişleme"
+                   },
+                   {
+                       "at":  10.8,
+                       "duration":  1.15,
+                       "ease":  "power2.out",
+                       "intent":  "Kararmadan önce gökyüzü kapanış süzülüşü"
+                   }
+               ],
+    "shakes":  [
+
+               ],
+    "sfx":  [
+                {
+                    "frame":  2,
+                    "sfx":  "whoosh-pan"
+                },
+                {
+                    "frame":  180,
+                    "sfx":  "whoosh-pan"
+                },
+                {
+                    "frame":  360,
+                    "sfx":  "ui-lock"
+                },
+                {
+                    "frame":  540,
+                    "sfx":  "whoosh-pan"
+                }
+            ],
+    "legacy":  true
+}

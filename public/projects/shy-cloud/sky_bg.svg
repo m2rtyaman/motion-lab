@@ -1,0 +1,73 @@
+<svg width="2200" height="1240" viewBox="0 0 2200 1240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Soft Morning Sky Gradient -->
+    <linearGradient id="skyGrad" x1="1100" y1="0" x2="1100" y2="1240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#93c5fd" />
+      <stop offset="28%" stop-color="#bae6fd" />
+      <stop offset="55%" stop-color="#fed7aa" />
+      <stop offset="82%" stop-color="#fbcfe8" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+
+    <!-- Distant Mountain Gradient (Far) -->
+    <linearGradient id="mountainFar" x1="1100" y1="650" x2="1100" y2="1150" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#bfdbfe" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#fed7aa" stop-opacity="0.25" />
+    </linearGradient>
+
+    <!-- Distant Mountain Gradient (Near) -->
+    <linearGradient id="mountainNear" x1="1100" y1="720" x2="1100" y2="1240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ddd6fe" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#fbcfe8" stop-opacity="0.4" />
+    </linearGradient>
+
+    <!-- Soft Cloud Gradient 1 -->
+    <linearGradient id="bgCloud1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#e0e7ff" stop-opacity="0.55" />
+    </linearGradient>
+
+    <!-- Soft Cloud Gradient 2 -->
+    <linearGradient id="bgCloud2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#fce7f3" stop-opacity="0.35" />
+    </linearGradient>
+
+    <!-- Gentle Sun Ray Gradient -->
+    <linearGradient id="sunBeamGrad" x1="2200" y1="0" x2="1100" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.22" />
+      <stop offset="60%" stop-color="#fed7aa" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Canvas -->
+  <rect width="2200" height="1240" fill="url(#skyGrad)" />
+
+  <!-- Soft Ambient Sun Beams from Top-Right Corner -->
+  <polygon points="2200,0 2200,320 1200,1240 850,1240" fill="url(#sunBeamGrad)" />
+  <polygon points="2200,0 2000,0 450,1240 750,1240" fill="url(#sunBeamGrad)" opacity="0.6" />
+  <polygon points="2200,100 2200,550 1650,1240 1350,1240" fill="url(#sunBeamGrad)" opacity="0.5" />
+
+  <!-- Distant Background Cloud Layer 1 -->
+  <g fill="url(#bgCloud2)">
+    <!-- Far Cloud Left -->
+    <path d="M120 440 Q180 390 260 410 Q330 360 420 380 Q510 390 560 440 Q580 480 540 520 Q480 540 220 540 Q130 540 100 500 Q90 460 120 440 Z" />
+    <!-- Far Cloud Mid-Right -->
+    <path d="M1320 350 Q1380 290 1480 310 Q1560 270 1660 300 Q1740 310 1780 360 Q1800 410 1750 440 Q1680 460 1420 460 Q1330 460 1300 420 Q1290 380 1320 350 Z" />
+  </g>
+
+  <!-- Far Mountain Silhouette -->
+  <path d="M-100 950 Q250 780 550 840 Q850 900 1150 770 Q1450 660 1780 810 Q2050 740 2300 860 L2300 1240 L-100 1240 Z" fill="url(#mountainFar)" />
+
+  <!-- Near Mountain Silhouette -->
+  <path d="M-100 1020 Q200 890 520 940 Q820 980 1100 890 Q1380 810 1700 920 Q1980 870 2300 970 L2300 1240 L-100 1240 Z" fill="url(#mountainNear)" />
+
+  <!-- Mid Background Floating Clouds Layer 2 -->
+  <g fill="url(#bgCloud1)">
+    <!-- Mid Cloud Low Left -->
+    <path d="M280 680 Q360 610 470 630 Q560 580 670 610 Q770 630 810 700 Q830 750 780 790 Q700 820 380 820 Q280 820 240 770 Q230 720 280 680 Z" />
+    <!-- Mid Cloud Low Right -->
+    <path d="M1520 620 Q1600 550 1720 570 Q1810 520 1930 550 Q2040 570 2090 640 Q2110 700 2050 740 Q1960 770 1620 770 Q1510 770 1470 720 Q1460 660 1520 620 Z" />
+  </g>
+</svg>
