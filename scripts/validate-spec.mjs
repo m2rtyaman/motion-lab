@@ -19,7 +19,7 @@ const args = parseArgs();
 const targets = resolveTargets(args);
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
-const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster"];
+const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster", "creative-motion-reel", "hybrid-orchestrated"];
 const ASPECTS = ["9:16", "16:9"];
 const EASE_OK = /^(power[1-4]|expo|circ|sine|back|quart|quint|cubic)\.(in|out|inOut)(\(\s*[\d.]+\s*\))?$/;
 const EASE_BANNED = /^(linear|none|ease|ease-?in|ease-?out|ease-?in-?out|easeInOut|easeIn|easeOut)$/i;
@@ -125,7 +125,7 @@ for (const project of targets) {
   }
 
   // Anti-Monotonluk / Nefes Alma Eğrisi Kontrolü (Pacing Anti-Monotony Law)
-  if (beats.length >= 3) {
+  if (beats.length >= 3 && spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster") {
     const durations = beats.map((b) => b.endFrame - b.startFrame + 1);
     const minDur = Math.min(...durations);
     const maxDur = Math.max(...durations);
@@ -139,9 +139,44 @@ for (const project of targets) {
     }
   }
 
+  // ---- Hibrit Orkestrasyon Sahneleri (hybrid-orchestrated) ----
+  if (spec.mode === "hybrid-orchestrated") {
+    const scenes = Array.isArray(spec.scenes) ? spec.scenes : [];
+    if (scenes.length < 2) {
+      err("S028", "scenes", "hybrid-orchestrated modunda en az 2 bağımsız sahne arketipi gereklidir", 'scenes: [{ id: "intro", archetype: "bento-editorial", startFrame: 0, endFrame: 150 }, ...]');
+    }
+    const VALID_ARCHETYPES = [
+      "bento-editorial",
+      "kinetic-void",
+      "terminal-mockup",
+      "device-editorial",
+      "specimen-editorial",
+      "papercraft-cutout",
+      "sculptural-reel",
+      "product-promo",
+      "swiss-grid",
+      "data-rollup",
+    ];
+    scenes.forEach((s, idx) => {
+      const sw = `scenes[${idx}]`;
+      if (!s.id || typeof s.id !== "string") err("S029a", sw, "sahne id eksik", "id tanımla");
+      if (!s.archetype || !VALID_ARCHETYPES.includes(s.archetype)) {
+        err("S029b", `${sw}.archetype`, `geçersiz arketip: ${s.archetype}`, VALID_ARCHETYPES.join(" | "));
+      }
+      if (!isInt(s.startFrame) || !isInt(s.endFrame) || s.endFrame <= s.startFrame) {
+        err("S029c", sw, "startFrame ve endFrame tam sayı olmalı ve endFrame > startFrame olmalıdır", "kare numaralarını düzelt");
+      }
+    });
+  }
+
   // ---- Kamera ----
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
-  if (camera.length === 0) err("S030", "camera", "sahne sabit kalamaz; en az 1 kamera hareketi", "camera dizisini doldur");
+  const isSingleContainer =
+    Boolean(spec.transitions && spec.transitions.some((t) => t.type === "container-morph")) ||
+    spec.singleContainer === true;
+  if (camera.length === 0 && spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster" && !isSingleContainer) {
+    err("S030", "camera", "sahne sabit kalamaz; en az 1 kamera hareketi", "camera dizisini doldur");
+  }
   camera.forEach((c, i) => {
     const w = `camera[${i}]`;
     if (!isNum(c.at) || c.at < 0) err("S031", w, "at >= 0 sayı olmalı", "saniye cinsinden başlangıç");
@@ -158,8 +193,8 @@ for (const project of targets) {
     }
   });
 
-  // Kamera boşluğu (sahne donmasın)
-  if (camera.length && isNum(spec.durationInSeconds)) {
+  // Kamera boşluğu (sahne donmasın; kinetik 2D vektör ve tek kap yaşayan bileşen sahnelerinde tuval sabit olabileceği için muaftır)
+  if (camera.length && isNum(spec.durationInSeconds) && spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster" && !isSingleContainer) {
     const spans = [
       ...camera.map((c) => [c.at, c.at + c.duration]),
       ...(Array.isArray(spec.shakes) ? spec.shakes : []).map((s) => [s.at, s.at + s.steps * s.stepDuration]),
@@ -247,12 +282,14 @@ for (const project of targets) {
       }
       if (b.text && !code.includes(b.text)) err("S061", `beats[${b.id}]`, `"${b.text}" ${rel(scenePath)} içinde geçmiyor`, "metni hizala");
     });
-    camera.forEach((c, i) => {
-      const at = String(c.at).replace(".", "\\.");
-      if (!has(new RegExp(`at:\\s*${at}\\b`))) {
-        err("S062", `camera[${i}]`, `${rel(scenePath)} içinde animateCamera at: ${c.at} yok`, "kodu spec'e hizala");
-      }
-    });
+    if (spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster") {
+      camera.forEach((c, i) => {
+        const at = String(c.at).replace(".", "\\.");
+        if (!has(new RegExp(`at:\\s*${at}\\b`))) {
+          err("S062", `camera[${i}]`, `${rel(scenePath)} içinde animateCamera at: ${c.at} yok`, "kodu spec'e hizala");
+        }
+      });
+    }
   }
 
   // ---- Proje Raporu ----

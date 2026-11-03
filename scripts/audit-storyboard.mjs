@@ -95,7 +95,8 @@ for (const project of targets) {
   // [STORY-002] Ritim & Tempo Kontrastı (spec.beats)
   // ---------------------------------------------------------------------------
   const beats = Array.isArray(spec.beats) ? spec.beats : [];
-  if (beats.length >= 3) {
+  const isKineticReel = spec.mode === "creative-motion-reel" || spec.mode === "kinetic-poster";
+  if (beats.length >= 3 && !isKineticReel) {
     const durations = beats.map((b) => (b.endFrame ?? 0) - (b.startFrame ?? 0));
     const avg = durations.reduce((a, b) => a + b, 0) / durations.length;
     const variance = durations.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / durations.length;
@@ -120,12 +121,14 @@ for (const project of targets) {
     const durSec = durFrames / fps;
 
     if (b.text && typeof b.text === "string" && b.text.trim()) {
+      const isKineticBeat = b.kinetic === true || b.isKinetic === true || isKineticReel;
+      const minDuration = isKineticBeat ? 0.12 : 1.15; // Kinetik tipografi hızlı beat kesmeleri için 8-28 kare serbesttir
       // 1.2s kuralı
-      if (durSec < 1.15) {
+      if (durSec < minDuration) {
         addErr(
           "STORY-003",
           `Beat [${b.id}] Metin Okuma Süresi Yetersiz`,
-          `"${b.text}" metni sadece ${durSec.toFixed(2)}s (${durFrames}f) ekranda kalıyor. Minimum 1.2s (72f) gereklidir.`,
+          `"${b.text}" metni sadece ${durSec.toFixed(2)}s (${durFrames}f) ekranda kalıyor. Minimum ${minDuration}s gereklidir.`,
           `Beat süresini en az 72 kareye uzatın veya metni kısaltın.`
         );
       }
@@ -133,7 +136,7 @@ for (const project of targets) {
       // WPM kuralı
       const words = b.text.trim().split(/\s+/).length;
       const wpm = (words / durSec) * 60;
-      if (wpm > 240 && words > 4) {
+      if (wpm > 240 && words > 4 && !isKineticBeat) {
         addWarn(
           "STORY-003",
           `Beat [${b.id}] Bilişsel Yük Yüksek`,
@@ -147,7 +150,7 @@ for (const project of targets) {
   // ---------------------------------------------------------------------------
   // [STORY-004] Tek Kap / Görsel Köprü Denetimi
   // ---------------------------------------------------------------------------
-  if (spec.mode !== "cinematic-world" && beats.length >= 2) {
+  if (spec.mode !== "cinematic-world" && !isKineticReel && beats.length >= 2) {
     const transitions = Array.isArray(spec.transitions) ? spec.transitions : [];
     if (transitions.length === 0 && spec.continuousShot !== true) {
       addErr(
@@ -225,6 +228,42 @@ for (const project of targets) {
         "Düz 2D kutular yerine PHASE 4 ve PHASE 6 içinde LayeredStage3D (translateZ düzlemleri) ve SvgFilterLab (gradyan/gooey filtreler) mimarisini planlayın."
       );
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // [STORY-009] 60-Second Quality Checklist (SAAS Workflow Guide Gate)
+  // ---------------------------------------------------------------------------
+  // 1. SEQUENCE & 8. ENDING CHECK
+  if (beats.length > 0) {
+    const finalBeat = beats[beats.length - 1];
+    const finalDuration = finalBeat.endFrame - finalBeat.startFrame;
+    if (finalDuration < 60 && !legacy) {
+      addWarn(
+        "STORY-009",
+        "Yetersiz Kapanış Süresi (Ending Hold < 1.0s)",
+        `Son beat (${finalBeat.id}) yalnızca ${finalDuration} kare (${(finalDuration / 60).toFixed(2)}s) sürüyor. İzleyici CTA/logoyu okuyamaz.`,
+        "Final marka / CTA / URL sahnesini en az 72 kare (1.2s) ekranda tutun."
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // [STORY-010] Master Storyboard Standardı (5 Evrensel Yasa & 3 Katmanlı Derinlik)
+  // ---------------------------------------------------------------------------
+  const has3Layers =
+    /3 Katman|3-Layer|Üç Katman|Hayalet Kontur|Ghost.*Layer|Zemin.*Ön Plan/i.test(directionText) ||
+    /LayeredStage3D|LayerPlane/i.test(directionText);
+  const hasHeroContinuity =
+    /TheHeroActor|Hero.*Actor|Kahraman.*Aktör|Tek.*Kap|Single.*Container/i.test(directionText) ||
+    spec.continuousShot === true;
+
+  if (!legacy && (!has3Layers || !hasHeroContinuity)) {
+    addWarn(
+      "STORY-010",
+      "Master Storyboard 5 Yasa Eksikliği",
+      `direction.md içinde 3 Katmanlı Derinlik Mimarisi (Zemin -> Hayalet Kontur -> Ön Plan) veya TheHeroActor yaşam döngüsü eksik.`,
+      "direction.md dosyasına 3 Katmanlı Derinlik ve TheHeroActor süreklilik planını ekleyin (bkz: references/MASTER_STORYBOARD_RULES.md)."
+    );
   }
 
   // ---------------------------------------------------------------------------

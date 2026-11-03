@@ -11,6 +11,18 @@ Bu repo bir "slayt gösterisi" veya statik arayüz kaydedicisi değildir; **kesi
 
 ---
 
+## 0.5. MASTER STORYBOARD VE KURGU ANAYASASI (THE 5 UNIVERSAL LAWS)
+> **Detaylı Kılavuz:** `references/MASTER_STORYBOARD_RULES.md` & `master_storyboard_synthesis_report.md`
+
+Her proje (`src/projects/<slug>/`) storyboard aşamasında istisnasız şu 5 evrensel kurala uymak zorundadır:
+1. **Sıfır Geleneksel Kesme (Continuous Kinetic Handoff):** Sahneler arası PowerPoint tarzı crossfade yasaktır. 0. kareden son kareye yaşayan tek bir kahraman nesne (`TheHeroActor`) form değiştirerek sahneyi taşır.
+2. **1.0 – 1.5s Mikro-Beat Nabzı & 1.2s Stillness Hold:** Görsel aksiyon her 60–90 karede bir yön/derinlik değiştirir; finalde mesajın okunması için en az 1.2s (72 kare) mutlak duraklama verilir.
+3. **Üç Katmanlı Derinlik Sistemi (3-Layer Depth):** Düz 2D tasarım yerine Arka Plan (atmosferik matris) $\to$ İkincil Derinlik (hayalet kontur, trailing lag) $\to$ Kahraman Ön Plan (kristal tipografi, altın/nane solid) katmanlaması uygulanır.
+4. **Mekan ve Işık Kontrastı:** Koyu analitik editör ile sıcak davetkar çalışma alanı arasında dramatik geçiş kurgulanır.
+5. **Üç Girdinin Görev Ayrımı (3 Jobs Rule):** Script (*Neyi/Niçin*), Storyboard (*Nasıl görünüyor*), Motion Reference (*Nasıl hareket ediyor*) olarak birbirinden ayrılır.
+
+---
+
 ## 1. Üç Soruluk Kapı (Kod Yazmadan Önce Zorunlu Doğrulama)
 1. **Gözüm şimdi tam olarak nereye odaklanıyor?**
    - Ekranda aynı anda iki ana hareket yarışamaz. Odak, beat sınırında *hareket ivmesi ve yönsel transferle* yeni nesneye devredilir; ani kesmeyle (hard cut) bırakılmaz.

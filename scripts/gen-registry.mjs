@@ -51,7 +51,7 @@ import type { FC } from 'react';
 ${entries.map((e) => `import { Scene as Scene_${e.ident} } from './${e.slug}/Scene';`).join("\n")}
 
 export type ProjectAspect = '9:16' | '16:9';
-export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster';
+export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster' | 'creative-motion-reel' | 'hybrid-orchestrated';
 
 export interface ProjectEntry {
   slug: string;

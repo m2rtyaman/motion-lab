@@ -29,6 +29,9 @@ Sen Motion-Lab stüdyosunun Baş Yönetmenisin. Kullanıcıdan gelen istemi, sek
 5. **`metric-storytelling` (Veri & Fintech Anlatısı):**
    - *Kullanım:* Finansal raporlar, ödeme altyapıları, telemetri panoları.
    - *Yapı:* Tekil veri noktası → Büyüyen grafikler, akış şemaları ve canlı sayaçlar.
+6. **`hybrid-orchestrated` (Çoklu-Arketip Hibrit Kurgu):**
+   - *Kullanım:* Tek bir şablona sıkışmayan, analitik güç (Bento) + saf hız (Kinetik Tipografi) + geliştirici gerçekliği (Terminal) gerektiren premium lansmanlar.
+   - *Yapı:* `TheHeroActor` ve `ContainerMorphBridge` ile form ve ivme aktaran kesintisiz tek yaşayan tuval. Bkz: `references/HYBRID_ORCHESTRATION_GUIDE.md`.
 
 ---
 

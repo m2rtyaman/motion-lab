@@ -153,3 +153,28 @@ export function applySample0Guard(
   }
   buffer[0] = 0;
 }
+
+/**
+ * Deterministik 60 FPS Dalga Boyu Hesaplayıcı (Waveform Bar Height)
+ * Kaynak: Dark Red Audio & Gemini Omni Reference Paradigm
+ */
+export function computeEqualizerBarHeight(
+  index: number,
+  totalBars: number,
+  frame: number,
+  maxHeight: number = 80
+): number {
+  const normX = index / Math.max(1, totalBars - 1);
+  // Merkez penceresi (Gaussian-benzeri tepe zili)
+  const bellEnvelope = Math.sin(normX * Math.PI);
+
+  // Üçlü harmonik süperpozisyon (asla rastgele değil, frame-deterministik)
+  const h1 = Math.sin(frame * 0.16 + index * 0.38);
+  const h2 = Math.cos(frame * 0.09 - index * 0.22);
+  const h3 = Math.sin(frame * 0.24 + index * 0.75) * 0.5;
+  const rawAmp = Math.abs(h1 * 0.5 + h2 * 0.35 + h3 * 0.15);
+
+  const minHeight = 6;
+  const computed = minHeight + rawAmp * bellEnvelope * (maxHeight - minHeight);
+  return Math.max(minHeight, Math.min(maxHeight, computed));
+}

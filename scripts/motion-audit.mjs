@@ -20,12 +20,19 @@ const require = createRequire(import.meta.url);
 const { parse } = require("@babel/parser");
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
-const TRANSITION_FNS = ["transitionWhipPan", "transitionMaskWipe", "transitionZoomPunch", "transitionContainerMorph"];
+const TRANSITION_FNS = [
+  "transitionWhipPan",
+  "transitionMaskWipe",
+  "transitionZoomPunch",
+  "transitionContainerMorph",
+  "transitionElementTakeover",
+  "transitionCameraDive",
+];
 const isTransitionFn = (name) =>
   typeof name === "string" &&
   (/^transition[A-Z]\w*/.test(name) ||
     TRANSITION_FNS.includes(name) ||
-    /Morph|Wipe|Pan|Punch|Sweep|Dissolve/.test(name));
+    /Morph|Wipe|Pan|Punch|Sweep|Dissolve|Takeover|Dive/.test(name));
 const BEAT_GATE = /(^|\.)(is[A-Z]\w*|beat\w*|\w*Beat\w*|currentBeat|activeBeat)\b|\bframe\b\s*[<>]=?/;
 
 const args = parseArgs();
@@ -79,28 +86,36 @@ function auditProject(t) {
     }
   });
 
-  if (beats >= 2 && used.size === 0)
+  const isKineticReel = spec.mode === "creative-motion-reel" || spec.mode === "kinetic-poster";
+
+  if (beats >= 2 && used.size === 0 && !isKineticReel)
     add("M001", 1, `${beats} beat var ama hiç transition çağrısı yok (sert kesme).`, "src/core/transitions.ts: transitionWhipPan / MaskWipe / ZoomPunch / ContainerMorph kullan.");
 
   for (const g of gatedMounts)
     add("M002", g.line, `Beat'e bağlı unmount: \`${g.left.slice(0, 40)} && <…/>\` sahneyi kesiyor.`, "Beat'leri daima mount et; görünürlüğü GSAP opacity/transform/clip-path ile geçiş penceresinde sür.");
 
-  if (beats >= 3 && used.size === 1)
+  if (beats >= 3 && used.size === 1 && !isKineticReel)
     add("M003", [...calls][0], `${beats} beat için tek tip geçiş (${[...used][0]}).`, "En az 2 farklı geçiş tipi kullan (whip-pan + mask-wipe + zoom-punch + morph).");
 
-  if (beats >= 2 && used.size > 0 && calls.length < beats - 1)
+  if (beats >= 2 && used.size > 0 && calls.length < beats - 1 && !isKineticReel)
     add("M004", calls[0], `${calls.length} geçiş / ${beats - 1} beat sınırı: bazı sınırlar çıplak.`, "Her beat sınırına bir geçiş ata.");
 
   if (!spec.theme?.surfaceMode)
-    add("M005", 1, "spec.theme.surfaceMode tanımsız.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm" }', false);
+    add("M005", 1, "spec.theme.surfaceMode tanımsız.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm|kinetic-acid" }', false);
 
   const darkHex = (code.match(/#0[0-9a-fA-F]{5}\b/g) ?? []).length;
+  const lightHex = (code.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
     code.includes("beatPalettes") ||
     code.includes("WHATSAPP_COLOR_BLOCK_THEME") ||
+    code.includes("COLOR_BLOCK") ||
+    code.includes("colorBlock") ||
+    (darkHex >= 1 && lightHex >= 1) ||
+    isKineticReel ||
     (code.includes("#00A884") && (code.includes("#F5F2EF") || code.includes("#F0F2F5")));
+  const isHybrid = spec.mode === "hybrid-orchestrated";
   if (beats >= 3 && darkHex >= 4 && !/(THEME|theme)/.test(code) && !hasColorBlocking)
-    add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "src/core/theme-contract.ts presetlerinden (WHATSAPP_COLOR_BLOCK_THEME, LIGHT_SAAS_THEME, …) ve beatPalettes kontrast renk bloklarından yararlan.", false);
+    add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "Sahneler arasında açık/koyu yüzey kontrastı (Color Blocking) veya tam ekran renk geçişi uygulayın.", isHybrid);
 
   // M007: Büyük darbe öncesi öngörülü durgunluk kontrolü (Anticipatory Stillness 300-500ms)
   const hasShake = (spec.shakes && spec.shakes.length > 0) || code.includes("impactShake");
@@ -129,6 +144,26 @@ function auditProject(t) {
   const hasStagger = code.includes("stagger") || code.includes("depthStaggerReveal") || code.includes("TIMING.itemStagger");
   if (hasMultiItems && !hasStagger && beats >= 2) {
     add("M009", 1, "Çoklu kart/liste elemanları eşzamanlı blok olarak hareket ediyor.", "Disney follow-through gereği elemanları TIMING.itemStagger ile basamaklandırın.", false);
+  }
+
+  // M010: Ölçek Kontrastı ve Pul Boyutunda Sabit Kutu Yasağı (Anti-Postage-Stamp Scale Contrast Law)
+  if (spec.mode === "hybrid-orchestrated") {
+    const scaleMatches = [...code.matchAll(/\bscale\s*:\s*([0-9.]+)/g)].map((m) => parseFloat(m[1]));
+    const maxScale = scaleMatches.length ? Math.max(...scaleMatches) : 1.0;
+    const hasDramaticScale =
+      maxScale >= 1.4 ||
+      code.includes("SCALE_CONTRAST") ||
+      code.includes("transitionElementTakeover") ||
+      code.includes("transitionCameraDive");
+    if (!hasDramaticScale) {
+      add(
+        "M010",
+        1,
+        `Sabit Kutu / Korkak Ölçek Sendromu (Postage-Stamp Slop): Maksimum ölçek değişimi ${maxScale}x (< 1.4x). Bileşenler hep aynı boyutta duruyor.`,
+        "Sahneler arasında gerçek büyüme/küçülme için transitionElementTakeover, transitionCameraDive veya SCALE_CONTRAST (macroCloseUp >= 1.8x) kullanın.",
+        true
+      );
+    }
   }
 }
 

@@ -13,7 +13,13 @@ Sen Apple Keynote, Linear ve After Effects standartlarında prodüksiyon kalites
 
 ---
 
-## 2. Kurgu ve Hikaye Anlatımı (5 Kurgu Arketipi)
+## 2. Kurgu ve Hikaye Anlatımı (5 Kurgu Arketipi & 5-Phase Funnel)
+> **Master Kılavuz:** `references/MASTER_STORYBOARD_RULES.md` uyarınca her kurgu 3 girdiyi ayrıştırır: **Script** (Neyi/Niçin), **Storyboard** (Görünüm & 3 Katmanlı Derinlik), **Motion Reference** (Yay & İvme Fiziği).
+
+### Standart 5 Aşamalı Storyboard Hunisi:
+`[Kanca (Hook: 0-1.5s)] ➔ [Tanıtım (Introduce: 1.5-3.5s)] ➔ [Kanıt (Demonstrate: 3.5-6.5s)] ➔ [Getiri (Payoff: 6.5-8.5s)] ➔ [Çağrı (CTA: 8.5-10s+)]`
+
+### Kurgu Tipleri:
 1. **Product-Flow-Tour:** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası).
 2. **Problem-Agitation-Solution (PAS):** Eski/Kaotik yöntem → Whip-pan/Morph kırılma anı → Ürünle gelen modern çözüm ve hız.
 3. **Kinetic-Manifesto:** %80 dev tipografi ve geometrik formlar, %20 ürün/marka. Yüksek kontrast ve staccato ritim.
@@ -22,12 +28,13 @@ Sen Apple Keynote, Linear ve After Effects standartlarında prodüksiyon kalites
 
 ---
 
-## 3. Ritim ve Tempo Kanunları (Pacing Laws)
-- **Anti-Monotonluk:** Tüm beat süreleri eşit olamaz ($\sigma(\text{durations}) > 18\text{ frame}$).
-- **Vuruş (Staccato - 35-55 frame):** Hızlı girişler, vurucu başlıklar.
+## 3. Ritim ve Tempo Kanunları (Pacing Laws & 1.0–1.5s Mikro-Beat)
+- **1.0–1.5s Mikro-Beat Nabzı:** Her 60–90 karede bir görsel/fiziksel odak yenilenir. Monoton eşit beat'ler yasaktır ($\sigma(\text{durations}) > 14\text{ frame}$).
+- **1.2s Minimum Kapanış Duraklaması (Stillness Hold):** Finaldeki logo/CTA sahnesi en az 72 kare (1.2 saniye) ekranda net ve sabit kalmalıdır.
+- **Vuruş (Staccato - 35-55 frame):** Hızlı girişler, vurucu ara başlıklar.
 - **Odak (Focus/Hold - 75-110 frame):** Tablo satırı, uyarı kutusu veya grafik okunurken kamera sakin kalır (rock-steady hold). Anlamsız kamera sallantısı yerine içerik/veri animasyonu konuşur.
 - **Mikro-Duraksama:** Buton tıklaması (6f) → Yay fiziğiyle açılış (14-18f) → Okuma süresi (40+f).
-- **Tekil Odak:** Aynı anda birden fazla karmaşık hareket gerçekleşemez.
+- **Tekil Odak & TheHeroActor:** Sahneler arası geçişte tek bir ana aktör yaşatılır; ekran karararak yeni sahneye geçilmez.
 
 ---
 

@@ -58,6 +58,27 @@ const FORBIDDEN_EMOJIS = [
     name: "Ucuz Sistem Emojisi Yasağı: Sahne içinde sistem emojisi (💬, 👥, 📞, 📢, 🎙️, ⚡, 🚀, 💻, 🎨, 🔒, ✅, ⚠️ vb.) kullanılamaz; çok parçalı <svg>, <path>, <circle>, <rect> vektör çizimi kullanın",
   },
 ];
+// Kural 7b: Yasak Açıklayıcı Meta-Metin ("kinetik geometri", "uluslararası tipografik stil", "kesintisiz form sürekliliği", vb.)
+const FORBIDDEN_META_TEXT = [
+  { pattern: /kinetik\s+geometri/i, name: "Yasak Açıklayıcı Meta-Metin: 'kinetik geometri' gibi sahneyi anlatan süs meta-ifadeleri yasaktır (Brief veya ürün içeriği kullanılmalıdır)" },
+  { pattern: /uluslararas[ıi]\s+tipografik\s+stil/i, name: "Yasak Açıklayıcı Meta-Metin: 'uluslararası tipografik stil' süs jargonu tespit edildi" },
+  { pattern: /kesintisiz\s+form\s+s[üu]reklili[ğg]i/i, name: "Yasak Açıklayıcı Meta-Metin: 'kesintisiz form sürekliliği' süs jargonu tespit edildi" },
+  { pattern: /motion\s+tasar[ıi]m\s+manifestosu/i, name: "Yasak Açıklayıcı Meta-Metin: 'motion tasarım manifestosu' tespit edildi" },
+  { pattern: /parametrik\s+e[ğg]riler/i, name: "Yasak Açıklayıcı Meta-Metin: 'parametrik eğriler' tespit edildi" },
+  { pattern: /generatif\s+sistemler/i, name: "Yasak Açıklayıcı Meta-Metin: 'generatif sistemler' tespit edildi" },
+  { pattern: /derinlik\s+ve\s+perspektif/i, name: "Yasak Açıklayıcı Meta-Metin: 'derinlik ve perspektif' tespit edildi" },
+  { pattern: /opus\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'OPUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /single\s+living\s+container/i, name: "Yasak Meta-Slogan: 'SINGLE LIVING CONTAINER' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /60\s*fps\s+deterministic/i, name: "Yasak Meta-Slogan: '60 FPS DETERMINISTIC' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /b-roll\s+engine/i, name: "Yasak Meta-Slogan: 'B-ROLL ENGINE' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /no\s+slide\s+cuts/i, name: "Yasak Meta-Slogan: 'NO SLIDE CUTS' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /one\s+living\s+morph\s+container/i, name: "Yasak Meta-Slogan: 'ONE LIVING MORPH CONTAINER' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /opus\s+5\.5\s+suite/i, name: "Yasak Meta-Slogan: 'OPUS 5.5 SUITE' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /autonomous\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'AUTONOMOUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /autonomous\s+multi-archetype/i, name: "Yasak Meta-Slogan: 'Autonomous Multi-Archetype' süs jargonu yasaktır" },
+  { pattern: /quantum\s+execution\s+runtime/i, name: "Yasak AI-Slop Jargonu: 'Quantum Execution Runtime' uydurma siber jargonu yasaktır (gerçek ürün metni kullanın)" },
+  { pattern: /enclave-lon1-v4/i, name: "Yasak Sabit Slop Metni: 'enclave-lon1-v4' sahte telemetri dolgusu yasaktır" },
+];
 
 const violations = [];
 
@@ -82,8 +103,10 @@ function lintStyle(file, worldMode, isLegacy = false) {
     for (const { pattern, name } of FORBIDDEN_MICRO_FONTS) if (pattern.test(line)) add(lineNum, "Broadcast Ölçek İhlali (Mikro-Font Yasağı)", name, trimmed);
     if (worldMode)
       for (const { pattern, name } of FORBIDDEN_WORLD_HUD) if (pattern.test(line)) add(lineNum, "Cinematic-World Saflık İhlali (HUD/Badge Yasağı)", name, trimmed);
-    if (!isLegacy)
+    if (!isLegacy) {
       for (const { pattern, name } of FORBIDDEN_EMOJIS) if (pattern.test(line)) add(lineNum, "Sistem Emojisi İhlali (SVG Vektör Zorunluluğu)", name, trimmed);
+      for (const { pattern, name } of FORBIDDEN_META_TEXT) if (pattern.test(line)) add(lineNum, "Yasak Açıklayıcı Meta-Metin / Süs Sloganı Yasağı", name, trimmed);
+    }
   });
 }
 
@@ -104,11 +127,37 @@ function lintProjectArchitecture(t, spec) {
     const usesTransitions = /transition(WhipPan|MaskWipe|ZoomPunch|ContainerMorph)/.test(content);
     if (!usesSpatial && !usesSpotlight && !usesTransitions)
       add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpatialCamera' veya 'SpotlightStage + CameraRig' veya akıcı Geçiş Motorunu (transitions) kullanmak zorundadır.", "Missing <SpatialCamera>, <SpotlightStage>, or transitions");
-  } else if (mode === "kinetic-poster") {
+  } else if (mode === "kinetic-poster" || mode === "creative-motion-reel") {
     if (!content.includes("useRemotionGSAP"))
-      add("Kinetic-Poster Motor İhlali", "Kinetik poster sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
+      add("Kinetic-Poster Motor İhlali", "Kinetik poster ve creative reel sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
+  } else if (mode === "hybrid-orchestrated") {
+    const hasHeroContinuity =
+      content.includes("TheHeroActor") ||
+      content.includes("the-hero-actor") ||
+      content.includes("#the-morph-container") ||
+      content.includes("ContainerMorphBridge") ||
+      content.includes("transitionElementTakeover") ||
+      content.includes("transitionCameraDive");
+    if (!hasHeroContinuity)
+      add("Hybrid-Orchestrated Motor İhlali", "Hibrit orkestrasyon sahneleri 'TheHeroActor', 'ContainerMorphBridge', 'transitionElementTakeover' veya 'transitionCameraDive' ile kesintisiz devir teslim kullanmak zorundadır.", "Missing <TheHeroActor> or component-driven transition");
+    if (!content.includes("useRemotionGSAP"))
+      add("Hybrid-Orchestrated Motor İhlali", "Hibrit sahneler animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
   }
+  const isHybrid = mode === "hybrid-orchestrated";
+  const isKineticReel = mode === "kinetic-poster" || mode === "creative-motion-reel";
+  const isSingleContainer =
+    isHybrid ||
+    content.includes("#the-hero-actor") ||
+    content.includes("the-hero-actor") ||
+    content.includes("TheHeroActor") ||
+    content.includes("#the-morph-container") ||
+    content.includes("the-morph-container") ||
+    content.includes("SingleContainer") ||
+    (spec.transitions && spec.transitions.some((t) => t.type === "container-morph")) ||
+    spec.singleContainer === true;
   const hasCameraChoreography =
+    isKineticReel ||
+    isSingleContainer ||
     content.includes("animateCamera") ||
     content.includes("applyIsometricTilt") ||
     content.includes("applyFocusZoom") ||
@@ -118,7 +167,7 @@ function lintProjectArchitecture(t, spec) {
     add("Sinematik Kamera İhlali", "Sahne sabit kalamaz; kamera hareketi ('animateCamera' veya 'applyIsometricTilt/FocusZoom') tanımlanmalıdır.", "Missing camera choreography call");
 
   // Kural 8: "Sabit Başlık + Ortada Kutu + Sabit Footer" (3'lü Sandviç / Slayt Başlığı Şablonu) Yasağı
-  if (!isLegacy) {
+  if (!isLegacy && !isKineticReel) {
     const headerCount = (content.match(/<header\b/g) || []).length;
     const footerCount = (content.match(/<footer\b/g) || []).length;
     const topBlockCount = (content.match(/top-\[\d+px\]\s+left-\[\d+px\]\s+right-\[\d+px\]/g) || []).length;

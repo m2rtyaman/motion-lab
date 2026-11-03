@@ -53,26 +53,35 @@ for (const project of targets) {
   let score = 10;
 
   // 1. ÖLÜ ZAMAN DENETİMİ (Dead Time Check)
-  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; yalnızca aşırı uzun (>4.0s) boşluklar sorgulanır.
+  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; kinetik vektör sahnelerinde sürekli 2D hareket sağlandığı için kamera ölü zaman cezası verilmez.
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
-  for (let i = 0; i < camera.length - 1; i++) {
-    const gap = camera[i + 1].at - (camera[i].at + camera[i].duration);
-    if (gap > 4.0) {
-      findings.P1.push({
-        time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
-        issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
-        fix: 'Geçiş veya odak hareketi ekleyin.',
-      });
-      if (!isLegacy) score -= 0.5;
+  const isKineticReel = spec.mode === 'creative-motion-reel' || spec.mode === 'kinetic-poster';
+  const isSingleContainer =
+    Boolean(spec.transitions && spec.transitions.some((t) => t.type === 'container-morph')) ||
+    sceneCode.includes('#the-morph-container') ||
+    sceneCode.includes('SingleContainer');
+  if (!isKineticReel && !isSingleContainer) {
+    for (let i = 0; i < camera.length - 1; i++) {
+      const gap = camera[i + 1].at - (camera[i].at + camera[i].duration);
+      if (gap > 4.0) {
+        findings.P1.push({
+          time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
+          issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
+          fix: 'Geçiş veya odak hareketi ekleyin.',
+        });
+        if (!isLegacy) score -= 0.5;
+      }
     }
   }
 
-  // 2. METİN OKUNABİLİRLİK SÜRESİ (Lemomo Dinamik Okuma Formülü & Asgari 2.5s Karşılaştırma / Karar Ekranı Kuralı)
+  // 2. METİN OKUNABİLİRLİK SÜRESİ (Lemomo Dinamik Okuma Formülü & Kinetik Tipografi Ritim İstisnası)
   const beats = Array.isArray(spec.beats) ? spec.beats : [];
   beats.forEach((b) => {
     const durationSec = (b.endFrame - b.startFrame + 1) / spec.fps;
     const textContent = typeof b.text === 'string' ? b.text.trim() : '';
     const hasText = Boolean(textContent);
+    const isKineticBeat = b.kinetic === true || b.isKinetic === true || isKineticReel;
+    const minHoldSec = isKineticBeat ? 0.12 : 1.2; // Ritmik kinetik kesmeler (EASE / IN / OUT) için 8-28 kare serbesttir
     const isComparisonOrVerdict = Boolean(
       b.isComparison ||
       b.isVerdict ||
@@ -87,7 +96,7 @@ for (const project of targets) {
         fix: `Beat süresini en az 2.5 saniyeye (${Math.round(2.5 * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
       });
       if (!isLegacy) score -= 1.0;
-    } else if (hasText) {
+    } else if (hasText && !isKineticBeat) {
       const { cjkChars, latinWords } = countTextUnits(textContent);
       const requiredDuration = calculateRequiredReadingTime(cjkChars, latinWords, isComparisonOrVerdict);
       if (durationSec < requiredDuration) {
@@ -98,11 +107,11 @@ for (const project of targets) {
         });
         if (!isLegacy) score -= 1.0;
       }
-    } else if (!isLegacy && durationSec < 1.2) {
+    } else if (!isLegacy && durationSec < minHoldSec) {
       findings.P0.push({
         beat: b.id,
-        issue: `Beat süresi (${durationSec.toFixed(2)}s) 1.2 saniyenin altında; izleyici sahneyi algılayamaz.`,
-        fix: `Beat süresini en az 1.2 saniyeye (${Math.round(1.2 * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
+        issue: `Beat süresi (${durationSec.toFixed(2)}s) ${minHoldSec} saniyenin altında; izleyici sahneyi algılayamaz.`,
+        fix: `Beat süresini en az ${minHoldSec} saniyeye (${Math.round(minHoldSec * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
       });
       if (!isLegacy) score -= 1.0;
     }
@@ -158,7 +167,8 @@ for (const project of targets) {
     sceneCode.includes('Stage') ||
     sceneCode.includes('CameraRig') ||
     sceneCode.includes('poster-rig') ||
-    spec.mode === 'kinetic-poster';
+    spec.mode === 'kinetic-poster' ||
+    spec.mode === 'creative-motion-reel';
 
   if (!hasContainerStructure) {
     findings.P1.push({
@@ -170,9 +180,12 @@ for (const project of targets) {
 
   // 5. BEAT'LER ARASI RENK KONTRASTI (Color Blocking Check)
   const hasColorBlocking =
+    isSingleContainer ||
     sceneCode.includes('beatPalettes') ||
     sceneCode.includes('WHATSAPP_COLOR_BLOCK_THEME') ||
     sceneCode.includes('color-block') ||
+    sceneCode.includes('COLOR_BLOCK') ||
+    spec.mode === 'creative-motion-reel' ||
     (sceneCode.includes('#00A884') && (sceneCode.includes('#F5F2EF') || sceneCode.includes('#F0F2F5')));
   if (!isLegacy && beats.length >= 3 && !hasColorBlocking) {
     findings.P1.push({

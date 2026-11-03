@@ -34,7 +34,7 @@ const themeArg = getArg("--theme", null);
 const title = getArg("--title", slug ? slug.replace(/-/g, " ").toUpperCase() : "Yeni Sahne");
 
 const THEMES = ["light", "dark", "vibrant-brand", "editorial-warm", "kinetic-acid", "technical-drafting"];
-const DEFAULT_THEME = { "editorial-ui": "light", "kinetic-poster": "editorial-warm", "cinematic-world": "dark" };
+const DEFAULT_THEME = { "editorial-ui": "light", "kinetic-poster": "editorial-warm", "cinematic-world": "dark", "creative-motion-reel": "dark", "hybrid-orchestrated": "dark" };
 const TRANSITION_CYCLE = [
   { type: "whip-pan", fn: "transitionWhipPan" },
   { type: "mask-wipe", fn: "transitionMaskWipe" },
@@ -82,9 +82,20 @@ ${title} sahnesi ile izleyiciye net, dinamik ve akıcı bir görsel deneyim sunm
 ## Paradigm
 ${mode}
 
-## Concept
-${title} sahnesi için görsel anlatı konsepti.
-Bu bölümde sahnenin amacı, mesaj hiyerarşisi ve ana odak elemanları tanımlanır.
+## 3 Girdi Görev Ayrımı (The 3-Input Rule)
+> Referans: references/MASTER_STORYBOARD_RULES.md
+- **Script (Senaryo - Neyi/Niçin):** Sahnenin temel mesajı, problem-çözüm kurgusu ve değer önerisi.
+- **Storyboard (Görsel Kurgu - Nasıl Görünüyor):** 3 katmanlı derinlik kompozisyonu, ışık açıları ve Hardware Shell pencere çapalaması.
+- **Motion Reference (Hareket Dinamiği - Nasıl Hareket Ediyor):** Yay ve sönümlenme eğrileri, kavisli Bézier yolları ve kesintisiz kinetik devir teslim zinciri.
+
+## 3 Katmanlı Derinlik Mimarisi (3-Layer Depth System)
+- **Katman 1 (Zemin):** Atmosferik koyu mat zemin / difüze radyal degrade / 1px kılcal kılavuz ızgarası.
+- **Katman 2 (İkincil Derinlik & İz):** Ön plandaki nesnenin arkasından gelen hayalet kontur (2-3f trailing lag) ve yumuşak ortam temas gölgesi.
+- **Katman 3 (Kahraman Ön Plan):** Kristal netliğinde tipografi (min 18px), 1px pahlı speküler faset ve katı kahraman aktör.
+
+## Kahraman Aktör Yaşam Döngüsü (TheHeroActor Lifecycle)
+0. kareden son kareye kadar sahnede fiziksel olarak yaşayan ($opacity > 0$) ana geometrik aktörün form dönüşüm zinciri:
+[Başlangıç Formu] ➔ [Genişleyen Taşıyıcı] ➔ [Fonksiyonel Matris] ➔ [Nihai Marka Amblemi (>= 1.2s Stillness Hold)]
 
 ## Physics
 Ağırlık ve ivmelenme prensipleri, yaylanma ve sönümlenme karakteri.
@@ -116,15 +127,19 @@ if (mode === "cinematic-world") {
 } else {
   // editorial-ui & kinetic-poster: katmanlı beat'ler + beat sınırında geçiş (v2)
   const beatCount = Math.min(6, Math.max(2, Math.round(duration / 3.5)));
-  const WEIGHTS = [1.0, 1.4, 0.8, 1.25, 0.9, 1.1].slice(0, beatCount);
+  const WEIGHTS = [1.0, 1.4, 0.8, 1.25, 0.9, 1.3].slice(0, beatCount);
   const wSum = WEIGHTS.reduce((a, b) => a + b, 0);
-  const starts = WEIGHTS.map((_, i) => Math.round((WEIGHTS.slice(0, i).reduce((a, b) => a + b, 0) / wSum) * totalFrames));
+  let starts = WEIGHTS.map((_, i) => Math.round((WEIGHTS.slice(0, i).reduce((a, b) => a + b, 0) / wSum) * totalFrames));
+  // Final beat en az 72 kare (1.2s Stillness Hold) güvencesi
+  if (totalFrames >= 180 && starts.length >= 2 && totalFrames - starts[starts.length - 1] < 72) {
+    starts[starts.length - 1] = totalFrames - 72;
+  }
   const NAMES = ["hook", "proof", "flow", "scale", "payoff", "outro"];
   beats = Array.from({ length: beatCount }, (_, i) => ({
     id: NAMES[i],
     startFrame: starts[i],
     endFrame: i === beatCount - 1 ? totalFrames : starts[i + 1] - 1,
-    intent: i === 0 ? "Kanca: ana vaat" : i === beatCount - 1 ? "Kapanış: marka ve eylem çağrısı" : "Gelişme: kanıt ve akış",
+    intent: i === 0 ? "Kanca: ana vaat" : i === beatCount - 1 ? "Kapanış: marka ve eylem çağrısı (1.2s stillness hold)" : "Gelişme: kanıt ve akış",
     action: NAMES[i],
   }));
   transitions = beats.slice(1).map((b, i) => ({

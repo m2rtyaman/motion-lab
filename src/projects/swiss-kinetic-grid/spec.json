@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Swiss Kinetic Geometry & Corporate Infographics",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 12,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "continuousShot": true,
+  "transitions": [
+    "transitionContainerMorph",
+    "transitionCameraGlide",
+    "transitionContentReveal",
+    "transitionLogoOutro"
+  ],
+  "componentStack": [
+    "VirtualCameraRig",
+    "KineticVectorStage",
+    "DynamicSwissGrid",
+    "GeometricBurst",
+    "SwissVectorCross",
+    "AmbientAliveDriver"
+  ],
+  "beats": [
+    {
+      "id": "geometric-hook",
+      "startFrame": 0,
+      "endFrame": 160,
+      "intent": "Kinetik İsviçre geometrisi açılışı ve koordinat ızgarasının oturması",
+      "action": "geometric-hook"
+    },
+    {
+      "id": "infographic-burst",
+      "startFrame": 161,
+      "endFrame": 380,
+      "intent": "Daire ve üçgenlerin radyal patlamasıyla dinamik düz infografik panosunun açılışı",
+      "action": "infographic-burst"
+    },
+    {
+      "id": "workflow-matrix",
+      "startFrame": 381,
+      "endFrame": 550,
+      "intent": "Derin zemin kontrastında 3 aşamalı kurumsal iş akışı boru hattı ve telemetri",
+      "action": "workflow-matrix"
+    },
+    {
+      "id": "swiss-resolve",
+      "startFrame": 551,
+      "endFrame": 720,
+      "intent": "Parçaların merkezde kenetlenerek İsviçre haçı amblemine ve kurumsal sloganına dönüşmesi",
+      "action": "swiss-resolve"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.4,
+      "ease": "power3.out",
+      "intent": "Kinetik İsviçre ızgara kompozisyonuna dinamik yerleşme"
+    },
+    {
+      "at": 2.65,
+      "duration": 1.8,
+      "ease": "power2.inOut",
+      "intent": "Patlayan infografik panosuna yumuşak yaklaşma"
+    },
+    {
+      "at": 6.3,
+      "duration": 2.0,
+      "ease": "power2.inOut",
+      "intent": "İş akışı boru hattı matrisine odaklanma"
+    },
+    {
+      "at": 9.15,
+      "duration": 2.2,
+      "ease": "expo.inOut",
+      "intent": "Geri çekilerek tam ekran İsviçre marka amblemini çerçeveleme"
+    }
+  ]
+}

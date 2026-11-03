@@ -49,7 +49,11 @@ for (const b of spec.beats) {
   });
 }
 
-const frames = plan.slice(0, MAX_FRAMES);
+let frames = plan;
+if (frames.length > MAX_FRAMES) {
+  const step = (plan.length - 1) / (MAX_FRAMES - 1);
+  frames = Array.from({ length: MAX_FRAMES }, (_, i) => plan[Math.round(i * step)]);
+}
 
 if (fs.existsSync(project.visionDir)) {
   fs.rmSync(project.visionDir, { recursive: true, force: true });

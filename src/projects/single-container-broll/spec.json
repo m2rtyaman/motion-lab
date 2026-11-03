@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Single Container B-Roll",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 12,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "componentStack": [
+    "SpotlightStage",
+    "CameraRig",
+    "MacOSCursor"
+  ],
+  "transitions": [
+    {
+      "type": "container-morph",
+      "atFrame": 150,
+      "bridge": "#the-morph-container"
+    },
+    {
+      "type": "container-morph",
+      "atFrame": 320,
+      "bridge": "#the-morph-container"
+    },
+    {
+      "type": "zoom-punch",
+      "atFrame": 520,
+      "bridge": "#the-morph-container"
+    }
+  ],
+  "beats": [
+    {
+      "id": "hook",
+      "startFrame": 0,
+      "endFrame": 150,
+      "intent": "Karanlık obsidiyen kapsül ve Gemini 3.8 Flash elektrik mavisi rozet",
+      "action": "hook",
+      "text": "Gemini 3.8 Flash Live"
+    },
+    {
+      "id": "proof",
+      "startFrame": 151,
+      "endFrame": 320,
+      "intent": "İmleç tıklamasıyla Google GenAI SDK terminaline dönüşüm",
+      "action": "proof",
+      "text": "Gemini Streaming Runtime"
+    },
+    {
+      "id": "flow",
+      "startFrame": 321,
+      "endFrame": 520,
+      "intent": "Çok duraklı Low, Medium, High, Argon Thinking Slider ve elastik yay sürüklemesi",
+      "action": "flow",
+      "text": "Adaptive Thinking Controller"
+    },
+    {
+      "id": "verdict",
+      "startFrame": 521,
+      "endFrame": 720,
+      "intent": "3D izometrik telemetri ve Gemini 3.8 Flash Google DeepMind marka kapanışı",
+      "action": "verdict",
+      "text": "Gemini 3.8 Flash Native Multimodal",
+      "isVerdict": true
+    }
+  ],
+  "camera": [
+    {
+      "at": 0,
+      "duration": 0.35,
+      "ease": "power3.out",
+      "intent": "Stage 1: Kapsüle samimi ve sıcak odaklanma (scale: 1.06, smooth spring damping: 24, stiffness: 120)"
+    },
+    {
+      "at": 2.5,
+      "duration": 0.85,
+      "ease": "power3.inOut",
+      "intent": "Stage 1->2: Terminal penceresi genişlerken kameranın sıvı geri açılışı (scale: 1.06 -> 1.0, smooth spring)"
+    },
+    {
+      "at": 5.33,
+      "duration": 0.85,
+      "ease": "power3.inOut",
+      "intent": "Stage 2->3: Slider daralırken etkileşime doğru akıcı yakınlaşma (scale: 1.0 -> 1.05, smooth spring)"
+    },
+    {
+      "at": 8.64,
+      "duration": 0.8,
+      "ease": "power3.inOut",
+      "intent": "Stage 3->4: Telemetri kartı açılırken dengeli nefes alma (scale: 1.05 -> 1.0, smooth spring)"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}

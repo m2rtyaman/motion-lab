@@ -1,4 +1,4 @@
-import { DURATIONS, EASING, MOTION_OFFSET } from './tokens.ts';
+import { DURATIONS, EASING, MOTION_OFFSET, SCALE_CONTRAST } from './tokens.ts';
 
 export type WhipPanDirection = 'left' | 'right' | 'up' | 'down';
 export type MaskWipeType = 'diagonal' | 'horizontal' | 'vertical' | 'iris';
@@ -39,6 +39,23 @@ export interface ZoomPunchOptions {
   duration?: number;
   zoomScale?: number;
   portalRingSelector?: string;
+  ease?: string;
+}
+
+export interface ElementTakeoverOptions {
+  at: number;
+  duration?: number;
+  takeoverScale?: number;
+  ease?: string;
+}
+
+export interface CameraDiveOptions {
+  at: number;
+  duration?: number;
+  diveScale?: number;
+  targetX?: number;
+  targetY?: number;
+  settleScale?: number;
   ease?: string;
 }
 
@@ -369,6 +386,154 @@ export const transitionZoomPunch = (
       ease: EASING.expoOut,
     },
     at + duration * 0.35
+  );
+
+  return tl;
+};
+
+/**
+ * 5. transitionElementTakeover — Bileşen Patlaması ve Tam Ekran Devralma (Scale Takeover)
+ * Sahne içindeki küçük bir alt bileşenin (buton, rozet, metrik kartı) 15x-20x büyüyerek
+ * tüm 1920x1080 ekranı yutması ve yeni sahnenin tam ekran zeminine dönüşmesi.
+ */
+export const transitionElementTakeover = (
+  tl: gsap.core.Timeline,
+  triggerSelector: string,
+  outgoingSelector: string,
+  incomingSelector: string,
+  options: ElementTakeoverOptions
+): gsap.core.Timeline => {
+  const {
+    at,
+    duration = DURATIONS.camera,
+    takeoverScale = SCALE_CONTRAST.elementTakeover,
+    ease = EASING.expoInOut,
+  } = options;
+
+  const halfDur = duration * 0.55;
+
+  // 1. Tetikleyici alt bileşen hızla büyüyerek tüm ekranı kaplar
+  tl.to(
+    triggerSelector,
+    {
+      scale: takeoverScale,
+      duration,
+      ease,
+    },
+    at
+  );
+
+  // 2. Eski sahne büyüyen bileşenin altında erir
+  tl.to(
+    outgoingSelector,
+    {
+      opacity: 0,
+      scale: 1.35,
+      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+      duration: halfDur,
+      ease: EASING.quickIn,
+    },
+    at + duration * 0.15
+  );
+
+  // 3. Yeni tam ekran sahne patlayan bileşenin içinden ivmeyle doğar
+  tl.fromTo(
+    incomingSelector,
+    {
+      opacity: 0,
+      scale: 0.78,
+      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+    },
+    {
+      opacity: 1,
+      scale: 1.0,
+      filter: 'blur(0px)',
+      duration: halfDur + DURATIONS.micro,
+      ease: EASING.expoOut,
+    },
+    at + duration * 0.42
+  );
+
+  return tl;
+};
+
+/**
+ * 6. transitionCameraDive — Hedef Bileşen İçine Makro Kamera Dalışı (Portal Dive)
+ * Kameranın sahnedeki belirli bir kartın/bileşenin koordinatına (targetX, targetY)
+ * 2.5x-3.2x ölçekle dalıp, o bileşenin içinden yeni sahneyi tam ekran çıkarması.
+ */
+export const transitionCameraDive = (
+  tl: gsap.core.Timeline,
+  cameraRigSelector: string,
+  outgoingSelector: string,
+  incomingSelector: string,
+  options: CameraDiveOptions
+): gsap.core.Timeline => {
+  const {
+    at,
+    duration = DURATIONS.long,
+    diveScale = SCALE_CONTRAST.portalDive,
+    targetX = 0,
+    targetY = 0,
+    settleScale = SCALE_CONTRAST.neutralStage,
+    ease = EASING.expoInOut,
+  } = options;
+
+  const diveDur = duration * 0.58;
+  const settleDur = duration * 0.52;
+
+  // 1. Kamera hedef bileşenin içine makro dalış yapar
+  tl.to(
+    cameraRigSelector,
+    {
+      scale: diveScale,
+      x: targetX,
+      y: targetY,
+      duration: diveDur,
+      ease,
+    },
+    at
+  ).to(
+    cameraRigSelector,
+    {
+      scale: settleScale,
+      x: 0,
+      y: 0,
+      duration: settleDur,
+      ease: EASING.expoOut,
+    },
+    at + diveDur
+  );
+
+  // 2. Dalış zirvesinde eski sahne kadraj dışına taşarak kaybolur
+  tl.to(
+    outgoingSelector,
+    {
+      opacity: 0,
+      scale: 1.6,
+      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+      duration: diveDur,
+      ease: EASING.quickIn,
+    },
+    at + duration * 0.1
+  );
+
+  // 3. Yeni sahne dalınan bileşenin içinden tam odakla açılır
+  tl.fromTo(
+    incomingSelector,
+    {
+      opacity: 0,
+      scale: 0.55,
+      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+    },
+    {
+      opacity: 1,
+      scale: 1.0,
+      filter: 'blur(0px)',
+      duration: settleDur + DURATIONS.micro,
+      ease: EASING.expoOut,
+    },
+    at + diveDur * 0.72
   );
 
   return tl;

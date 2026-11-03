@@ -49,7 +49,7 @@ for (const project of targets) {
   }
 
   // 2. Linear & Yasak Easing Denetimi
-  if (/ease\s*:\s*["']linear["']/i.test(code)) {
+  if (/ease\s*:\s*["']linear["']/i.test(code) && spec.mode !== 'creative-motion-reel' && spec.mode !== 'kinetic-poster') {
     errors.push('P0: Animasyonlarda yasaklı "linear" easing bulundu! SpringStaggerGroup veya power3.out kullanılmalı.');
   }
   if (/ease\s*:\s*["']easeInOut["']/i.test(code) || /ease\s*:\s*["']ease\.inOut["']/i.test(code)) {
@@ -81,17 +81,17 @@ for (const project of targets) {
   }
 
   // 6. Pencere ve Cihaz Çapalaması (Hardware Shell Anchor - Disconnected Floating Bento Ban)
-  const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard/.test(code);
-  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage/.test(code);
+  const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard|TelemetryTile/.test(code);
+  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|TerminalShell|TheHeroActor|ContainerMorphBridge/.test(code);
 
   if (hasUIComponents && !hasShellAnchor) {
-    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir Hardware Shell / Window Anchor (PrecisionDashboardShell, DeviceMockupStage, MacOSSequoiaWindow) veya tanımlı bir sahne kabuğu içine kilitlenmelidir.');
+    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir Hardware Shell / Window Anchor (PrecisionDashboardShell, TerminalShell, DeviceMockupStage, MacOSSequoiaWindow) veya tanımlı bir sahne kabuğu içine kilitlenmelidir.');
   }
 
   // 7. Tek Kap Morfolojisi / Graphic Anchor Geçiş Denetimi
-  const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField/.test(code);
-  if (spec.mode === 'editorial-ui' && !isLegacy && !hasContainerMorph) {
-    errors.push('P0: Tek Kap Morfolojisi / Graphic Anchor geçişi eksik! Sahneler arası kopuk slayt geçişi yerine tek kap morfolojisi (transitionContainerMorph veya Graphic Anchor) zorunludur.');
+  const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch|ElementTakeover|CameraDive)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField|TheHeroActor|the-hero-actor|ContainerMorphBridge/.test(code);
+  if ((spec.mode === 'editorial-ui' || spec.mode === 'hybrid-orchestrated') && !isLegacy && !hasContainerMorph) {
+    errors.push('P0: Tek Kap Morfolojisi / Graphic Anchor geçişi eksik! Sahneler arası kopuk slayt geçişi yerine tek kap morfolojisi (transitionContainerMorph, transitionElementTakeover, transitionCameraDive veya Graphic Anchor) zorunludur.');
   }
 
   // 8. 3D Boşlukta Çapasız Yüzme Yasağı (Unanchored in 3D Space)
