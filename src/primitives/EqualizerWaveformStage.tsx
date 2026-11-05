@@ -6,7 +6,7 @@ export { computeEqualizerBarHeight };
 
 /**
  * DARK RED AUDIO / WAVEFORM PALETTE
- * Kaynak: references/OPUS_5.5_STYLE_GUIDE.md & Gemini Omni Flash Reference Breakdown
+ * Kaynak: references/MOTION_LAB_STYLE_GUIDE.md & Gemini Omni Flash Reference Breakdown
  */
 export const DARK_RED_AUDIO_PALETTE = {
   bg: '#07080a',

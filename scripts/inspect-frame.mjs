@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 
 /**
- * INSPECT FRAME (Opus Animasyon Rehberi Tek Kare Teftiş Köprüsü)
+ * INSPECT FRAME (Motion Lab Animasyon Rehberi Tek Kare Teftiş Köprüsü)
  *
  * MOTION_RULES.md: "URL'de ?t=3.2 verilirse o anı çizip dursun (tek kare kontrolü için)."
  *
@@ -63,7 +63,7 @@ frame = Math.max(0, Math.min(totalFrames - 1, frame));
 const currentTimeSec = (frame / fps).toFixed(3);
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS INSPECT FRAME: ${slug.toUpperCase()}   ${RESET}`);
+console.log(`${BOLD}   MOTION LAB INSPECT FRAME: ${slug.toUpperCase()}   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
 console.log(`Zaman Damgası : ${CYAN}t = ${currentTimeSec}s${RESET} (Kare: ${BOLD}${frame}${RESET} / ${totalFrames}) | FPS: ${fps}`);
 

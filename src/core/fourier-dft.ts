@@ -1,6 +1,6 @@
 /**
  * FOURIER DFT (AYRIK FOURIER DÖNÜŞÜMÜ) MATEMATİK MOTORU
- * (Opus 5.5 Master Rehber — Sayfa 8, Prompt 4: Eğitici Animasyon)
+ * (Motion Lab Master Rehber — Sayfa 8, Prompt 4: Eğitici Animasyon)
  * 
  * "Gerçek hesap: kalp veya harita şeklinin parametrik denkleminden noktalar al,
  * kodda DFT ile katsayıları hesapla, çemberleri bu katsayılarla döndür.

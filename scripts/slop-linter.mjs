@@ -65,13 +65,13 @@ const FORBIDDEN_META_TEXT = [
   { pattern: /parametrik\s+e[ğg]riler/i, name: "Yasak Açıklayıcı Meta-Metin: 'parametrik eğriler' tespit edildi" },
   { pattern: /generatif\s+sistemler/i, name: "Yasak Açıklayıcı Meta-Metin: 'generatif sistemler' tespit edildi" },
   { pattern: /derinlik\s+ve\s+perspektif/i, name: "Yasak Açıklayıcı Meta-Metin: 'derinlik ve perspektif' tespit edildi" },
-  { pattern: /opus\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'OPUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /motion\s+lab\s*\/+\s*60\s*fps/i, name: "Yasak Debug Watermark: 'MOTION LAB // 60 FPS' meta-yorum/süs sloganı yasaktır" },
   { pattern: /single\s+living\s+container/i, name: "Yasak Meta-Slogan: 'SINGLE LIVING CONTAINER' meta-yorum/süs sloganı yasaktır" },
   { pattern: /60\s*fps\s+deterministic/i, name: "Yasak Meta-Slogan: '60 FPS DETERMINISTIC' meta-yorum/süs sloganı yasaktır" },
   { pattern: /b-roll\s+engine/i, name: "Yasak Meta-Slogan: 'B-ROLL ENGINE' meta-yorum/süs sloganı yasaktır" },
   { pattern: /no\s+slide\s+cuts/i, name: "Yasak Meta-Slogan: 'NO SLIDE CUTS' meta-yorum/süs sloganı yasaktır" },
   { pattern: /one\s+living\s+morph\s+container/i, name: "Yasak Meta-Slogan: 'ONE LIVING MORPH CONTAINER' meta-yorum/süs sloganı yasaktır" },
-  { pattern: /opus\s+5\.5\s+suite/i, name: "Yasak Meta-Slogan: 'OPUS 5.5 SUITE' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /motion\s+lab\s+\d+(?:\.\d+)?\s+suite/i, name: "Yasak Meta-Slogan: 'MOTION LAB <sürüm> SUITE' gibi sürüm etiketli meta-yorum yasaktır" },
   { pattern: /autonomous\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'AUTONOMOUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
   { pattern: /autonomous\s+multi-archetype/i, name: "Yasak Meta-Slogan: 'Autonomous Multi-Archetype' süs jargonu yasaktır" },
   { pattern: /quantum\s+execution\s+runtime/i, name: "Yasak AI-Slop Jargonu: 'Quantum Execution Runtime' uydurma siber jargonu yasaktır (gerçek ürün metni kullanın)" },
@@ -314,7 +314,7 @@ for (const t of targets) {
 
 // ---- report ----
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}${CYAN_ANSI}   UNIVERSAL MOTION STUDIO LINTER V4.0   ${RESET}`);
+console.log(`${BOLD}${CYAN_ANSI}   UNIVERSAL MOTION STUDIO LINTER V0.8   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
 console.log(`Audited Files    : ${totalFiles} files (engine + ${targets.length} projects)`);
 console.log(`Projects         : ${summaries.join(", ")}\n`);

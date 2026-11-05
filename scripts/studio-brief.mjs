@@ -3,7 +3,7 @@ import path from 'node:path';
 import { rootDir, SLUG_RE, MODES, ASPECT_DIMS } from './lib/projects.mjs';
 
 /**
- * STUDIO BRIEF (Opus Animasyon Rehberi 7 Parçalı Yönetmen Brifing Motoru)
+ * STUDIO BRIEF (Motion Lab Animasyon Rehberi 7 Parçalı Yönetmen Brifing Motoru)
  *
  * Prompt 2 & 2b: Kullanıcının sadece konu ve hedef cümlesiyle
  * profesyonel 7 parçalı direction.md ve spec.json sözleşmesini otonom üretir.
@@ -192,7 +192,7 @@ const specContent = {
 fs.writeFileSync(path.join(projectDir, 'spec.json'), JSON.stringify(specContent, null, 2), 'utf-8');
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS AUTO-BRIEF GENERATED: ${slug.toUpperCase()}   ${RESET}`);
+console.log(`${BOLD}   MOTION LAB AUTO-BRIEF GENERATED: ${slug.toUpperCase()}   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
 console.log(`Hedef Cümlesi : ${CYAN}"${goal}"${RESET}`);
 console.log(`Oluşturuldu   : ${GREEN}direction.md${RESET} (7 Parçalı Yönetmen Brifi)`);

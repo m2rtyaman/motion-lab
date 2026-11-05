@@ -44,4 +44,4 @@
 - [x] **Dark Deco ve Siyah Kağıt Tekniği:** Eric Radomski estetiğine tam sadakat; arduvaz mavisi gök, keskin silüetler ve dolunay aydınlatması.
 - [x] **Bruce Timm Karakter Orantıları:** Batman'in keskin köşeli cowl'u, beyaz göz yarıkları, dalgalanan kanat pelerini ve fötr şapkalı çeteciler.
 - [x] **Sıfır Sistem Emojisi:** Sahnedeki tüm unsurlar (çeteciler, Batman, pelerin, yumruk smear'ı, zeplin, halat, ışıklar) %100 saf SVG vektörleriyle çizilmiştir.
-- [x] **Fiziksel Render İzni:** 10/10 Opus Direktör Puanı ile onaylandı.
+- [x] **Fiziksel Render İzni:** 10/10 Motion Lab Direktör Puanı ile onaylandı.

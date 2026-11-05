@@ -1,5 +1,5 @@
 /**
- * PROCEDURAL AUDIO ENGINE (Opus Animasyon Rehberi Web Audio Sentezleyicisi)
+ * PROCEDURAL AUDIO ENGINE (Motion Lab Animasyon Rehberi Web Audio Sentezleyicisi)
  * 
  * MOTION_RULES.md: "Ses verilmezse Web Audio ile sentezle.
  * Her ses ekranda görünen bir olaya bağlı olsun."

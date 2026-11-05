@@ -1,4 +1,4 @@
-# OPUS 5.5 MOTION GRAPHICS REFERENCE & STYLE GUIDE
+# MOTION LAB — MOTION GRAPHICS REFERENCE & STYLE GUIDE
 
 This guide distills professional motion graphic standards, 24 visual style families, prompt architectures, and boundary constraints into a single authoritative reference manual.
 

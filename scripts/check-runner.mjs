@@ -33,13 +33,13 @@ run("node", ["scripts/motion-audit.mjs", ...projectFlag]);
 console.log("\n[CHECK] Scanning for slop & broadcast violations...");
 run("node", ["scripts/slop-linter.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Auditing Motion Studio v5.0 Craft & Determinism...");
+console.log("\n[CHECK] Auditing Motion Studio v0.8 Craft & Determinism...");
 run("node", ["scripts/craft-audit.mjs", ...projectFlag]);
 
 console.log("\n[CHECK] Verifying Visual QA & Frame Evidence...");
 run("node", ["scripts/visual-qa.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Executing Opus Critic Director Audit...");
+console.log("\n[CHECK] Executing Motion Lab Critic Director Audit...");
 run("node", ["scripts/critic-audit.mjs", ...projectFlag]);
 
 console.log("\n[CHECK] Auditing typography & glyphs...");

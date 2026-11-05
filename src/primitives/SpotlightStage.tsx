@@ -71,7 +71,7 @@ export const SpotlightStage: FC<SpotlightStageProps> = ({
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <filter id="opusStageGrain">
+        <filter id="motionLabStageGrain">
           <feTurbulence
             type="fractalNoise"
             baseFrequency="0.78"
@@ -84,7 +84,7 @@ export const SpotlightStage: FC<SpotlightStageProps> = ({
           width={isVertical ? '1080' : '1920'}
           height={isVertical ? '1920' : '1080'}
           fill="#ffffff"
-          filter="url(#opusStageGrain)"
+          filter="url(#motionLabStageGrain)"
         />
       </svg>
 

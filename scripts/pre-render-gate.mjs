@@ -3,7 +3,7 @@ import path from 'node:path';
 import { parseArgs, resolveTargets, rootDir } from './lib/projects.mjs';
 
 /**
- * PRE-RENDER GATE (Opus 5.5 Master Rehber — Sayfa 22, 7 Maddelik Kontrol Listesi)
+ * PRE-RENDER GATE (Motion Lab Master Rehber — Sayfa 22, 7 Maddelik Kontrol Listesi)
  *
  * Herhangi bir video projesinin teslimata hazır olup olmadığını
  * rehberin 7 altın ilkesiyle denetleyen bekçi aracı.
@@ -23,7 +23,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS PRE-RENDER QUALITY GATE (7 ALTIN KONTROL)   ${RESET}`);
+console.log(`${BOLD}   MOTION LAB PRE-RENDER QUALITY GATE (7 ALTIN KONTROL)   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}\n`);
 
 let overallGatePass = true;

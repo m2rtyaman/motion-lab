@@ -130,7 +130,7 @@ To prevent flat boxes and amateur vectors, specify the exact SVG and 3D architec
 
 ---
 
-## PHASE 7: ADVERSARIAL SELF-INTERROGATION (THE "10-POINT OPUS GATE")
+## PHASE 7: ADVERSARIAL SELF-INTERROGATION (THE "10-POINT MOTION LAB GATE")
 Before concluding your plan and writing code, answer these 10 questions honestly. If ANY answer is **"YES"**, you must halt, rewrite the flawed section in Phases 0–6, and re-verify:
 
 1. **The Skipped Web Research Check:** *Did I skip running the 4 `search_web` queries in Phase 0 and guess the brand hexes, SVG paths, or UI layout from memory?*

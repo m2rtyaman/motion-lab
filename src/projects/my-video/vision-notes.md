@@ -3,7 +3,7 @@
 **Tarih:** 2026-11-01  
 **Format:** 16:9 Landscape (1920x1080) @ 60 FPS, 600 frames (10.0s)  
 **Mod:** `editorial-ui` (Modern Pristine Editorial / Akıcı Geçiş Motoru)  
-**Denetçi:** Motion Design Critic & Opus 5.5 Visual Director  
+**Denetçi:** Motion Design Critic & Motion Lab Visual Director  
 
 ---
 
@@ -45,7 +45,7 @@
 ---
 
 ## 2. KALİTE KAPILARI & METRİK PUANLARI
-- **Opus Critic Score:** 10 / 10 (Kusursuz — Sıfır ölü zaman, tam okunabilirlik)
+- **Motion Lab Critic Score:** 10 / 10 (Kusursuz — Sıfır ölü zaman, tam okunabilirlik)
 - **AST Linter v2:** %100 GPU Saflığı (Sıfır sihirli sayı, sıfır layout tween, sıfır Math.random)
 - **Slop Linter v4:** Sıfır neon slop, tüm fontlar $\ge 18\text{px}$, mod saflığı onaylı
 - **Geçiş Motoru:** `transitionWhipPan`, `transitionMaskWipe`, `transitionZoomPunch`, `transitionContainerMorph` tam entegre.

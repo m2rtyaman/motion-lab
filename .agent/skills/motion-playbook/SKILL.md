@@ -311,7 +311,7 @@ node scripts/motion-audit.mjs
 node scripts/ast-lint.mjs
 node scripts/slop-linter.mjs
 
-# 4. Opus director evaluation and typography audits
+# 4. Motion Lab director evaluation and typography audits
 node scripts/critic-audit.mjs
 node scripts/glyph-audit.mjs
 

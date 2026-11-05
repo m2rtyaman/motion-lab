@@ -31,7 +31,7 @@ export interface BroadcastPackageStrapProps {
 /**
  * BroadcastPackageStrap — TV News & Tactical Lower-Third Strap
  * 
- * Based on Opus 5.5 Sports Telestrator & Visual Investigation packaging:
+ * Based on Motion Lab Sports Telestrator & Visual Investigation packaging:
  * - 3D vertical perspective flip-in (rotateX 90deg -> 0deg)
  * - Parallelogram category pill (-14deg skew)
  * - Split-flap text cell grid for key findings

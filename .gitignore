@@ -65,7 +65,7 @@ temp/
 # Heavy / External Reference Repositories (do not push to remote)
 html-video/
 motion-graphics-main/
-awesome-claude-opus-5.5-video-main/
+awesome-*-video-main/
 MoneyPrinterTurbo/
 
 # Unpublished private projects, assets and skills

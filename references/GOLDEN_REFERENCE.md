@@ -13,7 +13,7 @@
 Why did earlier prototypes feel like "PowerPoint slide transitions", while this project evolved into an Apple / Linear / Stripe grade motion graphics masterpiece? The 6 core pillars:
 
 ### 1. Liberation from Blind Linter Rules to Enable True Design Freedom
-- **Previous Mistake:** Linters dogmatically required *"there must be continuous camera movement in every scene"*, causing cameras to wobble drunkenly across 2D planar vector surfaces. Additionally, *"readable title required"* led to ugly debug banners like `OPUS MOTION LAB // 60 FPS` stamped across headers and footers.
+- **Previous Mistake:** Linters dogmatically required *"there must be continuous camera movement in every scene"*, causing cameras to wobble drunkenly across 2D planar vector surfaces. Additionally, *"readable title required"* led to ugly debug banners like `MOTION LAB // 60 FPS` stamped across headers and footers.
 - **Success Factor:** We eliminated artificial X/Y camera wobble from single-container UI scenes. Instead, we introduced a reactive, liquid depth camera tied to container morphing: pulling back slightly during wide window expansions (scale: 1.06 -> 1.0), and smoothly zooming in during tight slider interactions (scale: 1.0 -> 1.05) with damped spring physics (damping: 24, stiffness: 120).
 
 ### 2. Single Living Container Instead of Slide Deck Crossfades
@@ -85,7 +85,7 @@ Why did earlier prototypes feel like "PowerPoint slide transitions", while this 
 ## 3. GOLDEN RULES FOR FUTURE PROJECTS (CHECKLIST)
 
 1. [ ] **Camera Moves Only with Purpose:** In 2D UI / B-Roll scenes, do not artificially wobble the camera; use reactive scale dynamics responding to container morphs.
-2. [ ] **Ban on Debug Watermarks:** Never stamp internal debug text like "OPUS MOTION LAB / 60 FPS" in screen corners.
+2. [ ] **Ban on Debug Watermarks:** Never stamp internal debug text like "MOTION LAB / 60 FPS" in screen corners.
 3. [ ] **Single Living Container Principle:** Do not delete old divs with fades to show new ones; morph the geometry of the living container.
 4. [ ] **Authentic Data & Code:** Never invent fake DevOps jargon; display real SDKs (`@google/genai`) and realistic benchmarks.
 5. [ ] **Hotspot Precision:** Ensure the cursor hotspot lands accurately inside the target element's clickable bounds.

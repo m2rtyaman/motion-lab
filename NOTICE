@@ -1,0 +1,85 @@
+# NOTICE — Motion Lab
+
+Motion Lab
+Copyright (C) 2026 Motion Lab Contributors
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, version 3 of the License. It is distributed in the hope that it
+will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the `LICENSE` file
+for the full text.
+
+Motion Lab is licensed under **GPL-3.0-only** as of version 0.8.0. Releases
+published before 0.8.0 were distributed under the MIT License; those releases
+remain available under their original terms.
+
+---
+
+## Third-party components
+
+The GPL-3.0-only license above applies to the original Motion Lab source code.
+The components below remain under their own licenses and are **not** relicensed
+by this project. Their notices must be preserved when redistributing.
+
+### Production templates — `src/templates/`
+
+| Origin | License | Location |
+| --- | --- | --- |
+| `heygen-com/hyperframes` (`registry/examples`) | Apache-2.0 | `src/templates/NOTICE.md`, `src/templates/LICENSES/Apache-2.0.txt` |
+| `nateherkai/hyperframes-student-kit` (`video-projects`) | MIT | `src/templates/NOTICE.md` |
+| Templates originally authored for `html-video` | Apache-2.0 | `src/templates/NOTICE.md` |
+| `huashu-design` (© alchaincyf) — `frame-build-minimal`, `frame-pentagram-stat`, `frame-takram-organic` | MIT | per-template `SKILL.md` |
+| `frontend-slides` (© Zara Zhang) — `frame-bold-poster`, `frame-bold-signal`, `frame-creative-voltage`, `frame-electric-studio` | MIT | per-template `SKILL.md` |
+
+Each template records its upstream URL in `template.html-video.yaml` under
+`assets_attribution`.
+
+### Agent skills — `.agent/skills/`
+
+Several skills (`motion-broll`, `object-separation`, `explainer-default`,
+`explainer-engaging`, `explainer-high-energy`, `sound-effects`) are adapted from
+[Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics),
+licensed under the MIT License. Copyright (c) Barty-Bart. The upstream MIT
+permission notice applies to those directories.
+
+The sound pass approach in `sound-effects` credits Vox (@Voxyz_ai,
+https://x.com/Voxyz_ai/status/2109358372873183564, 11 Oct 2026).
+
+### Fonts — `public/fonts/`
+
+The bundled `.woff2` files are subsets of typefaces distributed under the
+SIL Open Font License, Version 1.1. `OFL-Geist.txt` is included for Geist and
+Geist Mono (Copyright (c) 2023 Vercel, in collaboration with basement.studio).
+Other families (Inter, JetBrains Mono, Space Grotesk, Space Mono, Syne, Bebas
+Neue, Archivo Black, Playfair Display, Plus Jakarta Sans, Instrument Serif,
+Caveat, Cinzel) remain under the SIL OFL 1.1 of their respective copyright
+holders; obtain the canonical notice from each upstream release.
+
+### Audio — `public/sfx/`, `public/audio/`
+
+Sound effects under `public/sfx/` are CC0 recordings; the per-kit catalog and
+credits live in `public/sfx/LICENSES.md` and `.agent/skills/sound-effects/LICENSES.md`.
+Music references documented by the `sound-effects` skill are hosted by Mixkit
+and are **not** bundled; they must be downloaded at runtime under the Mixkit
+Stock Music Free License.
+
+### Build and rendering dependencies
+
+Dependencies declared in `package.json` keep their own licenses. In particular,
+[Remotion](https://www.remotion.dev/) is not GPL-licensed: individuals, non-profits,
+and for-profit organizations with up to three employees may use it free of charge,
+while larger for-profit organizations require a Remotion Company License. Using
+Motion Lab does not change your obligations under the Remotion license.
+
+### Reference material — `references/`
+
+Reference documents, prompts, and B-roll examples are included for study and
+internal production guidance. Third-party trademarks, footage, music, and
+imagery referenced by those documents remain the property of their owners.
+No license is granted over third-party media by this repository.
+
+---
+
+If you believe a component is missing an attribution, open an issue with the
+affected path and the upstream source so it can be corrected.

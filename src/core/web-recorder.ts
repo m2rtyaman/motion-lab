@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 
 /**
  * TARAYICI İÇİ HIZLI KAYIT VE WEBM DIŞA AKTARICI
- * (Opus 5.5 Master Rehber — Sayfa 2, MP4'e Nasıl Çevrilir: Yol 2)
+ * (Motion Lab Master Rehber — Sayfa 2, MP4'e Nasıl Çevrilir: Yol 2)
  * 
  * "Sayfaya bir Kaydet düğmesi ekle, canvas'ı MediaRecorder ile WebM olarak indirsin.
  * Ekran kaydından temizdir."

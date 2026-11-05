@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * visual-qa.mjs
- * Motion Studio v5.0 Görsel Doğrulama & Boş Ekran Denetçisi.
+ * Motion Studio v0.8 Görsel Doğrulama & Boş Ekran Denetçisi.
  * npx remotion still ve contact-sheet ile üretilen kareleri analiz eder:
  * - Dosya boyutu < 20KB (boş/çizilmemiş ekran) kontrolü
  * - Siyah/ölü ekran analizi

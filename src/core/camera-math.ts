@@ -1,5 +1,5 @@
 /**
- * KAMERA VE PERSPEKTİF MATEMATİĞİ (Opus Animasyon Rehberi Faz 4)
+ * KAMERA VE PERSPEKTİF MATEMATİĞİ (Motion Lab Animasyon Rehberi Faz 4)
  * 
  * promptlar/07-shorts.md (Logaritmik kamera & Shorts güvenlik alanları)
  * promptlar/08-threejs-3d.md (CatmullRomCurve3 yolları)
@@ -23,7 +23,7 @@ export const SHORTS_MOBILE_SAFETY = {
 
 /**
  * Logaritmik Kamera Geri Çekilme Hesaplayıcısı
- * Opus 07: "İnsan beyni üstel büyümeyi sezemez; logaritmik geri çekilen kamera bunu bir saniyede gösterir."
+ * Motion Lab 07: "İnsan beyni üstel büyümeyi sezemez; logaritmik geri çekilen kamera bunu bir saniyede gösterir."
  * 
  * @param progress 0.0 – 1.0 zaman ilerlemesi
  * @param minDist Başlangıç yakın kamera mesafesi
@@ -81,7 +81,7 @@ export interface Tesseract3DProjection {
 
 /**
  * 4D Tesseract'ı XW ve ZW düzlemlerinde döndürür ve 3D uzaya perspektif olarak izdüşürür.
- * Formül (Opus 09): k = d / (d - w), varsayılan d = 3.0
+ * Formül (Motion Lab 09): k = d / (d - w), varsayılan d = 3.0
  */
 export function projectTesseractTo3D(
   angleXW: number,

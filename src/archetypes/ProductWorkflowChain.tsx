@@ -22,7 +22,7 @@ export interface ProductWorkflowChainProps {
 /**
  * <ProductWorkflowChain>
  * 
- * Opus 5.5 Master Rehber — Sayfa 9-11 (Prompt 5: Ürün Videosu):
+ * Motion Lab Master Rehber — Sayfa 9-11 (Prompt 5: Ürün Videosu):
  * "TEK KAP İLKESİ: Tek bir nesne kesilmeden şekil değiştiriyor:
  * Buton -> Ses Dalgası -> Yazıya dökülen Not -> Görev Kartı -> Takvim Hücresi -> Logo Onayı.
  * Göz bir nesneyi takip ettiği sürece izleyici kaybolmaz."

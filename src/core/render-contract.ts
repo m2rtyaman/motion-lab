@@ -1,6 +1,6 @@
 /**
  * RENDER SÖZLEŞMESİ VE DETERMINİSTİK ÇİZİM KÖPRÜSÜ
- * (Opus 5.5 Master Rehber — Sayfa 1-4, Adım 1)
+ * (Motion Lab Master Rehber — Sayfa 1-4, Adım 1)
  * 
  * "Tüm görsel durum zamanın saf fonksiyonu olsun: draw(t).
  * Rastgelelik sadece tohumlu üreteçle (mulberry32). Math.random yasak.

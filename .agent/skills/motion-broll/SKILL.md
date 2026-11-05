@@ -14,7 +14,7 @@ Everything you need is in this skill folder:
 - `engine/`: the motion engine (`motion.js`), the page shell (`base.css`), `build.py` (clip → self-contained HTML), `render.js` (frame-by-frame render with motion blur), `beats.js` (contact sheets of stills), fonts (Geist, OFL).
 - `scripts/`: `setup.sh`, `inspect_video.py`, `words.py`, `composite.py`, `make_pages.py`.
 - `reference/engine-api.md`: how to write a clip. **Read it before writing your first clip.**
-- `examples/opus-aoe2/`: six finished clips for a real 54-second video. Use them as the quality bar and as starting points.
+- `examples/motionlab-aoe2/`: six finished clips for a real 54-second video. Use them as the quality bar and as starting points.
 
 Below, `$SKILL` means this skill's folder. Work in a `motion/` folder in the user's project.
 

@@ -14,14 +14,14 @@ Scaffolds a new project with its `direction.md`, `spec.json`, and `Scene.tsx`, a
 - `cinematic-world` scaffolds declare `"continuousShot": true` (single take, camera carries beat changes).
 
 ### `pnpm studio:brief <slug> --topic "<topic>" --goal "<goal>"`
-Generates an Opus 7-part director brief and motion timeline contract for the project.
+Generates a Motion Lab 7-part director brief and motion timeline contract for the project.
 
 ---
 
 ## 2. Diagnostics & Quality Gates
 
 ### `pnpm doctor [--project <slug>]`
-Runs the 14-point medical health audit derived from the Opus Troubleshooting Matrix.
+Runs the 14-point medical health audit derived from the Motion Lab Troubleshooting Matrix.
 Detects:
 - Missing single-sentence direction goals
 - Broken container continuity
@@ -37,7 +37,7 @@ The definitive 7-point Pre-Render Quality Gate. Requires 7/7 passing checks befo
 2. Single-sentence goal defined
 3. Storyboard beats synchronized with code
 4. Contact sheet (`visual-audit-grid.png`) audited
-5. Opus Critic Director score $\ge 8.0/10$
+5. Motion Lab Critic Director score $\ge 8.0/10$
 6. Deterministic MP4 rendered to disk
 7. AI agent skill template ready
 
@@ -49,7 +49,7 @@ Runs the full static audit suite:
 - `audit:ast`: Babel AST parser detecting illegal layout tweens and banned eases
 - `audit:motion`: **slideshow detector** - requires a transition at every beat boundary (M001/M004), forbids beat-gated unmounts such as `{isBeat && <X/>}` (M002), requires 2+ distinct transition types for 3+ beats (M003), and warns on missing theme contract (M005/M006). Projects marked `"legacy": true` in `spec.json` get warnings instead of errors.
 - `audit:slop`: Zero neon glow, zero micro-font ($\ge 18\text{px}$) enforcement, and fake DevOps jargon bans
-- `audit:craft`: Motion Studio v5.0 craft & adversarial visual gate
+- `audit:craft`: Motion Studio v0.8 craft & adversarial visual gate
 - `audit:critic`: Dynamic reading time calculation and comparison hold audit
 - `audit:glyph`: UTF-8 and Turkish typography glyph integrity
 - `test:math`: Runs 14 core mathematical unit tests (springs, Bézier, homography, readability, print-grade, audio guard)

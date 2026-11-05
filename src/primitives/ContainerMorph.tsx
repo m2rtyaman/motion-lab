@@ -27,7 +27,7 @@ export interface ContainerMorphProps {
 /**
  * <ContainerMorph>
  * 
- * Opus Animasyon Rehberi Tek Kap İlkesi (Single Container Principle).
+ * Motion Lab Animasyon Rehberi Tek Kap İlkesi (Single Container Principle).
  * Sahneler arası zıplamak yerine; tek bir merkezi kabın (buton, kart, panel)
  * kesintisiz olarak boyut, konum, köşe yarıçapı ve dolgu değiştirerek evrilmesini sağlar.
  * İzleyicinin gözü nesneyi takip ettiği için odak asla kaybolmaz.

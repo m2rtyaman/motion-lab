@@ -44,7 +44,7 @@ export interface LedgerCardStageProps {
 /**
  * LedgerCardStage — Archival Accounting Ledger Stage
  * 
- * Based on Opus 5.5 Archive, Forensic Investigation & Printed Long Take:
+ * Based on Motion Lab Archive, Forensic Investigation & Printed Long Take:
  * - High-craft #151512 slate-black ground with 54px faint horizontal rules
  * - Double red vertical margin rules (#C4332B) at the debit/credit fold
  * - Amber #FFC21A word erasure / correction blocks

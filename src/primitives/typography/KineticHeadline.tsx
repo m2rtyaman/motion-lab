@@ -12,7 +12,7 @@ export interface KineticHeadlineProps {
 }
 
 /**
- * KINETIC HEADLINE (v5.5)
+ * KINETIC HEADLINE (v0.8)
  *
  * Ürün arayüzünün üzerine binen Sinematik Pazarlama Başlığı Katmanı.
  * 9:16 dikey videolarda üst güvenli alana yerleşir.

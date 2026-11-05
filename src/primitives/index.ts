@@ -111,7 +111,7 @@ export {
   type LayerPlaneProps,
 } from './LayeredStage3D';
 
-// Opus 5.5 Archival, Forensic & Visual Investigation Primitives
+// Motion Lab Archival, Forensic & Visual Investigation Primitives
 export {
   LoupeMagnifier,
   type LoupeMagnifierProps,

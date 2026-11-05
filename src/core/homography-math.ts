@@ -1,7 +1,7 @@
 /**
  * HOMOGRAPHY MATHEMATICS & PERSPECTIVE PLANAR SOLVER
  * 
- * Based on Opus 5.5 Sports Telestrator & Forensic Reconstruction:
+ * Based on Motion Lab Sports Telestrator & Forensic Reconstruction:
  * Solves 4-point projective homography matrices H mapping source plane (e.g. pitch markers,
  * tilted document corners, or perspective screen bounds) to destination plane (orthographic board).
  */

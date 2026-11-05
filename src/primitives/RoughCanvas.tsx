@@ -36,7 +36,7 @@ export interface RoughCanvasProps {
 /**
  * <RoughCanvas>
  * 
- * Opus Animasyon Rehberi ilhamlı el çizimi, defter, karalama ve mimari eskiz katmanı.
+ * Motion Lab Animasyon Rehberi ilhamlı el çizimi, defter, karalama ve mimari eskiz katmanı.
  * roughjs motorunu deterministik tohum (seed) ile çalıştırarak kareler arasında
  * rastgele titreme olmaksızın organik el çizimi hissi üretir.
  */

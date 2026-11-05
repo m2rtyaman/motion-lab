@@ -56,7 +56,7 @@ All audits must pass with zero violations and zero errors:
 - `audit:spec`: Beat timeline, camera keyframe, and spec-code contract validation.
 - `audit:ast`: Babel AST scan detecting layout reflows (`top`, `left`, `width`, `height` tweening).
 - `audit:slop`: Anti-slop scan detecting neon cyan/purple glow vomiting, micro-fonts (<16px), and floating unanchored cards.
-- `audit:critic`: Opus director scoring engine (Dead frames >0.5s, minimum 1.2s text readability hold).
+- `audit:critic`: Motion Lab director scoring engine (Dead frames >0.5s, minimum 1.2s text readability hold).
 - `audit:craft`: Spring physics, CSS 3D/SVG purity, and hardware shell anchoring.
 - `audit:glyph`: International typography and character encoding checks.
 - `tsc --noEmit`: Strict TypeScript typechecking.
@@ -86,6 +86,38 @@ Verify that the scene renders to disk cleanly:
 3. Complete all checkboxes in `.github/PULL_REQUEST_TEMPLATE.md`.
 4. Ensure all CI checks in `.github/workflows/ci.yml` pass.
 5. After review approval, the PR is merged into `main` using **Squash and Merge**.
+
+---
+
+## 📦 6. Release Process
+
+Releases are cut from `main` only, after the PR is squash-merged and CI is green.
+
+1. Update `package.json` version and `CHANGELOG.md`.
+2. Commit as `chore(release): vX.Y.Z`.
+3. Open and merge the release PR into `main`.
+4. Tag the merge commit: `git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z`.
+5. Create a GitHub Release from the tag, using the matching `CHANGELOG.md`
+   section as the release body.
+6. Mark every `0.x` release as a **pre-release** until `1.0.0`.
+
+Version labels in scripts and skill titles must match the tagged version
+(`v0.8` for the `0.8.x` line).
+
+---
+
+## ⚖️ 7. Licensing of Contributions
+
+Motion Lab is licensed under **GPL-3.0-only**. By submitting a pull request you
+confirm that:
+
+- You have the right to contribute the code, text, or assets.
+- Your contribution is licensed under GPL-3.0-only, except where it incorporates
+  third-party work under its own compatible license (Apache-2.0, MIT, OFL, CC0).
+- Any new third-party asset is recorded in [`NOTICE`](NOTICE) with its upstream
+  URL and license.
+
+Do not paste code or assets from sources with incompatible or unknown licenses.
 
 ---
 

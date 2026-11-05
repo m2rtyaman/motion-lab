@@ -16,7 +16,7 @@ export interface PaperTextureOverlayProps {
 /**
  * <PaperTextureOverlay>
  * 
- * Opus Animasyon Rehberi Prompt 03 & 04:
+ * Motion Lab Animasyon Rehberi Prompt 03 & 04:
  * "Sıcak krem kâğıt, prosedürel kâğıt dokusu ve lif, mum ışığı radyal gradyanla,
  * kenarlar kararıyor. Mükemmel düz çizgi bilgisayarın imzasıdır, hafif organik
  * doku ise zanaatın."
@@ -60,7 +60,7 @@ export const PaperTextureOverlay: React.FC<PaperTextureOverlayProps> = ({
         style={{ '--fiber-opacity': fiberIntensity } as React.CSSProperties}
         xmlns="http://www.w3.org/2000/svg"
       >
-        <filter id="opus-paper-fibers" x="0%" y="0%" width="100%" height="100%">
+        <filter id="motionlab-paper-fibers" x="0%" y="0%" width="100%" height="100%">
           <feTurbulence
             type="fractalNoise"
             baseFrequency="0.04 0.008"
@@ -76,7 +76,7 @@ export const PaperTextureOverlay: React.FC<PaperTextureOverlayProps> = ({
               0 0 0 0.9 0"
           />
         </filter>
-        <rect width="100%" height="100%" filter="url(#opus-paper-fibers)" fill="none" />
+        <rect width="100%" height="100%" filter="url(#motionlab-paper-fibers)" fill="none" />
       </svg>
 
       {/* Sıcak Mum Işığı / Kenar Karartma Vignetting */}

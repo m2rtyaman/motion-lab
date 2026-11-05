@@ -3,7 +3,7 @@ import path from 'node:path';
 import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 
 /**
- * STUDIO DOCTOR (Opus 5.5 Master Rehber — Sayfa 19-20, 14 Maddelik Teşhis Motoru)
+ * STUDIO DOCTOR (Motion Lab Master Rehber — Sayfa 19-20, 14 Maddelik Teşhis Motoru)
  *
  * Projenin kodunu, spec sözleşmesini, direction dosyasını ve görsel çıktılarını
  * 14 kronik soruna karşı tarar; teşhis koyar ve doğrudan uygulanabilir reçete verir.
@@ -23,7 +23,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}     OPUS STUDIO DOCTOR (14-POINT HEALTH AUDIT)     ${RESET}`);
+console.log(`${BOLD}     MOTION LAB STUDIO DOCTOR (14-POINT HEALTH AUDIT)     ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}\n`);
 
 let totalPrescriptions = 0;

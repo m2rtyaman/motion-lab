@@ -3,7 +3,7 @@ name: studio-router
 description: Master intent classifier and scene paradigm router that selects between Cinematic World, Editorial UI, and Kinetic Poster modes, and chooses the optimal narrative archetype.
 ---
 
-# Skill: Studio Router (Chief Director & Archetype Router v5.5)
+# Skill: Studio Router (Chief Director & Archetype Router v0.8)
 
 > **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
@@ -48,7 +48,7 @@ Even if the user does not supply an explicit style prompt, the Chief Director (`
    - Reference: `references/prompts/news-package.txt` & `BroadcastPackageStrap`
    - Mechanism: 3D tumbling lower third, split-flap ticker, parallelogram category badge.
 4. **Continuous B-Roll & Single-Shape Metamorphosis:**
-   - Reference: `references/broll-examples/` (`01-opus-drop.html` – `06-chapter.html`)
+   - Reference: `references/broll-examples/` (`01-motionlab-drop.html` – `06-chapter.html`)
    - Mechanism: Single container morphing, spring tracking (`trackSpring`), curved cursor trajectories.
 5. **Kinetic & High-Tempo Campaigns:**
    - Reference: `references/prompts/kino-montage.txt` or `references/prompts/printed-long-take.txt`
