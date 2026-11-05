@@ -4,6 +4,10 @@ Several templates in this directory are forked from upstream projects.
 Original licenses apply; see each template's `template.html-video.yaml`
 `assets_attribution` block for the canonical source URL.
 
+Motion Lab is licensed under GPL-3.0-only (see the repository `LICENSE`).
+The third-party templates below are **not** relicensed by that change and
+remain under the licenses stated in their sections.
+
 ## Apache-2.0 — `heygen-com/hyperframes` (registry/examples)
 
 The following templates are direct forks (HTML + composition files unchanged
@@ -21,8 +25,9 @@ besides being placed under our directory layout) of
 
 Per the Apache-2.0 license:
 - Copyright © Hyperframes / heygen-com.
-- Redistributed unmodified, with the upstream LICENSE preserved at
-  the repo root and this NOTICE.md acknowledging the source.
+- Redistributed unmodified. The full Apache-2.0 text is preserved at
+  `src/templates/LICENSES/Apache-2.0.txt`, and this NOTICE.md
+  acknowledges the source.
 - Each template's `template.html-video.yaml` records the upstream URL
   in `assets_attribution`.
 
@@ -43,6 +48,27 @@ Per the MIT license:
 - Copyright © Nate Herk.
 - We attribute the upstream URL in the template's
   `assets_attribution`.
+
+## MIT — `huashu-design` (© alchaincyf)
+
+Design-language adaptations (layout and motion philosophy rebuilt as original
+CSS/SVG timelines):
+
+- `frame-build-minimal` ← Build Studio
+- `frame-pentagram-stat` ← Pentagram
+- `frame-takram-organic` ← Takram
+
+## MIT — `frontend-slides` (© Zara Zhang)
+
+Preset-inspired adaptations:
+
+- `frame-bold-poster` ← Bold Poster
+- `frame-bold-signal` ← Bold Signal
+- `frame-creative-voltage` ← Creative Voltage
+- `frame-electric-studio` ← Electric Studio
+
+Each template's `SKILL.md` records the upstream preset in
+`example_source_label`.
 
 ## Original templates (Apache-2.0)
 
