@@ -40,7 +40,7 @@ export interface CutoutPuppetStageProps {
 /**
  * CutoutPuppetStage — NOGGIN & Terry Gilliam Articulated Paper Cutout Puppet
  * 
- * Based on Opus 5.5 Case NOGGIN & Surreal Collage:
+ * Based on Motion Lab Case NOGGIN & Surreal Collage:
  * - 2-4px white paper cutout edge (analog scissor aesthetic)
  * - Articulated joint hierarchy (neck/head, jaw, shoulder, elbow)
  * - 12 FPS stepped stop-motion quantization

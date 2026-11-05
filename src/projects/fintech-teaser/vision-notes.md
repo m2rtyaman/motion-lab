@@ -20,6 +20,6 @@
   - Karar: **Onaylandı**.
 
 ## 2. GENEL DEĞERLENDİRME
-- Çekirdek motor koduna tek bir satır bile ekleme yapmadan, yalnızca `spec.json`, `data.json` ve `Scene.tsx` ile 2. sektör projesi (Kurumsal FinTek) Claude Opus 5.5 / Apple Keynote yayın kalitesinde üretildi.
+- Çekirdek motor koduna tek bir satır bile ekleme yapmadan, yalnızca `spec.json`, `data.json` ve `Scene.tsx` ile 2. sektör projesi (Kurumsal FinTek) Motion Lab / Apple Keynote yayın kalitesinde üretildi.
 - Donuk kare oranı: %0 (Tüm beat'lerde hareket eşiği aşıldı).
 - Broadcast safe-zone uyumu: %100 (Üst 250px, alt 300px korundu).

@@ -58,7 +58,7 @@ Layer content is positioned relative to its anchor, e.g. `left:-330px; top:40px`
 
 Icons in `M.IC`: arrow, check, x, plus, folder, terminal, file, pencil, coin, clock, chip, sparkle, castle, search. Add more as 24-grid stroke paths (e.g. from Lucide, ISC licence).
 
-## Patterns (see `examples/opus-aoe2/`)
+## Patterns (see `examples/motionlab-aoe2/`)
 
 | Pattern | How | Example |
 |---|---|---|
@@ -92,11 +92,11 @@ Map what the speaker says onto these:
 
 ```json
 {
-  "title": "Opus 5.5 · Age of Empires II",
+  "title": "Motion Lab · Age of Empires II",
   "video": "work/source.mp4",
   "fps": "30000/1001",
   "clips": [
-    {"id":"01","title":"Opus 5.5 drop","line":"“Opus 5.5 just came out …”","in":0.30,"out":6.75,"kind":"full","file":"out/01-opus-drop_0m00s30.mp4"},
+    {"id":"01","title":"Motion Lab drop","line":"“Motion Lab just came out …”","in":0.30,"out":6.75,"kind":"full","file":"out/01-motionlab-drop_0m00s30.mp4"},
     {"id":"02","title":"Folder → Claude Code → four builds","line":"“I created a blank folder …”","in":6.75,"out":22.5,"kind":"panel","file":"out/02-pip-builds_0m06s75.mov"}
   ],
   "notes": ["The typed prompt and the cost/time/tokens bars are illustrative."]

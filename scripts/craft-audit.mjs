@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * craft-audit.mjs
- * Motion Studio v5.0 Görsel İşçilik & Determinizm Denetçisi.
+ * Motion Studio v0.8 Görsel İşçilik & Determinizm Denetçisi.
  * Kör koordinat sallama, harf avatarları, linear easing, bozuk Three.js saatleri,
  * çapasız 3D kartlar, kopuk bento slop'u ve metin artıklığını denetler.
  *
@@ -23,7 +23,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}==================================================${RESET}`);
-console.log(`${BOLD}🎨 CRAFT AUDIT & ADVERSARIAL VISUAL GATE (v5.0)${RESET}`);
+console.log(`${BOLD}🎨 CRAFT AUDIT & ADVERSARIAL VISUAL GATE (v0.8)${RESET}`);
 console.log(`${BOLD}==================================================${RESET}`);
 
 let totalErrors = 0;

@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { rootDir, rel } from './lib/projects.mjs';
 
 /**
- * MUSIC MAPPER (Opus Animasyon Rehberi Müzik Haritalayıcı)
+ * MUSIC MAPPER (Motion Lab Animasyon Rehberi Müzik Haritalayıcı)
  *
  * Prompt 6: "Müziği canlı dinletme, önce notaya dök.
  * Şarkının haritasını çıkarır (BPM, vuruşlar, enerji); animasyon bu haritayı okur."
@@ -60,7 +60,7 @@ const tempWav = path.join(rootDir, 'out', 'temp_analysis.wav');
 fs.mkdirSync(path.dirname(tempWav), { recursive: true });
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS MUSIC MAPPER (AUDIO-FIRST ENGINE)           ${RESET}`);
+console.log(`${BOLD}   MOTION LAB MUSIC MAPPER (AUDIO-FIRST ENGINE)           ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
 console.log(`Girdi Dosyası : ${CYAN}${rel(audioPath)}${RESET} | FPS: ${fps}`);
 

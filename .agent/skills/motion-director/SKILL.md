@@ -3,7 +3,7 @@ name: motion-director
 description: Motion Director guidelines for orchestrating the Universal Motion Engine across all brief types (SaaS, E-commerce, Fintech, Mobile, Launch).
 ---
 
-# Motion Director Skill (Universal Motion Engine v5.5)
+# Motion Director Skill (Universal Motion Engine v0.8)
 
 > **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 

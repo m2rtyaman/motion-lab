@@ -3,7 +3,7 @@ import path from 'node:path';
 import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 
 /**
- * GLYPH AUDIT (Opus Animasyon Rehberi Glif ve Tipografi Güvenliği)
+ * GLYPH AUDIT (Motion Lab Animasyon Rehberi Glif ve Tipografi Güvenliği)
  *
  * README.md: "Türkçe karakterler bozuk: Yazı tipinde Türkçe glif yok.
  * Türkçe destekli bir Google Fonts yazı tipi kullan, İ Ş Ğ Ü Ö Ç'yi test karesinde göster."
@@ -24,7 +24,7 @@ const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS GLYPH & TURKISH TYPOGRAPHY AUDIT           ${RESET}`);
+console.log(`${BOLD}   MOTION LAB GLYPH & TURKISH TYPOGRAPHY AUDIT           ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}\n`);
 
 const TURKISH_CHARS = /[çÇğĞıİöÖşŞüÜ]/;

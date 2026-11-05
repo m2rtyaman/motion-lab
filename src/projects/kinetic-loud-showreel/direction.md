@@ -7,7 +7,7 @@
 editorial-ui (Hybrid 3D + Precision DOM Telemetry)
 
 ## Concept
-shneural ve Opus 5.5 Max altın referanslarının görsel ve ritmik mimarisine dayanan, 144 BPM frame-locked amiral gemisi vitrin sahnesi.
+shneural ve Motion Lab altın referanslarının görsel ve ritmik mimarisine dayanan, 144 BPM frame-locked amiral gemisi vitrin sahnesi.
 Dört çeyrekte (01 Pin Matrix, 02 Möbius Ribbon, 03 Liquid Chrome Torus, 04 Inflated Chrome Star) izleyiciye sürekli değişen, yüksek enerjili dokunsal bir görsel şölen sunulur.
 
 ## Physics & Timing

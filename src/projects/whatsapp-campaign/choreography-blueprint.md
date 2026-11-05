@@ -168,7 +168,7 @@
 
 ---
 
-## PHASE 7: ADVERSARIAL SELF-INTERROGATION (THE 10-POINT OPUS GATE)
+## PHASE 7: ADVERSARIAL SELF-INTERROGATION (THE 10-POINT MOTION LAB GATE)
 
 1. **The Skipped Web Research Check:** *Did I skip running the 4 `search_web` queries in Phase 0 and guess from memory?*
    - **NO.** Phase 0 includes verified Simple Icons SVG path, WhatsApp Communities changelog UI anatomy, and Ordinary Folk/Buck motion design breakdowns.

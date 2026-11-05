@@ -16,7 +16,7 @@ export interface ChalkboardStageProps {
 /**
  * <ChalkboardStage>
  * 
- * Opus 5.5 Master Rehber — Sayfa 8-9 (Prompt 4: Eğitici Animasyon):
+ * Motion Lab Master Rehber — Sayfa 8-9 (Prompt 4: Eğitici Animasyon):
  * "SANAT YÖNÜ: koyu kara tahta arka planı, tebeşir hissi veren hafif pürüzlü çizgi,
  * tek vurgu: sarı. İzleyici formülü bilmeden önce mantığı görmeli."
  * 

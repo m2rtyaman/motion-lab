@@ -3,7 +3,7 @@ name: remotion-engineer
 description: Remotion & GSAP systems engineer specializing in 60 FPS deterministic video rendering across Cinematic World (src/world, src/vfx), Editorial UI (src/primitives, src/stage), and Hybrid Templates (src/templates, src/engine).
 ---
 
-# Skill: Remotion Systems Engineer (Universal 60 FPS Engine Engineer v6.2)
+# Skill: Remotion Systems Engineer (Universal 60 FPS Engine Engineer v0.8)
 > **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
 ## 1. ROLE & RESPONSIBILITY

@@ -27,7 +27,7 @@ pnpm audit:storyboard --project <slug> # Shift-left 5 Universal Storyboard Laws
 pnpm audit:ast --project <slug>        # Babel AST scan for reflows, magic numbers, transitions
 pnpm audit:slop --project <slug>       # Anti-slop gate (neon glow, micro-fonts, shell anchor)
 pnpm audit:craft --project <slug>      # 3D/SVG determinism & spring physics
-pnpm audit:critic --project <slug>     # Opus director scoring (readability, dead frames)
+pnpm audit:critic --project <slug>     # Motion Lab director scoring (readability, dead frames)
 pnpm audit:glyph                       # UTF-8 and international typography validation
 pnpm audit:doctor                      # 14-point studio diagnostic check
 ```

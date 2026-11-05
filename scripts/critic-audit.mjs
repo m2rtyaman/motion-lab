@@ -4,7 +4,7 @@ import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 import { calculateRequiredReadingTime, countTextUnits } from '../src/core/readability-meter.ts';
 
 /**
- * CRITIC AUDIT (Opus Animasyon Rehberi Prompt 10 Cilalama Motoru)
+ * CRITIC AUDIT (Motion Lab Animasyon Rehberi Prompt 10 Cilalama Motoru)
  *
  * Bir sahneyi sert bir motion tasarım direktörü gözüyle puanlar ve denetler:
  * 1. Ölü Zaman Kontrolü (0.5s'den uzun hiçbir hareketin olmadığı anlar)
@@ -26,7 +26,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}====================================================${RESET}`);
-console.log(`${BOLD}   OPUS DIRECTORS CRITIC AUDIT (PROMPT 10 ENGINE)   ${RESET}`);
+console.log(`${BOLD}   MOTION LAB DIRECTORS CRITIC AUDIT (PROMPT 10 ENGINE)   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}\n`);
 
 let overallScore = 0;

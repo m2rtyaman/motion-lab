@@ -5,7 +5,7 @@
 - [ ] 🎬 New Scene / Project (`src/projects/<slug>`)
 - [ ] 🧱 New Primitive / Archetype (`src/primitives` or `src/archetypes`)
 - [ ] ⚙️ Core Engine / Script Enhancement (`src/core` or `scripts/`)
-- [ ] 🎨 Visual Craftsmanship & Polish (Opus Prompt 10)
+- [ ] 🎨 Visual Craftsmanship & Polish (Motion Lab Prompt 10)
 - [ ] 🐛 Bug Fix & Diagnostic (Doctor / Quality Gate)
 
 ---

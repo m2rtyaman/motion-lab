@@ -1,7 +1,7 @@
 /**
  * PRINT GRADE & ANALOG ARCHIVAL COLOR MAPPING
  * 
- * Based on Opus 5.5 Archive & Kino-Montage visual references:
+ * Based on Motion Lab Archive & Kino-Montage visual references:
  * - S-curve percentile tone mapping (contrast control without blowout)
  * - Two-value ink-and-paper palette mapper (warm black & warm off-white)
  * - Deterministic per-frame analog film flicker (Mulberry32 PRNG)

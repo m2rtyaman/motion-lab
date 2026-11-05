@@ -1,6 +1,6 @@
-# UNIVERSAL MOTION GRAPHICS STUDIO — MASTER ARCHITECTURAL SPECIFICATION & QUALITY GATES (v5.5)
+# UNIVERSAL MOTION GRAPHICS STUDIO — MASTER ARCHITECTURAL SPECIFICATION & QUALITY GATES (v0.8)
 
-This document establishes the architecture, mathematical formulas, and quality gates enabling `motion-lab` to autonomously process any creative brief (B2B SaaS, E-commerce, Fintech, Mobile App, Launch Teaser) at **Claude Opus / Apple Keynote** broadcast standards.
+This document establishes the architecture, mathematical formulas, and quality gates enabling `motion-lab` to autonomously process any creative brief (B2B SaaS, E-commerce, Fintech, Mobile App, Launch Teaser) at **Motion Lab / Apple Keynote** broadcast standards.
 
 ---
 

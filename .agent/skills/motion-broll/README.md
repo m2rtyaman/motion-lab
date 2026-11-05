@@ -51,7 +51,7 @@ It never invents numbers or results. Bars show relative size and text uses skele
 
 - Every frame is a pure function of time. Springs are closed-form step responses, and a value that changes target many times is the sum of one spring per change. There are no CSS transitions or timers, so any frame can be rendered on its own.
 - Clips are small HTML files on a shared engine ([`engine/motion.js`](engine/motion.js)). Headless Chromium captures 4 sub-frames per frame across a 180° shutter, and ffmpeg blends them into motion blur.
-- The worked example in [`examples/opus-aoe2/`](examples/opus-aoe2/) is the six clips from the demo above.
+- The worked example in [`examples/motionlab-aoe2/`](examples/motionlab-aoe2/) is the six clips from the demo above.
 
 
 ## Licence

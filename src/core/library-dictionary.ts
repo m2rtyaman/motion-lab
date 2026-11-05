@@ -1,6 +1,6 @@
 /**
  * 22 KÜTÜPHANELİK HAREKET VE ANİMASYON EKOSİSTEM SÖZLÜĞÜ
- * (Opus 5.5 Master Rehber — Sayfa 20-21)
+ * (Motion Lab Master Rehber — Sayfa 20-21)
  * 
  * "Saf Canvas her şeyi yapabilir, ama bazen tekerleği yeniden icat etmeye gerek yok.
  * Doğru kütüphaneyi seçmek yüz satır kod yazmak yerine işin özüne odaklanmayı sağlar."
@@ -14,7 +14,7 @@ export interface LibraryDescriptor {
   packageNpm?: string;
 }
 
-export const OPUS_LIBRARY_ECOSYSTEM: Record<string, LibraryDescriptor> = {
+export const MOTION_LAB_LIBRARY_ECOSYSTEM: Record<string, LibraryDescriptor> = {
   gsap: {
     name: 'GSAP',
     whatItDoes: 'Zaman çizelgesi, easing, yazı bölme, şekil morph',
@@ -151,24 +151,24 @@ export function recommendLibraries(scenario: string): LibraryDescriptor[] {
   const matched: LibraryDescriptor[] = [];
 
   if (s.includes('fizik') || s.includes('çarpış') || s.includes('düşme')) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.matterjs, OPUS_LIBRARY_ECOSYSTEM.rapier);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.matterjs, MOTION_LAB_LIBRARY_ECOSYSTEM.rapier);
   }
   if (s.includes('formül') || s.includes('matematik') || s.includes('denklem')) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.katex);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.katex);
   }
   if (s.includes('3d') || s.includes('uzay') || s.includes('gezegen') || s.includes('küp')) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.threejs, OPUS_LIBRARY_ECOSYSTEM.postprocessing);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.threejs, MOTION_LAB_LIBRARY_ECOSYSTEM.postprocessing);
   }
   if (s.includes('el çizimi') || s.includes('karalama') || s.includes('tahta')) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.roughjs);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.roughjs);
   }
   if (s.includes('grafik') || s.includes('harita') || s.includes('veri')) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.d3);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.d3);
   }
 
   // Varsayılan çekirdek kütüphaneler
   if (matched.length === 0) {
-    matched.push(OPUS_LIBRARY_ECOSYSTEM.remotion, OPUS_LIBRARY_ECOSYSTEM.gsap);
+    matched.push(MOTION_LAB_LIBRARY_ECOSYSTEM.remotion, MOTION_LAB_LIBRARY_ECOSYSTEM.gsap);
   }
 
   return matched;

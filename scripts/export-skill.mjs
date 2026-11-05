@@ -8,7 +8,7 @@ const YELLOW = '\x1b[33m';
 const RESET = '\x1b[0m';
 
 /**
- * SKILL FABRİKASI (Opus Animasyon Rehberi Prompt 11)
+ * SKILL FABRİKASI (Motion Lab Animasyon Rehberi Prompt 11)
  *
  * Beğenilen ve cilalanan bir animasyon stilini tek komutla
  * Antigravity ve yapay zeka ajanlarının otomatik kullanabileceği

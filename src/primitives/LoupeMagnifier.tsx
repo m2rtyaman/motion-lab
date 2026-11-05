@@ -40,7 +40,7 @@ export interface LoupeMagnifierProps {
 /**
  * LoupeMagnifier — Freeze-frame forensic investigation magnifier.
  * 
- * Based on Opus 5.5 Visual Investigation & Sports Telestrator standards:
+ * Based on Motion Lab Visual Investigation & Sports Telestrator standards:
  * - Clockwise animated red accent indicator ring (#FF4A2E)
  * - Dynamic angle leader line linking target to magnified inset
  * - 2x-4x optical zoom with coordinate crosshair reticle and glass specular boundary

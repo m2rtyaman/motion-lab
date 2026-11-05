@@ -1,7 +1,7 @@
 /**
  * READABILITY METER & DYNAMIC HOLD CALCULATOR
  * 
- * Based on Opus 5.5 / Lemomo Visual Investigation & Printed Long Take standards:
+ * Based on Motion Lab / Lemomo Visual Investigation & Printed Long Take standards:
  * Formula: (cjkChars / 4.5) + (latinWords / 15.0) + 1.5s
  * With a mandatory minimum hold of 2.5s on comparison, verdict, or telemetry screens.
  */
