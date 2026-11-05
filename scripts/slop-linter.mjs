@@ -312,23 +312,23 @@ for (const t of targets) {
   summaries.push(`${t.slug} (${mode})`);
 }
 
-// ---- rapor ----
+// ---- report ----
 console.log(`\n${BOLD}====================================================${RESET}`);
 console.log(`${BOLD}${CYAN_ANSI}   UNIVERSAL MOTION STUDIO LINTER V4.0   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
-console.log(`Denetlenen Dosya : ${totalFiles} dosya (motor + ${targets.length} proje)`);
-console.log(`Projeler         : ${summaries.join(", ")}\n`);
+console.log(`Audited Files    : ${totalFiles} files (engine + ${targets.length} projects)`);
+console.log(`Projects         : ${summaries.join(", ")}\n`);
 
 if (violations.length > 0) {
-  console.log(`${RED}${BOLD}[STUDIO AUDIT: FAILED] ${violations.length} adet kalite/mimari ihlali tespit edildi:${RESET}\n`);
+  console.log(`${RED}${BOLD}[STUDIO AUDIT: FAILED] Detected ${violations.length} quality/architectural violations:${RESET}\n`);
   violations.forEach((v, i) => {
-    console.log(`${RED}${BOLD}[İHLAL ${i + 1}] ${v.file}:${v.lineNum}:${RESET} ${v.rule}`);
-    console.log(`  Detay : ${v.description}`);
-    console.log(`  Kod   : ${YELLOW}${v.code}${RESET}\n`);
+    console.log(`${RED}${BOLD}[VIOLATION ${i + 1}] ${v.file}:${v.lineNum}:${RESET} ${v.rule}`);
+    console.log(`  Detail: ${v.description}`);
+    console.log(`  Code  : ${YELLOW}${v.code}${RESET}\n`);
   });
-  console.log(`${RED}${BOLD}Render süreci durduruldu. Lütfen projeyi kurallara göre revize edin.${RESET}\n`);
+  console.log(`${RED}${BOLD}Render aborted. Please revise the project according to studio invariants.${RESET}\n`);
   process.exit(1);
 }
-console.log(`${GREEN}${BOLD}[STUDIO AUDIT: PASSED] ${targets.length} proje kalite standartlarına %100 uyumlu.${RESET}`);
-console.log(`${GREEN}✓ Sıfır neon glow, sıfır mikro-font, %100 GPU saflığı, mod-doğru motor kullanımı${RESET}\n`);
+console.log(`${GREEN}${BOLD}[STUDIO AUDIT: PASSED] ${targets.length} projects comply 100% with studio standards.${RESET}`);
+console.log(`${GREEN}✓ Zero neon glow slop, zero micro-fonts, 100% GPU purity, authentic paradigm engines${RESET}\n`);
 process.exit(0);

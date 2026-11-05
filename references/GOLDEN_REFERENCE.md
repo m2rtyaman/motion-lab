@@ -1,59 +1,59 @@
-# ALTIN REFERANS KILAVUZU: SINGLE LIVING CONTAINER B-ROLL
-**Proje:** `src/projects/single-container-broll/`  
-**Referans Başlık:** Gemini 3.8 Flash / Google DeepMind Multimodal Intelligence Engine  
-**Format:** 1920x1080 (16:9), 60 FPS Deterministik, 12 saniye (720 kare)  
-**Tarih:** 2026-11-02  
-**Görsel Kanıt:** `out/single-container-broll/visual-audit-grid.png`  
-**Nihai Video:** `out/single-container-broll/single-container-broll.mp4`
+# GOLDEN REFERENCE GUIDE: SINGLE LIVING CONTAINER B-ROLL
+**Project:** `src/projects/single-container-broll/`  
+**Reference Title:** Gemini 3.8 Flash / Google DeepMind Multimodal Intelligence Engine  
+**Format:** 1920x1080 (16:9), 60 FPS Deterministic, 12 seconds (720 frames)  
+**Date:** 2026-11-02  
+**Visual Proof:** `out/single-container-broll/visual-audit-grid.png`  
+**Final Video:** `out/single-container-broll/single-container-broll.mp4`
 
 ---
 
-## 1. BU PROJEDEN ÖĞRENDİKLERİMİZ: NEDEN BAŞARILI OLDUK?
+## 1. LESSONS LEARNED: WHAT MAKES THIS PROJECT A BENCHMARK?
 
-Geçmişteki denemeler neden "PowerPoint slaytı gibi" hissettirirken, bu proje neden Apple / Linear / Stripe kalitesinde gerçek bir B-roll başyapıtına dönüştü? Başarının 6 temel direği:
+Why did earlier prototypes feel like "PowerPoint slide transitions", while this project evolved into an Apple / Linear / Stripe grade motion graphics masterpiece? The 6 core pillars:
 
-### 1. Kör Linter Zorlamalarından Kurtulup Tasarım Özgürlüğü Tanımak
-- **Önceki Hata:** Linter'lar *"sahnede kamera hareketi olmak zorunda"* kuralını körce dayattığı için, 2D düz bir vektör sahnesinde kamera sarhoş gibi sağa-sola sendeleyip duruyordu. Ayrıca *"okunabilir başlık şartı"* yüzünden ekranın en üstüne ve en altına `OPUS MOTION LAB // 60 FPS` gibi çirkin debug damgaları basılıyordu.
-- **Başarı Faktörü:** Tek yaşayan kap odaklı sahnelerde yapay x/y kamera sallantısını kaldırdık. Bunun yerine konteynerin form değişimlerine tepki veren akıcı (liquid) bir derinlik kamerası kurguladık: Geniş pencereye açılırken geri çekilen (scale: 1.06 -> 1.0), dar slider'a dönüşürken etkileşime yaklaşan (scale: 1.0 -> 1.05) tok ve pürüzsüz yay fiziği (damping: 24, stiffness: 120).
+### 1. Liberation from Blind Linter Rules to Enable True Design Freedom
+- **Previous Mistake:** Linters dogmatically required *"there must be continuous camera movement in every scene"*, causing cameras to wobble drunkenly across 2D planar vector surfaces. Additionally, *"readable title required"* led to ugly debug banners like `OPUS MOTION LAB // 60 FPS` stamped across headers and footers.
+- **Success Factor:** We eliminated artificial X/Y camera wobble from single-container UI scenes. Instead, we introduced a reactive, liquid depth camera tied to container morphing: pulling back slightly during wide window expansions (scale: 1.06 -> 1.0), and smoothly zooming in during tight slider interactions (scale: 1.0 -> 1.05) with damped spring physics (damping: 24, stiffness: 120).
 
-### 2. Slayt Destesi (Slide Stack / Crossfade) Yerine Tek Yaşayan Kap (Single Living Container)
-- **Önceki Hata:** Sahneler arası geçişi ayrı `absolute inset-0` div'lerini `opacity: [1, 0]` ile birbirine eriterek simüle etmek (slayt mantığı).
-- **Başarı Faktörü:** Ekranda 0. kareden 720. kareye kadar **fiziksel olarak tek bir DOM elemanı (`#the-morph-container`)** yaşadı. Bu eleman genişliğini, yüksekliğini, köşe yuvarlaklığını (`borderRadius`), arka plan rengini ve gölgesini yay fiziğiyle (`dampedSpring` ve GSAP `back.out`) kesintisiz dönüştürdü:
-  $$\text{Kapsül }(500 \times 104, r=52) \longrightarrow \text{Terminal }(940 \times 480, r=24) \longrightarrow \text{Sürgü }(880 \times 120, r=60) \longrightarrow \text{Telemetri }(960 \times 480, r=28)$$
-  Göz nesneyi takip ettiği için izleyici hiçbir sahnede kopmadı, akış hipnotize edici bir akıcılığa kavuştu.
+### 2. Single Living Container Instead of Slide Deck Crossfades
+- **Previous Mistake:** Simulating scene transitions by mounting separate `absolute inset-0` containers and crossfading them via `opacity: [1, 0]`.
+- **Success Factor:** From frame 0 to frame 720, **physically one single DOM element (`#the-morph-container`) lives on stage**. This container seamlessly transforms its width, height, border radius, background color, and shadow using spring physics (`dampedSpring` and GSAP `back.out`):
+  $$\text{Capsule }(500 \times 104, r=52) \longrightarrow \text{Terminal }(940 \times 480, r=24) \longrightarrow \text{Slider }(880 \times 120, r=60) \longrightarrow \text{Telemetry }(960 \times 480, r=28)$$
+  Because the viewer's eye follows the continuous hero actor, visual attention is never fractured.
 
-### 3. Didaktik Meta-Metin Yasağı (Sıfır Açıklama / Sıfır Süs Jargon)
-- **Önceki Hata:** Animasyonda ne yaptığını ekrana metin olarak yazmak (*"Kinetik Geometri", "Uluslararası Tipografik Stil", "Form Sürekliliği, Rijit Izgara"*). Bu durum videoyu anında yapay zeka tarafından üretilmiş ucuz bir infografiğe çeviriyordu.
-- **Başarı Faktörü:** Hareketi anlatmayı bıraktık, hareketi **yaşattık**. Metinler sadece gerçek, somut ve otantik ürün verisine dönüştü:
+### 3. Ban on Didactic Meta-Copy (Zero Decorative Jargon)
+- **Previous Mistake:** Announcing the animation's own techniques as screen typography (*"Kinetic Geometry", "International Typographic Style", "Form Continuity, Rigid Grid"*). This instantly made videos feel like low-tier AI infographics.
+- **Success Factor:** Show, don't tell. Copy is strictly converted to authentic, tangible product and developer data:
   - `Gemini 3.8 Flash` + `Flash Live`
-  - Gerçek `@google/genai` TypeScript SDK kod akışı (`gemini-3.8-flash`)
-  - `Low`, `Medium`, `High`, `Argon` model güç kademeleri
+  - Real `@google/genai` TypeScript SDK stream (`gemini-3.8-flash`)
+  - `Low`, `Medium`, `High`, `Argon` model tier selectors
   - `MULTIMODAL REASONING 99.4%`, `TIME TO FIRST TOKEN 12 ms`
 
-### 4. Matematiksel İmleç Fiziği (Gerçek Kübik Bézier & Hotspot Kilidi)
-- **Önceki Hata:** İmleci düz çizgilerle uçurmak veya `<CameraRig>` içindeki ofsetli koordinatlara koyup imlecin boşlukta sürüklenmesine sebep olmak.
-- **Başarı Faktörü:**
-  - İmleç kök tuval koordinatlarına alındı.
-  - Hareketler $B(t) = (1-t)^3 P_0 + 3(1-t)^2 t P_1 + 3(1-t) t^2 P_2 + t^3 P_3$ kübik Bézier parametrik fonksiyonu üzerinden çalıştı.
-  - Kamera derinlik ölçeği hesaba katılarak imlecin tıklama ucu $(0, 0)$, **`Flash Live`** butonunun merkezine ve sürgü düğmelerine pikselleriyle kilitlendi; öncesinde mikro-yavaşlama (anticipation) ve tıklamada `scale: 0.88` ezilme (squash) ile organik insan eli hissi verildi.
+### 4. Mathematical Cursor Physics (Cubic Bézier & Hotspot Lock)
+- **Previous Mistake:** Flying the cursor in linear paths or mounting it inside nested `<CameraRig>` coordinates where transforms caused cursor drift.
+- **Success Factor:**
+  - Cursor is mounted in root canvas space.
+  - Movement follows cubic Bézier curves: $B(t) = (1-t)^3 P_0 + 3(1-t)^2 t P_1 + 3(1-t) t^2 P_2 + t^3 P_3$.
+  - Accounting for camera depth, the cursor hotspot $(0, 0)$ locks with pixel precision to the center of the **`Flash Live`** button and slider handles; preceded by micro-anticipation and followed by a `scale: 0.88` squash click for an organic feel.
 
-### 5. Layout Bütçesi ve Tipografik Nefes Alanı (Whitespace Disiplini)
-- **Önceki Hata:** 440px'lik dar bir kapsülün içine 500px'den fazla metin (`Autonomous Synthesis Engine` + ikon + rozet) tıkıştırmaya çalışıp CSS'i patlatmak.
-- **Başarı Faktörü:** 500px genişlikte tek satırda kusursuz oturan, bol nefes alan, cömert iç boşluklu (padding) bir hiyerarşi kuruldu. Hiçbir metin kırılmadı veya sıkışmadı.
+### 5. Layout Budget & Typographic Whitespace Discipline
+- **Previous Mistake:** Squeezing >500px of copy (`Autonomous Synthesis Engine` + icon + badge) into a 440px pill, breaking CSS layout boundaries.
+- **Success Factor:** Generous breathing room and strict single-line typographic hierarchy inside a 500px capsule. Zero text wrapping or cramped line heights.
 
-### 6. Görsel Öz-Denetim (Contact Sheet ile Piksel Düzeyinde İnceleme)
-- **Başarı Faktörü:** Kodun "çalışması" ile "güzel görünmesi" arasındaki farkı kapattık. Üretilen 12 karelik pafta (`visual-audit-grid.png`) incelendi; sürgüdeki geçişler, imlecin hotspot hassasiyeti ve köşe damgaları görsel paftadan yakalanarak anında doğrulandı.
+### 6. Visual Self-Audit via Contact Sheets
+- **Success Factor:** Bridging the gap between "code compiles" and "looks stunning". Every beat boundary is captured in a 12-frame contact sheet (`visual-audit-grid.png`) and evaluated for alignment, cursor hotspot accuracy, and clean geometry before final export.
 
 ---
 
-## 2. SAHNE ANATOMİSİ VE KOD ŞABLONU
+## 2. SCENE ANATOMY & CODE PATTERN
 
-### Temel Konteyner Mimarisi (`Scene.tsx`)
+### Core Container Architecture (`Scene.tsx`)
 ```tsx
-// 1. Reaktif dinamik derinlik kamerası (form morphing'e bağlı sıvı scale, sıfır x/y wobble)
+// 1. Reactive dynamic depth camera (liquid scaling tied to container morphing, zero x/y wobble)
 <SpotlightStage aspect="16:9" background="#EAE8E3" clean={true} showCrosshairs={false}>
   <CameraRig className="camera-rig">
-    {/* Yalnızca tek bir ana konteyner */}
+    {/* Exactly one continuous living container */}
     <div
       id="the-morph-container"
       style={{
@@ -65,7 +65,7 @@ Geçmişteki denemeler neden "PowerPoint slaytı gibi" hissettirirken, bu proje 
         willChange: 'width, height, border-radius, background-color, transform',
       }}
     >
-      {/* Katmanlar unmount EDİLMEZ, konteyner içinde pürüzsüzce devir teslim yapılır */}
+      {/* Child layers are not destroyed; content handoffs occur inside the container */}
       <div className="stage-layer-1 absolute inset-0 ...">...</div>
       <div className="stage-layer-2 absolute inset-0 opacity-0 ...">...</div>
       <div className="stage-layer-3 absolute inset-0 opacity-0 ...">...</div>
@@ -73,7 +73,7 @@ Geçmişteki denemeler neden "PowerPoint slaytı gibi" hissettirirken, bu proje 
     </div>
   </CameraRig>
 
-  {/* İmleç kök tuvalde yaşar, ofsetlerden bağımsız mutlak koordinatları hedefler */}
+  {/* Simulated cursor lives in root canvas coordinates */}
   <div className="simulated-cursor absolute ...">
     <MacOSCursor type="pointer" size={34} />
   </div>
@@ -82,11 +82,11 @@ Geçmişteki denemeler neden "PowerPoint slaytı gibi" hissettirirken, bu proje 
 
 ---
 
-## 3. GELECEK PROJELER İÇİN ALTIN KURALLAR (CHECKLIST)
+## 3. GOLDEN RULES FOR FUTURE PROJECTS (CHECKLIST)
 
-1. [ ] **Kamera Sadece İhtiyaç Duyulduğunda Hareket Eder:** 2D UI / B-Roll sahnelerinde kamerayı yapay olarak sallama; sadece konteyner morph'larına tepki veren reaktif derinlik (scale) kullan.
-2. [ ] **Köşe Damgası Yasağı:** Ekranın kenarlarına "OPUS MOTION LAB / 60 FPS" gibi şirket içi debug yazıları ASLA koyma.
-3. [ ] **Tek Yaşayan Kap İlkesi:** UI geçişlerinde yeni div açıp eskisini fade ile silme; aynı kabı morph ettir.
-4. [ ] **Gerçek Veri ve Kod Kullan:** Asla sahte DevOps terimleri uydurma; gerçek kütüphaneler (`@google/genai`) ve modeller (`gemini-3.8-flash`) kullan.
-5. [ ] **İmleç Hotspot'u Test Edilmelidir:** İmlecin ucu tıklanan elemanın sınırları içine düşüyor mu?
-6. [ ] **Render Öncesi Pafta Denetimi:** `visual-audit-grid.png` paftasına gözle bakmadan hiçbir işi "tamamlandı" sayma.
+1. [ ] **Camera Moves Only with Purpose:** In 2D UI / B-Roll scenes, do not artificially wobble the camera; use reactive scale dynamics responding to container morphs.
+2. [ ] **Ban on Debug Watermarks:** Never stamp internal debug text like "OPUS MOTION LAB / 60 FPS" in screen corners.
+3. [ ] **Single Living Container Principle:** Do not delete old divs with fades to show new ones; morph the geometry of the living container.
+4. [ ] **Authentic Data & Code:** Never invent fake DevOps jargon; display real SDKs (`@google/genai`) and realistic benchmarks.
+5. [ ] **Hotspot Precision:** Ensure the cursor hotspot lands accurately inside the target element's clickable bounds.
+6. [ ] **Visual Contact Sheet Inspection:** Never sign off on a scene without visually inspecting `visual-audit-grid.png`.

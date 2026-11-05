@@ -43,18 +43,18 @@ const TRANSITION_CYCLE = [
 const RED = "\x1b[31m", GREEN = "\x1b[32m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
 
 if (!slug || !SLUG_RE.test(slug)) {
-  console.error(`${RED}${BOLD}[ERROR] Geçersiz veya eksik proje slug'ı:${RESET} "${slug}"`);
-  console.log(`Kullanım: node scripts/new-project.mjs <slug> [--mode editorial-ui|cinematic-world|kinetic-poster] [--aspect 9:16|16:9]`);
+  console.error(`${RED}${BOLD}[ERROR] Invalid or missing project slug:${RESET} "${slug}"`);
+  console.log(`Usage: node scripts/new-project.mjs <slug> [--mode editorial-ui|cinematic-world|kinetic-poster] [--aspect 9:16|16:9]`);
   process.exit(1);
 }
 
 if (!MODES.includes(mode)) {
-  console.error(`${RED}${BOLD}[ERROR] Geçersiz mod:${RESET} "${mode}". Seçenekler: ${MODES.join(" | ")}`);
+  console.error(`${RED}${BOLD}[ERROR] Invalid mode:${RESET} "${mode}". Options: ${MODES.join(" | ")}`);
   process.exit(1);
 }
 
 if (!ASPECT_DIMS[aspect]) {
-  console.error(`${RED}${BOLD}[ERROR] Geçersiz oran:${RESET} "${aspect}". Seçenekler: 9:16 | 16:9 | 1:1`);
+  console.error(`${RED}${BOLD}[ERROR] Invalid aspect ratio:${RESET} "${aspect}". Options: 9:16 | 16:9 | 1:1`);
   process.exit(1);
 }
 
@@ -315,14 +315,14 @@ fs.writeFileSync(p.scene, sceneContent, "utf-8");
 // Kayıt defterini güncelle
 runNode("gen-registry.mjs");
 
-console.log(`\n${GREEN}${BOLD}✓ PROJE OLUŞTURULDU:${RESET} ${slug}`);
-console.log(`  Dizin     : ${rel(p.dir)}`);
-console.log(`  Paradigma : ${mode}`);
-console.log(`  Oran      : ${aspect} (${ASPECT_DIMS[aspect][0]}x${ASPECT_DIMS[aspect][1]})`);
-console.log(`  Süre      : ${duration}s (${totalFrames} kare @ 60 FPS)`);
-console.log(`\nSıradaki adımlar:`);
-console.log(`  1. İncele/Düzenle       : ${rel(p.direction)} & ${rel(p.spec)}`);
-console.log(`  2. Storyboard Denetimi : pnpm audit:storyboard --project ${slug}`);
-console.log(`  3. Pipeline Başlat     : pnpm studio:init --project ${slug} "Açıklama"`);
-console.log(`  4. Kalite Denetimi     : pnpm check --project ${slug}`);
-console.log(`  5. Render               : pnpm render --project ${slug}\n`);
+console.log(`\n${GREEN}${BOLD}✓ PROJECT CREATED:${RESET} ${slug}`);
+console.log(`  Directory : ${rel(p.dir)}`);
+console.log(`  Paradigm  : ${mode}`);
+console.log(`  Aspect    : ${aspect} (${ASPECT_DIMS[aspect][0]}x${ASPECT_DIMS[aspect][1]})`);
+console.log(`  Duration  : ${duration}s (${totalFrames} frames @ 60 FPS)`);
+console.log(`\nNext steps:`);
+console.log(`  1. Review/Edit          : ${rel(p.direction)} & ${rel(p.spec)}`);
+console.log(`  2. Storyboard Audit     : pnpm audit:storyboard --project ${slug}`);
+console.log(`  3. Quality Gate Check   : pnpm check --project ${slug}`);
+console.log(`  4. Visual Contact Sheet : pnpm render:contact-sheet --project ${slug}`);
+console.log(`  5. Render MP4           : pnpm render --project ${slug}\n`);

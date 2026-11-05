@@ -1,49 +1,49 @@
 # SCULPTURAL MOTION REEL MASTER GUIDE
-> **Kaynak:** Build a Motion-Graphics Reel with Gemini Omni Flash  
-> **Temel İlke:** *"Referansın konusunu değil; 1-1.5 saniyelik beat ritmini, heykelimsi 3D nesneler arasındaki kesintisiz geçiş mantığını (match cuts) ve 10 saniyelik kurgu haritasını kullanın."*  
-> **Handoff Frame Kuralı:** *"20 saniyelik videolarda ilk 10 saniyenin son karesi, ikinci 10 saniyenin başlangıç görsel çapası yapılır; kamera vektörü aynı yönde kesintisiz sürdürülür."*
+> **Source:** Build a Motion-Graphics Reel with Gemini Omni Flash  
+> **Core Principle:** *"Do not copy the subject matter of the reference; extract the 1.0–1.5s beat rhythm, continuous match-cut transitions between sculptural 3D forms, and the 10-beat narrative structure."*  
+> **Handoff Frame Rule:** *"In 20-second videos, lock the final frame of the first 10 seconds as the visual anchor for the second 10 seconds; maintain the camera momentum vector across the boundary without interruption."*
 
 ---
 
-## 1. GÖRSEL DÜNYA VE PALET SİSTEMİ
+## 1. VISUAL WORLD & PALETTE SYSTEM
 
-- **Bol Negatif Alanlı Koyu Zemin:** `#060709` tabanlı koyu obsidyen siyahı ve derin menekşe moru (`#4A154B`) radyal atmosfer.
-- **Pahlı Metalik Formlar:** Şampanya altını (`#F5D77F`) ve parlak bronz pahlarla bezenmiş pürüzsüz heykelsi yüzeyler.
-- **Doygun Renk Harmanı:** Macenta (`#E01E5A`), mercan (`#FF6F59`), krem (`#FFF5EA`) ve şampanya altınından oluşan zengin degrade geçişleri.
-- **Kılcal Vurgular:** 1px beyaz/gümüş çerçeve geometrisi ve kontrollü speküler ışık yansımaları (`rotating glints`).
+- **Negative-Space Dark Ground:** Deep obsidian black (`#060709`) and deep plum radial atmospheric ambient backdrop (`#4A154B`).
+- **Beveled Metallic Forms:** Champagne gold (`#F5D77F`) and polished bronze bevels on clean sculptural geometries.
+- **Vibrant Gradient Blend:** Saturated blends of magenta (`#E01E5A`), coral (`#FF6F59`), cream (`#FFF5EA`), and champagne gold.
+- **Hairline Highlights:** 1px white/silver edge geometry and rotating specular gleams.
 
 ---
 
-## 2. 10 SANİYELİK (10-BEAT) KURSÖRLÜ ZAMAN HARİTASI
+## 2. 10-BEAT TIME MAP (10-SECOND ROADMAP)
 
-| Zaman | Beat Başlığı | Storyboard & Remotion Eylemi |
+| Timestamp | Beat Name | Storyboard & Remotion Execution |
 | :--- | :--- | :--- |
-| **0–1s** | **Hero Silhouette Enter** | Sahneyi güçlü bir silüete sahip tek bir kahraman nesneyle kur (`ChampagneBeveledRing`). |
-| **1–2s** | **Material & Depth Reveal** | Malzemenin altın/metal dokusunu ve yönlü hareketini göster; formlar dönerek ayrışır. |
-| **2–3s** | **Diagonal Colored Sweep** | Ürünün kendi formlarıyla çapraz bir renk süpürmesi yap (`DiagonalGradientSweep`). |
-| **3–4s** | **Layered Core Assembly** | Sıcak parlayan bir çekirdek etrafında net ön plan/arka plan katman ayrımı kur. |
-| **4–5s** | **Framed Icon / Tile** | Önceki formları tek bir ince çerçeveli ambleme veya UI karesine dönüştür. |
-| **5–6s** | **Concentric Macro Pulse** | Siyah zeminde iç içe konsantrik halkaların makro ölçekte nabız gibi atması. |
-| **6–7s** | **Perspective Cascade** | Kontrollü gölgelerle 3D derinlikli hızlı bir disk dizilimi açığa çıkar (`PerspectiveDiscCascade`). |
-| **7–8s** | **Dense Hero Stacking** | Mobilde dahi net okunacak yoğun bir disk yerleşimi oluştur; dönüp yerine otursun. |
-| **8–9s** | **Palette Grid Reset** | Kapanıştan önce gözü dinlendiren düzenli bir renk paleti / ızgara düzenine geç (`PaletteGridReset`). |
-| **9–10s** | **Circular Payoff Close-up** | Unutulmaz bir makro dairesel yakın planla (lens / göz yansıması) bitir ve temizce kes. |
+| **0–1s** | **Hero Silhouette Enter** | Establish the scene with a bold, singular silhouette hero object (`ChampagneBeveledRing`). |
+| **1–2s** | **Material & Depth Reveal** | Showcase metallic gold textures and directional momentum; forms rotate and separate. |
+| **2–3s** | **Diagonal Colored Sweep** | Drive a diagonal chromatic sweep through the product's own geometry (`DiagonalGradientSweep`). |
+| **3–4s** | **Layered Core Assembly** | Build distinct foreground/background layers around a glowing core. |
+| **4–5s** | **Framed Icon / Tile** | Condense preceding forms into a refined hairline-bordered emblem or UI tile. |
+| **5–6s** | **Concentric Macro Pulse** | Concentric nested rings pulsating at macro scale on obsidian ground. |
+| **6–7s** | **Perspective Cascade** | Cascade 3D depth-tiered discs with controlled ambient drop shadows (`PerspectiveDiscCascade`). |
+| **7–8s** | **Dense Hero Stacking** | Dense disc arrangement designed for high mobile readability; rotates and locks into place. |
+| **8–9s** | **Palette Grid Reset** | Transition to an orderly grid layout / palette reset to rest the eye before the finale (`PaletteGridReset`). |
+| **9–10s** | **Circular Payoff Close-up** | Conclude on an unforgettable macro circular focal point (lens / specular pupil) and resolve cleanly. |
 
 ---
 
-## 3. 20 SANİYELİK ÇOKLU KLİP DEVİR TESLİMİ (THE HANDOFF FRAME PROTOCOL)
+## 3. 20-SECOND MULTI-CLIP HANDOFF PROTOCOL
 
-Video AI modelleri ve karmaşık Remotion sahneleri uzun sürelerde tutarlılık kaybı yaşayabilir:
-1. Video iki bağımsız bloğa ayrılır: `0–10s` ve `10–20s`.
-2. **Kritik Handoff Kuralı:** İlk 10 saniyenin **en son karesi (frame 600 @ 60 FPS)**, ikinci bloğun başlangıç karesi (frame 0) olarak kilitlenir.
-3. **Kamera Vektörü Devamı:** İlk blokta kamera sağa pan / push-in yapıyorsa, ikinci blok tam aynı hız ve açıyla hareketi sürdürür.
-4. İki klip birleştiğinde izleyici aradaki dikişi asla fark etmez.
+To ensure geometric consistency across extended durations:
+1. Divide the project into two distinct chapters: `0–10s` and `10–20s`.
+2. **Critical Handoff Rule:** Lock the **final frame of chapter 1 (frame 600 @ 60 FPS)** as the exact origin frame (frame 0) of chapter 2.
+3. **Camera Momentum Continuity:** If the camera pans right / pushes in during chapter 1, chapter 2 continues along the identical velocity vector.
+4. When joined, the transition boundary is visually seamless.
 
 ---
 
-## 4. DİKEY (9:16) STORYBOARD KONTROL LİSTESİ
+## 4. VERTICAL (9:16) STORYBOARD CHECKLIST
 
-- [x] **Dikey Güvenli Alan:** Önemli nesneler ekranın aşırı kenarlarından uzakta (safe-zone).
-- [x] **Kare Başına Tek Eylem:** Her kare tek bir görsel aksiyona odaklanmalı ve sonrakine doğal akmalı.
-- [x] **Gerçekçi Tasarım:** Yapay zekaya detay uydurtmayın; gerçek grafik ve nesneleri storyboard'da açıkça çizin.
-- [x] **Temiz Tipografi:** Logolar ve metinler sade, net ve yayın ölçeğinde (min 18px).
+- [x] **Vertical Safe Zone:** Primary focal subjects remain safely inside the vertical broadcast safe zones.
+- [x] **Single Action Per Beat:** Every beat isolates a single visual action flowing into the next.
+- [x] **Authentic Geometry:** Define exact SVG and CSS geometries rather than loose abstractions.
+- [x] **Crisp Typography:** Brand marks and headlines remain bold, legible, and scaled for mobile displays (min 18px).

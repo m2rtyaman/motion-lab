@@ -116,13 +116,13 @@ pnpm doctor
 
 ## 💎 The 7 Mandatory Motion Director Laws
 
-1. **Single Container Principle (Tek Kap İlkesi):**  
+1. **Single Container Principle (Continuous Living Container):**  
    Never cut between UI scenes abruptly. An existing visual container (button, card, panel) must continuously morph in size, border-radius, and position into the next state.
 2. **Hardware Shell Anchor:**  
    UI components and cards cannot float loosely in empty space; they must be locked inside an authentic device shell (`DeviceMockupStage`, `PrecisionDashboardShell`, or `BrowserFrame`).
 3. **Subgrid Shared Borders:**  
    Bento cards do not stand as isolated boxes; they share 1px hairline light-leaking borders via `gap-[1px] bg-white/[0.08]`.
-4. **Never Invent Facts (Sıfır Uydurma Veri):**  
+4. **Never Invent Facts (Authentic Brand Data):**  
    Consumer and mobile products must showcase authentic features and realistic messages, completely prohibiting hallucinated DevOps or crypto telemetry.
 5. **Anticipatory Stillness (300–600ms):**  
    Every major impact, text punch, or scene transition is preceded by a micro-pause ($300\text{--}500\text{ ms}$) to multiply visual impact.

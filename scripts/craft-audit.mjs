@@ -124,7 +124,7 @@ for (const project of targets) {
 
   console.log(`\n▶ [${project.slug}]`);
   if (errors.length === 0 && warnings.length === 0) {
-    console.log(`  ${GREEN}✓ Kusursuz İşçilik! Hiçbir P0/P1 ihlali bulunamadı (10/10).${RESET}`);
+    console.log(`  ${GREEN}✓ Flawless Craftsmanship! Zero P0/P1 violations found (10/10).${RESET}`);
   } else {
     if (warnings.length > 0) {
       warnings.forEach((w) => console.log(`  ${YELLOW}⚠️  ${w}${RESET}`));
@@ -139,9 +139,9 @@ for (const project of targets) {
 
 console.log(`\n==================================================`);
 if (totalErrors > 0) {
-  console.log(`${RED}${BOLD}🛑 Craft denetimi başarısız oldu! Toplam ${totalErrors} adet P0 ihlali bulundu.${RESET}\n`);
+  console.log(`${RED}${BOLD}🛑 Craft audit failed! Total ${totalErrors} P0 violations detected.${RESET}\n`);
   process.exit(1);
 }
 
-console.log(`${GREEN}${BOLD}✨ Craft denetimi başarıyla tamamlandı (P0: 0, Uyarılar: ${totalWarnings}).${RESET}\n`);
+console.log(`${GREEN}${BOLD}✨ Craft audit passed successfully (P0: 0, Warnings: ${totalWarnings}).${RESET}\n`);
 process.exit(0);

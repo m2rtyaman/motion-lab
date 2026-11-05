@@ -30,6 +30,7 @@ out/
 ---
 
 ### TEMPLATE LIBRARY & OFFICIAL GOLDEN REFERENCE
+- **Agent Harness Manuals:** `CLAUDE.md` (Claude Code CLI), `CODEX.md` (OpenAI Codex / Copilot), and `.cursorrules` (Cursor IDE) define deterministic operating constraints across all agent frameworks.
 - **Official Golden Reference:** `src/projects/single-container-broll/` (Gemini 2.5 / Google DeepMind Single Continuous Container B-Roll). The core benchmark for all UI, B-Roll, and editorial motion graphics. For detailed architectural guidelines and lessons, see: `references/GOLDEN_REFERENCE.md`.
 - **Master Storyboard Constitution:** `references/MASTER_STORYBOARD_RULES.md` (Synthesized from 10 Master PDF field guides: 5 Universal Storyboard Laws, 3-Layer Depth System, 1.0–1.5s micro-beat pulse, and the 3-Input Rule).
 - **Hybrid Multi-Archetype Orchestration Guide:** `references/HYBRID_ORCHESTRATION_GUIDE.md` (Inter-scene multi-archetype transitions: Bento -> Kinetic Typography -> Terminal -> Brand CTA, shared atomic primitives, and TheHeroActor handoff bridge).

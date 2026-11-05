@@ -1,143 +1,143 @@
 # UNIVERSAL MOTION GRAPHICS STUDIO — MASTER ARCHITECTURAL SPECIFICATION & QUALITY GATES (v5.5)
 
-Bu belge; `motion-lab` deposunun yalnızca belirli bir marka veya senaryoya bağlı kalmadan, önüne gelen her türlü brief'i (B2B SaaS, E-ticaret, Fintech, Mobil Uygulama, Lansman Teaser'ı) **Claude Opus / Apple Keynote** yayın kalitesinde işleyebilen otonom ve evrensel bir Motion Graphics Motoru olması için gereken kuralları, matematiksel formülleri ve teknik denetimleri tanımlar.
+This document establishes the architecture, mathematical formulas, and quality gates enabling `motion-lab` to autonomously process any creative brief (B2B SaaS, E-commerce, Fintech, Mobile App, Launch Teaser) at **Claude Opus / Apple Keynote** broadcast standards.
 
 ---
 
-## BÖLÜM 1: Evrensel Senaryo, Kurgu ve Hikaye Anlatımı (Narrative Engine)
+## SECTION 1: Universal Storyboard, Editing & Narrative Engine
 
-### 1.1. Esnek Arketip Yönlendiricisi (Narrative Router)
-Gelen prompt ve brief türüne göre aşağıdaki 5 kurgu arketipinden biri seçilir veya disiplinli şekilde melezlenir:
+### 1.1. Flexible Narrative Router
+Depending on the creative brief and prompt type, select one of the following 5 narrative archetypes or create a disciplined hybrid:
 
-1. **Product-Flow-Tour (Ürün Akışı):** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası). *Örn: Linear, Notion, Stripe.*
-2. **Problem-Agitation-Solution (PAS - Reklam Kurgusu):** Eski/Yorucu Yöntem (Düşük kontrast, kaos, yavaşlık) → Kırılma Anı (Whip-pan veya morph geçişi) → Ürünle Gelen Çözüm, Hız ve Netlik.
-3. **Kinetic-Manifesto (Tipografi Odaklı):** %80 dev tipografi ve soyut geometrik formlar, %20 ürün/marka vurgusu. Staccato ritim, satır maskeleme ve zıt renk blokları. *Örn: Spotify, Nike, Stripe Sessions.*
-4. **Bento-Feature-Grid (Özellik Vitrini):** Tek bir ana vaat etrafında 4-6 özelliğin modüler kartlar halinde sırayla parlayıp canlandığı lansman kurgusu. *Örn: Apple Hardware/Software Launch.*
-5. **Metric-Storytelling (Veri & Fintech Anlatısı):** Küçük bir veri noktasından başlayıp dallanan grafikler, akış şemaları ve canlı sayaçlarla sonuca ulaşan analitik kurgu. *Örn: Stripe, Ramp, Plaid.*
+1. **Product-Flow-Tour:** Discovery (Macro Data / Table) → Micro-Interaction (Cursor Selection) → Insight / Value (Drawer / Analysis) → Action (Modal / Execution) → Big Picture (Pipeline / Field Route). *e.g. Linear, Notion, Stripe.*
+2. **Problem-Agitation-Solution (PAS):** Legacy/Friction Method (Low contrast, chaos, latency) → Turning Point (Whip-pan or container morph) → Product Solution, Velocity & Clarity.
+3. **Kinetic-Manifesto:** 80% monumental typography & abstract geometric forms, 20% product/brand focus. Staccato rhythm, masked splits, high-contrast color blocks. *e.g. Spotify, Nike, Stripe Sessions.*
+4. **Bento-Feature-Grid:** 4–6 modular cards illuminating in sequence around a central value proposition. *e.g. Apple Hardware / Software Launch.*
+5. **Metric-Storytelling:** Analytical narrative beginning from an atomic data point, branching into charts, flow trees, and rolling live counters. *e.g. Stripe, Ramp, Plaid.*
 
-### 1.2. Matematiksel Ritim ve Tempo Kontratı (Pacing & Rhythm Law)
-- **Anti-Monotonluk Kuralı:** Bir videodaki tüm beat'lerin kare sayıları eşit olamaz ($\sigma(\text{durations}) > 18\text{ frame}$ şartı). Eşit süreye bölünmüş slayt gösterileri yasaktır.
-- **Nefes Alma Eğrisi (Breathing Pacing):**
-  - **Vuruş (Staccato Beat - 35 ila 55 frame):** Dikkat çekici girişler, hızlı eylemler, kısa vurucu başlıklar.
-  - **Odak (Focus/Hold Beat - 75 ila 110 frame):** İzleyicinin tablo satırını, uyarı kutusunu veya grafiği okuması gereken anlar. Kamera burada sabit durmaz, yavaşça süzülür (`ambientDrift`).
-  - **Mikro-Duraksama (Anticipation & Settle):** Tıklanan butonda modal anında %100 belirmez; tıklama dalgası (6 frame), ardından spring fiziğiyle açılış (14-18 frame) ve okuma süresi (40+ frame) ayrılır.
+### 1.2. Mathematical Rhythm and Pacing Laws
+- **Anti-Monotony Rule:** All beats in a video must never share identical frame durations ($\sigma(\text{durations}) > 18\text{ frames}$). Equal-length slide decks are strictly forbidden.
+- **Breathing Pacing Curve:**
+  - **Staccato Beat (35–55 frames):** High-impact entries, swift actions, bold punchy titles.
+  - **Focus/Hold Beat (75–110 frames):** Moments where viewers parse table rows, metric cards, or charts. The camera does not freeze; it drifts slowly (`ambientDrift`).
+  - **Anticipation & Settle:** Modals or cards do not appear instantly upon click; allocate click ripple (6 frames), followed by spring expansion (14–18 frames) and reading hold (40+ frames).
 
-### 1.3. Görsel-Metinsel Tamamlayıcılık (Copywriting vs. UI Sync)
-- **Tekrar Yasağı (Zero Redundancy):** Ekranda görünen UI bileşeninin başlığı ile sahnenin pazarlama metni (Overlay Headline) aynı kelimeleri içeremez.
-  - *Yanlış:* Ekranda "Randevu Oluştur" modalı varken üstte "Randevu Oluşturun" yazması.
-  - *Doğru:* Ekranda "Randevu Oluştur" modalı dolarken üstte "Saniyeler İçinde Takvimi Doldurun" yazması.
-- **Tekil Odak Kuralı (Single Focal Point):** Bir sahnede izleyiciye en fazla 1 birincil odak sunulabilir. Aynı anda hem karmaşık tablo akıp hem sağdan çekmece açılıp hem de üstte uzun metin değişemez.
+### 1.3. Visual-Textual Complementarity (Copywriting vs. UI Sync)
+- **Zero Redundancy Rule:** The overlay marketing headline and visible UI component titles must never duplicate exact words.
+  - *Incorrect:* UI modal titled "Create Schedule", overlay headline reading "Create Your Schedule".
+  - *Correct:* UI modal titled "Create Schedule", overlay headline reading "Fill Your Calendar In Seconds".
+- **Single Focal Point Law:** Only one primary focus element is permitted per beat. Simultaneously scrolling complex tables, opening side drawers, and changing long overlay text is forbidden.
 
-### 1.4. Sahne Geçiş Motivasyonu (Transition Semantics)
-Her sahne geçişi sinematografik bir nedene dayanmalıdır:
-- `spatial-zoom-in / spatial-zoom-out`: Genel görünümden detaya dalış veya detaydan genel görünüme çıkış.
-- `spatial-pan`: Aynı geniş tuval üzerinde yan/alt modüle kayış (`InfiniteCanvasPan`).
-- `ui-trigger`: İmleç tıklamasıyla açılan Modal, Drawer veya Sekme değişimi.
-- `match-cut`: Bir form/kart geometrisinin bir sonraki sahnedeki başka bir bileşene dönüşmesi.
-- **YASAK:** Ardışık iki sahne arasında bağlamsız `opacity` + `blur` (crossfade) geçişi kesinlikle yasaktır.
+### 1.4. Transition Semantics
+Every scene transition must be motivated by a clear cinematographic rationale:
+- `spatial-zoom-in / spatial-zoom-out`: Diving into micro-details or pulling back to the macro view.
+- `spatial-pan`: Gliding across a continuous canvas to an adjacent module (`InfiniteCanvasPan`).
+- `ui-trigger`: User interaction opening a Modal, Drawer, or Tab switch.
+- `match-cut`: Container geometry morphing smoothly into another component in the next beat.
+- **FORBIDDEN:** Unmotivated opacity/blur crossfades between disconnected scenes.
 
 ---
 
-## BÖLÜM 2: Evrensel Kamera, Uzay ve Boyut Mimarisi (Spatial & Viewport Engine)
+## SECTION 2: Universal Camera, Spatial & Viewport Engine
 
-### 2.1. Sanal Tuval ile Çıktı Çözünürlüğünü Ayırma (Virtual Canvas Decoupling)
-- **Sorun:** 9:16 (1080x1920) dikey videoya %100 genişlikle masaüstü `<AppShell>` yerleştirildiğinde sütunlar ezilir, metinler mikro boyuta iner veya sağdan taşarak kesilir (overflow clipping).
-- **Evrensel Kural:**
-  1. Masaüstü/Web arayüzleri her zaman sabit genişlikli bir **Sanal Tuvalde** (ör. `1440x900` veya `1600x1000`) render edilir.
-  2. `<SpatialCamera>` bu sanal tuvali 3D uzay sahnesi olarak ele alır; 9:16 dikey çıktı için kamerayı aktif aksiyonun olduğu koordinata (`targetX`, `targetY`) odaklar ve kadrajı güvenli sınırlara göre ölçekler (`scale`).
-  3. Çekmece açıldığında veya Kanban'ın 3. sütununa geçildiğinde kamera yatay pan yaparak hedefi tam merkeze alır; hiçbir bileşen ezilmez veya kesilmez.
+### 2.1. Virtual Canvas Decoupling
+- **The Problem:** Placing a desktop `<AppShell>` directly at 100% width inside a 9:16 (1080x1920) vertical frame crushes columns, shrinks text to illegible sizes, or clips content horizontally.
+- **The Universal Rule:**
+  1. Desktop interfaces are always rendered on a fixed-width **Virtual Canvas** (e.g. `1440x900` or `1600x1000`).
+  2. `<SpatialCamera>` treats this virtual canvas as a 3D space; for 9:16 vertical output, it navigates to active coordinates (`targetX`, `targetY`) and scales appropriately (`scale`).
+  3. When drawers open or Kanban columns activate, the camera pans horizontally to center the action; components remain sharp and unclipped.
 
-### 2.2. Sürekli Kamera Nefesi (Zero-Dead-Frame Law)
-- **Sorun:** GSAP tween'i bittikten sonra kameranın kilitlenmesi ve sonraki 40 kare boyunca ekranın hareketsiz bir ekran görüntüsüne dönüşmesi (`diffs: 0.01` veya `0`).
-- **Evrensel Kural:** Birincil kamera hareketi tamamlansa dahi, her karede çalışan deterministik bir `ambientDrift(frame)` fonksiyonu devrededir:
+### 2.2. Zero-Dead-Frame Law (Ambient Drift)
+- **The Problem:** Camera locking dead after a GSAP tween, producing frozen static frames for 40+ frames (`diffs: 0.01` or `0`).
+- **The Universal Rule:** Even when primary tweens conclude, a deterministic `ambientDrift(frame)` function remains active:
   $$\Delta y = \sin(\text{frame} \times 0.04) \times 3\text{px}$$
   $$\Delta \text{scale} = 1 + \sin(\text{frame} \times 0.02) \times 0.015$$
   $$\Delta \text{rotZ} = \cos(\text{frame} \times 0.03) \times 0.15^\circ$$
-- Bu sayede videonun hiçbir anında frame-diff değeri 1.2'nin altına düşmez; sahne her an canlı nefes alır.
+- Frame-to-frame diffs never drop below 1.2; the canvas breathes continuously.
 
-### 2.3. Kamera ve Aktör (İmleç/Vurgu) Eş-Uzay Kuralı
-- `<SimulatedCursor>`, `<ClickRipple>` ve `<CalloutBadge>` aktörleri harici viewport katmanında değil, doğrudan `<SpatialCamera>` içindeki sanal tuval koordinat sisteminde (`.spatial-world`) yaşar.
-- Kamera `rotateX(15deg) rotateY(-12deg) scale(1.6)` yaptığında imleç hedeflenen buton üzerinden 1 piksel dahi sapamaz.
-
----
-
-## BÖLÜM 3: Evrensel Tasarım, Tema ve Görsel Dil (Design System & Brand Extractor)
-
-### 3.1. Otomatik Marka Çıkarımı (Vision-to-Token Pipeline)
-Görsel verildiğinde veya brief tanımlandığında koda başlamadan önce zorunlu `ThemeConfig` üretilir:
-- **Zemin Analizi:** Görselin %60'ından fazlası açık renkse `surfaceMode: "light"`, koyu ise `"dark"`, doygun marka zemininde ise `"vibrant-brand"`.
-- **Renk Eşleme:** Birincil marka rengi (`accentPrimary`), ikincil vurgu (`accentSecondary`), başarı (`statusSuccess`), uyarı (`statusWarning`), kart zemini (`bgSurface`), ana tuval (`bgPrimary`).
-- **Geometri:** Yuvarlak hatlı SaaS (`radius: 14px-20px`, soft-ambient gölge) vs. Keskin kurumsal (`radius: 4px-8px`, crisp 1px kenarlık).
-
-### 3.2. Katmanlama ve Derinlik Hiyerarşisi (Z-Axis & Anti-Ghosting)
-- **Hayalet Geçiş (Ghosting) Yasağı:** Yeni bir sahneye veya görünüme geçilirken eski katman en fazla 12 kare içinde tamamen kapanmalı veya gizlenmelidir. İki farklı sahnenin metinleri veya pinleri asla yarı şeffaf üst üste binemez.
-- **Arka Plan Karartma (Dimming Backdrop):** Ön planda `<ModalDialog>` veya `<SlideOverDrawer>` açıldığında, arka plandaki arayüz `filter: blur(6px) brightness(0.92)` ve `opacity: 0.35` ile geri plana itilir.
-
-### 3.3. Sinematik Pazarlama Başlık Katmanı (Editorial Overlay)
-- Çıplak tarayıcı kaydı yerine, 9:16 dikey videolarda üst güvenli alanda (`top: 250px-350px`) büyük, yüksek kontrastlı pazarlama başlığı yer alır.
-- **Kapanış (Hero Resolve):** Son sahnede en altta küçük bir buton göstermek yasaktır. Kamera geriye çekilirken ekranın merkezinde cam efektli büyük marka logosu, vurucu değer önerisi ve yüksek kontrastlı CTA butonu kilitlenir.
+### 2.3. Co-Spatial Camera & Actor Discipline
+- Actors like `<SimulatedCursor>`, `<ClickRipple>`, and `<CalloutBadge>` reside inside the virtual canvas coordinate space (`.spatial-world`), not on an isolated viewport overlay.
+- When the camera executes `rotateX(15deg) rotateY(-12deg) scale(1.6)`, the cursor remains pixel-locked to its target button without drifting.
 
 ---
 
-## BÖLÜM 4: Evrensel Yapı Taşları Kütüphanesi (src/primitives/ Envanteri)
+## SECTION 3: Design System, Theming & Visual Language
 
-Tüm bileşenler %100 prop ve veri-bağımsız (data-agnostic) çalışır:
+### 3.1. Vision-to-Token Pipeline
+Before code generation, establish the `ThemeConfig`:
+- **Surface Mode:** Light theme (`surfaceMode: "light"`) if primary brand is light; dark theme (`"dark"`) for developer tools/cyber environments; vibrant brand (`"vibrant-brand"`) for colorful canvases.
+- **Color Mapping:** Primary accent (`accentPrimary`), secondary accent (`accentSecondary`), success (`statusSuccess`), warning (`statusWarning`), card surface (`bgSurface`), background canvas (`bgPrimary`).
+- **Geometry:** Rounded consumer SaaS (`radius: 14px-20px`, soft ambient shadows) vs. Crisp developer infrastructure (`radius: 4px-8px`, sharp 1px borders).
 
-1. **Kabuklar (Shells):**
-   - `<BrowserFrame>`: URL barı, sekme başlığı, trafik ışıkları, tema uyumlu zemin.
-   - `<DesktopAppShell>`: Sol dar/geniş sidebar, üst arama ve profil barı, ana içerik tuvali.
-   - `<MobileDeviceFrame>`: Dynamic Island, hoparlör ızgarası, mobil navigasyon çubuğu.
-   - `<BentoStage>`: 2x2 veya 3x2 modüler kart vitrini.
-   - `<VirtualCanvas>`: 1440x900 sabit desktop tuvalini 3D kamera için normalize eden sarmalayıcı.
+### 3.2. Layering & Depth Hierarchy (Z-Axis & Anti-Ghosting)
+- **Anti-Ghosting Law:** Old scene layers must fully dissolve or exit within 12 frames. Two different scenes must never linger semi-transparently over one another.
+- **Dimming Backdrop:** When a `<ModalDialog>` or `<SlideOverDrawer>` opens, background UI transitions to `filter: blur(6px) brightness(0.92)` and `opacity: 0.35`.
 
-2. **Veri ve Arayüz Widget'ları (Widgets):**
-   - `<DataTable>`: Çok sütunlu müşteri/işlem tablosu, durum rozetleri, satır vurgulama (`highlightedRowIndex`).
-   - `<MetricCardRow>`: KPI sayaçları, canlı rakam (`NumberTicker`), trend yüzdeleri (+%24) ve sparkline.
-   - `<InteractiveMap>`: Vektörel SVG sahil/sokak haritası, radar ping pinleri, otomatik kesikli rota çizgisi.
-   - `<CalendarGrid>`: Aylık/haftalık zaman matrisi, seçili gün ve saat bazlı randevu blokları.
-   - `<KanbanBoard>`: Sütunlar, boru hattı metrikleri ve aşamalar arası translate3d + rotateZ ile taşınan kartlar.
-   - `<SlideOverDrawer>`: Sağdan/soldan kayan detay çekmecesi, form alanları ve analiz uyarı kutusu.
-   - `<ModalDialog>`: Spring fiziğiyle açılan merkezi onay/randevu penceresi.
-   - `<ChartCanvas>`: Çizgi, bar ve pasta grafiklerini progress (0 → 1) ile çizen veri görselleştirici.
-
-3. **Aktörler ve Başlıklar:**
-   - `<SimulatedCursor>`: Koordinat dizisiyle (`x, y, action`) çalışan, tıklama anında `.cursor-ripple` yayan imleç.
-   - `<KineticHeadline>`: Satır maskesi (`overflow: hidden`) ile aşağıdan yukarı fırlayan pazarlama başlığı.
+### 3.3. Editorial Marketing Overlay
+- Instead of raw screen captures, 9:16 vertical videos incorporate high-contrast marketing typography in the upper safe zone (`top: 250px-350px`).
+- **Hero Resolve:** The closing scene must never end on a tiny tucked-away button. Pull back to a prominent glassmorphic brand badge, compelling value proposition, and high-contrast CTA button.
 
 ---
 
-## BÖLÜM 5: Otomatik Kalite Kapıları ve Denetim Standartları
+## SECTION 4: Universal Primitives Library (`src/primitives/`)
 
-### 5.1. `validate-spec.mjs` (Senaryo & Şema Kapısı)
-- **Görsel Eşleşme Zorunluluğu:** Brief veya ekran görüntülerinde yer alan tüm ana ekran tipleri `spec.json` içindeki `detectedWidgets` alanında listelenmeli ve kodda bulunmalıdır.
-- **Süre Varyansı:** Tüm beat'lerin süreleri aynıysa ($\sigma < 10\text{ frame}$) hata fırlatılır.
-- **Kamera Boşluğu:** İki kamera hareketi arasında en fazla 1.0 saniye boşluk olabilir; sahne donuk kalamaz.
+All primitives operate 100% data-agnostically:
 
-### 5.2. `ast-lint.mjs` (AST Sözdizimi Ağacı Kapısı)
-- **`SLOP-004` (Görsel Girdi Denetimi):** `spec.json` içindeki `detectedWidgets` dizisinde yer alan tüm bileşenlerin `Scene.tsx` AST ağacında gerçek JSX öğesi (`JSXOpeningElement`) olarak kullanıldığını doğrular.
-- **`SLOP-001` (Boş Alan Denetimi):** Sahnenin çıplak div veya tek kartla geçiştirilmesini engeller; yapısal kabuk zorunludur.
-- **Sihirli Sayı & Layout Tween Yasağı:** `top, left, width, height` tween'i yasaktır; yalnızca GPU özellikleri (`transform, opacity, filter`) tween edilir.
+1. **Shells:**
+   - `<BrowserFrame>`: URL bar, tab titles, traffic lights, theme-adaptive canvas.
+   - `<DesktopAppShell>`: Responsive sidebar, search bar, avatar, main canvas.
+   - `<MobileDeviceFrame>`: Dynamic Island, speaker grille, mobile navigation pill.
+   - `<BentoStage>`: 2x2 or 3x2 modular card showcases.
+   - `<VirtualCanvas>`: Fixed desktop canvas normalized for 3D camera navigation.
 
-### 5.3. `contact-sheet.mjs` & `manifest.json` (Fiziksel Render Kapısı)
-- **Alt-Aralık Hareket Zorunluluğu (Sub-Beat Motion Gate):**
-  Bir beat içindeki `diffs` dizisinde yer alan HER BİR ardışık kare farkı en az **1.2** olmak zorundadır:
+2. **Data & UI Widgets:**
+   - `<DataTable>`: Multi-column account/transaction tables, status pills, highlighted rows.
+   - `<MetricCardRow>`: KPI counters, live `NumberTicker`, trend badges (+24%), sparklines.
+   - `<InteractiveMap>`: Vector SVG coastline/street maps, radar ping pins, animated route dashed lines.
+   - `<CalendarGrid>`: Monthly/weekly schedule grid, active appointment slots.
+   - `<KanbanBoard>`: Columns, pipeline metrics, cards transitioning between stages via 3D transforms.
+   - `<SlideOverDrawer>`: Slide-in detail panel, structured form fields, alert callouts.
+   - `<ModalDialog>`: Spring-physics centered confirmation/scheduling window.
+   - `<ChartCanvas>`: Line, bar, and donut charts animating along progress (0 → 1).
+
+3. **Actors & Typography:**
+   - `<SimulatedCursor>`: Smooth Bézier trajectory actor with `.cursor-ripple` click triggers.
+   - `<KineticHeadline>`: Masked line reveals (`overflow: hidden`) bursting upwards.
+
+---
+
+## SECTION 5: Automated Quality Gates & Audit Standards
+
+### 5.1. `validate-spec.mjs` (Motion Contract Gate)
+- **Visual Alignment:** All primary screen widgets specified in brief or screenshots must be declared in `spec.json` (`detectedWidgets`) and instantiated in JSX.
+- **Pacing Variance:** Equal-length beats ($\sigma < 10\text{ frames}$) trigger immediate audit failure.
+- **Camera Continuity:** Gaps between camera moves cannot exceed 1.0s; stagnation is rejected.
+
+### 5.2. `ast-lint.mjs` (AST Syntax & Purity Gate)
+- **`SLOP-004` (Widget Verification):** Confirms all `detectedWidgets` in `spec.json` exist as valid JSX opening elements in `Scene.tsx`.
+- **`SLOP-001` (Stage Anchoring):** Blocks naked floating divs; requires verified stage shells.
+- **GPU Purity:** Blocks `top, left, width, height` tweens; enforces `transform`, `opacity`, `filter`.
+
+### 5.3. `contact-sheet.mjs` & `manifest.json` (Render Verification)
+- **Sub-Beat Motion Gate:**
+  Every consecutive frame diff in `beat.diffs` must satisfy $d \ge 1.2$:
   $$\forall d \in \text{beat.diffs}: d \ge 1.2$$
-  Tek bir `0.01` veya `0` fark tespit edilirse test **FAIL** verir ve render reddedilir.
-- **Adversarial Görsel Denetim:**
-  Model görsel öz-denetim yaparken övgü değil, şu 4 hatayı aramak zorundadır:
-  1. Sağdan/soldan kesilmiş metin veya kutular (clipping).
-  2. Üst üste binen yarı saydam okunaksız katmanlar (ghosting).
-  3. İki kare arasında hiçbir pikselin değişmediği donuk anlar ($d < 1.2$).
-  4. Okunamayacak kadar küçük mikro-font veya silik CTA.
+  Any recorded diff $\le 0.01$ fails the quality gate.
+- **Adversarial Visual Inspection:**
+  Visual critics evaluate against 4 cardinal defects:
+  1. Horizontal or vertical text/box clipping.
+  2. Overlapping unreadable ghost layers.
+  3. Stagnant frozen frames ($d < 1.2$).
+  4. Illegible micro-fonts (<16px) or washed-out CTAs.
 
 ---
 
-## BÖLÜM 6: B2B SaaS İdeal Senaryo Matrisi (360 Frame / 6 Saniye)
+## SECTION 6: B2B SaaS Reference Beat Architecture (360 Frames / 6 Seconds)
 
-| Beat | Frame Aralığı | Süre | Odak & Ekran | Kamera Hareketi | Üst Pazarlama Başlığı |
+| Beat | Frame Range | Duration | Focus & Canvas | Camera Choreography | Overlay Headline |
 |---|---|---|---|---|---|
-| **1. Keşif** | f0 - f70 | 1.17s | `MetricCardRow` (250 Kredi, $120k Pipeline) + `DataTable` (Target 30 Accounts) | `IsometricTilt` (14° → 3°) & `FocusZoom` | *"Acquire High-Value Accounts Without Inbound Lag"* |
-| **2. İçgörü** | f71 - f150 | 1.33s | `SlideOverDrawer` (Enterprise Lead) & Amber Uyarı Kutusu | `FocusZoom` (sağa pan, scale: 1.35) | *"AI-Driven Opportunity & Pipeline Intelligence"* |
-| **3. Randevu** | f151 - f225 | 1.25s | Arka plan blur takvim + Merkezde `ModalDialog` (Demo Booking, 09:00) | Kamera merkeze kilitlenir; spring pop-in | *"Book Demos With Single-Click Precision"* |
-| **4. Saha Rotası** | f226 - f300 | 1.25s | `InteractiveMap` (Territory Pins, animasyonlu rota çizgisi) | Harita üzerinde süzülüş (`CanvasPan`) | *"Smart Regional Routing, Maximum Revenue"* |
-| **5. Kapanış** | f301 - f360 | 1.00s | 2.5D derinlikte süzülen arayüz + Merkezde büyük Brand Marka Kartı & CTA | `applyIsometricTilt` (geriye çekiliş) | *"Automate Your B2B Pipeline • getstarted.io"* |
+| **1. Discovery** | f0 – f70 | 1.17s | `MetricCardRow` ($120k Pipeline) + `DataTable` (Target Accounts) | `IsometricTilt` (14° → 3°) & `FocusZoom` | *"Acquire High-Value Accounts Without Inbound Lag"* |
+| **2. Insight** | f71 – f150 | 1.33s | `SlideOverDrawer` (Enterprise Lead) & Warning Callout | `FocusZoom` (pan right, scale: 1.35) | *"AI-Driven Opportunity & Pipeline Intelligence"* |
+| **3. Action** | f151 – f225 | 1.25s | Background blurred calendar + Centered `ModalDialog` (Demo Booking) | Centered lock-in; spring pop-in | *"Book Demos With Single-Click Precision"* |
+| **4. Routing** | f226 – f300 | 1.25s | `InteractiveMap` (Territory Pins, animated route line) | Aerial glide (`CanvasPan`) | *"Smart Regional Routing, Maximum Revenue"* |
+| **5. Resolve** | f301 – f360 | 1.00s | Floating 2.5D interface + Centered glassmorphic Brand Emblem & CTA | `applyIsometricTilt` (pull back) | *"Automate Your B2B Pipeline • getstarted.io"* |

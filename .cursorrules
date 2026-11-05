@@ -1,4 +1,4 @@
-Always refer to and enforce AGENTS.md, CLAUDE.md, references/MASTER_STORYBOARD_RULES.md, and .agent/skills/motion-playbook/SKILL.md for all creative coding, motion design, and UI animation tasks.
+Always refer to and enforce AGENTS.md, CLAUDE.md, CODEX.md, references/MASTER_STORYBOARD_RULES.md, and .agent/skills/motion-playbook/SKILL.md for all creative coding, motion design, and UI animation tasks.
 
 # MANDATORY PRE-COMPUTATION GATE
 1. Before generating or editing any scene, template, or Remotion component, you MUST load and execute `.agent/skills/anti-slop-deep-thinker/SKILL.md`.

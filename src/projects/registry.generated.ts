@@ -1,4 +1,4 @@
-// OTOMATİK ÜRETİLDİ: scripts/gen-registry.mjs — elle düzenleme.
+// AUTO-GENERATED: scripts/gen-registry.mjs — do not edit manually.
 import type { FC } from 'react';
 import { Scene as Scene_batman_noir } from './batman-noir/Scene';
 import { Scene as Scene_claude_motion_reel } from './claude-motion-reel/Scene';

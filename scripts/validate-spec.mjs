@@ -267,23 +267,23 @@ for (const project of targets) {
     }
   }
 
-  // ---- Proje Raporu ----
+  // ---- Project Report ----
   console.log(`\n${BOLD}==== MOTION SPEC: ${project.slug.toUpperCase()} ====${RESET}`);
-  console.log(`Spec: ${rel(specPath)} | ${spec.mode} ${spec.aspect} | ${totalFrames} kare | ${beats.length} beat | ${camera.length} kamera | ${sfx.length} sfx`);
+  console.log(`Spec: ${rel(specPath)} | ${spec.mode} ${spec.aspect} | ${totalFrames} frames | ${beats.length} beats | ${camera.length} camera | ${sfx.length} sfx`);
 
   if (errors.length) {
-    errors.forEach((e) => console.log(`${RED}${BOLD}[${e.code}] ${e.where}${RESET}: ${e.problem}\n   Çözüm → ${e.fix}`));
+    errors.forEach((e) => console.log(`${RED}${BOLD}[${e.code}] ${e.where}${RESET}: ${e.problem}\n   Fix → ${e.fix}`));
     totalErrors += errors.length;
   } else {
-    console.log(`${GREEN}✓ Spec sözleşmesi ve Scene.tsx hizalaması onaylandı.${RESET}`);
+    console.log(`${GREEN}✓ Spec contract and Scene.tsx alignment verified.${RESET}`);
   }
 }
 
 if (totalErrors > 0) {
-  console.log(`\n${RED}${BOLD}[SPEC: GEÇERSİZ] Toplam ${totalErrors} hata bulundu. Düzeltilene kadar devam edilemez.${RESET}\n`);
+  console.log(`\n${RED}${BOLD}[SPEC: INVALID] Total ${totalErrors} errors found. Fix before proceeding.${RESET}\n`);
   process.exit(1);
 }
 
-console.log(`\n${GREEN}${BOLD}[TÜM PROJE SPEC'LERİ GEÇERLİ]${RESET}\n`);
+console.log(`\n${GREEN}${BOLD}[ALL PROJECT SPECS VALID]${RESET}\n`);
 process.exit(0);
 

@@ -78,7 +78,7 @@ for (const project of targets) {
   const hasGoal =
     /tek\s*c[üu]mlelik.*hedef/i.test(directionText) ||
     /Bu videonun tek cümlelik hedefi şu/i.test(directionText) ||
-    /The single-sentence goal/i.test(directionText) ||
+    /(?:the\s+)?(?:single|one)[- ]sentence.*goal/i.test(directionText) ||
     /Tek Cümlelik Hedef/i.test(directionText) ||
     /İzleyici.*hedef/i.test(directionText);
 
@@ -249,35 +249,35 @@ for (const project of targets) {
   // [STORY-010] Master Storyboard Standardı (5 Evrensel Yasa & 3 Katmanlı Derinlik)
   // ---------------------------------------------------------------------------
   const has3Layers =
-    /3 Katman|3-Layer|Üç Katman|Hayalet Kontur|Ghost.*Layer|Zemin.*Ön Plan/i.test(directionText) ||
+    /(?:3|three)[- ]layer|3 Katman|Üç Katman|Hayalet Kontur|Ghost.*(?:Layer|Outline)|Zemin.*Ön Plan/i.test(directionText) ||
     /LayeredStage3D|LayerPlane/i.test(directionText);
   const hasHeroContinuity =
-    /TheHeroActor|Hero.*Actor|Kahraman.*Aktör|Tek.*Kap|Single.*Container/i.test(directionText) ||
+    /TheHeroActor|Hero.*Actor|Kahraman.*Aktör|Tek.*Kap|Single.*Container|Living.*Container/i.test(directionText) ||
     spec.continuousShot === true;
 
   if (!legacy && (!has3Layers || !hasHeroContinuity)) {
     addWarn(
       "STORY-010",
-      "Master Storyboard 5 Yasa Eksikliği",
-      `direction.md içinde 3 Katmanlı Derinlik Mimarisi (Zemin -> Hayalet Kontur -> Ön Plan) veya TheHeroActor yaşam döngüsü eksik.`,
-      "direction.md dosyasına 3 Katmanlı Derinlik ve TheHeroActor süreklilik planını ekleyin (bkz: references/MASTER_STORYBOARD_RULES.md)."
+      "Master Storyboard 5 Laws Missing",
+      `direction.md lacks 3-Layer Depth Architecture (Base -> Ghost Outline -> Foreground Hero) or TheHeroActor lifecycle.`,
+      "Add 3-Layer Depth and TheHeroActor continuity plan to direction.md (see references/MASTER_STORYBOARD_RULES.md)."
     );
   }
 
   // ---------------------------------------------------------------------------
   // Raporlama
   // ---------------------------------------------------------------------------
-  console.log(`▶ PROJE: ${project.slug.toUpperCase()} [${spec.mode} | ${spec.aspect}]`);
-  console.log(`  Beat Sayısı: ${beats.length} | Kamera Sayısı: ${camera.length} | Süre: ${spec.durationInSeconds}s`);
+  console.log(`▶ PROJECT: ${project.slug.toUpperCase()} [${spec.mode} | ${spec.aspect}]`);
+  console.log(`  Beats: ${beats.length} | Cameras: ${camera.length} | Duration: ${spec.durationInSeconds}s`);
 
   if (errors.length === 0 && warnings.length === 0) {
-    console.log(`  ${GREEN}✓ Kusursuz Storyboard. Kurgu, ritim, tek kap köprüsü ve motivasyon tam.${RESET}\n`);
+    console.log(`  ${GREEN}✓ Flawless Storyboard. Flow, rhythm, continuous container bridge, and camera motivation verified.${RESET}\n`);
   } else {
     errors.forEach((e) => {
-      console.log(`  ${RED}${BOLD}[${e.code}] ${e.title}${RESET}: ${e.detail}\n     Reçete → ${e.fix}`);
+      console.log(`  ${RED}${BOLD}[${e.code}] ${e.title}${RESET}: ${e.detail}\n     Fix → ${e.fix}`);
     });
     warnings.forEach((w) => {
-      console.log(`  ${YELLOW}[${w.code} UYARI] ${w.title}${RESET}: ${w.detail}\n     Reçete → ${w.fix}`);
+      console.log(`  ${YELLOW}[${w.code} WARNING] ${w.title}${RESET}: ${w.detail}\n     Fix → ${w.fix}`);
     });
     console.log();
   }
@@ -287,9 +287,9 @@ for (const project of targets) {
 }
 
 if (totalErrors > 0) {
-  console.log(`${RED}${BOLD}[STORYBOARD: BAŞARISIZ] Toplam ${totalErrors} kurgu hatası bulundu. Kodlama aşamasına geçilemez.${RESET}\n`);
+  console.log(`${RED}${BOLD}[STORYBOARD: FAILED] Found ${totalErrors} editing errors. Cannot proceed to code generation.${RESET}\n`);
   process.exit(1);
 }
 
-console.log(`${GREEN}${BOLD}[STORYBOARD: ONAYLANDI] Tüm storyboard ve kurgu sözleşmeleri profesyonel standartta.${RESET}\n`);
+console.log(`${GREEN}${BOLD}[STORYBOARD: APPROVED] All storyboard and motion contracts meet broadcast standards.${RESET}\n`);
 process.exit(0);

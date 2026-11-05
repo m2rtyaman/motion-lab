@@ -1,83 +1,83 @@
 # STRUCTURAL DECONSTRUCTIVE KINETIC TYPOGRAPHY GUIDE
-> **Kaynak:** Kinetic Typography & Structural Deconstructive Motion Playbook  
-> **Temel İlke:** *"Harflere yalnızca opaklığı değişen sıradan bir metin katmanı muamelesi YAPMAYIN. Her harf uzayda hareket eden, ayrışan, birleşen ve derinliği olan bağımsız bir fiziksel grafik bileşendir."*  
-> **Zamanlama Kuralı:** `Hızlı İvmelenme -> Kontrollü Seyir -> Yumuşak Yavaşlama -> Mikro Yerleşme (Tiny Settle)`
+> **Source:** Kinetic Typography & Structural Deconstructive Motion Playbook  
+> **Core Principle:** *"Do not treat letterforms as ordinary text layers whose opacity merely changes. Every letter is an autonomous physical graphic component moving through space, separating, interlocking, and possessing depth."*  
+> **Pacing Law:** `Rapid Acceleration -> Controlled Cruise -> Smooth Deceleration -> Micro Settle`
 
 ---
 
-## 1. TEMEL YAPI VE HARF ANATOMİSİ
+## 1. CORE STRUCTURE & LETTER ANATOMY
 
-Bir kelime ekranda dağılırken veya birleşirken asla piksellere eriyemez, rasgele parçacıklara bölünemez veya amorf sıvılara dönüşemez. Harf, **anlamlı tipografik bileşenlere** ayrışır:
+When a word separates or converges on screen, it never melts into pixels, scatters into random particles, or liquefies into amorphous blobs. Letters decompose into **meaningful typographic elements**:
 
 ```
-[TAM HARF / WORD]
+[WHOLE WORD / LETTER]
        │
-       ├──> [Dikey Gövdeler (Vertical Strokes)]
-       ├──> [Dairesel Kavisler & Yaylar (Arcs & Curved Portions)]
-       ├──> [İç Boşluklar (Counters)]
-       ├──> [Yatay Çubuklar (Horizontal Bars / Crossbars)]
-       └──> [İkincil Hayalet Kontur (Ghost Outline Duplicate)]
+       ├──> [Vertical Strokes]
+       ├──> [Arcs & Curved Portions]
+       ├──> [Counters (Inner Voids)]
+       ├──> [Horizontal Crossbars]
+       └──> [Secondary Ghost Outline Duplicates]
 ```
 
-### Harfin Sahip Olduğu Fiziksel Eylemler
-1. **Translate & Rotate:** Kendi ağırlık merkezinde veya yörüngesinde dönerek yer değiştirme.
-2. **Split & Reassemble:** Başka bir harfin veya kelimenin yapı taşı olmak üzere ayrışıp yeniden kilitlenme.
-3. **Ghost Outline Offset:** Ana harfin arkasında birkaç piksel gecikmeyle sürüklenen koyu yeşil kontur katmanı.
-4. **Horizontal Slit Pull:** Yatay grafik çizgilerin ve blokların arasından çekilerek parçalanma.
+### Physical Letterform Actions
+1. **Translate & Rotate:** Orbiting or spinning around their own centers of mass.
+2. **Split & Reassemble:** Decomposing to become building blocks for another letter or word before locking into place.
+3. **Ghost Outline Offset:** A trailing dark mint stroke offset by several pixels behind the solid glyph.
+4. **Horizontal Slit Pull:** Extruding or disassembling between horizontal hairline graphic slits.
 
 ---
 
-## 2. ÜÇ KATMANLI DERİNLİK VE IŞIK DİSİPLİNİ
+## 2. THREE-LAYER DEPTH & LIGHTING DISCIPLINE
 
 ```
-[ARKAPLAN]: Koyu Zümrüt Yeşili Siyah (#050706) + Taban Yansıması (Illuminated Floor)
+[BACKGROUND]: Deep Emerald Black (#050706) + Illuminated Floor Surface
      │
      ▼
-[İKİNCİL KATMAN]: Koyu Yeşil Hayalet Konturlar (Ghost Outline / Trailing Lag)
+[SECONDARY DEPTH]: Dark Mint Ghost Outlines (Trailing Lag / Offset)
      │
      ▼
-[ÖN PLAN]: Parlak Mint Yeşili Solid Harf Parçaları (#00FFA3) + Restrained Soft Glow
+[FOREGROUND HERO]: Solid Mint Glyphs (#00FFA3) + Restrained Soft Glow
 ```
 
-- **Restrained Glow:** Çiğ neon kulüp aydınlatması yasaktır. Işıma yalnızca **hareket halindeki aktif harf parçalarında** ve **yeni kilitlenen kelimede** toplanır.
-- **Taban Işıltısı (Floor Surface):** Kadrajın alt üçlüğünde (%75-76 Y), difüze, yatay olarak uzatılmış 1px kılcal bir yansıma çizgisi yer alır.
+- **Restrained Glow:** Neon club illumination is strictly forbidden. Luminosity concentrates solely on **actively moving fragments** and **newly locked words**.
+- **Floor Surface:** In the lower third of the canvas (75%–76% Y), a diffused, horizontally extended 1px hairline reflection anchors the scene.
 
 ---
 
-## 3. KATMANLI ZAMANLAMA (LAYERED TIMING HIERARCHY)
+## 3. LAYERED TIMING HIERARCHY
 
-Tüm öğeler asla aynı anda ve aynı hızda hareket etmez:
-1. **Birincil Parçalar (Primary Elements):** Hızlı, kararlı ve ilk varan gövdeler (`durationFrames * 0.85`).
-2. **İkincil Konturlar (Secondary Outlines):** 2-3 kare gecikmeli (trailing lag) olarak arkadan gelen hayalet katman.
-3. **Küçük Parçacıklar (Small Fragments & Punctuation):** Mikro ofsetlerle en son dönüp yerine oturan noktalar/ünlemler.
-4. **Yerleşme (Tiny Settle):** Son %15'lik zaman diliminde sönümlü mikro elastik oturma.
+Elements never move at identical velocities simultaneously:
+1. **Primary Elements:** Swift, decisive vertical stems arriving first (`durationFrames * 0.85`).
+2. **Secondary Outlines:** Trailing ghost strokes arriving 2–3 frames later.
+3. **Punctuation & Accents:** Micro-offset dots and diacritics rotating into place last.
+4. **Micro-Settle:** Damped elastic settle during the final 15% of the beat window.
 
 ---
 
-## 4. 6.3 SANİYELİK 16 MİKRO-BEAT MASTER SEKANS
+## 4. 6.3-SECOND 16-MICRO-BEAT MASTER SEQUENCE
 
-| Beat | Zaman | Eylem |
+| Beat | Timestamp | Action |
 | :--- | :--- | :--- |
-| **01** | `0.00 - 0.10s` | **Abstract Open:** Boş ekrandan başlamaz; merkezde zaten yaşayan soyut harf kümesi aktiftir. |
-| **02** | `0.10 - 0.25s` | **Rapid Hello Formation:** Kademeli varışla parçalar dönerek `Hello!` kelimesini oluşturur. |
-| **03** | `0.25 - 0.38s` | **Hello Distortion:** Kesme olmadan kelime dikey ve açısal olarak kayar, konturlar belirir. |
-| **04** | `0.38 - 0.60s` | **Fragmented Typography:** Kelime soyut merkezi amblem formuna geri toplanır. |
-| **05** | `0.60 - 0.70s` | **Reassembly:** Çok daha hızlı ve net bir şekilde yeniden `Hello!` kilitlenir. |
-| **06** | `0.70 - 0.95s` | **Evolve Transform:** Parçalar doğrudan kayarak ve rotasyonla `Evolve` kelimesine evrilir. |
-| **07** | `0.95 - 1.20s` | **Abstract Intermediate:** Kelimeler arası geçişte dengeli bir soyut ara durum tutulur. |
-| **08** | `1.20 - 1.38s` | **Evolve Reveal:** Parçalar ortak taban çizgisine (common baseline) oturur. |
-| **09** | `1.38 - 1.65s` | **Outline Offset Hold:** `Evolve` sabitlenir; arkasındaki kontur hafifçe ayrılarak derinlik verir. |
-| **10** | `1.65 - 1.90s` | **Horizontal Slit Transition:** Tipografi yatay grafik çizgilerin arasından çekilerek ayrışır. |
-| **11** | `1.90 - 2.15s` | **Abstract Reset:** Merkezi küme formuna dönüş. |
-| **12** | `2.15 - 2.40s` | **Dark / Minimal Pause:** Görsel sistem kısılır, sahne nefes alır (Anticipatory Stillness). |
-| **13** | `2.40 - 2.75s` | **Hello / Evolve Ghost:** Sol dikey eksenden `Hello!`, ardından saydam yatay kaymayla `Evolve`. |
-| **14** | `2.75 - 4.80s` | **Rotational Orbit Cycle:** Kendi merkezleri etrafında dönen parçalar, ritmik ara birleşmeler. |
-| **15** | `4.80 - 5.05s` | **Evolve Hero (Climax):** En temiz, en net `Evolve` merkezde kilitlenir; okunabilirlik için tutulur. |
-| **16** | `5.05 - 6.30s` | **Controlled Disassembly & Fade:** Harfler tek tek ayrılarak soyut duruma döner ve kararır. |
+| **01** | `0.00 – 0.10s` | **Abstract Open:** Does not start from an empty screen; an abstract letter cluster is already active in center frame. |
+| **02** | `0.10 – 0.25s` | **Rapid Hello Formation:** Rotating fragments assemble sequentially to form `Hello!`. |
+| **03** | `0.25 – 0.38s` | **Hello Distortion:** Without cutting, the word shifts angularly as ghost outlines reveal. |
+| **04** | `0.38 – 0.60s` | **Fragmented Typography:** Glyphs re-cluster into a central emblem geometry. |
+| **05** | `0.60 – 0.70s` | **Reassembly:** Snaps decisively back into `Hello!` at higher velocity. |
+| **06** | `0.70 – 0.95s` | **Evolve Transform:** Fragments glide and rotate directly to transition into `Evolve`. |
+| **07** | `0.95 – 1.20s` | **Abstract Intermediate:** Balanced intermediate abstract geometry bridging words. |
+| **08** | `1.20 – 1.38s` | **Evolve Reveal:** Fragments align onto a common baseline. |
+| **09** | `1.38 – 1.65s` | **Outline Offset Hold:** `Evolve` locks in place; trailing outlines separate slightly for depth. |
+| **10** | `1.65 – 1.90s` | **Horizontal Slit Transition:** Typography disassembles between horizontal hairline slits. |
+| **11** | `1.90 – 2.15s` | **Abstract Reset:** Recovers into a centralized glyph configuration. |
+| **12** | `2.15 – 2.40s` | **Dark / Minimal Pause:** Visual intensity dials back, letting the canvas breathe (Anticipatory Stillness). |
+| **13** | `2.40 – 2.75s` | **Hello / Evolve Ghost:** Vertical emergence of `Hello!`, gliding into `Evolve`. |
+| **14** | `2.75 – 4.80s` | **Rotational Orbit Cycle:** Fragments orbiting internal centers with rhythmic intermediate locks. |
+| **15** | `4.80 – 5.05s` | **Evolve Hero (Climax):** Crystal-clear `Evolve` locks at screen center for maximum readability. |
+| **16** | `5.05 – 6.30s` | **Controlled Disassembly & Fade:** Glyphs disassemble sequentially back into abstract space and dissolve. |
 
 ---
 
-## 5. ALTIN NEGATİF KURALLAR (ANTI-SLOP RESTRICTIONS)
-- **Geleneksel Kesme Yasağı (No Conventional Cuts):** Her yeni durum önceki durumun fiziksel dönüşümünden doğar.
-- **Metalik/Krom/Cam Yasağı:** Harflere ucuz 3D balon/metal dokusu verilemez; derinlik sadece uzamsal katman ve kontur ofsetinden gelir.
-- **Yapay Zeka Deformasyonu Yasağı:** Harf bacakları yamulamaz, tipografi font ailesi çekim boyunca asla değişemez.
+## 5. GOLDEN NEGATIVE RULES (ANTI-SLOP RESTRICTIONS)
+- **No Conventional Cuts:** Every new visual state emerges from the physical transformation of the previous state.
+- **No Metallic/Chrome/Glass Shaders:** Avoid cheap 3D balloon or chrome textures; depth derives strictly from spatial Z-layering and outline offsets.
+- **No Typographic Hallucination:** Glyphs never warp inconsistently; font family and anatomical integrity remain constant throughout.

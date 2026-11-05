@@ -201,14 +201,14 @@ function auditProject(t) {
 
 targets.forEach(auditProject);
 
-console.log(`\n${BOLD}==== MOTION AUDIT (${targets.length} proje) ====${RESET}`);
+console.log(`\n${BOLD}==== MOTION AUDIT (${targets.length} projects) ====${RESET}`);
 const errors = issues.filter((i) => i.level === "error");
 for (const i of issues) {
   const c = i.level === "error" ? RED : YELLOW;
-  console.log(`${c}${BOLD}[${i.rule}${i.level === "warn" ? " uyarı" : ""}] ${i.file}:${i.line}${RESET} ${i.msg}\n   Çözüm → ${i.fix}\n`);
+  console.log(`${c}${BOLD}[${i.rule}${i.level === "warn" ? " warning" : ""}] ${i.file}:${i.line}${RESET} ${i.msg}\n   Fix → ${i.fix}\n`);
 }
 if (errors.length) {
-  console.log(`${RED}${BOLD}[MOTION: BAŞARISIZ] ${errors.length} ihlal. Geçişsiz/kesik kurgu kabul edilmez.${RESET}\n`);
+  console.log(`${RED}${BOLD}[MOTION: FAILED] ${errors.length} violations. Abrupt unmounted cuts are not permitted.${RESET}\n`);
   process.exit(1);
 }
-console.log(`${GREEN}${BOLD}[MOTION: TEMİZ]${RESET} geçişler var, beat'ler unmount ile kesilmiyor${issues.length ? ` (${issues.length} uyarı)` : ""}.\n`);
+console.log(`${GREEN}${BOLD}[MOTION: CLEAN]${RESET} transitions verified, beats maintain continuity${issues.length ? ` (${issues.length} warnings)` : ""}.\n`);

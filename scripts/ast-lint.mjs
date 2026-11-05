@@ -240,10 +240,10 @@ function lintProjectScene(project) {
 
 targets.forEach(lintProjectScene);
 
-console.log(`\n${BOLD}==== AST LINTER v2 (${files.length} dosya, ${targets.length} proje) ====${RESET}`);
+console.log(`\n${BOLD}==== AST LINTER v2 (${files.length} files, ${targets.length} projects) ====${RESET}`);
 if (violations.length) {
-  violations.forEach((v) => console.log(`${RED}${BOLD}[${v.rule}] ${v.rel}:${v.line}${RESET} ${v.msg}\n   Çözüm → ${v.fix}\n`));
-  console.log(`${RED}${BOLD}[AST: BAŞARISIZ] ${violations.length} ihlal. Düzeltilene kadar çıktı geçersizdir.${RESET}\n`);
+  violations.forEach((v) => console.log(`${RED}${BOLD}[${v.rule}] ${v.rel}:${v.line}${RESET} ${v.msg}\n   Fix → ${v.fix}\n`));
+  console.log(`${RED}${BOLD}[AST: FAILED] ${violations.length} violations. Output invalid until fixed.${RESET}\n`);
   process.exit(1);
 }
-console.log(`${GREEN}${BOLD}[AST: TEMİZ]${RESET} sihirli süre yok, yasak ease yok, layout tween yok, deterministik.\n`);
+console.log(`${GREEN}${BOLD}[AST: CLEAN]${RESET} no magic durations, no banned eases, no layout tweens, fully deterministic.\n`);

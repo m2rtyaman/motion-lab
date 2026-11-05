@@ -1,47 +1,47 @@
 # MASTER SAAS & APP-LAUNCH MOTION WORKFLOW GUIDE
-> **Kaynak:** Motion Graphics Workflow Guide (App-Launch / SaaS Motion-Graphics Style)  
-> **Temel İlke:** *"İşin sırrı devasa bir prompt yazmak değildir. Videoyu doğru sırada inşa etmektir: Referansı anla $\rightarrow$ Storyboard tasarla $\rightarrow$ Modele bu kareleri tam olarak nasıl canlandıracağını söyle."*  
-> **Altın Kural (Rule of Thumb):** *"Storyboard NEYİ (WHAT) gördüğümüzü belirler. Final prompt ise NASIL (HOW) hareket ettiğini belirler."*
+> **Source:** Motion Graphics Workflow Guide (App-Launch / SaaS Motion-Graphics Style)  
+> **Core Principle:** *"The secret is not writing an enormous prompt. It is building the video in the correct sequence: Understand the reference $\rightarrow$ Design the storyboard $\rightarrow$ Instruct the model/engine on exactly how to animate those frames."*  
+> **Rule of Thumb:** *"The storyboard dictates WHAT we see. The final prompt/spec dictates HOW it moves."*
 
 ---
 
-## 1. BEŞ AŞAMALI MASTER ÜRETİM DÖNGÜSÜ
+## 1. THE FIVE-STAGE MASTER PRODUCTION LIFECYCLE
 
 ```mermaid
 flowchart LR
-    A["1. ANALYSE\n(Editoryal Dili Çıkar)"] --> B["2. STORYBOARD\n(Görsel Sekansı Çiz)"]
-    B --> C["3. PROMPT\n(Hareket & Tasarım Kuralı)"]
-    C --> D["4. GENERATE\n(Kare Kare Üret)"]
-    D --> E["5. FINISH\n(Kurgula & Cilala)"]
+    A["1. ANALYSE\n(Extract Editorial DNA)"] --> B["2. STORYBOARD\n(Draft Visual Sequence)"]
+    B --> C["3. PROMPT\n(Motion & Design Rules)"]
+    C --> D["4. GENERATE\n(Frame-by-Frame Synthesis)"]
+    D --> E["5. FINISH\n(Edit, Grade & Polish)"]
 ```
 
-### Aşama Çıktıları (Strict Deliverables)
-1. **Analyse the Reference** $\rightarrow$ **Çıktı:** `EDITORIAL DNA` (Çekim sırası, tempo, kamera hareketleri, geçişler, UI davranışı, tipografi, zemin, ışık).
-2. **Build the Storyboard** $\rightarrow$ **Çıktı:** `VISUAL PLAN` (Her önemli an için tanımlı ve kilitlenmiş durağan kare).
-3. **Write the Final Prompt** $\rightarrow$ **Çıktı:** `VIDEO INSTRUCTIONS` (Tasarımı ve sekansı koruyarak hareketi başlatan deterministik komutlar).
-4. **Generate the Video** $\rightarrow$ **Çıktı:** `RAW VIDEO SHOTS` (Kısa, kontrollü, kare kare üretilmiş çekimler).
-5. **Finish & Polish** $\rightarrow$ **Çıktı:** `FINAL BROADCAST MP4` (Ses miksi, renk rötuşu, metin netliği ve pürüzsüz kurgu).
+### Stage Deliverables
+1. **Analyse the Reference** $\rightarrow$ **Deliverable:** `EDITORIAL DNA` (Shot order, pacing, camera movement, transitions, UI behavior, typography, ground plane, lighting).
+2. **Build the Storyboard** $\rightarrow$ **Deliverable:** `VISUAL PLAN` (Defined, locked still frames for every pivotal narrative moment).
+3. **Write the Final Prompt** $\rightarrow$ **Deliverable:** `VIDEO INSTRUCTIONS` (Deterministic instructions initiating motion while preserving design integrity).
+4. **Generate the Video** $\rightarrow$ **Deliverable:** `RAW VIDEO SHOTS` (Short, controlled, frame-by-frame synthesized shots).
+5. **Finish & Polish** $\rightarrow$ **Deliverable:** `FINAL BROADCAST MP4` (Sound mix, color grade, typographic clarity, and seamless editing).
 
 ---
 
-## 2. ADIM 1: REFERANS ANALİZİ (THE 7 ESSENTIALS)
+## 2. STEP 1: REFERENCE ANALYSIS (THE 7 ESSENTIALS)
 > [!IMPORTANT]
-> **Sıfır İçerik Kopyalama:** Referans videonun konusunu, şirket adını veya ürününü asla kopyalamazsınız; yalnızca **kurgu şablonunu (editing blueprint)** çıkarırsınız.
+> **Zero Content Copying:** Never copy the subject matter, brand name, or product of a reference video; extract only the **editorial editing blueprint**.
 
-Bir referans incelenirken şu 7 öğe eksiksiz listelenmeden asla kod veya prompt yazılamaz:
-1. **Shot Order (Çekim Sırası):** İlk, ikinci, üçüncü çekim ne? Final çekimi ne?
-2. **Timing (Zamanlama):** Her çekim ne kadar hissettiriyor? Duraklamalar (stillness) ve vurgular (accents) nerede?
-3. **Camera (Kamera Hareketi):** Push-in, pull-out, slide, tilt, orbit, paralaks veya statik mi?
-4. **Transitions (Geçişler):** Snap cut, match cut, zoom-through, morph, reveal, blur vb.
-5. **Design (Tasarım Sistemi):** Tipografi, kartlar, UI hiyerarşisi, ikonlar, spacing (boşluklar), köşe yuvarlatmaları (radius).
-6. **Look (Görsel Atmosfer):** Arka plan rengi, ışık açısı, kontrast, derinlik, malzeme ve renk paleti.
-7. **Audio Rhythm (Ses Senkronu):** Hareketler veya kesmeler müziğin hangi vuruşuna (kick, snare, downbeat) kilitli?
+Before generating any code or prompts, systematically extract these 7 essentials:
+1. **Shot Order:** What are the first, second, third, and resolve shots?
+2. **Timing:** How long does each shot linger? Where are the stillness holds and rhythmic accents?
+3. **Camera Movement:** Push-in, pull-out, slide, tilt, orbit, parallax, or static?
+4. **Transitions:** Snap cut, match cut, zoom-through, container morph, reveal, directional wipe, etc.
+5. **Design System:** Typography, cards, UI hierarchy, iconography, padding, and corner radii.
+6. **Atmosphere & Lighting:** Ground plane tone, light angle, contrast, depth, material quality, and palette.
+7. **Audio Rhythm:** Which kicks, snares, or downbeats anchor visual actions and cuts?
 
 ---
 
-## 3. ADIM 2: DOKUZLU SAAS & APP-LAUNCH MASTER SEKANSI (9-SHOT FLOW)
+## 3. STEP 2: THE NINE-SHOT SAAS & APP-LAUNCH SEQUENCE (9-SHOT FLOW)
 
-SaaS ve mobil ürün lansmanları için altın standart kabul edilen 9 çekimlik editoryal sekans:
+The industry benchmark 9-shot editorial sequence for software and mobile product launches:
 
 ```
 [01 App / Card] ──> [02 Store Page] ──> [03 Login / Welcome] ──> [04 AI Composer]
@@ -51,43 +51,43 @@ SaaS ve mobil ürün lansmanları için altın standart kabul edilen 9 çekimlik
                    └──> [08 Brand End Card] ──> [09 CTA & URL Hold]
 ```
 
-### Her Storyboard Karesi İçin 4 Zorunlu Soru
-Her kare şu 4 soruya kesin cevap vermelidir:
-- **WHAT:** Ekranda hangi nesne veya UI bileşeni var?
-- **WHERE:** Nerede konumlandırılmış ve nasıl kadrajlanmış?
-- **MOVE:** Ne hareket etmeli, ne yöne akmalı veya ne değişmeli?
-- **WHY:** Bu çekim anlatı kurgusunda neden var? (Neyi kanıtlıyor?)
+### 4 Mandatory Questions for Every Storyboard Frame
+Every shot must explicitly answer:
+- **WHAT:** Which specific object or UI component is on screen?
+- **WHERE:** How is it positioned, framed, and anchored?
+- **MOVE:** What animates, which direction does it travel, and what transforms?
+- **WHY:** Why does this shot exist in the narrative sequence? (What value does it prove?)
 
-### Standart Çekim Şablonu (Mini-Template For Every Shot)
-`spec.json` veya `direction.md` içindeki her çekim/beat için şu format kullanılır:
+### Standard Shot Template (Mini-Template for Every Shot)
+In `spec.json` and `direction.md`, define each beat using this structure:
 
-| Alan | Açıklama |
+| Field | Description |
 | :--- | :--- |
-| **SHOT** | Çekim numarası + yaklaşık süre (`Shot 01 • 1.2s / 72f`) |
-| **VISUAL** | İzleyicinin ekranda tam olarak ne gördüğü |
-| **CAMERA** | Kadraj boyutu + hareket yönü (ör: `Push-in 1.0 -> 1.08, ease expo.out`) |
-| **ANIMATION** | Ne giriyor, çıkıyor, büyüyor, dönüyor veya kayıyor? |
-| **TEXT / UI** | Ekranda yer alacak birebir metin + yerleşim konumu |
-| **TRANSITION** | Bu çekimin bir sonrakine nasıl devredildiği (Peak velocity morph, whip-pan vb.) |
+| **SHOT** | Shot index + exact duration (`Shot 01 • 1.2s / 72f`) |
+| **VISUAL** | Exactly what the viewer sees on screen |
+| **CAMERA** | Framing + momentum (`Push-in 1.0 -> 1.08, ease expo.out`) |
+| **ANIMATION** | What enters, exits, scales, rotates, or glides? |
+| **TEXT / UI** | Literal text copy + spatial coordinate positioning |
+| **TRANSITION** | How momentum is handed off to the next beat (Peak velocity morph, whip-pan, etc.) |
 
 ---
 
-## 4. ADIM 3: ALTI BLOKLU MASTER PROMPT MİMARİSİ
+## 4. STEP 3: SIX-BLOCK MASTER PROMPT ARCHITECTURE
 
-Doğrudan video AI modellerine (Gemini Omni Flash, Sora, Kling, Runway) veya Remotion motoruna verilecek prompt 6 kısa bloktan inşa edilir:
+Prompts directed to video models (Gemini Omni Flash, Sora, Kling, Runway) or Remotion code generators follow this 6-block structure:
 
 ```
 Reference + Storyboard -> Shot Order -> Motion -> Editorial Timing -> Design Rules -> Consistency -> Restrictions -> Final Polish
 ```
 
-1. **USE THE STORYBOARD:** Yüklenen storyboard'u tek görsel gerçeklik kaynağı kabul et. Çekim sırasını, kompozisyonu ve hiyerarşiyi koru.
-2. **MOTION:** Kesin kamera hareketi, nesne hareketi, yay fiziği (easing), hız ve yönü açıkça belirt.
-3. **EDITORIAL STYLE:** Kesme mantığı, geçiş dili, tempo, ritim ve ortaya çıkış (reveal) anlarını tanımla.
-4. **DESIGN RULES:** Tipografi, UI geometrisi, boşluklar (padding/margin), renkler, malzemeler, gölgeler, derinlik ve okunabilirlik kuralları.
-5. **CONSISTENCY:** Tüm çekimler boyunca aynı ürün, aynı logo, aynı ikon stili, aynı arka plan dünyası ve görsel sistem.
-6. **QUALITY CONTROL (NEGATİF KISITLAMALAR):** Bozuk/yamuk metin yok, kırık UI yok, rastgele beliren yabancı nesneler yok, neon parlama yok, kamera titremesi yok, stil kayması yok.
+1. **USE THE STORYBOARD:** Treat the storyboard as the single source of visual truth. Preserve shot order, composition, and visual hierarchy.
+2. **MOTION:** Specify exact camera trajectory, object momentum, spring easing, velocity, and direction.
+3. **EDITORIAL STYLE:** Define cutting rhythm, transition vocabulary, pacing, and reveal moments.
+4. **DESIGN RULES:** Define typography, UI geometry, spacing (padding/margin), colors, materials, shadows, depth, and readability rules.
+5. **CONSISTENCY:** Preserve identical product anatomy, logos, icon sets, background world, and visual identity across all shots.
+6. **QUALITY CONTROL (NEGATIVE RESTRICTIONS):** No warped typography, broken interfaces, stray hallucinated objects, neon glow vomit, camera jitter, or style drift.
 
-### Master Prompt Şablonu (Kopyalanabilir Standart)
+### Master Prompt Template (Reusable Standard)
 ```text
 Create the final motion-graphics video from the attached storyboard.
 
@@ -110,31 +110,31 @@ Output a cohesive premium motion-graphics commercial that feels like one intenti
 
 ---
 
-## 5. ADIM 4: VİDEO ÜRETİM DİSİPLİNİ (GENERATION RULES)
+## 5. STEP 4: VIDEO PRODUCTION DISCIPLINE (GENERATION RULES)
 
-1. **Lock the Storyboard:** Üretim / kodlama başladıktan sonra tasarımı ve renkleri sürekli değiştirmeyin.
-2. **Generate Shot by Shot:** Önemli ve karmaşık çekimleri kısa ve odaklı tutun.
-3. **Check Before Moving On:** Bir önceki çekimin son karesini (handoff frame) doğrulamadan sonraki çekimi başlatmayın.
-4. **Assemble the Edit:** Çekimleri tam storyboard sırasıyla birleştirin; araya plansız boşluk koymayın.
-5. **Final Polish:** Ses efektleri (-16 LUFS), renk uyumu ve mikro-zamanlama rötuşlarını en son tamamlayın.
+1. **Lock the Storyboard:** Do not modify color palettes or core geometry once synthesis/coding begins.
+2. **Generate Shot by Shot:** Keep complex shots focused and modular.
+3. **Check Before Moving On:** Verify the handoff frame of shot $N$ before generating shot $N+1$.
+4. **Assemble the Edit:** Splice shots strictly following the storyboard sequence without arbitrary filler gaps.
+5. **Final Polish:** Complete sound design (-16 LUFS), color consistency, and micro-timing adjustments in the final pass.
 
 > [!TIP]
-> - Süslü efektler eklemeden önce **ana hareketi** çözün.
-> - Tipografiyi büyük, net ve stabil tutun.
-> - Ardışık çekimler arasında kamera hareket yönünü tutarlı kılın (ör. sola kayıyorsa sonraki çekimde aniden zıt yöne savrulmasın).
-> - İstekleri belirtirken **negatif kısıtlamaları (restrictions)** açıkça yazın.
+> - Solve the **primary motion** before layering decorative accents.
+> - Keep typography bold, crisp, and stable.
+> - Maintain camera movement continuity across shot boundaries (avoid abrupt reversal of momentum).
+> - Explicitly declare **negative constraints**.
 
 ---
 
-## 6. ADIM 5: 60 SANİYELİK NİHAİ KALİTE KONTROL LİSTESİ (THE 60-SECOND CHECKLIST)
+## 6. STEP 5: THE 60-SECOND FINAL QUALITY CHECKLIST
 
-Video teslim edilmeden önce bu 8 kapıdan %100 onay almak zorundadır:
+Before delivery, every video must achieve 100% sign-off across these 8 gates:
 
-- [ ] **1. SEQUENCE (Sıralama):** Nihai video ilk kareden son kareye storyboard sırasını eksiksiz takip ediyor mu?
-- [ ] **2. MOTION (Hareket Fiziği):** Her hareket kasıtlı, pürüzsüz ve doğru zamanlanmış mı? Yasaklı linear/easeInOut var mı?
-- [ ] **3. DESIGN (Tasarım Bütünlüğü):** Kartlar, UI, font, boşluklar, renkler ve ışıklandırma tek bir stüdyo sistemine mi ait?
-- [ ] **4. TEXT (Okunabilirlik):** Tüm önemli metinler okunabilir, doğru yazılmış ve en az 1.2 saniye ekranda kalıyor mu?
-- [ ] **5. CONSISTENCY (Tutarlılık):** Ürün ve logo çekimden çekime şekil ve renk değiştiriyor mu?
-- [ ] **6. TRANSITIONS (Geçiş Ritim):** Geçişler bağımsız video klipleri gibi değil, akıcı tek bir editoryal nehir gibi hissettiriyor mu?
-- [ ] **7. CLEAN FRAME (Görsel Saflık):** İstenmeyen neon glow, bulanıklık, yapay nesneler veya bozuk UI öğeleri var mı?
-- [ ] **8. ENDING (Kapanış Vurgusu):** Son marka / logo / URL karesi izleyicinin rahatça okuyup sindirebileceği kadar (en az 72f) ekranda asılı kalıyor mu?
+- [ ] **1. SEQUENCE:** Does the video strictly follow the storyboard order from first to final frame?
+- [ ] **2. MOTION:** Is every movement intentional, smooth, and precisely timed? Are forbidden linear/easeInOut eases avoided?
+- [ ] **3. DESIGN:** Do cards, UI, typography, spacing, colors, and lighting belong to a single coherent system?
+- [ ] **4. TEXT:** Is all copy crisp, readable, correctly spelled, and on screen for at least 1.2 seconds?
+- [ ] **5. CONSISTENCY:** Does the product geometry and brand identity remain stable from shot to shot?
+- [ ] **6. TRANSITIONS:** Do transitions feel like a continuous editorial river rather than disconnected clips?
+- [ ] **7. CLEAN FRAME:** Is the composition free of neon glow, blurring artifacts, and broken UI mockups?
+- [ ] **8. ENDING:** Does the final brand / logo / CTA hold crystal clear for at least 1.2 seconds (72 frames)?

@@ -40,7 +40,7 @@ useRemotionGSAP(() => {
 
 ---
 
-## 3. The Single Container Principle (Tek Kap İlkesi)
+## 3. The Single Container Principle (Continuous Living Container)
 
 In modern motion design, scene cuts cause cognitive friction. Instead of destroying scene A and creating scene B, Motion Lab promotes continuous morphing:
 

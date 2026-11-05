@@ -248,21 +248,21 @@ for (const project of targets) {
   overallScore += score;
   projectCount++;
 
-  console.log(`${BOLD}▶ PROJE: ${project.slug.toUpperCase()}${RESET} [Puan: ${score >= 8 ? GREEN : YELLOW}${score}/10${RESET}]`);
+  console.log(`${BOLD}▶ PROJECT: ${project.slug.toUpperCase()}${RESET} [Score: ${score >= 8 ? GREEN : YELLOW}${score}/10${RESET}]`);
   
   if (findings.P0.length === 0 && findings.P1.length === 0 && findings.P2.length === 0) {
-    console.log(`  ${GREEN}✓ Kusursuz. Sıfır ölü zaman, tam okunabilirlik, direktör onaylı.${RESET}\n`);
+    console.log(`  ${GREEN}✓ Flawless. Zero dead frames, full readability, director approved.${RESET}\n`);
   } else {
     if (findings.P0.length) {
-      console.log(`  ${RED}${BOLD}[P0 - ZORUNLU DÜZELTMELER]${RESET}`);
+      console.log(`  ${RED}${BOLD}[P0 - MANDATORY FIXES]${RESET}`);
       findings.P0.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     if (findings.P1.length) {
-      console.log(`  ${YELLOW}${BOLD}[P1 - BÜYÜK İYİLEŞTİRMELER]${RESET}`);
+      console.log(`  ${YELLOW}${BOLD}[P1 - MAJOR ENHANCEMENTS]${RESET}`);
       findings.P1.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     if (findings.P2.length) {
-      console.log(`  ${BOLD}[P2 - CİLA VE DETAYLAR]${RESET}`);
+      console.log(`  ${BOLD}[P2 - POLISH & DETAILS]${RESET}`);
       findings.P2.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     console.log('');
@@ -270,4 +270,4 @@ for (const project of targets) {
 }
 
 const avgScore = projectCount > 0 ? (overallScore / projectCount).toFixed(1) : 10;
-console.log(`${BOLD}Stüdyo Ortalama Direktör Puanı:${RESET} ${avgScore >= 8 ? GREEN : YELLOW}${avgScore} / 10${RESET}\n`);
+console.log(`${BOLD}Studio Average Director Score:${RESET} ${avgScore >= 8 ? GREEN : YELLOW}${avgScore} / 10${RESET}\n`);
