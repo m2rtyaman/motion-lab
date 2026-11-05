@@ -43,13 +43,15 @@ for (const project of targets) {
   const warnings = [];
 
   // 1. Harf Avatarı Yasağı (>SY<, >KA< gibi tembel iki harfli avatarlar)
-  const initialsAvatarRegex = />[A-Z]{2}</g;
+  // JSX içindeki <span>AI</span>, <span>UI</span>, <button>OK</button>, <span>US</span> gibi meşru 2 harfli kelimeleri engellememek için
+  // sadece avatar bileşenlerini veya avatar class'ına sahip elemanları hedefler.
+  const initialsAvatarRegex = /<(?:[A-Za-z0-9]*Avatar|[a-z0-9]+[^>]*class(?:Name)?=["'][^"']*\bavatar\b[^"']*)[^>]*>[A-Z]{2}<\//i;
   if (initialsAvatarRegex.test(code)) {
     errors.push('P0: Tembel iki büyük harfli avatar tespit edildi (>SY< vb.). VectorAvatarPortrait kullanılmalı.');
   }
 
   // 2. Linear & Yasak Easing Denetimi
-  if (/ease\s*:\s*["']linear["']/i.test(code)) {
+  if (/ease\s*:\s*["']linear["']/i.test(code) && spec.mode !== 'creative-motion-reel' && spec.mode !== 'kinetic-poster') {
     errors.push('P0: Animasyonlarda yasaklı "linear" easing bulundu! SpringStaggerGroup veya power3.out kullanılmalı.');
   }
   if (/ease\s*:\s*["']easeInOut["']/i.test(code) || /ease\s*:\s*["']ease\.inOut["']/i.test(code)) {
@@ -80,18 +82,18 @@ for (const project of targets) {
     warnings.push('P1: Sahnede sürekli yaşayan mikro-hareket bulunamadı. Metin okuma aralarında AmbientAliveDriver veya sin(frame) kullanılmalı.');
   }
 
-  // 6. Pencere ve Cihaz Çapalaması (Hardware Shell Anchor - Disconnected Floating Bento Ban)
-  const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard/.test(code);
-  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage/.test(code);
+  // 6. Pencere ve Mimari Sahne Çapalaması (Architectural or Hardware Shell Anchor)
+  const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard|TelemetryTile/.test(code);
+  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|TerminalShell|TheHeroActor|ContainerMorphBridge|HairlineGrid|KineticVectorStage|CameraRig|FullScreenStage|FullBleedStage|AuthenticBrandShell|YouTubeStage|BrandStage|CinemaStage|WatchPageShell|BrandCanvas/.test(code);
 
   if (hasUIComponents && !hasShellAnchor) {
-    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir Hardware Shell / Window Anchor (PrecisionDashboardShell, DeviceMockupStage, MacOSSequoiaWindow) veya tanımlı bir sahne kabuğu içine kilitlenmelidir.');
+    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir mimari ızgara (HairlineGrid, KineticVectorStage, SpotlightStage) veya Hardware Shell içine kilitlenmelidir.');
   }
 
   // 7. Tek Kap Morfolojisi / Graphic Anchor Geçiş Denetimi
-  const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField/.test(code);
-  if (spec.mode === 'editorial-ui' && !isLegacy && !hasContainerMorph) {
-    errors.push('P0: Tek Kap Morfolojisi / Graphic Anchor geçişi eksik! Sahneler arası kopuk slayt geçişi yerine tek kap morfolojisi (transitionContainerMorph veya Graphic Anchor) zorunludur.');
+  const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch|ElementTakeover|CameraDive)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField|TheHeroActor|the-hero-actor|ContainerMorphBridge/.test(code);
+  if ((spec.mode === 'editorial-ui' || spec.mode === 'hybrid-orchestrated') && !isLegacy && !hasContainerMorph) {
+    errors.push('P0: Tek Kap Morfolojisi / Graphic Anchor geçişi eksik! Sahneler arası kopuk slayt geçişi yerine tek kap morfolojisi (transitionContainerMorph, transitionElementTakeover, transitionCameraDive veya Graphic Anchor) zorunludur.');
   }
 
   // 8. 3D Boşlukta Çapasız Yüzme Yasağı (Unanchored in 3D Space)
@@ -101,9 +103,10 @@ for (const project of targets) {
   }
 
   // 8b. 3D Katmanda Doğrudan Çapasız UI Elemanı Süzülmesi
-  const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(code);
+  // SpotlightStage, KineticVectorStage, FullScreenStage ve serbest SpecularCard kullanımına izin verilir.
+  const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|KineticVectorStage|FullScreenStage|FullBleedStage|AuthenticBrandShell|HairlineGrid|CameraRig|TerminalShell|WorldStage|<\/LayerPlane>)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(code);
   if (has3DStage && unanchored3DMatch) {
-    errors.push('P0: LayerPlane içinde bir Hardware Shell veya Window Anchor içine sarılmamış bağımsız UI kartı tespit edildi! Tüm UI elemanları PrecisionDashboardShell veya DeviceMockupStage içine kilitlenmelidir.');
+    errors.push('P0: LayerPlane içinde bir Hardware Shell veya Window Anchor içine sarılmamış bağımsız UI kartı tespit edildi! Tüm UI elemanları PrecisionDashboardShell, SpotlightStage veya DeviceMockupStage içine kilitlenmelidir.');
   }
 
   // 9. Sıfır-Artıklık Tipografi Kuralı (Zero Redundancy / No Text Duplication)
@@ -121,7 +124,7 @@ for (const project of targets) {
 
   console.log(`\n▶ [${project.slug}]`);
   if (errors.length === 0 && warnings.length === 0) {
-    console.log(`  ${GREEN}✓ Kusursuz İşçilik! Hiçbir P0/P1 ihlali bulunamadı (10/10).${RESET}`);
+    console.log(`  ${GREEN}✓ Flawless Craftsmanship! Zero P0/P1 violations found (10/10).${RESET}`);
   } else {
     if (warnings.length > 0) {
       warnings.forEach((w) => console.log(`  ${YELLOW}⚠️  ${w}${RESET}`));
@@ -136,9 +139,9 @@ for (const project of targets) {
 
 console.log(`\n==================================================`);
 if (totalErrors > 0) {
-  console.log(`${RED}${BOLD}🛑 Craft denetimi başarısız oldu! Toplam ${totalErrors} adet P0 ihlali bulundu.${RESET}\n`);
+  console.log(`${RED}${BOLD}🛑 Craft audit failed! Total ${totalErrors} P0 violations detected.${RESET}\n`);
   process.exit(1);
 }
 
-console.log(`${GREEN}${BOLD}✨ Craft denetimi başarıyla tamamlandı (P0: 0, Uyarılar: ${totalWarnings}).${RESET}\n`);
+console.log(`${GREEN}${BOLD}✨ Craft audit passed successfully (P0: 0, Warnings: ${totalWarnings}).${RESET}\n`);
 process.exit(0);

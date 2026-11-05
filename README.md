@@ -20,7 +20,7 @@
 
 | Paradigm | Target Medium | Signature Aesthetics | Example Scenes |
 | :--- | :--- | :--- | :--- |
-| **`editorial-ui`** | B2B SaaS, Fintech, Tech Demos | Apple/Linear-style clean hardware shells, crisp 1px subgrids, live SVG meters, slide-over panels, smooth 3D camera glide. | `whatsapp-campaign`, `octosift-commercial`, `fintech-teaser` |
+| **`editorial-ui`** | B2B SaaS, Fintech, Tech Demos | Apple/Linear-style clean hardware shells, crisp 1px subgrids, live SVG meters, slide-over panels, smooth 3D camera glide. | `whatsapp-campaign`, `single-container-broll`, `fintech-teaser` |
 | **`cinematic-world`** | Gaming, Storytelling, 2.5D Worlds | 12 Principles of Animation (squash & stretch, step-arc bobbing), procedural torch lighting, shockwaves. | `dwarf-arena`, `batman-noir` |
 | **`kinetic-poster`** | Ad Spots, Manifestos, Social Drops | Ultra-high contrast typography, rhythmic masked splits, 144 BPM impact shakes, full-screen punchy cuts. | `kinetic-loud-showreel`, `kinetic-poster-demo` |
 
@@ -116,13 +116,13 @@ pnpm doctor
 
 ## 💎 The 7 Mandatory Motion Director Laws
 
-1. **Single Container Principle (Tek Kap İlkesi):**  
+1. **Single Container Principle (Continuous Living Container):**  
    Never cut between UI scenes abruptly. An existing visual container (button, card, panel) must continuously morph in size, border-radius, and position into the next state.
 2. **Hardware Shell Anchor:**  
    UI components and cards cannot float loosely in empty space; they must be locked inside an authentic device shell (`DeviceMockupStage`, `PrecisionDashboardShell`, or `BrowserFrame`).
 3. **Subgrid Shared Borders:**  
    Bento cards do not stand as isolated boxes; they share 1px hairline light-leaking borders via `gap-[1px] bg-white/[0.08]`.
-4. **Never Invent Facts (Sıfır Uydurma Veri):**  
+4. **Never Invent Facts (Authentic Brand Data):**  
    Consumer and mobile products must showcase authentic features and realistic messages, completely prohibiting hallucinated DevOps or crypto telemetry.
 5. **Anticipatory Stillness (300–600ms):**  
    Every major impact, text punch, or scene transition is preceded by a micro-pause ($300\text{--}500\text{ ms}$) to multiply visual impact.

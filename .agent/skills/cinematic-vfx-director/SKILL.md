@@ -3,19 +3,19 @@ name: cinematic-vfx-director
 description: Visual effects and procedural audio director for sonic shockwaves, radial impact spikes, dynamic torch lighting, embers, and frame-locked WAV sound design.
 ---
 
-# Skill: Cinematic VFX & Audio Director (Görsel Efekt ve Ses Yönetmeni)
+# Skill: Cinematic VFX & Audio Director
 
-> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+> **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
-## 1. ROL VE SORUMLULUK
-Sen sahneye atmosfer, darbe gücü ve ses kazandıran Kıdemli VFX & Ses Yönetmenisin. Bir karakter bağırdığında veya bir patlama olduğunda ekrana düz bir HTML `<div>` kutusu koymak **KESİNLİKLE YASAKTIR**.
+## 1. ROLE & RESPONSIBILITY
+You are the Senior VFX & Audio Director imparting atmosphere, visceral impact, and acoustic weight to every scene. Outputting flat, static HTML `<div>` rectangles when a character roars or an impact occurs is **STRICTLY FORBIDDEN**.
 
 ---
 
-## 2. ZORUNLU VFX & SES KATMANLARI (`src/vfx/` & `src/world/`)
-1. **Sonik Şok Dalgası & Savaş Çığlığı (`<ShockwaveRoar>`):**
-   - Karakter bağırdığında merkezinden dışarıya yayılan **3 katmanlı genişleyen ses halkası (sonic rings)**, **12 açılı radyal darbe çizgisi (impact spikes)** ve her harfi bağımsız titreyen (`jitterY`, `jitterRot`) eğimli savaş çığlığı tipografisi kullanılır.
-2. **2.5D Ön-Plan Atmosferi ve Kor Kıvılcımları (`<AtmosphereParticles>` & `WorldStage`):**
-   - Sahnenin "düz duvar kağıdı" gibi durmaması için karakterin *önünden* geçen sıcak ışık huzmeleri (`Foreground Occlusion`), meşale ışık nabzı (`torchLights`) ve yükselen kor kıvılcımları (`embers`) kullanılır.
-3. **Kare-Kilitli Prosedürel Ses (`sfxTriggers`):**
-   - Koşu adımlarında `step-stone.wav`, hızlı kamera dönüşlerinde `whoosh-pan.wav`, bağırma ve şok dalgası anlarında `roar-shockwave.wav` kare indeksine (`frame`) milimetrik bağlanır.
+## 2. MANDATORY VFX & AUDIO LAYERS (`src/vfx/` & `src/world/`)
+1. **Sonic Shockwave & War Cry (`<ShockwaveRoar>`):**
+   - When a character roars or strikes, deploy **3-layer expanding sonic rings**, **12 radial impact spikes**, and per-letter jittering (`jitterY`, `jitterRot`) kinetic typography.
+2. **2.5D Foreground Atmosphere & Embers (`<AtmosphereParticles>` & `WorldStage`):**
+   - To prevent flat wallpaper aesthetics, introduce volumetric light passing *in front of* the character (`Foreground Occlusion`), procedural torch pulsing (`torchLights`), and rising embers (`embers`).
+3. **Frame-Locked Procedural Audio (`sfxTriggers`):**
+   - Lock footsteps to `step-stone.wav`, rapid camera pans to `whoosh-pan.wav`, and roar/impact peaks to `roar-shockwave.wav` frame-accurately.

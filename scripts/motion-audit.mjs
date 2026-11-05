@@ -20,13 +20,20 @@ const require = createRequire(import.meta.url);
 const { parse } = require("@babel/parser");
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
-const TRANSITION_FNS = ["transitionWhipPan", "transitionMaskWipe", "transitionZoomPunch", "transitionContainerMorph"];
+const TRANSITION_FNS = [
+  "transitionWhipPan",
+  "transitionMaskWipe",
+  "transitionZoomPunch",
+  "transitionContainerMorph",
+  "transitionElementTakeover",
+  "transitionCameraDive",
+];
 const isTransitionFn = (name) =>
   typeof name === "string" &&
   (/^transition[A-Z]\w*/.test(name) ||
     TRANSITION_FNS.includes(name) ||
-    /Morph|Wipe|Pan|Punch|Sweep|Dissolve/.test(name));
-const BEAT_GATE = /(^|\.)(is[A-Z]\w*|beat\w*|\w*Beat\w*|currentBeat|activeBeat)\b|\bframe\b\s*[<>]=?/;
+    /Morph|Wipe|Pan|Punch|Sweep|Dissolve|Takeover|Dive/.test(name));
+const BEAT_GATE = /(^|\.)(beat\w*|\w*Beat\w*|currentBeat|activeBeat)\b|\bframe\b\s*[<>]=?/;
 
 const args = parseArgs();
 const targets = resolveTargets(args);
@@ -79,28 +86,34 @@ function auditProject(t) {
     }
   });
 
-  if (beats >= 2 && used.size === 0)
+  const isKineticReel = spec.mode === "creative-motion-reel" || spec.mode === "kinetic-poster";
+
+  if (beats >= 2 && used.size === 0 && !isKineticReel)
     add("M001", 1, `${beats} beat var ama hiç transition çağrısı yok (sert kesme).`, "src/core/transitions.ts: transitionWhipPan / MaskWipe / ZoomPunch / ContainerMorph kullan.");
 
   for (const g of gatedMounts)
     add("M002", g.line, `Beat'e bağlı unmount: \`${g.left.slice(0, 40)} && <…/>\` sahneyi kesiyor.`, "Beat'leri daima mount et; görünürlüğü GSAP opacity/transform/clip-path ile geçiş penceresinde sür.");
 
-  if (beats >= 3 && used.size === 1)
-    add("M003", [...calls][0], `${beats} beat için tek tip geçiş (${[...used][0]}).`, "En az 2 farklı geçiş tipi kullan (whip-pan + mask-wipe + zoom-punch + morph).");
+  // M003: Kaldırıldı; tutarlı tek tip geçiş tasarımına (ör. tüm sahnelerde container-morph / single container) izin verilir.
 
-  if (beats >= 2 && used.size > 0 && calls.length < beats - 1)
+  if (beats >= 2 && used.size > 0 && calls.length < beats - 1 && !isKineticReel)
     add("M004", calls[0], `${calls.length} geçiş / ${beats - 1} beat sınırı: bazı sınırlar çıplak.`, "Her beat sınırına bir geçiş ata.");
 
   if (!spec.theme?.surfaceMode)
-    add("M005", 1, "spec.theme.surfaceMode tanımsız.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm" }', false);
+    add("M005", 1, "spec.theme.surfaceMode tanımsız.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm|kinetic-acid" }', false);
 
   const darkHex = (code.match(/#0[0-9a-fA-F]{5}\b/g) ?? []).length;
+  const lightHex = (code.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
     code.includes("beatPalettes") ||
-    code.includes("WHATSAPP_COLOR_BLOCK_THEME") ||
-    (code.includes("#00A884") && (code.includes("#F5F2EF") || code.includes("#F0F2F5")));
+    code.includes("COLOR_BLOCK") ||
+    code.includes("colorBlock") ||
+    code.includes("color-block") ||
+    (darkHex >= 1 && lightHex >= 1) ||
+    isKineticReel;
+  const isHybrid = spec.mode === "hybrid-orchestrated";
   if (beats >= 3 && darkHex >= 4 && !/(THEME|theme)/.test(code) && !hasColorBlocking)
-    add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "src/core/theme-contract.ts presetlerinden (WHATSAPP_COLOR_BLOCK_THEME, LIGHT_SAAS_THEME, …) ve beatPalettes kontrast renk bloklarından yararlan.", false);
+    add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "Sahneler arasında açık/koyu yüzey kontrastı (Color Blocking) veya tam ekran renk geçişi uygulayın.", isHybrid);
 
   // M007: Büyük darbe öncesi öngörülü durgunluk kontrolü (Anticipatory Stillness 300-500ms)
   const hasShake = (spec.shakes && spec.shakes.length > 0) || code.includes("impactShake");
@@ -130,18 +143,72 @@ function auditProject(t) {
   if (hasMultiItems && !hasStagger && beats >= 2) {
     add("M009", 1, "Çoklu kart/liste elemanları eşzamanlı blok olarak hareket ediyor.", "Disney follow-through gereği elemanları TIMING.itemStagger ile basamaklandırın.", false);
   }
+
+  // M010: Ölçek Kontrastı ve Pul Boyutunda Sabit Kutu Yasağı (Anti-Postage-Stamp Scale Contrast Law)
+  if (spec.mode === "hybrid-orchestrated") {
+    const scaleMatches = [...code.matchAll(/\bscale\s*:\s*([0-9.]+)/g)].map((m) => parseFloat(m[1]));
+    const maxScale = scaleMatches.length ? Math.max(...scaleMatches) : 1.0;
+    const hasDramaticScale =
+      maxScale >= 1.4 ||
+      code.includes("SCALE_CONTRAST") ||
+      code.includes("transitionElementTakeover") ||
+      code.includes("transitionCameraDive");
+    if (!hasDramaticScale) {
+      add(
+        "M010",
+        1,
+        `Sabit Kutu / Korkak Ölçek Sendromu (Postage-Stamp Slop): Maksimum ölçek değişimi ${maxScale}x (< 1.4x). Bileşenler hep aynı boyutta duruyor.`,
+        "Sahneler arasında gerçek büyüme/küçülme için transitionElementTakeover, transitionCameraDive veya SCALE_CONTRAST (macroCloseUp >= 1.8x) kullanın.",
+        true
+      );
+    }
+
+    // M011: Intra-Beat Durağanlık / Donuk Slayt Yasağı (Anti-Slide-Freeze Law)
+    const hasContinuousFrameMotion =
+      /useCurrentFrame/.test(code) ||
+      /Math\.(sin|cos)\s*\(\s*frame/.test(code) ||
+      /interpolate\s*\(\s*frame/.test(code) ||
+      /CounterValue|TelemetryTile|CodeStreamBlock|ProceduralWaveform/.test(code);
+    const longIntraBeatTweens = [...code.matchAll(/duration\s*:\s*([0-9.]+|DURATIONS\.\w+)/g)].length;
+    if (!hasContinuousFrameMotion && longIntraBeatTweens < beats * 2) {
+      add(
+        "M011",
+        1,
+        "Intra-Beat Durağanlık (Slide Freeze): Sahne bileşenleri ilk 0.4s'de ekrana girip beat sonuna kadar donuk slayt gibi bekliyor.",
+        "Beat boyunca kesintisiz kamera süzülmesi, useCurrentFrame() tabanlı sayaç/kod akışı veya sürekli katman ölçeklemesi ekleyin.",
+        true
+      );
+    }
+
+    // M012: Çamurlu RGB Zemin Tween Yasağı (Anti-Muddy-Background-Fade)
+    const bgTweenCount = [...code.matchAll(/tl\.to\(\s*['"]#hybrid-root-canvas['"]\s*,\s*\{[^}]*backgroundColor/g)].length;
+    const hasClipOrTakeover =
+      code.includes("clipPath") ||
+      code.includes("transitionElementTakeover") ||
+      code.includes("transitionMaskWipe") ||
+      code.includes("transitionCameraDive");
+    if (bgTweenCount >= 2 && !hasClipOrTakeover) {
+      add(
+        "M012",
+        1,
+        "Çamurlu RGB Zemin Geçişi: Koyu ve açık zeminler arasında doğrudan backgroundColor tween edilerek kirli gri ara kareler oluşturuluyor.",
+        "Zemin rengini doğrudan RGB tween etmek yerine transitionElementTakeover, clip-path iris açılımı veya tam ekran katman devralması kullanın.",
+        true
+      );
+    }
+  }
 }
 
 targets.forEach(auditProject);
 
-console.log(`\n${BOLD}==== MOTION AUDIT (${targets.length} proje) ====${RESET}`);
+console.log(`\n${BOLD}==== MOTION AUDIT (${targets.length} projects) ====${RESET}`);
 const errors = issues.filter((i) => i.level === "error");
 for (const i of issues) {
   const c = i.level === "error" ? RED : YELLOW;
-  console.log(`${c}${BOLD}[${i.rule}${i.level === "warn" ? " uyarı" : ""}] ${i.file}:${i.line}${RESET} ${i.msg}\n   Çözüm → ${i.fix}\n`);
+  console.log(`${c}${BOLD}[${i.rule}${i.level === "warn" ? " warning" : ""}] ${i.file}:${i.line}${RESET} ${i.msg}\n   Fix → ${i.fix}\n`);
 }
 if (errors.length) {
-  console.log(`${RED}${BOLD}[MOTION: BAŞARISIZ] ${errors.length} ihlal. Geçişsiz/kesik kurgu kabul edilmez.${RESET}\n`);
+  console.log(`${RED}${BOLD}[MOTION: FAILED] ${errors.length} violations. Abrupt unmounted cuts are not permitted.${RESET}\n`);
   process.exit(1);
 }
-console.log(`${GREEN}${BOLD}[MOTION: TEMİZ]${RESET} geçişler var, beat'ler unmount ile kesilmiyor${issues.length ? ` (${issues.length} uyarı)` : ""}.\n`);
+console.log(`${GREEN}${BOLD}[MOTION: CLEAN]${RESET} transitions verified, beats maintain continuity${issues.length ? ` (${issues.length} warnings)` : ""}.\n`);

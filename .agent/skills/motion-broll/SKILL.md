@@ -31,7 +31,7 @@ This checks for Node, Python 3 and ffmpeg, and installs Playwright + Chromium in
 Use the AskUserQuestion tool; keep it to one round. You need:
 
 - **The video.** A path. Copy or reference it as `motion/work/source.*`.
-- **The transcript.** An SRT or VTT with timestamps is best. With plain text only, get word timestamps from the audio (`pip install faster-whisper`) or ask for an SRT.
+- **The transcript.** An SRT or VTT with timestamps is best. If starting from script text or voiceover, trigger the `asset-harvester` skill (`.agent/skills/asset-harvester/SKILL.md`) or run `pnpm harvest --project <slug> --text "..."` to generate exact sub-millisecond `words.json`. With legacy plain text without audio, get word timestamps from faster-whisper or ask for an SRT.
 - **Density:**
   - Light: 2–4 clips per minute, only the strongest moments.
   - Medium (default): 4–7 per minute.
@@ -47,7 +47,10 @@ Skip any question the user already answered.
 
 ```bash
 python3 $SKILL/scripts/inspect_video.py motion/work/source.mp4 motion/work
-python3 $SKILL/scripts/words.py transcript.srt > motion/work/words.txt   # .vtt works too
+# From SRT / VTT:
+python scripts/words.py transcript.srt > motion/work/words.txt   # .vtt works too
+# Or from harvest words.json (exact sub-millisecond precision):
+python scripts/words.py public/harvest/<slug>/words.json > motion/work/words.txt
 ```
 
 Look at `motion/work/contact.png` yourself. `video.json` gives resolution, fps and layout sections:
@@ -55,7 +58,7 @@ Look at `motion/work/contact.png` yourself. `video.json` gives resolution, fps a
 - **pip:** the speaker is in a box and the rest is empty. It includes the box position and a warning if the box changes size or moves.
 - **black:** the whole frame is black (a fade, intro or outro).
 
-Clips must match the video's resolution and fps. Word times from an SRT or VTT are estimates (±0.2s); treat them as such.
+Clips must match the video's resolution and fps. Word times from an SRT or VTT are estimates (±0.2s); timings from `pnpm harvest` (`words.json`) are sub-millisecond frame-accurate.
 
 ## 4. Plan, and get approval before any code
 

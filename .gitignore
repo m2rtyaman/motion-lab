@@ -28,6 +28,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
 # Environment Variables & Secrets
 .env
 .env.local
@@ -59,3 +66,11 @@ temp/
 html-video/
 motion-graphics-main/
 awesome-claude-opus-5.5-video-main/
+MoneyPrinterTurbo/
+
+# Unpublished private projects, assets and skills
+src/projects/octosift-*
+public/projects/octosift-*
+out/octosift-*
+.agent/skills/motion-octosift-saas/
+

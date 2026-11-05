@@ -91,7 +91,7 @@ export const ProductWorkflowChain: React.FC<ProductWorkflowChainProps> = ({
   return (
     <div className={`flex items-center justify-center p-6 ${className}`}>
       <div
-        className="workflow-container relative flex items-center justify-center overflow-hidden transition-all duration-300 backdrop-blur-xl"
+        className="workflow-container relative flex items-center justify-center overflow-hidden backdrop-blur-xl"
         style={{
           width: containerStyle.width,
           height: containerStyle.height,
@@ -104,7 +104,7 @@ export const ProductWorkflowChain: React.FC<ProductWorkflowChainProps> = ({
         {/* AŞAMA 1: Buton Görünümü */}
         {phase === 'button' && (
           <div className="flex items-center gap-3 px-6 text-white font-medium text-[19px]">
-            <span className="w-3 h-3 rounded-full bg-white animate-pulse" />
+            <span className="w-3 h-3 rounded-full bg-white" />
             <span>Konuşmaya Başla</span>
           </div>
         )}

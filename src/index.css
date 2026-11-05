@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   MOTION STUDIO — 5 ANA TİPOGRAFİ AİLESİ (OFFLINE 60 FPS DETERMINISTIC FONTS)
+   ========================================================================== */
+
+/* 1. Sans-Serif / Modern Swiss / Clean SaaS */
 @font-face {
   font-family: 'Geist';
   src: url('../public/fonts/Geist-Variable.woff2') format('woff2');
@@ -9,11 +14,173 @@
 }
 
 @font-face {
+  font-family: 'Inter';
+  src: url('../public/fonts/Inter-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/fonts/Inter-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/fonts/Inter-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../public/fonts/PlusJakartaSans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../public/fonts/PlusJakartaSans-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../public/fonts/SpaceGrotesk-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Display / Kinetic Impact (Headlines / Posters / Reeler) */
+@font-face {
+  font-family: 'Archivo Black';
+  src: url('../public/fonts/ArchivoBlack-400.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Syne';
+  src: url('../public/fonts/Syne-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Syne';
+  src: url('../public/fonts/Syne-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('../public/fonts/BebasNeue-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. Serif / Editorial (Luxury / Specimen / NYT) */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../public/fonts/PlayfairDisplay-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../public/fonts/InstrumentSerif-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('../public/fonts/Cinzel-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 4. Monospace / Terminal / Telemetry */
+@font-face {
   font-family: 'Geist Mono';
   src: url('../public/fonts/GeistMono-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../public/fonts/JetBrainsMono-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../public/fonts/JetBrainsMono-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../public/fonts/SpaceMono-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 5. Script / Expressive Handwritten */
+@font-face {
+  font-family: 'Caveat';
+  src: url('../public/fonts/Caveat-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind Theme Font Bindings */
+@theme {
+  --font-sans: 'Geist', 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+  --font-display: 'Archivo Black', 'Syne', 'Bebas Neue', var(--font-sans);
+  --font-serif: 'Playfair Display', 'Instrument Serif', 'Cinzel', Georgia, serif;
+  --font-script: 'Caveat', cursive;
+
+  --font-inter: 'Inter', var(--font-sans);
+  --font-jakarta: 'Plus Jakarta Sans', var(--font-sans);
+  --font-space-grotesk: 'Space Grotesk', var(--font-sans);
+  --font-archivo: 'Archivo Black', var(--font-display);
+  --font-syne: 'Syne', var(--font-display);
+  --font-bebas: 'Bebas Neue', var(--font-display);
+  --font-playfair: 'Playfair Display', var(--font-serif);
+  --font-instrument: 'Instrument Serif', var(--font-serif);
+  --font-cinzel: 'Cinzel', var(--font-serif);
+  --font-jetbrains: 'JetBrains Mono', var(--font-mono);
+  --font-space-mono: 'Space Mono', var(--font-mono);
+  --font-caveat: 'Caveat', var(--font-script);
 }
 
 @layer utilities {

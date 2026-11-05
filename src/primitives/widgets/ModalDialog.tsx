@@ -46,7 +46,7 @@ export const ModalDialog: FC<ModalDialogProps> = ({
       }}
     >
       <div
-        className="modal-card relative flex flex-col rounded-3xl overflow-hidden shadow-2xl transition-all"
+        className="modal-card relative flex flex-col rounded-3xl overflow-hidden shadow-2xl"
         style={{
           width,
           backgroundColor: theme.colors.bgSurface,

@@ -59,12 +59,32 @@ export const MOTION_OFFSET = {
   exitBlur: 12,
 } as const;
 
+/**
+ * Ölçek Kontrastı (Scale Contrast) Sabitleri:
+ * Sahnelerin sürekli ekran ortasında aynı boyutta kutu olarak durmasını (Postage-Stamp Slop) engeller.
+ * Makro yakın çekim, tam ekran bileşen patlaması ve geniş açılı geri çekilme oranlarını tanımlar.
+ */
+export const SCALE_CONTRAST = {
+  macroCloseUp: 1.95,
+  portalDive: 2.85,
+  elementTakeover: 18.0,
+  intimateFocus: 1.42,
+  neutralStage: 1.0,
+  wideOverview: 0.88,
+} as const;
+
 export const SPRING = {
   // Sıfır zıplama, tok ve endüstriyel fizik
   snappy: { stiffness: 240, damping: 28, mass: 0.8 },
   rigid: { stiffness: 300, damping: 35, mass: 1 },
   bouncy: { stiffness: 180, damping: 14, mass: 0.9 },
   gentle: { stiffness: 120, damping: 18, mass: 1 },
+  smooth: { stiffness: 120, damping: 24, mass: 1 },
+  liquidLead: { stiffness: 260, damping: 22, mass: 0.8 },
+  liquidTrail: { stiffness: 160, damping: 26, mass: 1 },
+  cameraTrack: { stiffness: 160, damping: 22, mass: 1 },
+  morphSnappy: { stiffness: 210, damping: 22, mass: 0.85 },
+  snapback: { stiffness: 260, damping: 18, mass: 0.9 },
 } as const;
 
 export const PALETTE = {

@@ -88,7 +88,7 @@ export const DataTable: FC<DataTableProps> = ({
           return (
             <div
               key={row.id || rIdx}
-              className={`table-row-${row.id} flex items-center px-6 py-4.5 transition-all duration-300 ${
+              className={`table-row-${row.id} flex items-center px-6 py-4.5 ${
                 isHighlighted ? `${highlightedRowClassName} z-10 relative` : ''
               }`}
               style={{

@@ -3,45 +3,44 @@ name: remotion-engineer
 description: Remotion & GSAP systems engineer specializing in 60 FPS deterministic video rendering across Cinematic World (src/world, src/vfx), Editorial UI (src/primitives, src/stage), and Hybrid Templates (src/templates, src/engine).
 ---
 
-# Skill: Remotion Systems Engineer (Universal 60 FPS Motor Mühendisi v6.2)
-> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+# Skill: Remotion Systems Engineer (Universal 60 FPS Engine Engineer v6.2)
+> **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
-
-## 1. ROL VE SORUMLULUK
-Sen seçilen moda göre `src/projects/<slug>/Scene.tsx` dosyasını inşa eden Kıdemli Remotion ve GSAP Sistem Mühendisisin.
-Kodun deterministik, GPU-pure ve sıfır-slop olmasından sorumlusun.
-
----
-
-## 2. MODA GÖRE KULLANILACAK MOTOR KATMANLARI
-
-### MOD A: `cinematic-world` (Karakter, Sprite & Mekan Animasyonu)
-- **Sahne & Ses:** `<WorldStage>` + `<CharacterActor>` + `<ShockwaveRoar>` + `<AtmosphereParticles>`
-- **Kamera:** `useRemotionGSAP` ile `animateCamera` ve `cameraShake`.
-
-### MOD B: `editorial-ui` (SaaS, Veri, Mobil, Fintech & Lansman)
-- **Sahne Motoru:** `<SpatialCamera>` (3D perspektif, dinamik tema zemin dokusu, imleç yuvası).
-- **Sanal Tuval (Virtual Canvas):** Masaüstü arayüzler `<VirtualCanvas width={1440} height={900}>` içinde render edilir. 9:16 çıktıda `<SpatialCamera>` aksiyonun olduğu koordinata (`targetX, targetY, scale`) odaklanır. Sütun ezilmesi veya sağdan taşma (clipping) kesinlikle engellenir.
-- **Hareket Disiplini:** Kamera motivasyonludur (okurken sabit, geçişte kararlı). Donuk anlar yalnızca okuma süresinde kabul edilir ve içerik animasyonu (sayaç, çizim, imleç) akmaya devam eder. Anlamsız `ambientDrift` sallantısı eklenmez.
-- **Evrensel Primitifler:**
-  - Kabuklar: `<BrowserFrame>`, `<AppShell>`, `<MobileDeviceFrame>`, `<BentoStage>`.
-  - Veri & UI: `<DataTable>`, `<MetricCardRow>`, `<InteractiveMap>`, `<CalendarGrid>`, `<KanbanBoard>`, `<SlideOverDrawer>`, `<ModalDialog>`, `<ChartCanvas>`, `<TemplateFrame>`.
-  - Aktörler: `<SimulatedCursor>`, `<KineticHeadline>`.
-- **Katman Disiplini:** Modal/Drawer açıldığında arka plan `filter: blur(6px) brightness(0.92)` ve `opacity: 0.35` ile karartılır. Beat geçişlerinde katmanlar `src/core/transitions.ts` ile **bilinçli** çakışır; beat bölümleri asla `{isBeat && ...}` ile unmount edilmez.
-
-### MOD C: `templates` / HİBRİT MOTOR (HTML-Video & Native Remotion Şablonları)
-- **Bileşen:** `<TemplateFrame templateId="..." data={...} theme={...} />`
-- **Native Remotion Şablonları (RFC-08 Phase 2):**
-  - Örn: `frame-data-rollup` (çubuklar `spring()` ile büyür, sayılar `interpolate()` ile yuvarlanır).
-  - Canlı veri prop'ları alır, sıfır ağ bağımlılığı ve sistem fontları ile hatasız render edilir.
-- **HTML Bridge Şablonları (RFC-08 Phase 1 / `HtmlFrameDriver`):**
-  - CSS `@keyframes` ve GSAP içeren 22 HTML şablonu iframe `srcdoc` içinde Remotion deterministik zaman saatiyle senkronize edilir.
-  - **Zaman Köprüsü (Time-Driver):** `doc.getAnimations()` üzerinden her animasyon `pause()` edilir ve `currentTime = timeMs` atanır. GSAP global timeline `tl.pause()` ve `tl.time(timeMs / 1000)` ile Remotion karesine kilitlenir.
-  - **Anti-FOUT & Font Donması (Anti-Flash-Of-Unstyled-Text):** Headless Chromium'da siyah kareleri ve yazı tipi zıplamasını engellemek için dış CSS `<link>` etiketleri `neutralizeBlockingResources` ile `media="print" onload="this.media='all'"` yapılır ve `document.fonts.status === 'loaded'` olmadan kare çekilmez (`delayRender` / `continueRender`).
+## 1. ROLE & RESPONSIBILITY
+You are the Senior Remotion & GSAP Systems Engineer engineering `src/projects/<slug>/Scene.tsx` according to the chosen paradigm.
+You are strictly accountable for code determinism, GPU-pure rendering, and zero-slop architecture.
 
 ---
 
-## 3. DOĞRULAMA VE TESLİMAT ZİNCİRİ
-1. `pnpm check --project <slug>` (spec, AST, slop-linter ve tsc).
-2. `pnpm render:contact-sheet --project <slug>` -> `read_file` ile `visual-audit-grid.png` ve `manifest.json` diffs analizi (tüm diffs >= 1.2 olmalıdır).
-3. `pnpm render --project <slug>` -> 60 FPS `out/<slug>/<slug>.mp4` üretimi.
+## 2. ENGINE LAYERS BY PARADIGM
+
+### MODE A: `cinematic-world` (Characters, Sprites & Environmental Animation)
+- **Stage & VFX:** `<WorldStage>` + `<CharacterActor>` + `<ShockwaveRoar>` + `<AtmosphereParticles>`
+- **Camera:** Motivated tracking via `useRemotionGSAP` with `animateCamera` and `cameraShake`.
+
+### MODE B: `editorial-ui` (SaaS, Data, Mobile, Fintech & Launches)
+- **Stage Engine:** `<SpatialCamera>` (3D perspective, dynamic theme backgrounds, cursor nest).
+- **Virtual Canvas:** Desktop interfaces render inside `<VirtualCanvas width={1440} height={900}>`. In vertical 9:16 outputs, `<SpatialCamera>` navigates to the active region (`targetX, targetY, scale`). Prevents squished columns or horizontal clipping entirely.
+- **Motion Discipline:** The camera is motivated (steady while reading, decisive on transitions). Holds occur only during dedicated reading windows while internal data animations (counters, charts, cursors) continue flowing. Avoid pointless `ambientDrift` shaking.
+- **Universal Primitives:**
+  - Shells: `<BrowserFrame>`, `<AppShell>`, `<MobileDeviceFrame>`, `<BentoStage>`.
+  - Data & UI: `<DataTable>`, `<MetricCardRow>`, `<InteractiveMap>`, `<CalendarGrid>`, `<KanbanBoard>`, `<SlideOverDrawer>`, `<ModalDialog>`, `<ChartCanvas>`, `<TemplateFrame>`.
+  - Actors: `<SimulatedCursor>`, `<KineticHeadline>`.
+- **Layer Hygiene:** When Modals/Drawers open, background layers dim via `filter: blur(6px) brightness(0.92)` and `opacity: 0.35`. At beat boundaries, layers overlap **deliberately** via `src/core/transitions.ts`; beat sections must never be unmounted with `{isBeat && ...}`.
+
+### MODE C: `templates` / HYBRID ENGINE (HTML-Video & Native Remotion Templates)
+- **Component:** `<TemplateFrame templateId="..." data={...} theme={...} />`
+- **Native Remotion Templates (RFC-08 Phase 2):**
+  - E.g. `frame-data-rollup` (bars grow via `spring()`, numbers increment via `interpolate()`).
+  - Receives live data props, renders deterministically with zero network calls and system fonts.
+- **HTML Bridge Templates (RFC-08 Phase 1 / `HtmlFrameDriver`):**
+  - 22 HTML templates featuring CSS `@keyframes` and GSAP run inside iframe `srcdoc`, locked to Remotion's frame clock.
+  - **Time-Driver Bridge:** Locks `doc.getAnimations()` and GSAP global timeline to `(frame / fps) * 1000` ms via `currentTime = timeMs` and `tl.time(timeMs / 1000)`.
+  - **Anti-FOUT & Font Protection:** External CSS links are neutralized via `neutralizeBlockingResources` (`media="print" onload="this.media='all'"`), and frame rendering pauses via `delayRender` / `continueRender` until `document.fonts.status === 'loaded'`.
+
+---
+
+## 3. VERIFICATION & DELIVERY PIPELINE
+1. `pnpm check --project <slug>` (spec, AST, slop-linter, and tsc).
+2. `pnpm render:contact-sheet --project <slug>` -> inspect `visual-audit-grid.png` and `manifest.json` diffs (ensure all diffs >= 1.2).
+3. `pnpm render --project <slug>` -> render verified 60 FPS output at `out/<slug>/<slug>.mp4`.

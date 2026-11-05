@@ -138,7 +138,7 @@ export const SlideOverDrawer: FC<SlideOverDrawerProps> = ({
             return (
               <div
                 key={opt.id}
-                className="px-3.5 py-2 rounded-xl text-[15px] font-semibold transition-all cursor-pointer"
+                className="px-3.5 py-2 rounded-xl text-[15px] font-semibold cursor-pointer"
                 style={{
                   backgroundColor: isActive ? theme.colors.accentPrimary : theme.colors.bgSurface,
                   color: isActive ? '#ffffff' : theme.colors.textMuted,

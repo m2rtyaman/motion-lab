@@ -158,8 +158,8 @@ export const SpecularSurface: React.FC<SpecularSurfaceProps> = ({
         radius={500}
       />
 
-      {/* İçerik Katmanı */}
-      <div className="relative z-20 w-full h-full">{children}</div>
+      {/* İçerik Katmanı: flex-col ve flex-1 mirası ile alt boşluk (dead-space) hatasını önler */}
+      <div className="relative z-20 w-full h-full flex flex-col flex-1">{children}</div>
     </div>
   );
 };

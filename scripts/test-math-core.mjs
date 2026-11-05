@@ -33,6 +33,27 @@ import {
   homographyToCssMatrix3d,
 } from '../src/core/homography-math.ts';
 import { applySample0Guard } from '../src/core/procedural-audio.ts';
+import {
+  computeCurvedBracePath,
+  interpolateClusterPositions,
+  computeSpotlightConeGeometry,
+  generateConfettiParticles,
+  evaluateConfettiParticle,
+} from '../src/core/tactile-geometry.ts';
+import {
+  computeWavyRibbonSpline,
+  calculateRibbonDashOffset,
+  computeCircularAperture,
+  computeTiltedPhoneMatrix,
+} from '../src/core/mobile-sting-math.ts';
+import {
+  computeJaggedPaperTear,
+  computeMetronomeOscillation,
+  computeScatterTrajectories,
+  evaluateScatterParticle,
+  computeChecklistProgress,
+  computePaperCardMatrix,
+} from '../src/core/papercraft-math.ts';
 
 test('Spring Solver: Underdamped harmonic oscillator', () => {
   const underdampedConfig = { stiffness: 100, damping: 5, mass: 1 };
@@ -369,4 +390,882 @@ test('Procedural Audio: Sample-0 AAC digital clipping protection', () => {
   const emptyBuf = new Float32Array(0);
   assert.doesNotThrow(() => applySample0Guard(emptyBuf, sampleRate));
 });
+
+test('Editorial Specimen: Symmetric registration grid and intersection alignment', () => {
+  // Test both 16:9 (1920x1080) and 9:16 (1080x1920)
+  for (const [w, h] of [[1920, 1080], [1080, 1920]]) {
+    const gridSize = 80;
+    const centerX = w / 2;
+    const centerY = h / 2;
+
+    const maxStepsX = Math.ceil(centerX / gridSize);
+    const maxStepsY = Math.ceil(centerY / gridSize);
+
+    const vX = [];
+    for (let s = -maxStepsX; s <= maxStepsX; s++) {
+      const x = centerX + s * gridSize;
+      if (x >= 0 && x <= w) vX.push(x);
+    }
+
+    const hY = [];
+    for (let s = -maxStepsY; s <= maxStepsY; s++) {
+      const y = centerY + s * gridSize;
+      if (y >= 0 && y <= h) hY.push(y);
+    }
+
+    // Must contain center line
+    assert.ok(vX.includes(centerX), `Grid must contain vertical center line at ${centerX}`);
+    assert.ok(hY.includes(centerY), `Grid must contain horizontal center line at ${centerY}`);
+
+    // Nodes at (centerX ± 4*gridSize, centerY ± 2*gridSize) must intersect exact grid lines
+    const nodeCoords = [
+      { x: centerX - gridSize * 4, y: centerY - gridSize * 2 },
+      { x: centerX + gridSize * 4, y: centerY - gridSize * 2 },
+      { x: centerX - gridSize * 4, y: centerY + gridSize * 2 },
+      { x: centerX + gridSize * 4, y: centerY + gridSize * 2 },
+    ];
+
+    for (const node of nodeCoords) {
+      assert.ok(vX.includes(node.x), `Vertical line must intersect node at x=${node.x}`);
+      assert.ok(hY.includes(node.y), `Horizontal line must intersect node at y=${node.y}`);
+    }
+  }
+});
+
+test('Editorial Specimen: Dogleg leader line arc length & 360 deg arc clamping', () => {
+  // Leader line arc length
+  const sX = 960;
+  const sY = 540;
+  const tX = 1500;
+  const tY = 850;
+  const elbowX = sX + Math.abs(tX - sX) * 0.45;
+  const elbowY = tY;
+
+  const seg1 = Math.hypot(elbowX - sX, elbowY - sY);
+  const seg2 = Math.hypot(tX - elbowX, tY - elbowY);
+  const totalLength = Math.max(1, Math.ceil(seg1 + seg2));
+
+  assert.ok(totalLength > 600, `Total length must reflect true Euclidean path: ${totalLength}`);
+
+  // Measurement arc 360 deg clamping
+  const testSpan = (startAngle, endAngle) => {
+    const span = endAngle - startAngle;
+    const sign = span < 0 ? -1 : 1;
+    return Math.abs(span) >= 360 ? sign * 359.99 : span;
+  };
+
+  assert.equal(testSpan(0, 360), 359.99);
+  assert.equal(testSpan(0, -360), -359.99);
+  assert.equal(testSpan(0, 90), 90);
+});
+
+test('Tactile Geometry: Curved brace spline math and boundary conditions', () => {
+  // Standard downward brace
+  const braceDown = computeCurvedBracePath({
+    x1: 100,
+    x2: 500,
+    y: 50,
+    depth: 30,
+    orientation: 'down',
+  });
+
+  assert.equal(braceDown.midX, 300);
+  assert.equal(braceDown.tipY, 80);
+  assert.equal(braceDown.width, 400);
+  assert.equal(braceDown.depth, 30);
+  assert.ok(braceDown.path.startsWith('M 100.00 50.00'));
+  assert.ok(braceDown.path.includes('C'));
+  assert.ok(braceDown.path.includes('L'));
+
+  // Standard upward brace
+  const braceUp = computeCurvedBracePath({
+    x1: 100,
+    x2: 500,
+    y: 100,
+    depth: 30,
+    orientation: 'up',
+  });
+  assert.equal(braceUp.tipY, 70);
+  assert.equal(braceUp.depth, -30);
+
+  // Inverted inputs (x1 > x2) should normalize left to right
+  const braceInverted = computeCurvedBracePath({
+    x1: 500,
+    x2: 100,
+    y: 50,
+    depth: 30,
+    orientation: 'down',
+  });
+  assert.equal(braceInverted.midX, 300);
+  assert.equal(braceInverted.width, 400);
+
+  // Micro-distance / zero width degenerate boundary
+  const braceZero = computeCurvedBracePath({
+    x1: 250,
+    x2: 250,
+    y: 50,
+    depth: 20,
+  });
+  assert.equal(braceZero.width, 0);
+  assert.equal(braceZero.midX, 250);
+  assert.ok(braceZero.path.includes('L'));
+});
+
+test('Tactile Geometry: 1-to-3 capsule cluster spacing and stagger interpolation', () => {
+  const spacing = 200;
+  const stagger = 0.15;
+
+  // At progress = 0: center is fixed, wings are collapsed at x = 0 with opacity 0
+  const p0 = interpolateClusterPositions(0, spacing, stagger);
+  assert.equal(p0.length, 3);
+  assert.equal(p0[0].x, 0);
+  assert.equal(p0[0].opacity, 0);
+  assert.equal(p0[0].scale, 0.8);
+  assert.equal(p0[1].x, 0);
+  assert.equal(p0[1].opacity, 1);
+  assert.equal(p0[1].scale, 1);
+  assert.equal(p0[2].x, 0);
+  assert.equal(p0[2].opacity, 0);
+  assert.equal(p0[2].scale, 0.8);
+
+  // At progress = 1: fully expanded
+  const p1 = interpolateClusterPositions(1, spacing, stagger);
+  assert.equal(p1[0].x, -spacing);
+  assert.equal(p1[0].opacity, 1);
+  assert.equal(p1[0].scale, 1);
+  assert.equal(p1[1].x, 0);
+  assert.equal(p1[1].opacity, 1);
+  assert.equal(p1[2].x, spacing);
+  assert.equal(p1[2].opacity, 1);
+  assert.equal(p1[2].scale, 1);
+
+  // Stagger check at progress = 0.10:
+  // Left wing has started moving (progress > 0), right wing is still locked at 0 (<= stagger)
+  const pMid = interpolateClusterPositions(0.1, spacing, stagger);
+  assert.ok(pMid[0].opacity > 0, 'Left pill should have begun expanding');
+  assert.ok(pMid[0].x < 0, 'Left pill x should be negative');
+  assert.equal(pMid[2].opacity, 0, 'Right pill should still be at 0 due to stagger delay');
+  assert.equal(pMid[2].x, 0, 'Right pill x should be 0 due to stagger delay');
+
+  // Clamping guard: negative or overshooting progress should clamp safely
+  const pNeg = interpolateClusterPositions(-0.5, spacing, stagger);
+  assert.equal(pNeg[0].x, 0);
+  assert.equal(pNeg[0].opacity, 0);
+
+  const pOver = interpolateClusterPositions(1.5, spacing, stagger);
+  assert.equal(pOver[0].x, -spacing);
+  assert.equal(pOver[2].x, spacing);
+
+  // Extreme stagger guards: stagger >= 1 or negative stagger must not crash or yield NaN
+  const pStaggerOver = interpolateClusterPositions(0.5, spacing, 1.5);
+  assert.ok(!Number.isNaN(pStaggerOver[0].x));
+  assert.ok(!Number.isNaN(pStaggerOver[2].x));
+  assert.ok(pStaggerOver[0].opacity >= 0 && pStaggerOver[0].opacity <= 1);
+
+  const pStaggerNeg = interpolateClusterPositions(0.5, spacing, -0.5);
+  assert.ok(!Number.isNaN(pStaggerNeg[0].x));
+  assert.ok(!Number.isNaN(pStaggerNeg[2].x));
+});
+
+test('Tactile Geometry: Spotlight cone path trapezoid geometry and beam spreading angle', () => {
+  const topCenterX = 960;
+  const topY = 0;
+  const topWidth = 100;
+  const bottomWidth = 700;
+  const height = 600;
+
+  const geom = computeSpotlightConeGeometry({
+    topCenterX,
+    topY,
+    topWidth,
+    bottomWidth,
+    height,
+  });
+
+  // Vertices check
+  assert.equal(geom.vertices.length, 4);
+  assert.deepEqual(geom.vertices[0], { x: 910, y: 0 });
+  assert.deepEqual(geom.vertices[1], { x: 1010, y: 0 });
+  assert.deepEqual(geom.vertices[2], { x: 1310, y: 600 });
+  assert.deepEqual(geom.vertices[3], { x: 610, y: 600 });
+
+  // Area: ((topWidth + bottomWidth) / 2) * height = 400 * 600 = 240,000
+  assert.equal(geom.area, 240000);
+
+  // Spreading angle: 2 * atan((350 - 50) / 600) = 2 * atan(0.5) rad = 2 * 0.463647 rad ≈ 53.13 deg
+  assert.ok(Math.abs(geom.beamAngleDeg - 53.13) < 0.1);
+
+  // Midpoint
+  assert.deepEqual(geom.midpoint, { x: 960, y: 300 });
+
+  // SVG Path string format
+  assert.ok(geom.path.startsWith('M 910.00 0.00 L 1010.00 0.00'));
+  assert.ok(geom.path.endsWith('Z'));
+
+  // Parallel beam cylinder edge case (topWidth == bottomWidth)
+  const cylinder = computeSpotlightConeGeometry({
+    topCenterX: 500,
+    topY: 10,
+    topWidth: 200,
+    bottomWidth: 200,
+    height: 400,
+  });
+  assert.equal(cylinder.beamAngleDeg, 0);
+  assert.equal(cylinder.area, 200 * 400);
+});
+
+test('Tactile Geometry: Deterministic square confetti burst particle lifecycle', () => {
+  const seed = 77;
+  const count = 16;
+  const radius = 120;
+
+  // Mulberry32 determinism check: same seed yields identical initial particles
+  const particlesA = generateConfettiParticles(count, seed, radius);
+  const particlesB = generateConfettiParticles(count, seed, radius);
+  assert.deepEqual(particlesA, particlesB);
+
+  // Progress 0: all particles at center, opacity 0, scale 0
+  for (const p of particlesA) {
+    const s0 = evaluateConfettiParticle(p, 0);
+    assert.equal(s0.x, 0);
+    assert.equal(s0.y, 0);
+    assert.equal(s0.opacity, 0);
+    assert.equal(s0.scale, 0);
+  }
+
+  // Progress 0.3: burst outward, opacity > 0, scale > 0
+  for (const p of particlesA) {
+    const sMid = evaluateConfettiParticle(p, 0.3);
+    assert.ok(Math.hypot(sMid.x, sMid.y) > 0);
+    assert.ok(sMid.opacity > 0.8);
+    assert.ok(sMid.scale > 0.8);
+  }
+
+  // Progress 1.0+: completely cleared, opacity = 0, scale = 0
+  for (const p of particlesA) {
+    const sEnd = evaluateConfettiParticle(p, 1.0);
+    assert.equal(sEnd.opacity, 0);
+    assert.equal(sEnd.scale, 0);
+
+    const sOver = evaluateConfettiParticle(p, 1.2);
+    assert.equal(sOver.opacity, 0);
+    assert.equal(sOver.scale, 0);
+  }
+});
+
+test('Mobile Sting Math: Wavy ribbon spline path, arc length, and strokeDashoffset', () => {
+  // Horizontal 16:9 ribbon
+  const ribbon = computeWavyRibbonSpline({
+    startX: 0,
+    startY: 540,
+    endX: 1920,
+    endY: 540,
+    waveCount: 3,
+    amplitude: 120,
+  });
+
+  assert.ok(ribbon.path.startsWith('M 0.00 540.00'));
+  assert.ok(ribbon.path.includes(' C '));
+  assert.equal(ribbon.points.length, 4); // start + 3 wave endpoints
+  assert.equal(ribbon.points[0].x, 0);
+  assert.equal(ribbon.points[3].x, 1920);
+
+  // Due to sinusoidal wave curves, total arc length must exceed direct Euclidean distance (1920)
+  assert.ok(ribbon.totalLength > 1920, `Total arc length ${ribbon.totalLength} must exceed 1920`);
+
+  // Vertical 9:16 ribbon (normal vector displacement across X axis)
+  const verticalRibbon = computeWavyRibbonSpline({
+    startX: 540,
+    startY: 0,
+    endX: 540,
+    endY: 1920,
+    waveCount: 3,
+    amplitude: 100,
+  });
+  assert.ok(verticalRibbon.path.startsWith('M 540.00 0.00'));
+  assert.ok(verticalRibbon.totalLength > 1920, `Vertical ribbon total length ${verticalRibbon.totalLength} must exceed 1920`);
+  // Vertical ribbon must oscillate in X: control points must not stay fixed at x = 540
+  assert.ok(verticalRibbon.path.includes('440.00') || verticalRibbon.path.includes('640.00'), 'Vertical ribbon must displace laterally along X');
+
+  // Degenerate zero-length boundary case
+  const degenRibbon = computeWavyRibbonSpline({
+    startX: 200,
+    startY: 200,
+    endX: 200,
+    endY: 200,
+  });
+  assert.equal(degenRibbon.totalLength, 1);
+  assert.ok(degenRibbon.path.startsWith('M 200.00 200.00'));
+
+  // strokeDashoffset calculations & clamping
+  const len = ribbon.totalLength;
+  assert.equal(calculateRibbonDashOffset(0, len), len);
+  assert.equal(calculateRibbonDashOffset(1, len), 0);
+  assert.ok(Math.abs(calculateRibbonDashOffset(0.5, len) - len * 0.5) < 1e-4);
+  assert.equal(calculateRibbonDashOffset(-0.25, len), len);
+  assert.equal(calculateRibbonDashOffset(1.25, len), 0);
+});
+
+test('Mobile Sting Math: Circular aperture radius interpolation and mask geometry', () => {
+  const maxRadius = 1400;
+
+  // At progress = 0: collapsed circle, not revealed
+  const ap0 = computeCircularAperture({ progress: 0, maxRadius });
+  assert.equal(ap0.radius, 0);
+  assert.equal(ap0.isFullyRevealed, false);
+  assert.equal(ap0.opacity, 0);
+  assert.equal(ap0.clipPath, 'circle(0.00px at 50% 50%)');
+  assert.equal(ap0.centerXStr, '50%');
+  assert.equal(ap0.centerYStr, '50%');
+
+  // At progress = 0.5 (linear exponent 1.0): halfway radius
+  const apMid = computeCircularAperture({ progress: 0.5, maxRadius });
+  assert.equal(apMid.radius, 700);
+  assert.equal(apMid.isFullyRevealed, false);
+  assert.ok(apMid.scale > 0.8 && apMid.scale < 1.0);
+  assert.equal(apMid.clipPath, 'circle(700.00px at 50% 50%)');
+
+  // At progress = 1.0: fully revealed
+  const ap1 = computeCircularAperture({ progress: 1.0, maxRadius });
+  assert.equal(ap1.radius, 1400);
+  assert.equal(ap1.isFullyRevealed, true);
+  assert.equal(ap1.opacity, 1.0);
+  assert.equal(ap1.scale, 1.0);
+
+  // Custom numeric center coordinates with CSS px unit formatting
+  const apCustom = computeCircularAperture({
+    progress: 0.25,
+    maxRadius: 1000,
+    centerX: 960,
+    centerY: 540,
+  });
+  assert.equal(apCustom.clipPath, 'circle(250.00px at 960.00px 540.00px)');
+  assert.equal(apCustom.centerXStr, '960.00px');
+  assert.equal(apCustom.centerYStr, '540.00px');
+
+  // Clamping boundary safety
+  const apNeg = computeCircularAperture({ progress: -0.5, maxRadius });
+  assert.equal(apNeg.radius, 0);
+  const apOver = computeCircularAperture({ progress: 1.5, maxRadius });
+  assert.equal(apOver.radius, 1400);
+  assert.equal(apOver.isFullyRevealed, true);
+});
+
+test('Mobile Sting Math: 3/4 phone perspective transform matrix and idle tilt/bob', () => {
+  // Phase 0: nominal initial tilt
+  const p0 = computeTiltedPhoneMatrix({
+    rotateX: 8,
+    rotateY: -16,
+    perspective: 1200,
+    floatPhase: 0,
+    floatAmplitude: 1.5,
+  });
+
+  assert.equal(p0.effectiveRotateX, 8); // sin(0) = 0
+  assert.ok(Math.abs(p0.effectiveRotateY - (-16 + 1.5 * 0.8)) < 1e-4); // cos(0) = 1 -> -16 + 1.2 = -14.8
+  assert.equal(p0.effectiveTranslateY, 0); // sin(0) = 0
+  assert.ok(p0.transform.includes('perspective(1200px)'));
+  assert.ok(p0.transform.includes('rotateX(8.00deg)'));
+  assert.ok(p0.transform.includes('rotateY(-14.80deg)'));
+  assert.ok(!p0.transformWithoutPerspective.includes('perspective'));
+
+  // Without perspective flag
+  const pNoPersp = computeTiltedPhoneMatrix({
+    rotateX: 8,
+    rotateY: -16,
+    perspective: 1200,
+    includePerspective: false,
+  });
+  assert.ok(!pNoPersp.transform.includes('perspective'));
+  assert.equal(pNoPersp.transform, pNoPersp.transformWithoutPerspective);
+
+  // Phase PI/2: oscillation excursion
+  const pHalfPi = computeTiltedPhoneMatrix({
+    rotateX: 8,
+    rotateY: -16,
+    perspective: 1200,
+    floatPhase: Math.PI / 2,
+    floatAmplitude: 1.5,
+  });
+  // sin(PI/2) = 1 -> effectiveRotateX = 8 + 1.5 = 9.5
+  assert.ok(Math.abs(pHalfPi.effectiveRotateX - 9.5) < 1e-4);
+  // cos(PI/2) = 0 -> effectiveRotateY = -16
+  assert.ok(Math.abs(pHalfPi.effectiveRotateY - (-16)) < 1e-4);
+
+  // Custom translation, scale, and determinism check
+  const pCustomA = computeTiltedPhoneMatrix({
+    translateX: 50,
+    translateY: -30,
+    scale: 1.1,
+    floatPhase: 1.23,
+  });
+  const pCustomB = computeTiltedPhoneMatrix({
+    translateX: 50,
+    translateY: -30,
+    scale: 1.1,
+    floatPhase: 1.23,
+  });
+  assert.equal(pCustomA.transform, pCustomB.transform);
+  assert.equal(pCustomA.scale, 1.1);
+  assert.equal(pCustomA.effectiveTranslateX, 50);
+});
+
+test('Papercraft Math: Jagged paper-tear vertex generation, polygon paths, and determinism', () => {
+  const width = 1920;
+  const height = 1080;
+  const segments = 24;
+  const seed = 42;
+
+  // 1. Vertical tear
+  const tearV = computeJaggedPaperTear({
+    width,
+    height,
+    segments,
+    seed,
+    direction: 'vertical',
+    progress: 0,
+    amplitude: 20,
+  });
+
+  assert.equal(tearV.points.length, segments + 1);
+  assert.ok(tearV.tearLinePath.startsWith('M '));
+  assert.ok(tearV.pieceAPath.startsWith('M 0 0'));
+  assert.ok(tearV.pieceBPath.includes('Z'));
+
+  // Points must lie within bounds
+  for (const pt of tearV.points) {
+    assert.ok(pt.x >= 0 && pt.x <= width, `x=${pt.x} out of bounds`);
+    assert.ok(pt.y >= 0 && pt.y <= height, `y=${pt.y} out of bounds`);
+  }
+
+  // 2. Determinism: identical seed must generate identical paths and points
+  const tearV2 = computeJaggedPaperTear({
+    width,
+    height,
+    segments,
+    seed,
+    direction: 'vertical',
+    progress: 0,
+    amplitude: 20,
+  });
+  assert.equal(tearV.tearLinePath, tearV2.tearLinePath);
+  assert.equal(tearV.pieceAPath, tearV2.pieceAPath);
+  assert.deepEqual(tearV.points[5], tearV2.points[5]);
+
+  // 3. Progress displacement check
+  const tearOpen = computeJaggedPaperTear({
+    width,
+    height,
+    segments,
+    seed,
+    direction: 'vertical',
+    progress: 1.0,
+    tearGap: 100,
+  });
+  assert.equal(tearOpen.displacementA.x, -100);
+  assert.equal(tearOpen.displacementB.x, 100);
+  assert.ok(tearOpen.displacementA.rotate < 0);
+  assert.ok(tearOpen.displacementB.rotate > 0);
+
+  // 4. Horizontal tear
+  const tearH = computeJaggedPaperTear({
+    width,
+    height,
+    segments: 16,
+    seed: 99,
+    direction: 'horizontal',
+    progress: 0.5,
+    tearGap: 60,
+  });
+  assert.equal(tearH.points.length, 17);
+  assert.ok(tearH.tearLinePath.startsWith('M '));
+  assert.equal(tearH.displacementA.y, -30);
+  assert.equal(tearH.displacementB.y, 30);
+  // Verify Piece A covers top half and Piece B covers bottom half without duplicated points
+  assert.ok(tearH.pieceAPath.startsWith(`M 0 0 L ${width} 0`));
+  assert.ok(tearH.pieceAPath.endsWith(' Z'));
+  assert.ok(tearH.pieceBPath.includes(`L ${width} ${height} L 0 ${height} Z`));
+
+  // 5. Diagonal tear (must properly connect all 4 frame corners without truncation)
+  const tearD = computeJaggedPaperTear({
+    width,
+    height,
+    segments: 20,
+    seed: 123,
+    direction: 'diagonal',
+    progress: 0.2,
+  });
+  assert.equal(tearD.points.length, 21);
+  // Piece A must connect top-left corner (0,0), top-right (width, 0), tear, and bottom-left (0, height)
+  assert.ok(tearD.pieceAPath.startsWith(`M 0 0 L ${width} 0`));
+  assert.ok(tearD.pieceAPath.endsWith(`L 0 ${height} Z`));
+  // Piece B must connect tear points, top-right (width, 0), bottom-right (width, height), and bottom-left (0, height)
+  assert.ok(tearD.pieceBPath.includes(`L ${width} 0 L ${width} ${height} L 0 ${height} Z`));
+
+  // 6. Edge cases: segment count clamping and negative/overshooting progress
+  const tearClamped = computeJaggedPaperTear({
+    width: 800,
+    height: 600,
+    segments: 2, // Must clamp to at least 8 segments
+    progress: -0.5,
+  });
+  assert.ok(tearClamped.points.length >= 9, 'Must enforce at least safeSegments >= 8');
+  assert.equal(tearClamped.displacementA.x, 0, 'Progress < 0 must clamp displacement to 0');
+});
+
+test('Papercraft Math: Metronome pendulum harmonic oscillation, turnaround easing, and frequency', () => {
+  const bpm = 60; // 60 BPM = 1 beat per second -> f = 60 / 120 = 0.5 Hz (period = 2.0s)
+  const maxAngle = 30;
+
+  // t = 0: Center position (sin(0) = 0), maximum angular velocity
+  const m0 = computeMetronomeOscillation({ time: 0, bpm, maxAngle });
+  assert.equal(m0.angleDeg, 0);
+  assert.equal(m0.normalizedPosition, 0);
+  assert.equal(m0.isTurnaround, false);
+  assert.ok(m0.angularVelocity > 0); // Moving towards right
+  assert.equal(m0.frequencyHz, 0.5);
+
+  // t = 0.5s: Quarter period -> peak excursion right (sin(pi/2) = 1)
+  const mPeakRight = computeMetronomeOscillation({ time: 0.5, bpm, maxAngle });
+  assert.ok(Math.abs(mPeakRight.normalizedPosition - 1.0) < 1e-3);
+  assert.ok(Math.abs(mPeakRight.angleDeg - maxAngle) < 0.1);
+  assert.equal(mPeakRight.isTurnaround, true);
+  // Velocity drops near zero at peak reversal
+  assert.ok(Math.abs(mPeakRight.angularVelocity) < 1e-2);
+
+  // t = 1.0s: Center passing back to left (sin(pi) = 0), negative velocity
+  const mCenter = computeMetronomeOscillation({ time: 1.0, bpm, maxAngle });
+  assert.ok(Math.abs(mCenter.normalizedPosition) < 1e-3);
+  assert.ok(mCenter.angularVelocity < 0);
+  assert.equal(mCenter.isMovingRight, false);
+
+  // t = 1.5s: Peak excursion left (sin(3pi/2) = -1)
+  const mPeakLeft = computeMetronomeOscillation({ time: 1.5, bpm, maxAngle });
+  assert.ok(Math.abs(mPeakLeft.normalizedPosition - (-1.0)) < 1e-3);
+  assert.ok(Math.abs(mPeakLeft.angleDeg - (-maxAngle)) < 0.1);
+  assert.equal(mPeakLeft.isTurnaround, true);
+
+  // Damping: amplitude decays over time
+  const mDamped = computeMetronomeOscillation({ time: 2.5, bpm, maxAngle, damping: 0.8 });
+  assert.ok(Math.abs(mDamped.normalizedPosition) < Math.exp(-0.8 * 2.5));
+});
+
+test('Papercraft Math: Radial scatter vector dynamics, trajectories, and gravity drift', () => {
+  const count = 10;
+  const minDistance = 100;
+  const maxDistance = 300;
+  const seed = 55;
+
+  const trajectories = computeScatterTrajectories({
+    count,
+    minDistance,
+    maxDistance,
+    seed,
+  });
+
+  assert.equal(trajectories.length, count);
+
+  // Distance bounds and trajectory properties
+  for (const t of trajectories) {
+    assert.ok(t.distance >= minDistance && t.distance <= maxDistance);
+    assert.ok(t.scalePeak >= 1.0);
+    assert.ok(t.delay >= 0 && t.delay < 0.2);
+  }
+
+  // Determinism
+  const trajectories2 = computeScatterTrajectories({
+    count,
+    minDistance,
+    maxDistance,
+    seed,
+  });
+  assert.deepEqual(trajectories[0], trajectories2[0]);
+  assert.deepEqual(trajectories[5], trajectories2[5]);
+
+  // Particle evaluation at progress = 0
+  const p0 = evaluateScatterParticle(trajectories[0], 0, 500, 400);
+  assert.equal(p0.scale, 0);
+  assert.equal(p0.opacity, 0);
+
+  // Particle evaluation at progress = 0.5
+  const pMid = evaluateScatterParticle(trajectories[0], 0.5, 500, 400, 50);
+  assert.ok(pMid.scale > 0.8);
+  assert.ok(pMid.opacity > 0.8);
+  // Due to gravity, mid y should have downward component
+  assert.ok(Math.hypot(pMid.x - 500, pMid.y - 400) > 30);
+
+  // Particle evaluation at progress = 1.0: distance settled
+  const pEnd = evaluateScatterParticle(trajectories[0], 1.0, 500, 400, 50);
+  assert.ok(Math.abs(pEnd.scale - 1.0) < 1e-2);
+  assert.equal(pEnd.opacity, 1.0);
+  assert.equal(pEnd.rotation, Number(trajectories[0].rotationEnd.toFixed(2)));
+
+  // Checklist Scrubber helper test
+  const scrub = computeChecklistProgress(4, 0.5, 200);
+  assert.equal(scrub.activeIndex, 1);
+  assert.deepEqual(scrub.completedIndices, [0, 1]);
+
+  // PaperCard matrix helper test
+  const cardMat = computePaperCardMatrix({ rotateX: 5, rotateY: -4, elevation: 2 });
+  assert.ok(cardMat.transform.includes('rotateX(5.00deg)'));
+  assert.ok(cardMat.transform.includes('rotateY(-4.00deg)'));
+  assert.ok(cardMat.boxShadow.includes('rgba(45, 40, 42'));
+});
+
+test('Dark Red Audio: Equalizer bar height deterministic calculation & boundary clamping', async () => {
+  const { computeEqualizerBarHeight } = await import('../src/core/procedural-audio.ts');
+
+  const totalBars = 32;
+  const maxHeight = 80;
+
+  // Clamping within bounds [6, maxHeight]
+  for (let i = 0; i < totalBars; i++) {
+    const h = computeEqualizerBarHeight(i, totalBars, 0, maxHeight);
+    assert.ok(h >= 6, `Bar ${i} height must be >= minHeight 6`);
+    assert.ok(h <= maxHeight, `Bar ${i} height must be <= maxHeight ${maxHeight}`);
+  }
+
+  // Exact frame determinism
+  const hF30_A = computeEqualizerBarHeight(12, totalBars, 30, maxHeight);
+  const hF30_B = computeEqualizerBarHeight(12, totalBars, 30, maxHeight);
+  assert.equal(hF30_A, hF30_B, 'Heights evaluated at same frame must be strictly equal');
+
+  // Evolution over frames
+  const hF60 = computeEqualizerBarHeight(12, totalBars, 60, maxHeight);
+  assert.ok(typeof hF60 === 'number');
+});
+
+test('Deconstructive Typography: Layered timing progress, fragment evaluation, and phase mapper', async () => {
+  const {
+    computeLayeredTimingProgress,
+    evaluateFragmentState,
+    getDeconstructivePhase,
+  } = await import('../src/core/deconstructive-type-math.ts');
+
+  // 1. Layered Timing Progress
+  // Primary (timingOrder: 0) starts immediately
+  const p0 = computeLayeredTimingProgress(0, 0, 30, 0);
+  assert.equal(p0, 0);
+  const p15 = computeLayeredTimingProgress(15, 0, 30, 0);
+  assert.ok(p15 > 0.5 && p15 < 1.0);
+  const p30 = computeLayeredTimingProgress(30, 0, 30, 0);
+  assert.equal(p30, 1.0);
+
+  // Delayed secondary (timingOrder: 1) has zero progress at frame 2
+  const pDelayed = computeLayeredTimingProgress(2, 0, 30, 1);
+  assert.equal(pDelayed, 0);
+
+  // 2. Fragment State Evaluation
+  const testFrag = {
+    id: 'stem-h1',
+    type: 'stem',
+    targetX: 100,
+    targetY: 200,
+    targetWidth: 12,
+    targetHeight: 64,
+    clusterX: 50,
+    clusterY: 80,
+    clusterRotation: -45,
+    timingOrder: 0,
+  };
+
+  const stateStart = evaluateFragmentState(testFrag, 0, 0);
+  assert.equal(stateStart.x, 50);
+  assert.equal(stateStart.y, 80);
+  assert.equal(stateStart.rotation, -45);
+
+  const stateEnd = evaluateFragmentState(testFrag, 1.0, 1.0);
+  assert.equal(stateEnd.x, 100);
+  assert.equal(stateEnd.y, 200);
+  assert.equal(stateEnd.rotation, 0);
+
+  // 3. Phase Mapper
+  const phaseOpen = getDeconstructivePhase(3, 60); // 0.05s
+  assert.equal(phaseOpen.phaseName, 'abstract-open');
+  assert.equal(phaseOpen.isHero, false);
+
+  const phaseHero = getDeconstructivePhase(295, 60); // 4.91s
+  assert.equal(phaseHero.phaseName, 'evolve-hero-climax');
+  assert.equal(phaseHero.isHero, true);
+});
+
+test('Sculptural Reel Math: Diagonal sweep path, perspective disc cascade, and beveled ring transform', async () => {
+  const {
+    computeDiagonalSweepPath,
+    computeDiscCascadePositions,
+    computeBeveledRingTransform,
+  } = await import('../src/core/sculptural-reel-math.ts');
+
+  // 1. Diagonal sweep path polygon
+  const sweep = computeDiagonalSweepPath(0.5, 1, 4, 1920, 1080);
+  assert.ok(sweep.pathD.startsWith('M '));
+  assert.ok(sweep.pathD.includes('L '));
+  assert.ok(sweep.pathD.endsWith('Z'));
+  assert.ok(sweep.fillOpacity >= 0 && sweep.fillOpacity <= 1.0);
+
+  // 2. Perspective disc cascade
+  const cascade = computeDiscCascadePositions(5, 1.0, 50, 25);
+  assert.equal(cascade.length, 5);
+  // Settled positions at progress = 1.0 must be staggered in Z
+  assert.ok(cascade[0].z > cascade[4].z, 'First disc must be elevated above last disc');
+  assert.equal(cascade[2].x, 0, 'Center disc must be at x = 0');
+
+  // 3. Beveled ring transform
+  const ringTrans = computeBeveledRingTransform(60);
+  assert.ok(ringTrans.transform.includes('perspective(1200px)'));
+  assert.ok(ringTrans.transform.includes('rotateX('));
+  assert.ok(ringTrans.transform.includes('rotateY('));
+  assert.ok(ringTrans.lightReflectionAngle >= 0 && ringTrans.lightReflectionAngle < 360);
+});
+
+test('Promo 20s Math: Write-on progress, warp shape geometry, and vertical panel wipe', async () => {
+  const {
+    computeWriteOnProgress,
+    computeWarpShapePath,
+    computeVerticalPanelWipe,
+  } = await import('../src/core/promo-20s-math.ts');
+
+  // 1. Write-on script progress
+  const writeStart = computeWriteOnProgress(0, 720);
+  assert.equal(writeStart.dashOffset, 720);
+  assert.equal(writeStart.underlineProgress, 0);
+
+  const writeMid = computeWriteOnProgress(0.5, 720);
+  assert.ok(writeMid.dashOffset < 720 && writeMid.dashOffset > 0);
+  assert.ok(typeof writeMid.stylusX === 'number');
+  assert.ok(typeof writeMid.stylusY === 'number');
+
+  const writeEnd = computeWriteOnProgress(1.0, 720);
+  assert.equal(writeEnd.dashOffset, 0);
+  assert.equal(writeEnd.underlineProgress, 1.0);
+
+  // 2. Warp shape closed path
+  const warpPath = computeWarpShapePath(30, 200, 300, 300, 20);
+  assert.ok(warpPath.startsWith('M '));
+  assert.ok(warpPath.includes(' Q '));
+  assert.ok(warpPath.endsWith(' Z'));
+
+  // 3. Vertical panel wipe
+  const panel0 = computeVerticalPanelWipe(0.2, 0, 4);
+  assert.ok(panel0.translateYPercent >= -100 && panel0.translateYPercent <= 100);
+});
+
+test('Harvest Math: Word timing normalization, frame lookup, progress clamp, and Ken Burns trajectory', async () => {
+  const {
+    normalizeHarvestWords,
+    getWordAtFrame,
+    getActiveOrLastWordIndex,
+    calculateWordProgress,
+    getActiveWordsInWindow,
+    computeHarvestKenBurns,
+  } = await import('../src/core/harvest-math.ts');
+  const { resolveHarvestAsset } = await import('../src/core/harvest.tsx');
+
+  // 1. Empty / null inputs
+  assert.deepEqual(normalizeHarvestWords([]), []);
+  assert.deepEqual(normalizeHarvestWords(null), []);
+  assert.equal(getWordAtFrame([], 10), null);
+  assert.deepEqual(getActiveWordsInWindow([], 10, 15), []);
+  assert.deepEqual(getActiveOrLastWordIndex([], 10), {
+    activeIndex: -1,
+    pivotIndex: -1,
+    isBefore: true,
+    isAfter: true,
+  });
+
+  // 2. Normalization and sorting
+  const rawWords = [
+    { index: 1, word: 'world', token: 'world', startTime: 1.0, endTime: 1.5, startMs: 1000, endMs: 1500, durationMs: 500, startFrame: 60, endFrame: 90, durationFrames: 30 },
+    { index: 0, word: 'hello', token: 'hello', startTime: 0.2, endTime: 0.8, startMs: 200, endMs: 800, durationMs: 600, startFrame: 12, endFrame: 48, durationFrames: 36 },
+  ];
+  const normalized = normalizeHarvestWords(rawWords, 60);
+  assert.equal(normalized.length, 2);
+  assert.equal(normalized[0].word, 'hello');
+  assert.equal(normalized[1].word, 'world');
+  assert.equal(normalized[0].startFrame, 12);
+  assert.equal(normalized[0].endFrame, 48);
+
+  // Zero-duration edge case normalization
+  const zeroDur = normalizeHarvestWords([{ index: 0, word: 'ping', token: 'ping', startTime: 0.5, endTime: 0.5, startMs: 500, endMs: 500, durationMs: 0, startFrame: 30, endFrame: 30, durationFrames: 0 }], 60);
+  assert.ok(zeroDur[0].durationFrames >= 1);
+  assert.ok(zeroDur[0].endFrame >= zeroDur[0].startFrame + 1);
+
+  // 3. Frame lookup at boundaries
+  assert.equal(getWordAtFrame(normalized, 5), null, 'Before first word');
+  assert.equal(getWordAtFrame(normalized, 12)?.word, 'hello', 'At start of first word');
+  assert.equal(getWordAtFrame(normalized, 30)?.word, 'hello', 'Middle of first word');
+  assert.equal(getWordAtFrame(normalized, 52), null, 'In pause between words');
+  assert.equal(getWordAtFrame(normalized, 75)?.word, 'world', 'In second word');
+  assert.equal(getWordAtFrame(normalized, 120), null, 'After last word');
+
+  // Adjacent boundary test: word A [10..40), word B [40..70]
+  const adjacent = normalizeHarvestWords([
+    { index: 0, word: 'one', token: 'one', startTime: 0.1666, endTime: 0.6666, startMs: 167, endMs: 667, durationMs: 500, startFrame: 10, endFrame: 40, durationFrames: 30 },
+    { index: 1, word: 'two', token: 'two', startTime: 0.6666, endTime: 1.1666, startMs: 667, endMs: 1167, durationMs: 500, startFrame: 40, endFrame: 70, durationFrames: 30 },
+  ], 60);
+  assert.equal(getWordAtFrame(adjacent, 39)?.word, 'one', 'End frame of first adjacent word');
+  assert.equal(getWordAtFrame(adjacent, 40)?.word, 'two', 'Start frame of second adjacent word switches immediately');
+
+  // 4. Subtitle pivot stability during pauses & speech end
+  const stateBefore = getActiveOrLastWordIndex(normalized, 5);
+  assert.equal(stateBefore.isBefore, true);
+  assert.equal(stateBefore.pivotIndex, 0);
+
+  const stateWord0 = getActiveOrLastWordIndex(normalized, 25);
+  assert.equal(stateWord0.activeIndex, 0);
+  assert.equal(stateWord0.pivotIndex, 0);
+
+  const statePause = getActiveOrLastWordIndex(normalized, 52);
+  assert.equal(statePause.activeIndex, -1, 'No word active in pause');
+  assert.equal(statePause.pivotIndex, 0, 'Pause MUST keep pivot on most recent word (hello), not snap to 0');
+
+  const stateWord1 = getActiveOrLastWordIndex(normalized, 70);
+  assert.equal(stateWord1.activeIndex, 1);
+  assert.equal(stateWord1.pivotIndex, 1);
+
+  const stateAfter = getActiveOrLastWordIndex(normalized, 130);
+  assert.equal(stateAfter.isAfter, true);
+  assert.equal(stateAfter.activeIndex, -1);
+  assert.equal(stateAfter.pivotIndex, 1, 'After speech ends, pivot MUST stay on last word (world), never slam to 0');
+
+  // 5. Progress calculation and clamping
+  const first = normalized[0];
+  assert.equal(calculateWordProgress(first, 0), 0);
+  assert.equal(calculateWordProgress(first, 12), 0);
+  assert.ok(calculateWordProgress(first, 30) > 0 && calculateWordProgress(first, 30) < 1);
+  assert.equal(calculateWordProgress(first, 48), 1);
+  assert.equal(calculateWordProgress(first, 100), 1);
+
+  // 6. Active words window query
+  const windowWords = getActiveWordsInWindow(normalized, 30, 20);
+  assert.ok(windowWords.some((w) => w.word === 'hello'));
+
+  // 7. Ken Burns trajectory calculation & negative bounds
+  const kbNeg = computeHarvestKenBurns(-10, 100, 1.1);
+  assert.equal(kbNeg.scale, 1.0);
+  assert.equal(kbNeg.opacity, 0.0);
+
+  const kb0 = computeHarvestKenBurns(0, 100, 1.1);
+  assert.equal(kb0.scale, 1.0);
+  assert.equal(kb0.opacity, 0.0);
+
+  const kbMid = computeHarvestKenBurns(50, 100, 1.1);
+  assert.ok(kbMid.scale > 1.0 && kbMid.scale < 1.1);
+  assert.equal(kbMid.opacity, 1.0);
+
+  const kbEnd = computeHarvestKenBurns(100, 100, 1.1);
+  assert.ok(Math.abs(kbEnd.scale - 1.1) < 1e-4);
+
+  // 8. Asset path resolver
+  assert.equal(resolveHarvestAsset('https://videos.pexels.com/stock.mp4'), 'https://videos.pexels.com/stock.mp4');
+  assert.equal(resolveHarvestAsset('http://cdn.example.com/audio.wav'), 'http://cdn.example.com/audio.wav');
+  assert.equal(resolveHarvestAsset('data:audio/wav;base64,AAAA'), 'data:audio/wav;base64,AAAA');
+  assert.ok(resolveHarvestAsset('audio.wav', 'my-proj').includes('harvest/my-proj/audio.wav'));
+  assert.ok(resolveHarvestAsset('harvest/my-proj/audio.wav').includes('harvest/my-proj/audio.wav'));
+});
+
+
+
+
+
 

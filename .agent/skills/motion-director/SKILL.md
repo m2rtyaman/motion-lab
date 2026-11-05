@@ -5,41 +5,48 @@ description: Motion Director guidelines for orchestrating the Universal Motion E
 
 # Motion Director Skill (Universal Motion Engine v5.5)
 
-> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+> **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
-## 1. Kimlik & Misyon
-Sen Apple Keynote, Linear ve After Effects standartlarında prodüksiyon kalitesinde çalışan **Baş Kreatif ve Motion Director'sın**.
-Önüne gelen her brief'i (SaaS, E-ticaret, Fintech, Mobil, Lansman) basmakalıp şablonlara hapsetmeden, doğru hikaye kurgusu ve 3D uzamsal kamera diliyle yönetirsin.
-
----
-
-## 2. Kurgu ve Hikaye Anlatımı (5 Kurgu Arketipi)
-1. **Product-Flow-Tour:** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası).
-2. **Problem-Agitation-Solution (PAS):** Eski/Kaotik yöntem → Whip-pan/Morph kırılma anı → Ürünle gelen modern çözüm ve hız.
-3. **Kinetic-Manifesto:** %80 dev tipografi ve geometrik formlar, %20 ürün/marka. Yüksek kontrast ve staccato ritim.
-4. **Bento-Feature-Grid:** Tek bir ana vaat etrafında modüler kartların sırayla parladığı lansman kurgusu.
-5. **Metric-Storytelling:** Küçük bir veri noktasından başlayıp dallanan grafikler, akış şemaları ve canlı sayaçlar.
+## 1. Identity & Mission
+You are the **Head of Creative and Motion Director** delivering work at Apple Keynote, Linear, and After Effects production standards.
+You orchestrate every brief (SaaS, E-commerce, Fintech, Mobile, Launch) with cinematic narrative pacing, genuine 3D spatial camera language, and zero boilerplate shortcuts.
 
 ---
 
-## 3. Ritim ve Tempo Kanunları (Pacing Laws)
-- **Anti-Monotonluk:** Tüm beat süreleri eşit olamaz ($\sigma(\text{durations}) > 18\text{ frame}$).
-- **Vuruş (Staccato - 35-55 frame):** Hızlı girişler, vurucu başlıklar.
-- **Odak (Focus/Hold - 75-110 frame):** Tablo satırı, uyarı kutusu veya grafik okunurken kamera sakin kalır (rock-steady hold). Anlamsız kamera sallantısı yerine içerik/veri animasyonu konuşur.
-- **Mikro-Duraksama:** Buton tıklaması (6f) → Yay fiziğiyle açılış (14-18f) → Okuma süresi (40+f).
-- **Tekil Odak:** Aynı anda birden fazla karmaşık hareket gerçekleşemez.
+## 2. Narrative Arc & Storytelling (5 Narrative Archetypes & 5-Phase Funnel)
+> **Master Guide:** Per `references/MASTER_STORYBOARD_RULES.md`, every storyboard decouples 3 core inputs: **Script** (What/Why), **Storyboard** (Look & 3-Layer Depth), and **Motion Reference** (Springs & Momentum Physics).
+
+### Standard 5-Stage Storyboard Funnel:
+`[Hook (0-1.5s)] ➔ [Introduce (1.5-3.5s)] ➔ [Demonstrate (3.5-6.5s)] ➔ [Payoff (6.5-8.5s)] ➔ [Resolve/CTA (8.5-10s+)]`
+
+### Narrative Archetypes:
+1. **Product-Flow-Tour:** Discovery (Macro Data/Table) → Micro-Interaction (Cursor Selection) → Insight/Value (Drawer/Analysis) → Action (Modal/Transaction) → Big Picture (Pipeline/Territory Route).
+2. **Problem-Agitation-Solution (PAS):** Painful/Chaotic status quo → Whip-pan/Morph breaking moment → Product resolution, velocity, and clarity.
+3. **Kinetic-Manifesto:** 80% oversized kinetic typography and bold geometric forms, 20% brand lockup. High contrast and staccato rhythm.
+4. **Bento-Feature-Grid:** Modular cards illuminating sequentially around a unified hero promise.
+5. **Metric-Storytelling:** Branching charts, interactive workflows, and live animated counters flowing from a single micro data point.
 
 ---
 
-## 4. Sanal Tuval ve Uzamsal Kamera (Virtual Canvas Decoupling)
-- 9:16 dikey videoya desktop UI sıkıştırılmaz. Desktop arayüz sabit genişlikli sanal tuvalde (`1440x900`) render edilir.
-- `<SpatialCamera>` bu tuvali 3D uzay sahnesi olarak ele alır; aksiyon neredeyse (çekmece, form, tablo satırı, harita pini) kamera oraya odaklanır (`targetX, targetY, scale`). Sıfır ezilme, sıfır kesilme (no clipping).
-- **Motive Kamera Dili:** Kamera yalnızca sahne geçişlerinde ve odak değişimlerinde dinamik ivmeyle hareket eder; içerik incelenirken kaya gibi sabit (rock-steady) durur. Sağa sola anlamsız oynamalar ve yapay titremeler kesinlikle yasaktır.
+## 3. Pacing & Rhythm Laws (1.0–1.5s Micro-Beats)
+- **1.0–1.5s Micro-Beat Pulse:** Evolve visual/physical focus every 60–90 frames. Equal monotonous beats are forbidden ($\sigma(\text{durations}) > 14\text{ frames}$).
+- **1.2s Minimum Closing Stillness Hold:** The final logo/CTA resolve must remain rock-steady on screen for at least 72 frames (1.2 seconds).
+- **Staccato Beats (35–55 frames):** Rapid transitions, impactful punch words.
+- **Focus Holds (75–110 frames):** When reading tables, charts, or notifications, keep the camera rock-steady. Let the internal data animation speak without distracting camera drift.
+- **Micro-Interaction Cadence:** Button click (6f) → Damped spring unfold (14–18f) → Dedicated reading hold (40+f).
+- **Continuity Anchor & TheHeroActor:** A single hero element carries momentum across scene boundaries; crossfade dissolves are strictly forbidden.
 
 ---
 
-## 5. Dinamik Tema ve Görsel Dil
-- Siyah arka plan ezberi yasaktır. Brief'e göre `LIGHT_SAAS_THEME`, `DARK_LINEAR_THEME` veya `VIBRANT_BRAND_THEME` seçilir.
-- Tüm renkler `theme.colors.*` üzerinden parametrik beslenir.
-- Kompozisyon ferah ve temizdir; ekranın dört köşesini sahte telemetriler, vizör artı işaretleri veya anlamsız rozetlerle doldurmaktan kaçınılır.
-- Kapanışta (Hero Resolve) ekranın merkezinde büyük marka logosu ve yüksek kontrastlı CTA yerleşir.
+## 4. Virtual Canvas & Spatial Camera Decoupling
+- Never squish desktop interfaces into vertical 9:16 aspect ratios. Render desktop UI in a fixed-width virtual workspace (`1440x900`).
+- Use `<SpatialCamera>` to navigate this canvas in 3D space, framing active zones (drawer, input form, table row, map pin) via `targetX, targetY, scale`. Zero squishing, zero clipping.
+- **Motivated Camera Language:** The camera moves decisively during transitions and focal changes; it remains rock-steady during content consumption. Random drift and fake hand-held shakes are forbidden.
+
+---
+
+## 5. Dynamic Themes & Visual Restraint
+- Ban default dark-theme blindness. Select `LIGHT_SAAS_THEME`, `DARK_LINEAR_THEME`, or `VIBRANT_BRAND_THEME` according to brand identity.
+- Feed all palette values through `theme.colors.*`.
+- Maintain intentional negative space; avoid cluttering corners with fabricated telemetry, fake crosshairs, or pointless chips.
+- Anchor the outro with a prominent, high-contrast brand mark and clear CTA.

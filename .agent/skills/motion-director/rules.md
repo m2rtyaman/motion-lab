@@ -1,32 +1,32 @@
 # Anti-Slop Design, Kinetic Rhythm & Engineering Invariants (Zero-Tolerance)
 
-Bu dosya sistemin estetik, ritim ve mühendislik yasasıdır. Üretilen her kodda istisnasız uygulanacaktır.
+This file defines the studio's aesthetic, rhythm, and engineering constitution. It must be strictly enforced across all generated code without exception.
 
-### 1. Görsel Yasaklar (Visual Slop — Sıfır Tolerans)
-- **YASAK:** Mor (`#7c3aed`, `#8b5cf6`), indigo (`#6366f1`), cyan (`#06b6d4`, `#38bdf8`), pembe (`#ec4899`) neon degradeler, `box-shadow` ve `drop-shadow` neon ışımaları.
-- **YASAK:** Arka plana atılan radyal bulanık renk lekeleri (ambient blobs) ve anlamsız mesh gradientler.
-- **YASAK:** Bento-grid ezberi (arayüzü sebepsiz yere 3-4 parçalı simetrik kartlara bölmek).
-- **YASAK:** İlkel SVG daire/kutu primitifleriyle insan yüzü, saç, bıyık veya maskot çizmek.
-- **YASAK:** Dairesel renkli kutuların içine hapsedilmiş süs ikonları.
+### 1. Visual Invariants (Visual Slop — Zero-Tolerance)
+- **FORBIDDEN:** Purple (`#7c3aed`, `#8b5cf6`), indigo (`#6366f1`), cyan (`#06b6d4`, `#38bdf8`), pink (`#ec4899`) neon gradients, `box-shadow` and `drop-shadow` neon glow vomiting.
+- **FORBIDDEN:** Background radial ambient blurred blobs and meaningless mesh gradients.
+- **FORBIDDEN:** Bento-grid boilerplate (arbitrarily segmenting the viewport into 3-4 symmetrical card mockups without purpose).
+- **FORBIDDEN:** Primitive SVG circles/boxes attempting to draw human faces, hair, mustaches, or mascots.
+- **FORBIDDEN:** Decorative icons trapped inside colored circular badges without functional meaning.
 
-### 2. Kinetik Ritim Yasaları (Anti-Sluggishness / Hantallık Yasağı)
-- **YASAK (Ölü Zaman / Dead Hold):** Hiçbir görsel durum ekranda 2.5 – 3.2 saniyeden uzun kalamaz ve hiçbir eleman 1.5 saniyeden uzun süre hareketsiz bekleyemez.
-- **ZORUNLU (Üçlü Kinetik Döngü — `IN -> ACTION -> OUT`):**
-  * **IN (`0.35s – 0.50s`):** `expo.out` ile keskin giriş + alt elemanlarda `0.04s – 0.06s` mikro-stagger (Toplam stagger tavanı `0.30s`).
-  * **ACTION (`1.50s – 2.20s`):** Sahne içi canlı veri akışı (60 FPS sayaç interpolasyonu, `strokeDashoffset` çizimi, `scaleX`/`scaleY` lazer ilerlemesi, ardışık terminal satırları veya kart yığını itmesi) + sürekli mikro-drift (`y: 0 -> -10px` veya `scale: 1 -> 1.02`).
-  * **OUT (`0.28s – 0.38s`):** Girişten %30–%40 daha hızlı çıkış (`power2.in`) ve bir sonraki beat ile **0.15s – 0.20s bindirmeli geçiş (overlap)**.
+### 2. Kinetic Rhythm Invariants (Anti-Sluggishness)
+- **FORBIDDEN (Dead Hold / Stagnant Frames):** No visual state may persist statically on screen for longer than 2.5–3.2 seconds, and no individual element may remain motionless for longer than 1.5 seconds.
+- **MANDATORY (Triple Kinetic Cycle — `IN -> ACTION -> OUT`):**
+  * **IN (`0.35s – 0.50s`):** Sharp entry with `expo.out` + `0.04s – 0.06s` micro-stagger for child elements (maximum aggregate stagger ceiling `0.30s`).
+  * **ACTION (`1.50s – 2.20s`):** In-scene live data stream (60 FPS counter interpolation, `strokeDashoffset` draw-in, `scaleX`/`scaleY` laser progress, sequential terminal log lines, or card stack push) + continuous micro-drift (`y: 0 -> -10px` or `scale: 1 -> 1.02`).
+  * **OUT (`0.28s – 0.38s`):** 30%–40% faster departure than entry (`power2.in`) and a **0.15s – 0.20s overlap** with the subsequent beat.
 
-### 3. Tipografi ve Hiyerarşi
-- Tüm telemetri, metrik, kod, zaman damgası ve teknik etiketler `font-mono` olmak zorundadır.
-- Ana başlıklar `tracking-tighter` (-0.04em) veya `tracking-tight` (-0.03em) ve yüksek kontrastlı (`#f4f4f5`) olmalıdır.
-- Mikro etiketler: `text-[10px] uppercase tracking-widest font-mono text-zinc-500`.
+### 3. Typography & Visual Hierarchy
+- All telemetry, metrics, code blocks, timestamps, and technical kickers must use `font-mono`.
+- Primary headlines must use `tracking-tighter` (-0.04em) or `tracking-tight` (-0.03em) with high contrast (`#f4f4f5`).
+- Micro-labels: `text-[10px] uppercase tracking-widest font-mono text-zinc-500`.
 
-### 4. Katman, Kenarlık ve 9:16 Güvenli Alan Mimarisi
-- Varsayılan format **9:16 Dikey (`1080×1920 @ 60 FPS`)** olup üst `250px` ve alt `300px` güvenli alanları korunmalıdır.
-- Kenarlıklar daima 1px kılcal sınırlardır (`border-white/[0.06]` veya `border-white/[0.08]`).
-- Yuvarlatma sınırları: İç bileşenler `rounded-md` (6px), ana yüzeyler en fazla `rounded-xl` (12px). Asla devasa hap `rounded-3xl` kullanılmaz.
+### 4. Layer, Border & 9:16 Broadcast Safe Zone Architecture
+- Default vertical format is **9:16 (`1080×1920 @ 60 FPS`)**; upper `250px` and lower `300px` platform safe zones must be preserved.
+- Borders are always 1px hairline boundaries (`border-white/[0.06]` or `border-white/[0.08]`).
+- Radius limits: Child components use `rounded-md` (6px), primary surfaces use at most `rounded-xl` (12px). Massive pill shapes (`rounded-3xl`) are strictly avoided.
 
-### 5. GPU Katman Saflığı ve Deterministik Performans
-- Yalnızca `transform` (`x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`) ve `opacity` (ve giriş/çıkışlarda kontrollü `filter: blur()`) özellikleri anime edilebilir.
-- `top`, `left`, `right`, `bottom`, `width`, `height`, `margin`, `padding` tween etmek **KESİNLİKLE YASAKTIR**.
-- Ham `setTimeout`, `setInterval` ve CSS `@keyframes` yasaktır; tüm animasyonlar `useRemotionGSAP` üzerinden kare indeksine (`tl.seek(frame / fps)`) kilitlenmelidir.
+### 5. GPU Layer Purity & Deterministic Performance
+- Only `transform` (`x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`) and `opacity` (plus controlled `filter: blur()` during transitions) may be animated.
+- Tweening `top`, `left`, `right`, `bottom`, `width`, `height`, `margin`, or `padding` is **STRICTLY PROHIBITED**.
+- Raw `setTimeout`, `setInterval`, and CSS `@keyframes` are forbidden; all animations must be locked to frame indices via `useRemotionGSAP` (`tl.seek(frame / fps)`).

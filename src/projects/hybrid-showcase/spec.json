@@ -1,0 +1,139 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Veloce Cloud — Multi-Archetype Release",
+  "mode": "hybrid-orchestrated",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 10,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "singleContainer": true,
+  "scenes": [
+    {
+      "id": "scene-bento",
+      "archetype": "bento-editorial",
+      "startFrame": 0,
+      "endFrame": 170,
+      "heroAnchorId": "#ship-trigger-pill"
+    },
+    {
+      "id": "scene-kinetic",
+      "archetype": "kinetic-void",
+      "startFrame": 171,
+      "endFrame": 365,
+      "heroAnchorId": "#kinetic-portal-ring"
+    },
+    {
+      "id": "scene-terminal",
+      "archetype": "terminal-mockup",
+      "startFrame": 366,
+      "endFrame": 520,
+      "heroAnchorId": "#the-hero-actor"
+    },
+    {
+      "id": "scene-payoff",
+      "archetype": "product-promo",
+      "startFrame": 521,
+      "endFrame": 600,
+      "heroAnchorId": "#the-hero-actor"
+    }
+  ],
+  "beats": [
+    {
+      "id": "telemetry-hook",
+      "startFrame": 0,
+      "endFrame": 170,
+      "intent": "1.95x makro yakın çekimden açılarak canlı dağıtım metriklerini ve Ship to Production butonunu gösterme",
+      "action": "bento-macro-reveal",
+      "text": "Ship to Production"
+    },
+    {
+      "id": "algorithmic-climax",
+      "startFrame": 171,
+      "endFrame": 365,
+      "intent": "Tıklanan butonun 18x büyüyerek tüm ekranı kaplaması ve 1920x1080 çerçevesiz kinetik tipografi patlaması",
+      "action": "kinetic-fullbleed-burst",
+      "text": "SHIP IN 40 MILLISECONDS"
+    },
+    {
+      "id": "runtime-proof",
+      "startFrame": 366,
+      "endFrame": 520,
+      "intent": "Kameranın merkez halkaya 2.85x dalmasıyla canlı CLI terminalinde global dağıtım komutunun doğrulanması",
+      "action": "terminal-portal-dive",
+      "text": "veloce deploy --prod"
+    },
+    {
+      "id": "unified-resolution",
+      "startFrame": 521,
+      "endFrame": 600,
+      "intent": "Aydınlık fildişi tam ekran marka kapanışı ve 80 karelik (1.33s) mutlak okuma durgunluğu",
+      "action": "brand-payoff-hold",
+      "text": "VELOCE CLOUD"
+    }
+  ],
+  "transitions": [
+    {
+      "type": "element-takeover",
+      "atFrame": 160,
+      "bridge": "#ship-trigger-pill"
+    },
+    {
+      "type": "camera-dive",
+      "atFrame": 355,
+      "bridge": "#kinetic-portal-ring"
+    },
+    {
+      "type": "container-morph",
+      "atFrame": 512,
+      "bridge": "#the-hero-actor"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.25,
+      "ease": "expo.out",
+      "intent": "1.95x makro metrik yakın çekiminden tam Bento penceresine akıcı geri çekilme"
+    },
+    {
+      "at": 2.65,
+      "duration": 0.65,
+      "ease": "expo.inOut",
+      "intent": "Ship to Production butonunun 18x patlamasıyla tam ekran kinetik sahneye geçiş"
+    },
+    {
+      "at": 5.9,
+      "duration": 0.8,
+      "ease": "expo.inOut",
+      "intent": "Merkez portal halkasının içine 2.85x makro kamera dalışı ile CLI terminaline giriş"
+    },
+    {
+      "at": 8.55,
+      "duration": 0.65,
+      "ease": "expo.out",
+      "intent": "Final aydınlık Veloce Cloud marka ekranına yerleşme ve sabitlenme"
+    }
+  ],
+  "shakes": [],
+  "sfx": [
+    {
+      "frame": 160,
+      "sfx": "whoosh-pan"
+    },
+    {
+      "frame": 360,
+      "sfx": "ui-lock"
+    },
+    {
+      "frame": 520,
+      "sfx": "whoosh-pan"
+    }
+  ]
+}

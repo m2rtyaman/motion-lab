@@ -62,7 +62,7 @@ export const AppShell: FC<AppShellProps> = ({
     >
       {/* 1. SOL KENAR ÇUBUĞU (SIDEBAR) */}
       <aside
-        className={`app-sidebar flex flex-col justify-between shrink-0 transition-all duration-300 ${
+        className={`app-sidebar flex flex-col justify-between shrink-0 ${
           sidebarCollapsed ? 'w-[84px] px-3' : 'w-[260px] px-5'
         } py-6`}
         style={{
@@ -100,7 +100,7 @@ export const AppShell: FC<AppShellProps> = ({
               return (
                 <div
                   key={item.id}
-                  className={`flex items-center gap-3.5 px-3.5 py-3 rounded-xl cursor-pointer font-medium text-[16px] transition-colors ${
+                  className={`flex items-center gap-3.5 px-3.5 py-3 rounded-xl cursor-pointer font-medium text-[16px] ${
                     isActive ? 'font-semibold' : ''
                   }`}
                   style={{

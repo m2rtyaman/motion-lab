@@ -38,15 +38,18 @@
     "studio:run": "node scripts/studio.mjs run",
     "check": "node scripts/check-runner.mjs",
     "render": "node scripts/render.mjs",
-    "render:commercial": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts octosift-commercial out/octosift-commercial/octosift-commercial.mp4 --gl=angle",
+    "render:broll": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts single-container-broll out/single-container-broll/single-container-broll.mp4 --gl=angle",
     "render:showreel": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts kinetic-loud-showreel out/kinetic-loud-showreel/kinetic-loud-showreel.mp4 --gl=angle",
     "render:arena": "pnpm build:css && pnpm check && remotion render src/remotion/index.ts dwarf-arena out/dwarf-arena/dwarf-arena.mp4 --gl=angle",
     "render:contact-sheet": "pnpm build:css && node scripts/contact-sheet.mjs",
-    "render:still": "pnpm build:css && remotion still src/remotion/index.ts octosift-commercial out/octosift-commercial/preview.png --frame=60"
+    "render:still": "pnpm build:css && remotion still src/remotion/index.ts single-container-broll out/single-container-broll/preview.png --frame=60",
+    "harvest": "uv run scripts/harvest/cli.py",
+    "harvest:voice": "uv run scripts/harvest/voice.py",
+    "harvest:broll": "uv run scripts/harvest/broll.py",
+    "test:harvest": "uv run scripts/harvest/test_harvest.py"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.10",
-    "@react-three/drei": "^10.7.9",
     "@remotion/cli": "^4.0.539",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.3.0",
@@ -59,10 +62,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@react-three/fiber": "^9.8.2",
     "@remotion/player": "^4.0.539",
-    "@remotion/three": "^4.0.539",
-    "@types/three": "^0.187.0",
     "clsx": "^2.1.1",
     "gsap": "^3.15.0",
     "lucide-react": "^1.65.0",
@@ -72,7 +72,6 @@
     "remotion": "^4.0.539",
     "roughjs": "^4.6.6",
     "tailwind-merge": "^3.7.0",
-    "three": "^0.187.0",
     "yaml": "^2.9.1"
   }
 }

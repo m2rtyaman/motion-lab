@@ -1,0 +1,212 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "One Continuous Morphing Shape",
+  "mode": "editorial-ui",
+  "aspect": "1:1",
+  "fps": 60,
+  "durationInSeconds": 14,
+  "continuousShot": true,
+  "safeZone": {
+    "top": 40,
+    "bottom": 40
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "camera": [
+    {
+      "at": 0.0,
+      "duration": 1.2,
+      "zoom": 2.20,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Kamera başlangıç butonuna odaklanarak makro-detayı 2.20x yakınlaştırır"
+    },
+    {
+      "at": 1.8,
+      "duration": 1.2,
+      "zoom": 1.90,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Dynamic Island genişlemesiyle birlikte kadrajı 1.90x seviyesinde dengeler"
+    },
+    {
+      "at": 3.2,
+      "duration": 1.5,
+      "zoom": 1.60,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Müzik çalar kartının açılmasıyla kamerayı 1.60x geniş plana çeker"
+    },
+    {
+      "at": 5.0,
+      "duration": 1.3,
+      "zoom": 1.65,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Scrub bar doğrudan manipülasyonu için 1.65x yakınlaşma odağı"
+    },
+    {
+      "at": 6.5,
+      "duration": 1.4,
+      "zoom": 1.75,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Ses slider sınır aşımı esnemesini takip eden 1.75x dinamik odak"
+    },
+    {
+      "at": 8.0,
+      "duration": 1.2,
+      "zoom": 2.60,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Toggle switch flip ve asimetrik geçişi makro 2.60x ile yakalama"
+    },
+    {
+      "at": 9.3,
+      "duration": 1.3,
+      "zoom": 1.65,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Likit sekme sıçramasını yakından izleyen 1.65x mikro takip açısı"
+    },
+    {
+      "at": 10.8,
+      "duration": 1.5,
+      "zoom": 1.45,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Analitik grafik spline çizimi için 1.45x dengeli genişletme"
+    },
+    {
+      "at": 12.4,
+      "duration": 1.6,
+      "zoom": 2.20,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power3.out",
+      "intent": "Toast ve başlangıç butonuna kusursuz geri dönüş 2.20x kapanış odağı"
+    }
+  ],
+  "transitions": [
+    { "type": "container-morph", "atFrame": 45, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 85, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 125, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 185, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 285, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 365, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 465, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 535, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 615, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 715, "bridge": "#the-morph-container" },
+    { "type": "container-morph", "atFrame": 765, "bridge": "#the-morph-container" }
+  ],
+  "beats": [
+    {
+      "id": "btn-approach",
+      "startFrame": 0,
+      "endFrame": 45,
+      "text": "Export Frame",
+      "intent": "Başlangıç butonu bekleme konumu ve imlecin kavisli gelişi",
+      "action": "cursor-approach",
+      "kinetic": true
+    },
+    {
+      "id": "btn-loader",
+      "startFrame": 46,
+      "endFrame": 85,
+      "intent": "Tıklama dürtüsü ve dairesel indigo dönen yükleyiciye büzülme",
+      "action": "loader-spin",
+      "kinetic": true
+    },
+    {
+      "id": "loader-check",
+      "startFrame": 86,
+      "endFrame": 125,
+      "intent": "Yükleme tamamlanması ve başarı onay tikinin kendini çizmesi",
+      "action": "checkmark-stroke",
+      "kinetic": true
+    },
+    {
+      "id": "check-island",
+      "startFrame": 126,
+      "endFrame": 185,
+      "intent": "Apple tarzı Dynamic Island kapsülüne yatay yay açılması",
+      "action": "island-pulse",
+      "kinetic": true
+    },
+    {
+      "id": "music-player",
+      "startFrame": 186,
+      "endFrame": 285,
+      "intent": "Tam müzik çalar kartına dikey açılma ve play/pause morfolojisi",
+      "action": "player-morph",
+      "kinetic": true
+    },
+    {
+      "id": "scrub-bar",
+      "startFrame": 286,
+      "endFrame": 365,
+      "intent": "İlerleme çubuğuna büzülme ve imlecin knob'u tutarak scrub etmesi",
+      "action": "scrub-drag",
+      "kinetic": true
+    },
+    {
+      "id": "volume-slider",
+      "startFrame": 366,
+      "endFrame": 465,
+      "intent": "Ses seviye slider'ı ve yüzde yüz sınır aşımında fiziksel esneme",
+      "action": "overstretch-snapback",
+      "kinetic": true
+    },
+    {
+      "id": "toggle-switch",
+      "startFrame": 466,
+      "endFrame": 535,
+      "intent": "Kompakt toggle butonu ve asimetrik sıvı yay ile sağa geçiş",
+      "action": "toggle-flip",
+      "kinetic": true
+    },
+    {
+      "id": "liquid-tabs",
+      "startFrame": 536,
+      "endFrame": 615,
+      "intent": "Üç sekmeli kontrol ve ön kenarı koşan asimetrik likit gösterge",
+      "action": "liquid-leap",
+      "kinetic": true
+    },
+    {
+      "id": "chart-canvas",
+      "startFrame": 616,
+      "endFrame": 715,
+      "intent": "Geniş analitik grafik tuvali, kendini çizen spline ve manyetik hover tooltip",
+      "action": "spline-tooltip",
+      "kinetic": true
+    },
+    {
+      "id": "command-palette",
+      "startFrame": 716,
+      "endFrame": 765,
+      "intent": "Komut paleti arama çubuğu, filtreleme listesi ve enter vuruşu",
+      "action": "palette-filter",
+      "kinetic": true
+    },
+    {
+      "id": "toast-return",
+      "startFrame": 766,
+      "endFrame": 840,
+      "intent": "Toast bildiriminden başlangıç butonuna kusursuz geri dönüş kapanışı",
+      "action": "seamless-loop-settle",
+      "kinetic": true
+    }
+  ]
+}

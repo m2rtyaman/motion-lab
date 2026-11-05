@@ -18,7 +18,7 @@ export interface CameraKeyframe {
   /** 2D roll in degrees */
   rotateZ?: number;
   /** Easing curve (default: expo.inOut) */
-  ease?: string;
+  ease?: string | ((progress: number) => number);
 }
 
 export interface WordBurstOptions {

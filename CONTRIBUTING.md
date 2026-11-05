@@ -1,91 +1,92 @@
-# Katkı ve Pull Request (PR) Rehberi — Motion Lab
+# Contribution & Pull Request (PR) Guidelines — Motion Lab
 
-Motion Lab, deterministik ve yayın kalitesinde hareket grafikleri üreten açık kaynaklı bir stüdyodur. Kod tabanının bütünlüğünü, determinizmini ve $60\text{ FPS}$ akıcılığını korumak için aşağıdaki kurallar **istisnasız** uygulanır.
+Motion Lab is an open-source motion graphics studio producing deterministic, broadcast-grade 60 FPS video content. To maintain codebase integrity, mathematical determinism, and frame-rate precision, the following standards are **strictly enforced without exception**.
 
 ---
 
-## 🛑 1. Kural: 'main' Dalına Asla Doğrudan Push Yoktur!
+## 🛑 1. Principle: Never Push Directly to 'main'
 
-**`main` dalı daima üretim seviyesinde (production-ready) ve render edilebilir durumda tutulur.**  
-Doğrudan `main` dalına push atmak hem yerel git kancaları (`.githooks/pre-push`) hem de GitHub Branch Protection kuralları ile engellenmiştir.
+**The `main` branch is always kept production-ready and render-verifiable.**  
+Direct pushes to `main` are blocked by both local git hooks (`.githooks/pre-push`) and repository branch protection policies.
 
-### Standart Dal (Branch) Açma Kuralı
-Tüm geliştirmeler izole bir dal üzerinden yapılmalıdır:
+### Standard Branch Workflow
+All development work must be performed on an isolated feature branch:
 
 ```bash
-# Yeni bir özellik veya sahne için:
-git checkout -b feat/yeni-sahne-adi
+# For a new scene or feature:
+git checkout -b feat/your-feature-name
 
-# Hata düzeltmesi için:
-git checkout -b fix/duzeltme-adi
+# For a bug fix:
+git checkout -b fix/your-fix-name
 
-# Dokümantasyon veya kural güncellemesi için:
-git checkout -b docs/guncelleme-adi
+# For documentation or guidelines:
+git checkout -b docs/your-topic-name
 ```
 
 ---
 
-## 🌿 2. Dal İsimlendirme Sözleşmesi
+## 🌿 2. Branch Naming Conventions
 
-Dallar yalnızca küçük harf, rakam ve tire (`-`) içerebilir:
-- `feat/<proje-veya-ozellik>` (ör: `feat/octosift-commercial`, `feat/tesseract-wireframe`)
-- `scene/<slug>` (ör: `scene/fintech-dashboard`)
-- `fix/<hata>` (ör: `fix/audio-sync-drift`)
-- `docs/<konu>` (ör: `docs/pr-guidelines`)
-- `chore/<is>` (ör: `chore/deps-update`)
-
----
-
-## 📝 3. Commit Mesajı Standardı (Conventional Commits)
-
-Commit mesajları net, amacına uygun ve standart formatta olmalıdır:
-- `feat(slug): yeni animasyon sahnesi veya primitif eklendi`
-- `fix(core): ses senkronizasyon kayması düzeltildi`
-- `perf(ast): AST tarama motoru optimize edildi`
-- `docs(readme): mimari şeması ve kılavuz güncellendi`
-- `chore(deps): paket güncellemeleri`
+Branch names must use only lowercase alphanumeric characters and hyphens (`-`):
+- `feat/<project-or-feature>` (e.g. `feat/brand-promo`, `feat/tesseract-wireframe`)
+- `scene/<slug>` (e.g. `scene/fintech-dashboard`)
+- `fix/<issue>` (e.g. `fix/audio-sync-drift`)
+- `docs/<topic>` (e.g. `docs/pr-guidelines`)
+- `chore/<task>` (e.g. `chore/deps-update`)
 
 ---
 
-## 🛡️ 4. Definition of Done (DoD) & Kalite Kapıları
+## 📝 3. Commit Message Standards (Conventional Commits)
 
-Bir Pull Request'in incelenmeye ve `main` dalına birleştirilmeye (merge) hazır sayılması için şu **5 kontrolün tamamlanması şarttır**:
-
-### 1. `pnpm check` (Statik Denetimler)
-Aşağıdaki tüm testler sıfır hata ile geçmelidir:
-- `audit:spec`: Beat ve kamera sözleşmesi doğrulaması.
-- `audit:ast`: GPU dışı animasyon (reflow yaratan `top/left/width/height` tweening) tespiti.
-- `audit:slop`: Yapay zeka klişesi neon/mor-cyan parlamalar ve 18px altı mikro-font taraması.
-- `audit:critic`: Prompt 10 Direktör puanlama motoru (Ölü zaman $>0.5\text{s}$, okunabilirlik süresi $<1.2\text{s}$).
-- `audit:glyph`: Türkçe karakter ve UTF-8 bozulma denetimi.
-- `tsc --noEmit`: Katı TypeScript tip kontrolü.
-
-### 2. `pnpm doctor` (Stüdyo Hekimi)
-14 kronik soruna karşı sağlık taraması çalıştırılır; sıfır kritik teşhis alınmalıdır.
-
-### 3. `pnpm gate --project <slug>` (7/7 Çıkış Kapısı)
-İlgili projenin 7 maddelik stüdyo çıkış kapısından 7/7 tam puan alması gerekir.
-
-### 4. Görsel Kontak Sayfası (`visual-audit-grid.png`)
-Render öncesi `pnpm render:contact-sheet --project <slug>` ile kareler çekilmiş ve direktör gözüyle incelenmiş olmalıdır.
-
-### 5. Fiziksel Render Doğrulaması
-Videonun fiziksel `.mp4` dosyasının başarıyla üretilebildiği doğrulanmalıdır:
-`pnpm render:<slug>`
+Commit messages must be concise, descriptive, and follow the conventional commit format:
+- `feat(slug): add new animation scene or primitive`
+- `fix(core): resolve audio synchronization drift`
+- `perf(ast): optimize AST parser scanning engine`
+- `docs(readme): update architecture diagram and guide`
+- `chore(deps): update project dependencies`
 
 ---
 
-## 🚀 5. Pull Request (PR) Açma ve Birleştirme Süreci
+## 🛡️ 4. Definition of Done (DoD) & Quality Gates
 
-1. Dalınızı GitHub'a pushlayın:
+Before a Pull Request is eligible for review and merge into `main`, the following **5 verification steps are mandatory**:
+
+### 1. `pnpm check` (Static Quality Gate)
+All audits must pass with zero violations and zero errors:
+- `audit:spec`: Beat timeline, camera keyframe, and spec-code contract validation.
+- `audit:ast`: Babel AST scan detecting layout reflows (`top`, `left`, `width`, `height` tweening).
+- `audit:slop`: Anti-slop scan detecting neon cyan/purple glow vomiting, micro-fonts (<16px), and floating unanchored cards.
+- `audit:critic`: Opus director scoring engine (Dead frames >0.5s, minimum 1.2s text readability hold).
+- `audit:craft`: Spring physics, CSS 3D/SVG purity, and hardware shell anchoring.
+- `audit:glyph`: International typography and character encoding checks.
+- `tsc --noEmit`: Strict TypeScript typechecking.
+
+### 2. Studio Health Diagnostic
+Ensure no chronic regressions or broken paths:
+`pnpm audit:doctor`
+
+### 3. Visual Contact Sheet (`visual-audit-grid.png`)
+Generate contact sheet captures across all beat boundaries:
+`pnpm render:contact-sheet --project <slug>`
+Review the contact sheet with an adversarial motion-critic eye before rendering.
+
+### 4. Physical MP4 Render Verification
+Verify that the scene renders to disk cleanly:
+`pnpm render --project <slug>`
+
+---
+
+## 🚀 5. Opening & Merging a Pull Request
+
+1. Push your feature branch:
    ```bash
-   git push origin feat/ozelliginiz
+   git push origin feat/your-feature-name
    ```
-2. GitHub üzerinde bir Pull Request açın.
-3. Otomatik yüklenen `.github/PULL_REQUEST_TEMPLATE.md` kontrol listesindeki maddeleri eksiksiz işaretleyin.
-4. GitHub Actions CI pipeline'ının (`.github/workflows/ci.yml`) yeşil yanmasını bekleyin.
-5. Kod incelemesi (Code Review) onayından sonra PR **Squash and Merge** yöntemiyle `main` dalına dahil edilir.
+2. Open a Pull Request on GitHub.
+3. Complete all checkboxes in `.github/PULL_REQUEST_TEMPLATE.md`.
+4. Ensure all CI checks in `.github/workflows/ci.yml` pass.
+5. After review approval, the PR is merged into `main` using **Squash and Merge**.
 
 ---
 
-Bu kurallar, Motion Lab'i her indirildiğinde pürüzsüz çalışan, dünya standartlarında bir deterministik video stüdyosu olarak tutmamızı sağlar.
+These rules guarantee that Motion Lab remains a world-class deterministic video engineering studio.

@@ -30,11 +30,6 @@ export const SPEC_CAMERA = [
   { at: 9.7, duration: 2.2, ease: 'expo.out' },
 ];
 
-// animateCamera at: 0.05
-// animateCamera at: 1.55
-// animateCamera at: 4.2
-// animateCamera at: 7.05
-// animateCamera at: 9.7
 
 const CAMERA_KEYFRAMES: CameraKeyframe[] = [
   {

@@ -3,58 +3,61 @@ name: studio-router
 description: Master intent classifier and scene paradigm router that selects between Cinematic World, Editorial UI, and Kinetic Poster modes, and chooses the optimal narrative archetype.
 ---
 
-# Skill: Studio Router (Baş Yönetmen & Arketip Yönlendiricisi v5.5)
+# Skill: Studio Router (Chief Director & Archetype Router v5.5)
 
-> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
+> **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
-## 1. ROL VE SORUMLULUK
-Sen Motion-Lab stüdyosunun Baş Yönetmenisin. Kullanıcıdan gelen istemi, sektörü ve görselleri analiz ederek hem **görsel moda** (`cinematic-world`, `editorial-ui`, `kinetic-poster`) hem de **kurgu arketipine** karar verirsin. Her isteğe tek tip bir şablon dayatmak **KESİNLİKLE YASAKTIR**.
-
----
-
-## 2. 5 TEMEL KURGU ARKETİPİ (NARRATIVE ROUTER)
-
-1. **`product-flow-tour` (Ürün Akışı):**
-   - *Kullanım:* SaaS, karmaşık web araçları, CRM, proje yönetimi.
-   - *Yapı:* Makro Keşif (Tablo/Metrik) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Analiz (Çekmece) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası).
-2. **`problem-agitation-solution` (PAS - Reklam Kurgusu):**
-   - *Kullanım:* Yüksek enerjili sosyal medya reklamları, dönüşüm odaklı lansmanlar.
-   - *Yapı:* Eski/Yavaş Yöntem → Whip-pan/Morph Kırılma Anı → Ürünle Gelen Hız ve Huzur.
-3. **`kinetic-manifesto` (Tipografi Odaklı):**
-   - *Kullanım:* Marka manifestoları, etkinlik duyuruları, yüksek sesli teaser'lar.
-   - *Yapı:* %80 dev tipografi, satır maskeleme, staccato kesmeler, %20 marka kapanışı.
-4. **`bento-feature-grid` (Özellik Vitrini):**
-   - *Kullanım:* Apple tarzı donanım/yazılım güncelleme özetleri, 4-6 özellikli vitrinler.
-   - *Yapı:* 2x2 veya 3x2 Bento grid kartlarının sırayla derinlikten parlayarak canlanması.
-5. **`metric-storytelling` (Veri & Fintech Anlatısı):**
-   - *Kullanım:* Finansal raporlar, ödeme altyapıları, telemetri panoları.
-   - *Yapı:* Tekil veri noktası → Büyüyen grafikler, akış şemaları ve canlı sayaçlar.
+## 1. ROLE & RESPONSIBILITY
+You are the Chief Director of Motion Lab. Analyzing user briefs, industry domains, and input visuals, you determine both the **visual paradigm** (`cinematic-world`, `editorial-ui`, `kinetic-poster`) and the **narrative archetype**. Imposing a one-size-fits-all template on every brief is **STRICTLY FORBIDDEN**.
 
 ---
 
-## 4. OTONOM REFERANS & STİL ÇÖZÜMLEME (AUTONOMOUS REFERENCE RESOLUTION)
-Kullanıcı belirli bir prompt veya stil belirtmese dahi, Baş Yönetmen (`studio-router`) gelen brief'in konusuna ve hissiyatına göre `references/` ve `src/templates/` altındaki kaynakları **otonom olarak** inceler ve en uygun referans modelini seçer:
+## 2. THE 6 CORE NARRATIVE ARCHETYPES (NARRATIVE ROUTER)
 
-1. **Adli İnceleme, Hata Ayıklama veya Güvenlik Brief'leri:**
-   - Referans: `references/prompts/visual-investigation.txt` & `LoupeMagnifier`
-   - Mekanizma: Hareket dondurma (freeze-frame), kırmızı hedef halkası (`#FF4A2E`), 2x piksel korumalı büyüteç.
-2. **Finans, Metrik, Rapor veya Veri Yoğun SaaS:**
-   - Referans: `references/prompts/caption-news.txt` & `LedgerCardStage`
-   - Mekanizma: Muhasebe defteri kartı, sabit genişlikli rolling counter, çift kırmızı marjin.
-3. **Lansman, Teaser veya Televizyon Formatı:**
-   - Referans: `references/prompts/news-package.txt` & `BroadcastPackageStrap`
-   - Mekanizma: 3D takla atan alt bant, split-flap karakter tabelası, paralelkenar kategori rozeti.
-4. **Kesintisiz B-Roll ve Tek Şekil Dönüşümleri:**
-   - Referans: `references/broll-examples/` (`01-opus-drop.html` - `06-chapter.html`)
-   - Mekanizma: Tek konteyner morphing, yay takibi (`trackSpring`), kavisli imleç yörüngesi.
-5. **Kinetik ve Yüksek Tempolu Kampanyalar:**
-   - Referans: `references/prompts/kino-montage.txt` veya `references/prompts/printed-long-take.txt`
-   - Mekanizma: S-eğrisi baskı ton eşlemesi (`printToneCurve`), yön uzayında gökyüzü, açısal diyagonal şeritler.
+1. **`product-flow-tour`:**
+   - *Use Case:* SaaS, web applications, CRM, project management.
+   - *Structure:* Macro Discovery (Table/Metric) → Micro-Interaction (Cursor Selection) → Insight/Analysis (Drawer) → Action (Modal/Transaction) → Big Picture (Pipeline/Territory Route).
+2. **`problem-agitation-solution` (PAS):**
+   - *Use Case:* High-energy social media ads, conversion-focused product spots.
+   - *Structure:* Outdated/Chaotic Workflow → Whip-pan/Morph Breaking Moment → Product Speed, Clarity, and Relief.
+3. **`kinetic-manifesto`:**
+   - *Use Case:* Brand manifestos, event openers, bold hype teasers.
+   - *Structure:* 80% oversized kinetic typography, baseline wipes, staccato cuts, 20% brand lockup.
+4. **`bento-feature-grid`:**
+   - *Use Case:* Apple-style hardware/software release recaps, 4–6 feature showcases.
+   - *Structure:* 2x2 or 3x2 Bento grid cards illuminating sequentially with dynamic Z-elevation.
+5. **`metric-storytelling`:**
+   - *Use Case:* Financial reports, payment infrastructure, telemetry dashboards.
+   - *Structure:* Singular data point → Branching charts, interactive workflows, and live animated odometers.
+6. **`hybrid-orchestrated`:**
+   - *Use Case:* Multi-archetype flagships combining analytical depth (Bento) + velocity (Kinetic Typography) + developer authenticity (Terminal).
+   - *Structure:* Seamless kinetic handoff via `TheHeroActor` and `ContainerMorphBridge` on a single living canvas. See: `references/HYBRID_ORCHESTRATION_GUIDE.md`.
 
 ---
 
-## 5. GÖRSEL GİRDİ PARİTE KURALI (VISUAL INPUT PARITY)
-Kullanıcı prompt ile birlikte $N$ adet ekran görüntüsü verdiyse:
-- Bu görsellerdeki tüm ana ekran tipleri (Tablo, Harita, Çekmece, Takvim, Modal, Boru Hattı) tespit edilir.
-- `spec.json` içindeki `detectedWidgets` alanına yazılır.
-- `Scene.tsx` içinde her birinin bir karşılığı olmak zorundadır. Ekran görüntüsündeki temel bir görünümü (ör. Müşteri Tablosunu) atlayıp doğrudan sonraki ekrana geçmek kural ihlalidir (`SLOP-004`).
+## 3. AUTONOMOUS REFERENCE RESOLUTION
+Even if the user does not supply an explicit style prompt, the Chief Director (`studio-router`) analyzes the brief's domain and tone against `references/` and `src/templates/` to select the optimal model:
+
+1. **Forensic Analysis, Debugging, or Security Briefs:**
+   - Reference: `references/prompts/visual-investigation.txt` & `LoupeMagnifier`
+   - Mechanism: Freeze-frame inspection, red target ring (`#FF4A2E`), 2x pixel-preserved magnifier.
+2. **Finance, Metrics, Ledgers, or Heavy SaaS:**
+   - Reference: `references/prompts/caption-news.txt` & `LedgerCardStage`
+   - Mechanism: Ledger card, monospaced rolling counters, dual red margin rules.
+3. **Launch, Teaser, or Broadcast TV Formats:**
+   - Reference: `references/prompts/news-package.txt` & `BroadcastPackageStrap`
+   - Mechanism: 3D tumbling lower third, split-flap ticker, parallelogram category badge.
+4. **Continuous B-Roll & Single-Shape Metamorphosis:**
+   - Reference: `references/broll-examples/` (`01-opus-drop.html` – `06-chapter.html`)
+   - Mechanism: Single container morphing, spring tracking (`trackSpring`), curved cursor trajectories.
+5. **Kinetic & High-Tempo Campaigns:**
+   - Reference: `references/prompts/kino-montage.txt` or `references/prompts/printed-long-take.txt`
+   - Mechanism: S-curve print tone mapping (`printToneCurve`), directional-space sky stabilization, diagonal stripes.
+
+---
+
+## 4. VISUAL INPUT PARITY RULE
+If the user provides $N$ UI screenshots alongside the prompt:
+- Identify all primary screen archetypes present (Table, Map, Drawer, Calendar, Modal, Pipeline).
+- Record them under `detectedWidgets` in `spec.json`.
+- Every detected widget must be represented in `Scene.tsx`. Skipping a primary view from the provided screenshots is a direct violation (`SLOP-004`).

@@ -215,3 +215,49 @@ export function interpolateBezierFrame(
 export function bezierToSvgPath(curve: CubicBezierCurve): string {
   return `M ${curve.p0.x.toFixed(1)} ${curve.p0.y.toFixed(1)} C ${curve.p1.x.toFixed(1)} ${curve.p1.y.toFixed(1)}, ${curve.p2.x.toFixed(1)} ${curve.p2.y.toFixed(1)}, ${curve.p3.x.toFixed(1)} ${curve.p3.y.toFixed(1)}`;
 }
+
+/**
+ * GSAP Timeline üzerinde hedef nesneyi verilen Kübik Bézier eğrisi boyunca
+ * deterministik ve pürüzsüz adımlarla hareket ettirir.
+ */
+export function animateCursorAlongBezier(
+  tl: gsap.core.Timeline,
+  target: string,
+  curve: CubicBezierCurve,
+  startTime: number,
+  duration: number,
+  options?: {
+    steps?: number;
+    easeFn?: (p: number) => number;
+  }
+): gsap.core.Timeline {
+  const steps = Math.max(4, options?.steps ?? 14);
+  const easeFn = options?.easeFn ?? ((p: number) => p);
+  const stepDur = duration / steps;
+
+  for (let i = 1; i <= steps; i++) {
+    const rawProgress = i / steps;
+    const easedProgress = Math.max(0, Math.min(1, easeFn(rawProgress)));
+    const sample = evaluateCubicBezier(curve.p0, curve.p1, curve.p2, curve.p3, easedProgress);
+    const stepTime = startTime + (i - 1) * stepDur;
+
+    tl.to(
+      target,
+      {
+        x: Math.round(sample.x * 10) / 10,
+        y: Math.round(sample.y * 10) / 10,
+        duration: stepDur,
+        ease: 'none',
+      },
+      stepTime
+    );
+  }
+
+  return tl;
+}
+
+/**
+ * Alias for architectural specification compliance
+ */
+export const generateCurvedCursorTrajectory = createCurvedCursorTrajectory;
+

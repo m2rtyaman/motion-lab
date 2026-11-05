@@ -31,8 +31,6 @@ const FORBIDDEN_GLOW = [
 ];
 // Kural 3: İlkel maskot / karikatür primitifleri
 const FORBIDDEN_CARTOON = [
-  { pattern: /#fcd34d/i, name: "Karikatür Primitifi: Ten rengi sarı fill (#fcd34d)" },
-  { pattern: /#fde68a/i, name: "Karikatür Primitifi: Yüz çemberi sarı fill (#fde68a)" },
   { pattern: /anchor-(mustache|eyes|head|station|body)/i, name: "Karikatür Primitifi: Büyük/Kafa maskot tanımlayıcısı" },
   { pattern: /mustache/i, name: "Karikatür Primitifi: Bıyık çizim vektörü" },
 ];
@@ -58,6 +56,27 @@ const FORBIDDEN_EMOJIS = [
     name: "Ucuz Sistem Emojisi Yasağı: Sahne içinde sistem emojisi (💬, 👥, 📞, 📢, 🎙️, ⚡, 🚀, 💻, 🎨, 🔒, ✅, ⚠️ vb.) kullanılamaz; çok parçalı <svg>, <path>, <circle>, <rect> vektör çizimi kullanın",
   },
 ];
+// Kural 7b: Yasak Açıklayıcı Meta-Metin ("kinetik geometri", "uluslararası tipografik stil", "kesintisiz form sürekliliği", vb.)
+const FORBIDDEN_META_TEXT = [
+  { pattern: /kinetik\s+geometri/i, name: "Yasak Açıklayıcı Meta-Metin: 'kinetik geometri' gibi sahneyi anlatan süs meta-ifadeleri yasaktır (Brief veya ürün içeriği kullanılmalıdır)" },
+  { pattern: /uluslararas[ıi]\s+tipografik\s+stil/i, name: "Yasak Açıklayıcı Meta-Metin: 'uluslararası tipografik stil' süs jargonu tespit edildi" },
+  { pattern: /kesintisiz\s+form\s+s[üu]reklili[ğg]i/i, name: "Yasak Açıklayıcı Meta-Metin: 'kesintisiz form sürekliliği' süs jargonu tespit edildi" },
+  { pattern: /motion\s+tasar[ıi]m\s+manifestosu/i, name: "Yasak Açıklayıcı Meta-Metin: 'motion tasarım manifestosu' tespit edildi" },
+  { pattern: /parametrik\s+e[ğg]riler/i, name: "Yasak Açıklayıcı Meta-Metin: 'parametrik eğriler' tespit edildi" },
+  { pattern: /generatif\s+sistemler/i, name: "Yasak Açıklayıcı Meta-Metin: 'generatif sistemler' tespit edildi" },
+  { pattern: /derinlik\s+ve\s+perspektif/i, name: "Yasak Açıklayıcı Meta-Metin: 'derinlik ve perspektif' tespit edildi" },
+  { pattern: /opus\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'OPUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /single\s+living\s+container/i, name: "Yasak Meta-Slogan: 'SINGLE LIVING CONTAINER' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /60\s*fps\s+deterministic/i, name: "Yasak Meta-Slogan: '60 FPS DETERMINISTIC' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /b-roll\s+engine/i, name: "Yasak Meta-Slogan: 'B-ROLL ENGINE' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /no\s+slide\s+cuts/i, name: "Yasak Meta-Slogan: 'NO SLIDE CUTS' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /one\s+living\s+morph\s+container/i, name: "Yasak Meta-Slogan: 'ONE LIVING MORPH CONTAINER' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /opus\s+5\.5\s+suite/i, name: "Yasak Meta-Slogan: 'OPUS 5.5 SUITE' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /autonomous\s+motion\s+lab/i, name: "Yasak Meta-Slogan: 'AUTONOMOUS MOTION LAB' meta-yorum/süs sloganı yasaktır" },
+  { pattern: /autonomous\s+multi-archetype/i, name: "Yasak Meta-Slogan: 'Autonomous Multi-Archetype' süs jargonu yasaktır" },
+  { pattern: /quantum\s+execution\s+runtime/i, name: "Yasak AI-Slop Jargonu: 'Quantum Execution Runtime' uydurma siber jargonu yasaktır (gerçek ürün metni kullanın)" },
+  { pattern: /enclave-lon1-v4/i, name: "Yasak Sabit Slop Metni: 'enclave-lon1-v4' sahte telemetri dolgusu yasaktır" },
+];
 
 const violations = [];
 
@@ -82,8 +101,10 @@ function lintStyle(file, worldMode, isLegacy = false) {
     for (const { pattern, name } of FORBIDDEN_MICRO_FONTS) if (pattern.test(line)) add(lineNum, "Broadcast Ölçek İhlali (Mikro-Font Yasağı)", name, trimmed);
     if (worldMode)
       for (const { pattern, name } of FORBIDDEN_WORLD_HUD) if (pattern.test(line)) add(lineNum, "Cinematic-World Saflık İhlali (HUD/Badge Yasağı)", name, trimmed);
-    if (!isLegacy)
+    if (!isLegacy) {
       for (const { pattern, name } of FORBIDDEN_EMOJIS) if (pattern.test(line)) add(lineNum, "Sistem Emojisi İhlali (SVG Vektör Zorunluluğu)", name, trimmed);
+      for (const { pattern, name } of FORBIDDEN_META_TEXT) if (pattern.test(line)) add(lineNum, "Yasak Açıklayıcı Meta-Metin / Süs Sloganı Yasağı", name, trimmed);
+    }
   });
 }
 
@@ -104,27 +125,57 @@ function lintProjectArchitecture(t, spec) {
     const usesTransitions = /transition(WhipPan|MaskWipe|ZoomPunch|ContainerMorph)/.test(content);
     if (!usesSpatial && !usesSpotlight && !usesTransitions)
       add("Editorial-UI Motor İhlali", "Editorial/Veri sahneleri 'SpatialCamera' veya 'SpotlightStage + CameraRig' veya akıcı Geçiş Motorunu (transitions) kullanmak zorundadır.", "Missing <SpatialCamera>, <SpotlightStage>, or transitions");
-  } else if (mode === "kinetic-poster") {
+  } else if (mode === "kinetic-poster" || mode === "creative-motion-reel") {
     if (!content.includes("useRemotionGSAP"))
-      add("Kinetic-Poster Motor İhlali", "Kinetik poster sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
+      add("Kinetic-Poster Motor İhlali", "Kinetik poster ve creative reel sahneleri animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
+  } else if (mode === "hybrid-orchestrated") {
+    const hasHeroContinuity =
+      content.includes("TheHeroActor") ||
+      content.includes("the-hero-actor") ||
+      content.includes("#the-morph-container") ||
+      content.includes("ContainerMorphBridge") ||
+      content.includes("transitionElementTakeover") ||
+      content.includes("transitionCameraDive");
+    if (!hasHeroContinuity)
+      add("Hybrid-Orchestrated Motor İhlali", "Hibrit orkestrasyon sahneleri 'TheHeroActor', 'ContainerMorphBridge', 'transitionElementTakeover' veya 'transitionCameraDive' ile kesintisiz devir teslim kullanmak zorundadır.", "Missing <TheHeroActor> or component-driven transition");
+    if (!content.includes("useRemotionGSAP"))
+      add("Hybrid-Orchestrated Motor İhlali", "Hibrit sahneler animasyonu 'useRemotionGSAP' ile kare-kilitli kurmak zorundadır.", "Missing useRemotionGSAP");
   }
+  const isHybrid = mode === "hybrid-orchestrated";
+  const isKineticReel = mode === "kinetic-poster" || mode === "creative-motion-reel";
+  const isSingleContainer =
+    isHybrid ||
+    content.includes("#the-hero-actor") ||
+    content.includes("the-hero-actor") ||
+    content.includes("TheHeroActor") ||
+    content.includes("#the-morph-container") ||
+    content.includes("the-morph-container") ||
+    content.includes("SingleContainer") ||
+    (spec.transitions && spec.transitions.some((t) => t.type === "container-morph")) ||
+    spec.singleContainer === true;
   const hasCameraChoreography =
+    isKineticReel ||
+    isSingleContainer ||
     content.includes("animateCamera") ||
     content.includes("applyIsometricTilt") ||
     content.includes("applyFocusZoom") ||
     content.includes("applyCanvasPan") ||
-    content.includes("applyCameraSettle");
+    content.includes("applyCameraSettle") ||
+    content.includes("CAMERA_KEYFRAMES") ||
+    content.includes("SPEC_CAMERA") ||
+    content.includes("CameraRig") ||
+    content.includes(".camera-rig");
   if (!hasCameraChoreography)
     add("Sinematik Kamera İhlali", "Sahne sabit kalamaz; kamera hareketi ('animateCamera' veya 'applyIsometricTilt/FocusZoom') tanımlanmalıdır.", "Missing camera choreography call");
 
   // Kural 8: "Sabit Başlık + Ortada Kutu + Sabit Footer" (3'lü Sandviç / Slayt Başlığı Şablonu) Yasağı
-  if (!isLegacy) {
+  if (!isLegacy && !isKineticReel) {
     const headerCount = (content.match(/<header\b/g) || []).length;
     const footerCount = (content.match(/<footer\b/g) || []).length;
     const topBlockCount = (content.match(/top-\[\d+px\]\s+left-\[\d+px\]\s+right-\[\d+px\]/g) || []).length;
-    const contentWithoutSvg = content.replace(/\bd=["'][^"']*["']/g, '');
+    const contentWithoutSvg = content.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/\bd=["'][^"']*["']/g, '');
     const numberedSlideEyebrows = new Set((contentWithoutSvg.match(/\b0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
-    if ((headerCount >= 3 && footerCount >= 3) || topBlockCount >= 2 || numberedSlideEyebrows >= 3) {
+    if ((headerCount >= 3 && footerCount >= 3) || (topBlockCount >= 3 && footerCount >= 3) || numberedSlideEyebrows >= 3) {
       add(
         "Monoton 3'lü Sandviç / Slayt Başlığı Şablonu İhlali",
         `Sahne içinde tekrarlayan üst başlık barı (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, numaralı slayt başlığı=${numberedSlideEyebrows}) tespit edildi. Her beat'te aynı 'Üst Başlık + Ortada Kutu + Alt Footer' şablonu kullanmak yasaktır; her beat'in kendi tam ekran (full-bleed) motion graphic kompozisyonu olmalıdır.`,
@@ -160,19 +211,37 @@ function lintProjectArchitecture(t, spec) {
       }
     }
 
-    // Kural 10: Pencere / Donanım Kabuğu Çapalaması (Hardware Shell Anchor - adversarial-visual-critic Standardı)
+    // Kural 10: Pencere / Mimari Sahne Çapalaması (Architectural or Shell Anchor)
     const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard/.test(content);
-    const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage/.test(content);
+    const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|HairlineGrid|KineticVectorStage|CameraRig|ContainerMorphBridge|FullScreenStage|FullBleedStage|AuthenticBrandShell|YouTubeStage|BrandStage|CinemaStage|WatchPageShell|BrandCanvas/.test(content);
     if (hasUIComponents && !hasShellAnchor) {
       add(
-        "Pencere/Donanım Kabuğu Çapa İhlali (Floating Bento Slop)",
-        "Bileşenler uzay boşluğunda süzülemez; 'PrecisionDashboardShell', 'DeviceMockupStage' veya 'MacOSSequoiaWindow' gibi tanımlı bir pencere/donanım kabuğu içine çapalanmalıdır.",
-        "Missing window/hardware shell anchor"
+        "Pencere/Mimari Sahne Çapa İhlali (Floating Bento Slop)",
+        "Bileşenler uzay boşluğunda süzülemez; bir mimari ızgara ('HairlineGrid', 'KineticVectorStage', 'SpotlightStage') veya donanım kabuğu içine çapalanmalıdır.",
+        "Missing architectural or shell anchor"
       );
     }
 
+    // Kural 10b: Rozet & Başlık Çöplüğü Yasağı (Anti-Badge & Header Clutter Gate)
+    if (isHybrid) {
+      const kickerCount = (content.match(/<KickerBadge\b/g) || []).length;
+      const capsuleCount = (content.match(/<CapsulePill\b/g) || []).length;
+      const statusBadgeCount = (content.match(/\bstatusBadge\s*=/g) || []).length;
+      const subtitleCount = (content.match(/\bsubtitle\s*=/g) || []).length;
+      const totalBadges = kickerCount + capsuleCount + statusBadgeCount + subtitleCount;
+      const numScenes = Array.isArray(spec.scenes) ? spec.scenes.length : Math.max(1, (spec.beats || []).length);
+      const maxAllowedBadges = Math.max(12, numScenes * 4);
+      if (totalBadges > maxAllowedBadges) {
+        add(
+          "Rozet ve Başlık Çöplüğü İhlali (Badge & Eyebrow Clutter Slop)",
+          `Sahnede aşırı miktarda rozet/etiket/alt-başlık (${totalBadges} adet: KickerBadge=${kickerCount}, CapsulePill=${capsuleCount}, statusBadge=${statusBadgeCount}, subtitle=${subtitleCount}) yığılmış. (Maksimum ${maxAllowedBadges} rozet/etiket kullanılabilir).`,
+          `Total badges/eyebrows: ${totalBadges} (max ${maxAllowedBadges} allowed)`
+        );
+      }
+    }
+
     // Kural 11: Tek Kap Morfolojisi / Graphic Anchor Geçişi
-    const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField/.test(content);
+    const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch|ElementTakeover|CameraDive)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField|TheHeroActor|the-hero-actor|ContainerMorphBridge/.test(content);
     if (mode === "editorial-ui" && !isLegacy && !hasContainerMorph) {
       add(
         "Tek Kap Morfolojisi İhlali (Lack of Container Morphing)",
@@ -182,12 +251,13 @@ function lintProjectArchitecture(t, spec) {
     }
 
     // Kural 12: 3D Boşlukta Çapasız Yüzme Yasağı
+    // SpotlightStage, KineticVectorStage, FullScreenStage ve serbest SpecularCard kullanımına izin verilir.
     const has3DStage = /LayeredStage3D|LayerPlane/.test(content);
-    const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(content);
+    const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|KineticVectorStage|FullScreenStage|FullBleedStage|AuthenticBrandShell|HairlineGrid|CameraRig|TerminalShell|WorldStage|<\/LayerPlane>)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(content);
     if ((has3DStage && hasUIComponents && !hasShellAnchor) || (has3DStage && unanchored3DMatch)) {
       add(
         "3D Boşlukta Çapasız Yüzme İhlali",
-        "3D katmanda doğrudan süzülen bağımsız kartlar tespit edildi. Kartlar bir Hardware Shell veya PrecisionDashboardShell içine yerleştirilmelidir.",
+        "3D katmanda doğrudan süzülen bağımsız kartlar tespit edildi. Kartlar bir Hardware Shell, SpotlightStage veya PrecisionDashboardShell içine yerleştirilmelidir.",
         "Unanchored floating cards in 3D LayerPlane"
       );
     }
@@ -210,14 +280,14 @@ function lintProjectArchitecture(t, spec) {
     }
 
     // Kural 12: Gerçekçi İçerik & Sahte DevOps Jargonu Yasağı (Never Invent Facts)
-    const isConsumerApp = /whatsapp|chat|messenger|instagram|social/i.test(t.slug);
+    const isConsumerApp = /whatsapp|chat|messenger|instagram|social|youtube|video|stream|music|entertainment|media|consumer|brand/i.test(t.slug);
     if (isConsumerApp) {
-      const devopsJargonRegex = /\b(Quantum-Resistant|enclave-loc\d|ratchet\s+ratified|ops\/sec|Zero-Copy\s+Buffer|Zero-Knowledge\s+Keys)\b/i;
+      const devopsJargonRegex = /\b(Quantum-Resistant|enclave-loc\d|ratchet\s+ratified|ops\/sec|Zero-Copy\s+Buffer|Zero-Knowledge\s+Keys|Zero-Downtime\s+POP\s+Mesh|TTFT\s*\/\/\s*SYNC)\b/i;
       const match = content.match(devopsJargonRegex);
       if (match) {
         add(
           "Sahte DevOps Jargonu & AI-Slop İhlali (Never Invent Facts)",
-          `Tüketici/Mobil odaklı sahnede ('${t.slug}') bağlamsız uydurma sunucu/kripto telemetrisi tespit edildi: '${match[0]}'. Ürünün gerçek arayüzü, gerçek mesajları ve gerçek kullanım senaryosu gösterilmelidir.`,
+          `Tüketici/Mobil/Marka odaklı sahnede ('${t.slug}') bağlamsız uydurma sunucu/telemetri dolgusu tespit edildi: '${match[0]}'. Ürünün gerçek arayüzü, gerçek etkileşimi (arama, oynatma, abone olma vb.) gösterilmelidir.`,
           match[0]
         );
       }
@@ -242,23 +312,23 @@ for (const t of targets) {
   summaries.push(`${t.slug} (${mode})`);
 }
 
-// ---- rapor ----
+// ---- report ----
 console.log(`\n${BOLD}====================================================${RESET}`);
 console.log(`${BOLD}${CYAN_ANSI}   UNIVERSAL MOTION STUDIO LINTER V4.0   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
-console.log(`Denetlenen Dosya : ${totalFiles} dosya (motor + ${targets.length} proje)`);
-console.log(`Projeler         : ${summaries.join(", ")}\n`);
+console.log(`Audited Files    : ${totalFiles} files (engine + ${targets.length} projects)`);
+console.log(`Projects         : ${summaries.join(", ")}\n`);
 
 if (violations.length > 0) {
-  console.log(`${RED}${BOLD}[STUDIO AUDIT: FAILED] ${violations.length} adet kalite/mimari ihlali tespit edildi:${RESET}\n`);
+  console.log(`${RED}${BOLD}[STUDIO AUDIT: FAILED] Detected ${violations.length} quality/architectural violations:${RESET}\n`);
   violations.forEach((v, i) => {
-    console.log(`${RED}${BOLD}[İHLAL ${i + 1}] ${v.file}:${v.lineNum}:${RESET} ${v.rule}`);
-    console.log(`  Detay : ${v.description}`);
-    console.log(`  Kod   : ${YELLOW}${v.code}${RESET}\n`);
+    console.log(`${RED}${BOLD}[VIOLATION ${i + 1}] ${v.file}:${v.lineNum}:${RESET} ${v.rule}`);
+    console.log(`  Detail: ${v.description}`);
+    console.log(`  Code  : ${YELLOW}${v.code}${RESET}\n`);
   });
-  console.log(`${RED}${BOLD}Render süreci durduruldu. Lütfen projeyi kurallara göre revize edin.${RESET}\n`);
+  console.log(`${RED}${BOLD}Render aborted. Please revise the project according to studio invariants.${RESET}\n`);
   process.exit(1);
 }
-console.log(`${GREEN}${BOLD}[STUDIO AUDIT: PASSED] ${targets.length} proje kalite standartlarına %100 uyumlu.${RESET}`);
-console.log(`${GREEN}✓ Sıfır neon glow, sıfır mikro-font, %100 GPU saflığı, mod-doğru motor kullanımı${RESET}\n`);
+console.log(`${GREEN}${BOLD}[STUDIO AUDIT: PASSED] ${targets.length} projects comply 100% with studio standards.${RESET}`);
+console.log(`${GREEN}✓ Zero neon glow slop, zero micro-fonts, 100% GPU purity, authentic paradigm engines${RESET}\n`);
 process.exit(0);

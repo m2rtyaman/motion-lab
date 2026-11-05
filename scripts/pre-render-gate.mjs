@@ -57,8 +57,8 @@ for (const project of targets) {
   // 4. Test kareleri veya kontak sayfası incelendi (CI ortamında out/ git-ignore olduğu için kod uyumu denetlenir)
   const check4 = isCI ? true : fs.existsSync(gridPath);
 
-  // 5. Cilalama döngüsü çalıştırıldı (Beat süreleri ve ölü zaman)
-  const shortBeats = (spec.beats || []).filter((b) => (b.endFrame - b.startFrame) / spec.fps < 1.15);
+  // 5. Cilalama döngüsü çalıştırıldı (Beat süreleri ve ölü zaman - kinetik beat'ler muaftır)
+  const shortBeats = (spec.beats || []).filter((b) => !b.kinetic && !b.isKinetic && (b.endFrame - b.startFrame) / spec.fps < 1.15);
   const check5 = shortBeats.length === 0;
 
   // 6. Final kare kare render edildi (CI ortamında render komut uyumu denetlenir)

@@ -1,0 +1,119 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Claude Motion Reel",
+  "mode": "creative-motion-reel",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 15,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "kinetic-acid"
+  },
+  "continuousShot": true,
+  "beats": [
+    {
+      "id": "bar-1-2-identity",
+      "startFrame": 0,
+      "endFrame": 224,
+      "intent": "Asteriskten kırmızı tuvale patlama ve Claude kimliği",
+      "action": "identity-reveal",
+      "text": "CLAUDE motion designer"
+    },
+    {
+      "id": "bar-3-easing",
+      "startFrame": 225,
+      "endFrame": 337,
+      "intent": "Altı farklı easing eğrisinin yarış pisti ve kobalt maviye geçiş",
+      "action": "easing-race",
+      "text": "Six ways to get from A to B"
+    },
+    {
+      "id": "bar-4-morphing",
+      "startFrame": 338,
+      "endFrame": 449,
+      "intent": "Kobalt zemininde beyaz geometrik çemberden yıldıza morfoloji ve ızgaraya çoğalma",
+      "action": "geometry-morph"
+    },
+    {
+      "id": "bar-5-systems",
+      "startFrame": 450,
+      "endFrame": 562,
+      "intent": "153 Truchet generatif eğrisinin ritmik salınımı ve 3D perspektife bükülüşü",
+      "action": "truchet-systems"
+    },
+    {
+      "id": "bar-6-depth",
+      "startFrame": 563,
+      "endFrame": 674,
+      "intent": "3D telkafes topoğrafyadan dönen Torus formuna geçiş ve merkezine dalış",
+      "action": "torus-depth"
+    },
+    {
+      "id": "bar-7-kinetic-type",
+      "startFrame": 675,
+      "endFrame": 787,
+      "intent": "Ritmik vuruşa kilitli kinetik tipografi: EASE IN OUT LINEAR",
+      "action": "kinetic-punch",
+      "kinetic": true,
+      "text": "EASE IN OUT LINEAR"
+    },
+    {
+      "id": "bar-8-fin",
+      "startFrame": 788,
+      "endFrame": 900,
+      "intent": "Kırmızı konfeti patlaması ve nihai Claude motion designer kilitlenmesi",
+      "action": "final-lockup",
+      "text": "* CLAUDE motion designer"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Asteriskten kırmızı tuvale patlama açılışı"
+    },
+    {
+      "at": 3.75,
+      "duration": 0.9,
+      "ease": "expo.inOut",
+      "intent": "Easing yarış pistine dinamik odak"
+    },
+    {
+      "at": 5.625,
+      "duration": 0.9,
+      "ease": "expo.inOut",
+      "intent": "Morfik geometrik aktöre kilitlenme"
+    },
+    {
+      "at": 7.5,
+      "duration": 1.0,
+      "ease": "expo.inOut",
+      "intent": "Truchet eğri matrisine derinlik dalışı"
+    },
+    {
+      "at": 9.375,
+      "duration": 1.0,
+      "ease": "power3.out",
+      "intent": "Dönen 3D Torus ve topoğrafya dalışı"
+    },
+    {
+      "at": 11.25,
+      "duration": 0.8,
+      "ease": "expo.out",
+      "intent": "Kinetik tipografi vuruşlarına mikro-punch"
+    },
+    {
+      "at": 13.125,
+      "duration": 1.2,
+      "ease": "expo.out",
+      "intent": "Final konfeti ve Claude imza kilidi"
+    }
+  ],
+  "shakes": [],
+  "sfx": []
+}

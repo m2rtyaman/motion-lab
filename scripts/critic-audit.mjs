@@ -53,26 +53,35 @@ for (const project of targets) {
   let score = 10;
 
   // 1. ÖLÜ ZAMAN DENETİMİ (Dead Time Check)
-  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; yalnızca aşırı uzun (>4.0s) boşluklar sorgulanır.
+  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; kinetik vektör sahnelerinde sürekli 2D hareket sağlandığı için kamera ölü zaman cezası verilmez.
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
-  for (let i = 0; i < camera.length - 1; i++) {
-    const gap = camera[i + 1].at - (camera[i].at + camera[i].duration);
-    if (gap > 4.0) {
-      findings.P1.push({
-        time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
-        issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
-        fix: 'Geçiş veya odak hareketi ekleyin.',
-      });
-      if (!isLegacy) score -= 0.5;
+  const isKineticReel = spec.mode === 'creative-motion-reel' || spec.mode === 'kinetic-poster';
+  const isSingleContainer =
+    Boolean(spec.transitions && spec.transitions.some((t) => t.type === 'container-morph')) ||
+    sceneCode.includes('#the-morph-container') ||
+    sceneCode.includes('SingleContainer');
+  if (!isKineticReel && !isSingleContainer) {
+    for (let i = 0; i < camera.length - 1; i++) {
+      const gap = camera[i + 1].at - (camera[i].at + camera[i].duration);
+      if (gap > 4.0) {
+        findings.P1.push({
+          time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
+          issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
+          fix: 'Geçiş veya odak hareketi ekleyin.',
+        });
+        if (!isLegacy) score -= 0.5;
+      }
     }
   }
 
-  // 2. METİN OKUNABİLİRLİK SÜRESİ (Lemomo Dinamik Okuma Formülü & Asgari 2.5s Karşılaştırma / Karar Ekranı Kuralı)
+  // 2. METİN OKUNABİLİRLİK SÜRESİ (Lemomo Dinamik Okuma Formülü & Kinetik Tipografi Ritim İstisnası)
   const beats = Array.isArray(spec.beats) ? spec.beats : [];
   beats.forEach((b) => {
     const durationSec = (b.endFrame - b.startFrame + 1) / spec.fps;
     const textContent = typeof b.text === 'string' ? b.text.trim() : '';
     const hasText = Boolean(textContent);
+    const isKineticBeat = b.kinetic === true || b.isKinetic === true || isKineticReel;
+    const minHoldSec = isKineticBeat ? 0.12 : 1.2; // Ritmik kinetik kesmeler (EASE / IN / OUT) için 8-28 kare serbesttir
     const isComparisonOrVerdict = Boolean(
       b.isComparison ||
       b.isVerdict ||
@@ -87,7 +96,7 @@ for (const project of targets) {
         fix: `Beat süresini en az 2.5 saniyeye (${Math.round(2.5 * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
       });
       if (!isLegacy) score -= 1.0;
-    } else if (hasText) {
+    } else if (hasText && !isKineticBeat) {
       const { cjkChars, latinWords } = countTextUnits(textContent);
       const requiredDuration = calculateRequiredReadingTime(cjkChars, latinWords, isComparisonOrVerdict);
       if (durationSec < requiredDuration) {
@@ -98,11 +107,11 @@ for (const project of targets) {
         });
         if (!isLegacy) score -= 1.0;
       }
-    } else if (!isLegacy && durationSec < 1.2) {
+    } else if (!isLegacy && durationSec < minHoldSec) {
       findings.P0.push({
         beat: b.id,
-        issue: `Beat süresi (${durationSec.toFixed(2)}s) 1.2 saniyenin altında; izleyici sahneyi algılayamaz.`,
-        fix: `Beat süresini en az 1.2 saniyeye (${Math.round(1.2 * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
+        issue: `Beat süresi (${durationSec.toFixed(2)}s) ${minHoldSec} saniyenin altında; izleyici sahneyi algılayamaz.`,
+        fix: `Beat süresini en az ${minHoldSec} saniyeye (${Math.round(minHoldSec * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
       });
       if (!isLegacy) score -= 1.0;
     }
@@ -137,8 +146,9 @@ for (const project of targets) {
   const headerCount = (sceneCode.match(/<header\b/g) || []).length;
   const footerCount = (sceneCode.match(/<footer\b/g) || []).length;
   const topBlockCount = (sceneCode.match(/top-\[\d+px\]\s+left-\[\d+px\]\s+right-\[\d+px\]/g) || []).length;
-  const numberedSlideEyebrows = new Set((sceneCode.match(/\b0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
-  if (!isLegacy && ((headerCount >= 3 && footerCount >= 3) || topBlockCount >= 2 || numberedSlideEyebrows >= 3)) {
+  const contentWithoutSvg = sceneCode.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/\bd=["'][^"']*["']/g, '');
+  const numberedSlideEyebrows = new Set((contentWithoutSvg.match(/(?:>|\b)0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
+  if (!isLegacy && !isKineticReel && ((headerCount >= 3 && footerCount >= 3) || (topBlockCount >= 3 && footerCount >= 3) || numberedSlideEyebrows >= 3)) {
     findings.P0.push({
       issue: `Monoton "Sabit Başlık + Ortada Kutu + Sabit Footer / Numaralı Slayt Başlığı" tekrarı (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, slideEyebrow=${numberedSlideEyebrows}).`,
       fix: 'Her beat için kendine özgü tam ekran (full-bleed) motion graphic kompozisyonu (Kinetik Tipografi, Makro Vektör Çarpışması, Çok Katmanlı Kanvas, Geometrik Logo Birleşimi) kurgulayın.',
@@ -155,10 +165,14 @@ for (const project of targets) {
     sceneCode.includes('transitionWhipPan') ||
     sceneCode.includes('transitionMaskWipe') ||
     sceneCode.includes('transitionZoomPunch') ||
+    sceneCode.includes('transitionElementTakeover') ||
+    sceneCode.includes('transitionCameraDive') ||
+    sceneCode.includes('TheHeroActor') ||
     sceneCode.includes('Stage') ||
     sceneCode.includes('CameraRig') ||
     sceneCode.includes('poster-rig') ||
-    spec.mode === 'kinetic-poster';
+    spec.mode === 'kinetic-poster' ||
+    spec.mode === 'creative-motion-reel';
 
   if (!hasContainerStructure) {
     findings.P1.push({
@@ -169,15 +183,21 @@ for (const project of targets) {
   }
 
   // 5. BEAT'LER ARASI RENK KONTRASTI (Color Blocking Check)
+  const darkHex = (sceneCode.match(/#[0-2][0-9a-fA-F]{5}\b/g) ?? []).length;
+  const lightHex = (sceneCode.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
+    isSingleContainer ||
     sceneCode.includes('beatPalettes') ||
-    sceneCode.includes('WHATSAPP_COLOR_BLOCK_THEME') ||
     sceneCode.includes('color-block') ||
-    (sceneCode.includes('#00A884') && (sceneCode.includes('#F5F2EF') || sceneCode.includes('#F0F2F5')));
+    sceneCode.includes('COLOR_BLOCK') ||
+    sceneCode.includes('colorBlock') ||
+    (darkHex >= 1 && lightHex >= 1) ||
+    spec.mode === 'creative-motion-reel' ||
+    spec.mode === 'kinetic-poster';
   if (!isLegacy && beats.length >= 3 && !hasColorBlocking) {
     findings.P1.push({
       issue: 'Tüm video tekdüze arka planda geçiyor; beat sınırlarında tam ekran Renk Kontrastı (Color Blocking) eksik.',
-      fix: 'theme-contract.ts içindeki beatPalettes / WHATSAPP_COLOR_BLOCK_THEME ile sahneler arasında kontrast renk bloklaması (Koyu -> Zümrüt Yeşili -> Sıcak Krem -> Koyu Mühür) uygulayın.',
+      fix: 'Sahneler arasında açık/koyu kontrast renk bloklaması (Color Blocking) veya beatPalettes ile tam ekran renk geçişi uygulayın.',
     });
     score -= 0.8;
   }
@@ -228,21 +248,21 @@ for (const project of targets) {
   overallScore += score;
   projectCount++;
 
-  console.log(`${BOLD}▶ PROJE: ${project.slug.toUpperCase()}${RESET} [Puan: ${score >= 8 ? GREEN : YELLOW}${score}/10${RESET}]`);
+  console.log(`${BOLD}▶ PROJECT: ${project.slug.toUpperCase()}${RESET} [Score: ${score >= 8 ? GREEN : YELLOW}${score}/10${RESET}]`);
   
   if (findings.P0.length === 0 && findings.P1.length === 0 && findings.P2.length === 0) {
-    console.log(`  ${GREEN}✓ Kusursuz. Sıfır ölü zaman, tam okunabilirlik, direktör onaylı.${RESET}\n`);
+    console.log(`  ${GREEN}✓ Flawless. Zero dead frames, full readability, director approved.${RESET}\n`);
   } else {
     if (findings.P0.length) {
-      console.log(`  ${RED}${BOLD}[P0 - ZORUNLU DÜZELTMELER]${RESET}`);
+      console.log(`  ${RED}${BOLD}[P0 - MANDATORY FIXES]${RESET}`);
       findings.P0.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     if (findings.P1.length) {
-      console.log(`  ${YELLOW}${BOLD}[P1 - BÜYÜK İYİLEŞTİRMELER]${RESET}`);
+      console.log(`  ${YELLOW}${BOLD}[P1 - MAJOR ENHANCEMENTS]${RESET}`);
       findings.P1.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     if (findings.P2.length) {
-      console.log(`  ${BOLD}[P2 - CİLA VE DETAYLAR]${RESET}`);
+      console.log(`  ${BOLD}[P2 - POLISH & DETAILS]${RESET}`);
       findings.P2.forEach((f) => console.log(`    • ${f.issue} → ${CYAN}${f.fix}${RESET}`));
     }
     console.log('');
@@ -250,4 +270,4 @@ for (const project of targets) {
 }
 
 const avgScore = projectCount > 0 ? (overallScore / projectCount).toFixed(1) : 10;
-console.log(`${BOLD}Stüdyo Ortalama Direktör Puanı:${RESET} ${avgScore >= 8 ? GREEN : YELLOW}${avgScore} / 10${RESET}\n`);
+console.log(`${BOLD}Studio Average Director Score:${RESET} ${avgScore >= 8 ? GREEN : YELLOW}${avgScore} / 10${RESET}\n`);

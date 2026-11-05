@@ -19,7 +19,7 @@ export const CameraRig: FC<CameraRigProps> = ({
   return (
     <div className="camera-3d-stage relative w-full h-full flex items-center justify-center">
       <div
-        className={`${rigClassName} camera-3d-rig relative w-full flex flex-col items-center justify-center ${className}`}
+        className={`${rigClassName} camera-3d-rig relative w-full h-full flex flex-col items-center justify-center ${className}`}
       >
         {children}
       </div>
