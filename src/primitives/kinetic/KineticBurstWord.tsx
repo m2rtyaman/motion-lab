@@ -15,10 +15,15 @@ export const KineticBurstWord: FC<KineticBurstWordProps> = ({
 }) => {
   const letters = Array.from(text);
 
+  const hasCustomFont = /\bfont-(sans|serif|mono|display|syne|cabinet|clash|instrument|playfair|space|geist|outfit|jakarta)\b/.test(
+    className
+  );
+  const defaultFontClass = hasCustomFont ? '' : 'font-display';
+
   return (
     <div
       id={id}
-      className={`inline-flex items-center overflow-hidden font-mono font-black tracking-tighter uppercase select-none ${className}`}
+      className={`inline-flex flex-wrap items-center justify-center overflow-hidden max-w-full ${defaultFontClass} font-black tracking-tighter uppercase select-none ${className}`}
     >
       {letters.map((char, index) => (
         <span

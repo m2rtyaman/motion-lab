@@ -202,7 +202,7 @@ export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
               return (
                 <div key={idx} className="flex items-center space-x-1.5">
                   <div
-                    className={`h-2 transition-all duration-300 rounded-xs ${
+                    className={`h-2 rounded-xs ${
                       isActive
                         ? `w-14 ${gridTheme === 'acid-dark' ? 'bg-[#c4ff00]' : 'bg-slate-900'}`
                         : isPast

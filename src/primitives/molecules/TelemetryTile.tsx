@@ -6,6 +6,11 @@ export interface TelemetryTileProps {
   className?: string;
   title: string;
   value: string | number;
+  from?: number;
+  to?: number;
+  startFrame?: number;
+  endFrame?: number;
+  decimals?: number;
   unit?: string;
   change?: string;
   trend?: 'up' | 'down' | 'neutral';
@@ -18,6 +23,11 @@ export const TelemetryTile: FC<TelemetryTileProps> = ({
   className = '',
   title,
   value,
+  from,
+  to,
+  startFrame = 0,
+  endFrame = 90,
+  decimals,
   unit,
   change,
   trend = 'neutral',
@@ -30,6 +40,10 @@ export const TelemetryTile: FC<TelemetryTileProps> = ({
       : trend === 'down'
       ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
       : 'text-white/60 bg-white/[0.04] border-white/[0.08]';
+
+  const parsedNumeric = typeof value === 'number' ? value : parseFloat(String(value));
+  const autoFrom = typeof from === 'number' ? from : !Number.isNaN(parsedNumeric) ? parsedNumeric * 0.62 : undefined;
+  const autoTo = typeof to === 'number' ? to : !Number.isNaN(parsedNumeric) ? parsedNumeric : undefined;
 
   return (
     <div
@@ -44,7 +58,16 @@ export const TelemetryTile: FC<TelemetryTileProps> = ({
       </div>
 
       <div className="flex items-baseline justify-between gap-4 my-2">
-        <CounterValue value={value} unit={unit} className="text-[36px]" />
+        <CounterValue
+          value={value}
+          from={autoFrom}
+          to={autoTo}
+          startFrame={startFrame}
+          endFrame={endFrame}
+          decimals={decimals}
+          unit={unit}
+          className="text-[36px]"
+        />
         {change && (
           <span
             className={`px-2.5 py-1 rounded-md border font-mono text-[18px] font-medium ${trendColor}`}

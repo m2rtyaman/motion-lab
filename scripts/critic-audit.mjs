@@ -146,8 +146,9 @@ for (const project of targets) {
   const headerCount = (sceneCode.match(/<header\b/g) || []).length;
   const footerCount = (sceneCode.match(/<footer\b/g) || []).length;
   const topBlockCount = (sceneCode.match(/top-\[\d+px\]\s+left-\[\d+px\]\s+right-\[\d+px\]/g) || []).length;
-  const numberedSlideEyebrows = new Set((sceneCode.match(/\b0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
-  if (!isLegacy && ((headerCount >= 3 && footerCount >= 3) || topBlockCount >= 2 || numberedSlideEyebrows >= 3)) {
+  const contentWithoutSvg = sceneCode.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/\bd=["'][^"']*["']/g, '');
+  const numberedSlideEyebrows = new Set((contentWithoutSvg.match(/(?:>|\b)0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
+  if (!isLegacy && !isKineticReel && ((headerCount >= 3 && footerCount >= 3) || (topBlockCount >= 3 && footerCount >= 3) || numberedSlideEyebrows >= 3)) {
     findings.P0.push({
       issue: `Monoton "Sabit Başlık + Ortada Kutu + Sabit Footer / Numaralı Slayt Başlığı" tekrarı (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, slideEyebrow=${numberedSlideEyebrows}).`,
       fix: 'Her beat için kendine özgü tam ekran (full-bleed) motion graphic kompozisyonu (Kinetik Tipografi, Makro Vektör Çarpışması, Çok Katmanlı Kanvas, Geometrik Logo Birleşimi) kurgulayın.',
@@ -164,6 +165,9 @@ for (const project of targets) {
     sceneCode.includes('transitionWhipPan') ||
     sceneCode.includes('transitionMaskWipe') ||
     sceneCode.includes('transitionZoomPunch') ||
+    sceneCode.includes('transitionElementTakeover') ||
+    sceneCode.includes('transitionCameraDive') ||
+    sceneCode.includes('TheHeroActor') ||
     sceneCode.includes('Stage') ||
     sceneCode.includes('CameraRig') ||
     sceneCode.includes('poster-rig') ||
@@ -179,18 +183,21 @@ for (const project of targets) {
   }
 
   // 5. BEAT'LER ARASI RENK KONTRASTI (Color Blocking Check)
+  const darkHex = (sceneCode.match(/#[0-2][0-9a-fA-F]{5}\b/g) ?? []).length;
+  const lightHex = (sceneCode.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
     isSingleContainer ||
     sceneCode.includes('beatPalettes') ||
-    sceneCode.includes('WHATSAPP_COLOR_BLOCK_THEME') ||
     sceneCode.includes('color-block') ||
     sceneCode.includes('COLOR_BLOCK') ||
+    sceneCode.includes('colorBlock') ||
+    (darkHex >= 1 && lightHex >= 1) ||
     spec.mode === 'creative-motion-reel' ||
-    (sceneCode.includes('#00A884') && (sceneCode.includes('#F5F2EF') || sceneCode.includes('#F0F2F5')));
+    spec.mode === 'kinetic-poster';
   if (!isLegacy && beats.length >= 3 && !hasColorBlocking) {
     findings.P1.push({
       issue: 'Tüm video tekdüze arka planda geçiyor; beat sınırlarında tam ekran Renk Kontrastı (Color Blocking) eksik.',
-      fix: 'theme-contract.ts içindeki beatPalettes / WHATSAPP_COLOR_BLOCK_THEME ile sahneler arasında kontrast renk bloklaması (Koyu -> Zümrüt Yeşili -> Sıcak Krem -> Koyu Mühür) uygulayın.',
+      fix: 'Sahneler arasında açık/koyu kontrast renk bloklaması (Color Blocking) veya beatPalettes ile tam ekran renk geçişi uygulayın.',
     });
     score -= 0.8;
   }

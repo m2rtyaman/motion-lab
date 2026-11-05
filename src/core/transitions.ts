@@ -46,6 +46,7 @@ export interface ElementTakeoverOptions {
   at: number;
   duration?: number;
   takeoverScale?: number;
+  useIris?: boolean;
   ease?: string;
 }
 
@@ -56,6 +57,7 @@ export interface CameraDiveOptions {
   targetX?: number;
   targetY?: number;
   settleScale?: number;
+  useIris?: boolean;
   ease?: string;
 }
 
@@ -395,6 +397,8 @@ export const transitionZoomPunch = (
  * 5. transitionElementTakeover — Bileşen Patlaması ve Tam Ekran Devralma (Scale Takeover)
  * Sahne içindeki küçük bir alt bileşenin (buton, rozet, metrik kartı) 15x-20x büyüyerek
  * tüm 1920x1080 ekranı yutması ve yeni sahnenin tam ekran zeminine dönüşmesi.
+ * Ebeveyn pencerenin overflow-hidden sınırına takılmaması için gelen sahne dairesel/tam ekran
+ * iris clip-path açılımı ile doğrudan üst katmanda patlar.
  */
 export const transitionElementTakeover = (
   tl: gsap.core.Timeline,
@@ -412,47 +416,67 @@ export const transitionElementTakeover = (
 
   const halfDur = duration * 0.55;
 
-  // 1. Tetikleyici alt bileşen hızla büyüyerek tüm ekranı kaplar
+  // 1. Tetikleyici alt bileşen hızla büyüyerek ivmeyi başlatır
   tl.to(
     triggerSelector,
     {
-      scale: takeoverScale,
-      duration,
+      scale: Math.min(takeoverScale, 6.5),
+      duration: halfDur,
       ease,
     },
     at
   );
 
-  // 2. Eski sahne büyüyen bileşenin altında erir
+  // 2. Eski sahne büyüyen bileşenin ivmesiyle ileri doğru genişleyerek devredilir (bulanık çamur olmadan)
   tl.to(
     outgoingSelector,
     {
       opacity: 0,
-      scale: 1.35,
-      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+      scale: 1.28,
       duration: halfDur,
       ease: EASING.quickIn,
     },
-    at + duration * 0.15
+    at + duration * 0.12
   );
 
-  // 3. Yeni tam ekran sahne patlayan bileşenin içinden ivmeyle doğar
-  tl.fromTo(
-    incomingSelector,
-    {
-      opacity: 0,
-      scale: 0.78,
-      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
-    },
-    {
-      opacity: 1,
-      scale: 1.0,
-      filter: 'blur(0px)',
-      duration: halfDur + DURATIONS.micro,
-      ease: EASING.expoOut,
-    },
-    at + duration * 0.42
-  );
+  // 3. Yeni tam ekran sahne ölçek ve opaklık ile açılır (useIris true ise dairesel diyaframla)
+  if (options.useIris) {
+    tl.fromTo(
+      incomingSelector,
+      {
+        opacity: 1,
+        scale: 0.88,
+        clipPath: 'circle(0% at 50% 65%)',
+      },
+      {
+        opacity: 1,
+        scale: 1.0,
+        clipPath: 'circle(150% at 50% 50%)',
+        duration: duration * 0.88,
+        ease: EASING.expoOut,
+      },
+      at + duration * 0.14
+    ).set(
+      incomingSelector,
+      { clipPath: 'none' },
+      at + duration * 1.02
+    );
+  } else {
+    tl.fromTo(
+      incomingSelector,
+      {
+        opacity: 0,
+        scale: 0.94,
+      },
+      {
+        opacity: 1,
+        scale: 1.0,
+        duration: duration * 0.88,
+        ease: EASING.expoOut,
+      },
+      at + duration * 0.14
+    );
+  }
 
   return tl;
 };
@@ -461,6 +485,8 @@ export const transitionElementTakeover = (
  * 6. transitionCameraDive — Hedef Bileşen İçine Makro Kamera Dalışı (Portal Dive)
  * Kameranın sahnedeki belirli bir kartın/bileşenin koordinatına (targetX, targetY)
  * 2.5x-3.2x ölçekle dalıp, o bileşenin içinden yeni sahneyi tam ekran çıkarması.
+ * İleri-geri zıplamayı (zoom bounce) önlemek için giden sahne izleyiciye doğru 2.8x büyürken,
+ * gelen sahne 0.45x derinlikten 1.0x tam ekrana aynı ileri vektörde kesintisiz çıkar.
  */
 export const transitionCameraDive = (
   tl: gsap.core.Timeline,
@@ -479,17 +505,17 @@ export const transitionCameraDive = (
     ease = EASING.expoInOut,
   } = options;
 
-  const diveDur = duration * 0.58;
-  const settleDur = duration * 0.52;
+  const diveDur = duration * 0.62;
+  const settleDur = duration * 0.58;
 
-  // 1. Kamera hedef bileşenin içine makro dalış yapar
+  // 1. Kamera sarsıntısız tek yönlü odak kayması yapar
   tl.to(
     cameraRigSelector,
     {
-      scale: diveScale,
-      x: targetX,
-      y: targetY,
-      duration: diveDur,
+      scale: 1.08,
+      x: targetX * 0.25,
+      y: targetY * 0.25,
+      duration: diveDur * 0.7,
       ease,
     },
     at
@@ -502,39 +528,61 @@ export const transitionCameraDive = (
       duration: settleDur,
       ease: EASING.expoOut,
     },
-    at + diveDur
+    at + diveDur * 0.7
   );
 
-  // 2. Dalış zirvesinde eski sahne kadraj dışına taşarak kaybolur
+  // 2. Dalış sırasında eski sahne hedef koordinattan izleyiciye doğru devasa büyüyerek (diveScale) kadrajı aşar
   tl.to(
     outgoingSelector,
     {
       opacity: 0,
-      scale: 1.6,
-      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
+      scale: diveScale,
+      x: targetX,
+      y: targetY,
       duration: diveDur,
       ease: EASING.quickIn,
     },
-    at + duration * 0.1
+    at
   );
 
-  // 3. Yeni sahne dalınan bileşenin içinden tam odakla açılır
-  tl.fromTo(
-    incomingSelector,
-    {
-      opacity: 0,
-      scale: 0.55,
-      filter: `blur(${MOTION_OFFSET.surfaceBlur}px)`,
-    },
-    {
-      opacity: 1,
-      scale: 1.0,
-      filter: 'blur(0px)',
-      duration: settleDur + DURATIONS.micro,
-      ease: EASING.expoOut,
-    },
-    at + diveDur * 0.72
-  );
+  // 3. Yeni sahne dalınan portalın içinden ölçekle (0.88 -> 1.0) açılır (useIris true ise iris diyaframla)
+  if (options.useIris) {
+    tl.fromTo(
+      incomingSelector,
+      {
+        opacity: 1,
+        scale: 0.88,
+        clipPath: 'circle(0% at 50% 50%)',
+      },
+      {
+        opacity: 1,
+        scale: 1.0,
+        clipPath: 'circle(150% at 50% 50%)',
+        duration: settleDur + DURATIONS.micro,
+        ease: EASING.expoOut,
+      },
+      at + diveDur * 0.25
+    ).set(
+      incomingSelector,
+      { clipPath: 'none' },
+      at + diveDur * 0.25 + settleDur + DURATIONS.micro
+    );
+  } else {
+    tl.fromTo(
+      incomingSelector,
+      {
+        opacity: 0,
+        scale: 0.92,
+      },
+      {
+        opacity: 1,
+        scale: 1.0,
+        duration: settleDur + DURATIONS.micro,
+        ease: EASING.expoOut,
+      },
+      at + diveDur * 0.25
+    );
+  }
 
   return tl;
 };

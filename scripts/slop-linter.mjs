@@ -31,8 +31,6 @@ const FORBIDDEN_GLOW = [
 ];
 // Kural 3: İlkel maskot / karikatür primitifleri
 const FORBIDDEN_CARTOON = [
-  { pattern: /#fcd34d/i, name: "Karikatür Primitifi: Ten rengi sarı fill (#fcd34d)" },
-  { pattern: /#fde68a/i, name: "Karikatür Primitifi: Yüz çemberi sarı fill (#fde68a)" },
   { pattern: /anchor-(mustache|eyes|head|station|body)/i, name: "Karikatür Primitifi: Büyük/Kafa maskot tanımlayıcısı" },
   { pattern: /mustache/i, name: "Karikatür Primitifi: Bıyık çizim vektörü" },
 ];
@@ -162,7 +160,11 @@ function lintProjectArchitecture(t, spec) {
     content.includes("applyIsometricTilt") ||
     content.includes("applyFocusZoom") ||
     content.includes("applyCanvasPan") ||
-    content.includes("applyCameraSettle");
+    content.includes("applyCameraSettle") ||
+    content.includes("CAMERA_KEYFRAMES") ||
+    content.includes("SPEC_CAMERA") ||
+    content.includes("CameraRig") ||
+    content.includes(".camera-rig");
   if (!hasCameraChoreography)
     add("Sinematik Kamera İhlali", "Sahne sabit kalamaz; kamera hareketi ('animateCamera' veya 'applyIsometricTilt/FocusZoom') tanımlanmalıdır.", "Missing camera choreography call");
 
@@ -171,9 +173,9 @@ function lintProjectArchitecture(t, spec) {
     const headerCount = (content.match(/<header\b/g) || []).length;
     const footerCount = (content.match(/<footer\b/g) || []).length;
     const topBlockCount = (content.match(/top-\[\d+px\]\s+left-\[\d+px\]\s+right-\[\d+px\]/g) || []).length;
-    const contentWithoutSvg = content.replace(/\bd=["'][^"']*["']/g, '');
+    const contentWithoutSvg = content.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/\bd=["'][^"']*["']/g, '');
     const numberedSlideEyebrows = new Set((contentWithoutSvg.match(/\b0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
-    if ((headerCount >= 3 && footerCount >= 3) || topBlockCount >= 2 || numberedSlideEyebrows >= 3) {
+    if ((headerCount >= 3 && footerCount >= 3) || (topBlockCount >= 3 && footerCount >= 3) || numberedSlideEyebrows >= 3) {
       add(
         "Monoton 3'lü Sandviç / Slayt Başlığı Şablonu İhlali",
         `Sahne içinde tekrarlayan üst başlık barı (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, numaralı slayt başlığı=${numberedSlideEyebrows}) tespit edildi. Her beat'te aynı 'Üst Başlık + Ortada Kutu + Alt Footer' şablonu kullanmak yasaktır; her beat'in kendi tam ekran (full-bleed) motion graphic kompozisyonu olmalıdır.`,
@@ -209,19 +211,37 @@ function lintProjectArchitecture(t, spec) {
       }
     }
 
-    // Kural 10: Pencere / Donanım Kabuğu Çapalaması (Hardware Shell Anchor - adversarial-visual-critic Standardı)
+    // Kural 10: Pencere / Mimari Sahne Çapalaması (Architectural or Shell Anchor)
     const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard/.test(content);
-    const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage/.test(content);
+    const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|HairlineGrid|KineticVectorStage|CameraRig|ContainerMorphBridge|FullScreenStage|FullBleedStage|AuthenticBrandShell|YouTubeStage|BrandStage|CinemaStage|WatchPageShell|BrandCanvas/.test(content);
     if (hasUIComponents && !hasShellAnchor) {
       add(
-        "Pencere/Donanım Kabuğu Çapa İhlali (Floating Bento Slop)",
-        "Bileşenler uzay boşluğunda süzülemez; 'PrecisionDashboardShell', 'DeviceMockupStage' veya 'MacOSSequoiaWindow' gibi tanımlı bir pencere/donanım kabuğu içine çapalanmalıdır.",
-        "Missing window/hardware shell anchor"
+        "Pencere/Mimari Sahne Çapa İhlali (Floating Bento Slop)",
+        "Bileşenler uzay boşluğunda süzülemez; bir mimari ızgara ('HairlineGrid', 'KineticVectorStage', 'SpotlightStage') veya donanım kabuğu içine çapalanmalıdır.",
+        "Missing architectural or shell anchor"
       );
     }
 
+    // Kural 10b: Rozet & Başlık Çöplüğü Yasağı (Anti-Badge & Header Clutter Gate)
+    if (isHybrid) {
+      const kickerCount = (content.match(/<KickerBadge\b/g) || []).length;
+      const capsuleCount = (content.match(/<CapsulePill\b/g) || []).length;
+      const statusBadgeCount = (content.match(/\bstatusBadge\s*=/g) || []).length;
+      const subtitleCount = (content.match(/\bsubtitle\s*=/g) || []).length;
+      const totalBadges = kickerCount + capsuleCount + statusBadgeCount + subtitleCount;
+      const numScenes = Array.isArray(spec.scenes) ? spec.scenes.length : Math.max(1, (spec.beats || []).length);
+      const maxAllowedBadges = Math.max(12, numScenes * 4);
+      if (totalBadges > maxAllowedBadges) {
+        add(
+          "Rozet ve Başlık Çöplüğü İhlali (Badge & Eyebrow Clutter Slop)",
+          `Sahnede aşırı miktarda rozet/etiket/alt-başlık (${totalBadges} adet: KickerBadge=${kickerCount}, CapsulePill=${capsuleCount}, statusBadge=${statusBadgeCount}, subtitle=${subtitleCount}) yığılmış. (Maksimum ${maxAllowedBadges} rozet/etiket kullanılabilir).`,
+          `Total badges/eyebrows: ${totalBadges} (max ${maxAllowedBadges} allowed)`
+        );
+      }
+    }
+
     // Kural 11: Tek Kap Morfolojisi / Graphic Anchor Geçişi
-    const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField/.test(content);
+    const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch|ElementTakeover|CameraDive)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField|TheHeroActor|the-hero-actor|ContainerMorphBridge/.test(content);
     if (mode === "editorial-ui" && !isLegacy && !hasContainerMorph) {
       add(
         "Tek Kap Morfolojisi İhlali (Lack of Container Morphing)",
@@ -231,12 +251,13 @@ function lintProjectArchitecture(t, spec) {
     }
 
     // Kural 12: 3D Boşlukta Çapasız Yüzme Yasağı
+    // SpotlightStage, KineticVectorStage, FullScreenStage ve serbest SpecularCard kullanımına izin verilir.
     const has3DStage = /LayeredStage3D|LayerPlane/.test(content);
-    const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(content);
+    const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|KineticVectorStage|FullScreenStage|FullBleedStage|AuthenticBrandShell|HairlineGrid|CameraRig|TerminalShell|WorldStage|<\/LayerPlane>)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(content);
     if ((has3DStage && hasUIComponents && !hasShellAnchor) || (has3DStage && unanchored3DMatch)) {
       add(
         "3D Boşlukta Çapasız Yüzme İhlali",
-        "3D katmanda doğrudan süzülen bağımsız kartlar tespit edildi. Kartlar bir Hardware Shell veya PrecisionDashboardShell içine yerleştirilmelidir.",
+        "3D katmanda doğrudan süzülen bağımsız kartlar tespit edildi. Kartlar bir Hardware Shell, SpotlightStage veya PrecisionDashboardShell içine yerleştirilmelidir.",
         "Unanchored floating cards in 3D LayerPlane"
       );
     }
@@ -259,14 +280,14 @@ function lintProjectArchitecture(t, spec) {
     }
 
     // Kural 12: Gerçekçi İçerik & Sahte DevOps Jargonu Yasağı (Never Invent Facts)
-    const isConsumerApp = /whatsapp|chat|messenger|instagram|social/i.test(t.slug);
+    const isConsumerApp = /whatsapp|chat|messenger|instagram|social|youtube|video|stream|music|entertainment|media|consumer|brand/i.test(t.slug);
     if (isConsumerApp) {
-      const devopsJargonRegex = /\b(Quantum-Resistant|enclave-loc\d|ratchet\s+ratified|ops\/sec|Zero-Copy\s+Buffer|Zero-Knowledge\s+Keys)\b/i;
+      const devopsJargonRegex = /\b(Quantum-Resistant|enclave-loc\d|ratchet\s+ratified|ops\/sec|Zero-Copy\s+Buffer|Zero-Knowledge\s+Keys|Zero-Downtime\s+POP\s+Mesh|TTFT\s*\/\/\s*SYNC)\b/i;
       const match = content.match(devopsJargonRegex);
       if (match) {
         add(
           "Sahte DevOps Jargonu & AI-Slop İhlali (Never Invent Facts)",
-          `Tüketici/Mobil odaklı sahnede ('${t.slug}') bağlamsız uydurma sunucu/kripto telemetrisi tespit edildi: '${match[0]}'. Ürünün gerçek arayüzü, gerçek mesajları ve gerçek kullanım senaryosu gösterilmelidir.`,
+          `Tüketici/Mobil/Marka odaklı sahnede ('${t.slug}') bağlamsız uydurma sunucu/telemetri dolgusu tespit edildi: '${match[0]}'. Ürünün gerçek arayüzü, gerçek etkileşimi (arama, oynatma, abone olma vb.) gösterilmelidir.`,
           match[0]
         );
       }

@@ -41,7 +41,7 @@ export const MetricCardRow: FC<MetricCardRowProps> = ({
         return (
           <div
             key={card.id}
-            className={`metric-card metric-card-${card.id} p-5 rounded-2xl flex flex-col justify-between transition-all`}
+            className={`metric-card metric-card-${card.id} p-5 rounded-2xl flex flex-col justify-between`}
             style={{
               backgroundColor: theme.colors.bgSurface,
               border: `1px solid ${theme.colors.borderSubtle}`,

@@ -97,7 +97,7 @@ export const BroadcastPackageStrap: React.FC<BroadcastPackageStrapProps> = ({
               className="flex items-center gap-1.5"
               style={{ transform: 'skewX(14deg)' }}
             >
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white" />
               <span>{category}</span>
             </div>
           </div>

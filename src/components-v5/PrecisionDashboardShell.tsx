@@ -13,6 +13,7 @@ export interface PrecisionDashboardShellProps {
   tiltY?: number;
   borderRadius?: number;
   morphProgress?: number;
+  allowOverflow?: boolean;
   leftPane?: React.ReactNode;
   rightPane?: React.ReactNode;
   footerLeft?: React.ReactNode;
@@ -31,12 +32,15 @@ export const PrecisionDashboardShell: React.FC<PrecisionDashboardShellProps> = (
   tiltY = 0,
   borderRadius = 24,
   morphProgress = 1,
+  allowOverflow = false,
   leftPane,
   rightPane,
   footerLeft,
   footerRight,
 }) => {
   void morphProgress;
+  const overflowClass = allowOverflow ? 'overflow-visible' : 'overflow-hidden';
+
   return (
     <SpecularSurface
       preset="titanium"
@@ -45,7 +49,7 @@ export const PrecisionDashboardShell: React.FC<PrecisionDashboardShellProps> = (
       tiltY={tiltY}
       showCatchlight={true}
       showGradientBorder={true}
-      className={`flex flex-col shadow-2xl overflow-hidden select-none border border-white/10 ${className}`}
+      className={`flex flex-col shadow-2xl ${overflowClass} select-none border border-white/10 ${className}`}
       style={{
         width,
         height,
@@ -91,7 +95,7 @@ export const PrecisionDashboardShell: React.FC<PrecisionDashboardShellProps> = (
 
       {/* Subgrid Shared 1px Hairline Container */}
       {leftPane || rightPane ? (
-        <div className="relative flex-1 w-full grid grid-cols-12 gap-[1px] bg-white/[0.08] overflow-hidden">
+        <div className={`relative flex-1 w-full grid grid-cols-12 gap-[1px] bg-white/[0.08] ${overflowClass}`}>
           <div className="col-span-5 bg-zinc-950/90 p-5 flex flex-col justify-between">
             {leftPane}
           </div>
@@ -100,7 +104,7 @@ export const PrecisionDashboardShell: React.FC<PrecisionDashboardShellProps> = (
           </div>
         </div>
       ) : (
-        <div className="relative flex-1 w-full overflow-hidden bg-zinc-950/90 p-6">
+        <div className={`relative flex-1 w-full ${overflowClass} bg-zinc-950/90 p-6 flex flex-col`}>
           {children}
         </div>
       )}

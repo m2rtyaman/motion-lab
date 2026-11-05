@@ -292,7 +292,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
             {/* Üst Sistem Bilgi Satırı */}
             <div className="beat1-system-row flex items-center justify-between border-b border-white/[0.08] pb-6">
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="w-3 h-3 rounded-full bg-emerald-400" />
                 <span className="text-[18px] font-mono font-bold tracking-[0.18em] uppercase text-zinc-300">
                   KORTEX // ÇEKİRDEK v4.8
                 </span>

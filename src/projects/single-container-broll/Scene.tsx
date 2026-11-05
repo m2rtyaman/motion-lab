@@ -419,7 +419,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
 
             {/* Glowing Interactive Electric Blue Badge */}
             <div className="stage-1-item stage-1-badge flex items-center gap-2 bg-[#1A73E8] text-white px-4 py-2 rounded-full shadow-[0_4px_16px_rgba(26,115,232,0.4)] border border-white/20 whitespace-nowrap">
-              <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-white" />
               <span className="text-[18px] font-bold tracking-wide">Flash Live</span>
             </div>
           </div>
@@ -440,7 +440,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
               </div>
 
               <div className="flex items-center gap-2 px-3 py-1 bg-blue-50/80 rounded-md border border-blue-200/60 text-[#1A73E8] text-[18px] font-mono font-medium">
-                <span className="w-2 h-2 rounded-full bg-[#1A73E8] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-[#1A73E8]" />
                 <span>Streaming · 12ms TTFT</span>
               </div>
             </div>
@@ -517,7 +517,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
               <div className="flex flex-col items-center justify-center">
                 <span
                   id="stop-label-low"
-                  className="text-[24px] font-bold tracking-tight transition-colors"
+                  className="text-[24px] font-bold tracking-tight"
                   style={{ color: '#FFFFFF' }}
                 >
                   Low
@@ -529,7 +529,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
               <div className="flex flex-col items-center justify-center">
                 <span
                   id="stop-label-med"
-                  className="text-[24px] font-bold text-zinc-500 tracking-tight transition-colors"
+                  className="text-[24px] font-bold text-zinc-500 tracking-tight"
                 >
                   Medium
                 </span>
@@ -540,7 +540,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
               <div className="flex flex-col items-center justify-center">
                 <span
                   id="stop-label-high"
-                  className="text-[24px] font-bold text-zinc-500 tracking-tight transition-colors"
+                  className="text-[24px] font-bold text-zinc-500 tracking-tight"
                 >
                   High
                 </span>
@@ -551,7 +551,7 @@ export const Scene: FC<SceneProps> = ({ aspect = '16:9' }) => {
               <div className="flex flex-col items-center justify-center">
                 <span
                   id="stop-label-argon"
-                  className="text-[24px] font-bold text-zinc-500 tracking-tight transition-colors"
+                  className="text-[24px] font-bold text-zinc-500 tracking-tight"
                 >
                   Argon
                 </span>

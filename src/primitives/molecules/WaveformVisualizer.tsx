@@ -33,7 +33,7 @@ export const ProceduralWaveform: FC<ProceduralWaveformProps> = ({
         return (
           <div
             key={index}
-            className={`w-1 rounded-full transition-none ${color}`}
+            className={`w-1 rounded-full ${color}`}
             style={{ height: `${barHeight}px` }}
           />
         );

@@ -16,7 +16,7 @@ export const SceneSlot: FC<SceneSlotProps> = ({
   return (
     <div
       id={id}
-      className={`scene-slot absolute inset-0 flex items-center justify-center transition-none ${className}`}
+      className={`scene-slot absolute inset-0 flex items-center justify-center ${className}`}
       style={{
         pointerEvents: active ? 'auto' : 'none',
         visibility: active ? 'visible' : 'hidden',

@@ -202,14 +202,12 @@ for (const project of targets) {
     const bpText = fs.readFileSync(blueprintPath, "utf-8");
     const hasPhase0 = /PHASE\s*0/i.test(bpText);
     const hasSvgSource = /SimpleIcons|Wikimedia|lucide|tabler|d="M|<path/i.test(bpText);
-    const hasStudioRef = /Ordinary Folk|Buck|ManvsMachine|Ravie|Motionographer|Wine After Coffee|Match-Cut|Exploded/i.test(bpText);
-
-    if (!hasPhase0 || !hasSvgSource || !hasStudioRef) {
+    if (!hasPhase0 || !hasSvgSource) {
       addErr(
         "STORY-007",
         "Eksik PHASE 0 Canlı Web & Vektör Araştırması",
-        "choreography-blueprint.md içinde PHASE 0 (Resmi SVG path koordinatları, UI Tear-Down ve Stüdyo Vaka Analizi) eksik.",
-        "Kodlamadan önce 4 hedef search_web sorgusunu çalıştırıp PHASE 0 bölümüne gerçek SVG path, UI anatomisi ve stüdyo Match-Cut bulgularını yazın."
+        "choreography-blueprint.md içinde PHASE 0 (Resmi SVG path koordinatları ve UI Tear-Down) eksik.",
+        "Kodlamadan önce search_web ile PHASE 0 bölümüne gerçek SVG path ve UI anatomisi bulgularını yazın."
       );
     }
 

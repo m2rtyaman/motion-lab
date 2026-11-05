@@ -1,0 +1,103 @@
+{
+  "text": "Gemini 3.8 Flash live multimodal streaming controller.",
+  "voice": "en-US-ChristopherNeural",
+  "rate": "+0%",
+  "fps": 60,
+  "audioFile": "audio.wav",
+  "wavAvailable": true,
+  "durationSeconds": 4.062,
+  "durationFrames": 244,
+  "words": [
+    {
+      "index": 0,
+      "word": "Gemini",
+      "token": "Gemini",
+      "startTime": 0.1,
+      "endTime": 0.6125,
+      "startMs": 100,
+      "endMs": 612,
+      "durationMs": 512,
+      "startFrame": 6,
+      "endFrame": 37,
+      "durationFrames": 31
+    },
+    {
+      "index": 1,
+      "word": "3.8",
+      "token": "3.8",
+      "startTime": 0.625,
+      "endTime": 1.5,
+      "startMs": 625,
+      "endMs": 1500,
+      "durationMs": 875,
+      "startFrame": 38,
+      "endFrame": 90,
+      "durationFrames": 52
+    },
+    {
+      "index": 2,
+      "word": "Flash",
+      "token": "Flash",
+      "startTime": 1.5125,
+      "endTime": 1.9375,
+      "startMs": 1512,
+      "endMs": 1938,
+      "durationMs": 426,
+      "startFrame": 91,
+      "endFrame": 116,
+      "durationFrames": 25
+    },
+    {
+      "index": 3,
+      "word": "live",
+      "token": "live",
+      "startTime": 1.95,
+      "endTime": 2.275,
+      "startMs": 1950,
+      "endMs": 2275,
+      "durationMs": 325,
+      "startFrame": 117,
+      "endFrame": 136,
+      "durationFrames": 19
+    },
+    {
+      "index": 4,
+      "word": "multimodal",
+      "token": "multimodal",
+      "startTime": 2.2875,
+      "endTime": 2.9375,
+      "startMs": 2288,
+      "endMs": 2938,
+      "durationMs": 650,
+      "startFrame": 137,
+      "endFrame": 176,
+      "durationFrames": 39
+    },
+    {
+      "index": 5,
+      "word": "streaming",
+      "token": "streaming",
+      "startTime": 2.95,
+      "endTime": 3.4,
+      "startMs": 2950,
+      "endMs": 3400,
+      "durationMs": 450,
+      "startFrame": 177,
+      "endFrame": 204,
+      "durationFrames": 27
+    },
+    {
+      "index": 6,
+      "word": "controller",
+      "token": "controller",
+      "startTime": 3.4125,
+      "endTime": 4.0625,
+      "startMs": 3412,
+      "endMs": 4062,
+      "durationMs": 650,
+      "startFrame": 205,
+      "endFrame": 244,
+      "durationFrames": 39
+    }
+  ]
+}

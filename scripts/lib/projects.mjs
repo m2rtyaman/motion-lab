@@ -13,15 +13,30 @@ export const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 /** Paylaşılan motor klasörleri (tüm projelerin bağımlı olduğu kod) */
 export const ENGINE_DIRS = ["engine", "core", "primitives", "world", "vfx", "archetypes", "remotion"];
 export const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster", "creative-motion-reel", "hybrid-orchestrated"];
-export const ASPECT_DIMS = { "9:16": [1080, 1920], "16:9": [1920, 1080] };
+export const ASPECT_DIMS = { "9:16": [1080, 1920], "16:9": [1920, 1080], "1:1": [1440, 1440] };
 
 export const rel = (p) => path.relative(rootDir, p).replaceAll("\\", "/");
 
-export function listProjects() {
+export function isProjectIgnored(slug) {
+  try {
+    const res = spawnSync("git", ["check-ignore", "-q", `src/projects/${slug}`], { cwd: rootDir });
+    return res.status === 0;
+  } catch {
+    return false;
+  }
+}
+
+export function listProjects(options = {}) {
+  const includeIgnored = options.includeIgnored ?? false;
   if (!fs.existsSync(projectsDir)) return [];
   return fs
     .readdirSync(projectsDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && fs.existsSync(path.join(projectsDir, e.name, "spec.json")))
+    .filter((e) => {
+      if (!e.isDirectory()) return false;
+      if (!fs.existsSync(path.join(projectsDir, e.name, "spec.json"))) return false;
+      if (!includeIgnored && isProjectIgnored(e.name)) return false;
+      return true;
+    })
     .map((e) => e.name)
     .sort();
 }

@@ -84,6 +84,23 @@ function lintFile(file) {
       }
     }
 
+    if (node.type === "JSXAttribute" && node.name?.name === "className") {
+      let rawClass = "";
+      if (node.value?.type === "StringLiteral") rawClass = node.value.value;
+      else if (node.value?.type === "JSXExpressionContainer" && node.value.expression?.type === "TemplateLiteral") {
+        rawClass = node.value.expression.quasis.map((q) => q.value.raw).join(" ");
+      }
+      const forbiddenTw = rawClass.match(/\b(animate-(?:pulse|ping|spin|bounce)|transition-(?:all|opacity|transform|colors))\b/);
+      if (forbiddenTw) {
+        add(
+          "A005b",
+          node,
+          `JSX className içinde kare-kilitsiz Tailwind CSS animasyonu/geçişi: "${forbiddenTw[1]}"`,
+          "Remotion'da CSS keyframe/transition deterministik değildir; useCurrentFrame() + Math.sin(frame) veya GSAP timeline kullan"
+        );
+      }
+    }
+
     if (node.type === "CallExpression") {
       const n = calleeName(node);
       if (node.callee.type === "Identifier" && FORBIDDEN_CALLS.has(n))
@@ -177,6 +194,14 @@ function lintProjectScene(project) {
       "WorldStage",
       "BackdropField",
       "RoughCanvas",
+      "FullScreenStage",
+      "FullBleedStage",
+      "AuthenticBrandShell",
+      "YouTubeStage",
+      "BrandStage",
+      "CinemaStage",
+      "WatchPageShell",
+      "BrandCanvas",
     ];
     const isStageOrRig = Array.from(jsxElements).some((el) =>
       STRUCTURAL_SHELLS.includes(el) ||

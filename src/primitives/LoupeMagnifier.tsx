@@ -202,7 +202,7 @@ export const LoupeMagnifier: React.FC<LoupeMagnifierProps> = ({
             className="px-3 py-1 text-[18px] font-bold tracking-wider uppercase text-white rounded-md flex items-center gap-1.5 shadow-md"
             style={{ backgroundColor: accentColor }}
           >
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white" />
             {label}
           </div>
           {sublabel && (

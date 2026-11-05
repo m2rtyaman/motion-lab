@@ -1,78 +1,84 @@
 ---
 name: adversarial-visual-critic
-description: Acımasız görsel denetim eleştirmeni ve anti-AI-slop tasarım yönergesi. Contact sheet paftalarını, sahne kompozisyonunu, bileşen hizalamasını, pencere çapalamasını ve motion grafik akışını sıfır toleransla denetler.
+description: Ruthless visual audit critic and anti-AI-slop design director. Evaluates contact sheet audit grids, scene composition, component anchoring, and continuous motion flow with zero tolerance.
 ---
 
 # ADVERSARIAL VISUAL CRITIC & ANTI-AI-SLOP DESIGN STANDARD
 
-Bu beceri, yapay zekanın (özellikle Gemini ve LLM tabanlı kodlama ajanlarının) düştüğü tipik görsel tembellikleri, kopuk bileşen dizilimlerini, sahte kart estetiğini ve "AI-slop" çıktısını kökten kazımak için geliştirilmiş **acımasız bir görsel denetim ve sanat yönetmenliği motorudur**.
+This skill is a **ruthless visual review and art direction engine** engineered to eliminate typical AI design laziness, disconnected component layouts, generic card aesthetics, and AI-slop outputs in Remotion motion graphics.
 
 ---
 
-## 1. AI-SLOP TASARIMININ 7 ÖLÜMCÜL GÜNAHI (HALLMARKS OF AI SLOP)
+## 1. THE 10 HALLMARKS OF AI SLOP
 
-Yapay zeka kendi haline bırakıldığında istisnasız şu 7 ucuz kalıbı üretir:
+When unconstrained, generative AI defaults to these cheap anti-patterns:
 
-1. **Boşlukta Süzülen Kopuk Kartlar (Disconnected Floating Bento Slop):**
-   - Ekranda birbiriyle hiçbir mimari veya hiyerarşik bağı olmayan 3-4 tane cam/metal kart uzay boşluğunda yan yana veya alt alta havada asılı durur. Bir işletim sistemi penceresi (macOS Sequoia), bir tarayıcı kabuğu veya fiziksel bir donanım kasası içine çapalanmamıştır.
-2. **Kör Cyan / Mor / Zümrüt Neon Kusan Gradyanlar (Glow Vomit):**
-   - Tasarıma derinlik katmayı bilmediği için her kartın arkasına ve kenarına abartılı `#38bdf8` (cyan) veya mor radyal blur (`blur-3xl`) basar. Gerçek endüstri standardı olan mikroskobik 1px speküler ışık kırılması ve CSS Subgrid kılcal çizgileri yoktur.
-3. **Tekdüze PowerPoint Slayt Geçişleri (Lack of Single Container):**
-   - Sahne 1 biter, her şey `opacity: 0` ile solar; Sahne 2'de bambaşka 3 kart `translateY` ile gelir. Ekranın merkezinde izleyicinin gözünün takip edebileceği tek bir dönüştürücü kap (**Single Container Morph / Graphic Anchor**) bulunmaz.
-4. **Bağlamsız ve Sahte Metrik Gösterimi (Meaningless Data Redundancy):**
-   - Kartların içine rastgele `142,850 ops/sec`, `+34.2% YoY` gibi gerçek ürün arayüzüyle alakasız, ezbere sayılar yazar. Üstteki pazarlama başlığı ile alttaki rozet birebir aynı kelimeleri tekrar eder (anlamsal artık-değer / redundancy).
-5. **Körlemesine Koordinat Uydurma (Blind SVG Coordinates):**
-   - Vektör çizerken doğrulanmış kütüphane kullanmak yerine `M10 20 C 40 50...` gibi kafadan uydurma koordinatlar yazar; ekranda yamuk, dengesiz karton kuklalar çıkar.
-6. **Robotik ve Kütlesiz Hareket (Weightless Cubic-Bezier):**
-   - Hareketler fiziksel ağırlık ve kütle taşımaz. Anticipation (hazırlık/büzülme) ve Overshoot (aşma ve yaylanma) eksiktir; animasyonlar sanki bir CSS keyframe slaytı gibi donuktur.
-7. **Kör Onaylama Yanılsaması (Blind Approval Fallacy):**
-   - Ajan ürettiği `visual-audit-grid.png` paftasına bakar; pikseller var olduğu ve dosya 500 KB olduğu için sahnenin "harika" olduğunu sanıp onaylar. Oysa bileşenler ekranın alakasız köşelerine dağılmış, dikey hiza bozulmuş ve kompozisyon çökmüştür.
+1. **Disconnected Floating Bento Slop:**
+   - 3–4 isolated glass/metallic cards floating aimlessly in empty void space without hierarchical structure or hardware framing (no macOS Sequoia window, browser frame, or physical chassis).
+2. **Neon Glow Vomiting:**
+   - Over-reliance on generic `#38bdf8` (cyan) or purple radial blurs (`blur-3xl`) behind cards to fake depth, completely lacking microscopic 1px specular highlights and clean CSS Subgrid borders.
+3. **PowerPoint Slide Dissolves:**
+   - Scene 1 fades out via `opacity: 0` while Scene 2 abruptly arrives via `translateY`. No continuous container morph or shared Graphic Anchor exists for the eye to track.
+4. **Meaningless Data & Redundancy:**
+   - Generic hallucinated metrics (`142,850 ops/sec`, `+34.2% YoY`) pasted into UI cards, or identical marketing copy duplicated between the main headline and badge pills.
+5. **Blind SVG Guesswork:**
+   - Hallucinated arbitrary path coordinates (`M10 20 C 40 50...`) instead of verified geometry, resulting in warped, distorted vector graphics.
+6. **Weightless Cubic-Bezier Movement:**
+   - Stiff, floaty easing lacking anticipation, spring tension, and natural deceleration overshoot.
+7. **Blind File Approval Fallacy:**
+   - Approving a scene simply because `visual-audit-grid.png` was generated and non-empty, ignoring misaligned vertical rhythm, awkward padding, or collapsed layout structure.
+8. **The 1380px SaaS Dashboard Trap:**
+   - Defaulting to a fixed 1380px dark box centered on screen with 4 telemetry tiles regardless of the brand (YouTube, Nike, Spotify, Festival). A true motion graphic features kinetic typography bursting across the screen, dramatic scale leaps, and authentic brand art direction!
+9. **Dark Theme Blindness:**
+   - Drowning every scene in dark cyber/hacker themes (`#0B0B0E`, `#050706`). Global consumer brands (YouTube `#FFFFFF` / `#F9F9F9`, Google Material, Apple Light, Spotify) demand crisp, bright, vibrant canvases.
+10. **Invented Server Telemetry Slop:**
+    - Cluttering consumer/entertainment interfaces with fabricated DevOps metrics (`enclave-lon1-v4`, `POP mesh`). True interface anatomy (Header, Search Pill, Video Player, Subscribe Pill, Recommended Grid) must be built and animated faithfully.
 
 ---
 
-## 2. MODERN WEB & ELİT MOTİON STANDARTLARI (LINEAR, GODLY, ORDINARY FOLK)
+## 2. MODERN WEB & ELITE MOTION STANDARDS (LINEAR, GODLY, ORDINARY FOLK)
 
-Awwwards, Godly.website, Linear, Raycast ve Ordinary Folk stüdyolarının temel tasarım yasaları:
+Core design principles drawn from Awwwards, Godly.website, Linear, Raycast, and Ordinary Folk:
 
-### A. Subgrid Shared Borders (1px Paylaşımlı Izgara)
-- Kartlar birbirinden 24px mesafede bağımsız kutular olarak durmaz. Donanım benzeri hassas kontrol panellerinde CSS Grid `gap: 1px` ile zemin ışığının kılcal olarak sızdığı yekpare bir matris kullanılır:
+### A. Subgrid Shared Borders (1px Hairline Matrix)
+- Cards are never separated by arbitrary 24px gutters. Precision control surfaces utilize CSS Grid with `gap: 1px` allowing background luminosity to subtly bleed through:
 ```css
 .precision-dashboard {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1px;
-  background-color: rgba(255, 255, 255, 0.08); /* 1px Kılcal Çizgi */
+  background-color: rgba(255, 255, 255, 0.08); /* 1px Hairline Border */
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   overflow: hidden;
 }
 ```
 
-### B. Pencere ve Cihaz Çapalaması (Hardware Shell Anchor)
-- Her UI parçası mutlaka tanımlı bir ana gövdenin (Window Shell) parçasıdır:
-  - macOS Pencere Başlığı: `● ● ●` trafik ışıkları, adres/arama çubuğu ve sol kenar çubuğu.
-  - Mobil Shell: Dynamic Island, durum çubuğu ve donanım çerçevesi.
+### B. Hardware Shell Anchoring
+- UI elements must belong to an explicit host structure:
+  - macOS Window Shell: `● ● ●` traffic lights, URL/search bar, and unified sidebar.
+  - Mobile Shell: Dynamic Island, status bar, and tactile hardware framing.
 
-### C. Graphic Anchor & Dual-Frame Match-Cut (Ordinary Folk Prensibi)
-- Sahneler birbirine bağlanırken Sahne A'nın çıkış karesi ile Sahne B'nin giriş karesi eşlenir. Ekran merkezindeki ana nesne (ör. bir kalkan, bir buton veya arama hapı) asla yok olmaz; genişleyerek, dönerek veya şekil değiştirerek bir sonraki sahnenin ana penceresine evrilir (**Peak Velocity Morphing**).
+### C. Graphic Anchor & Continuous Match-Cut (Ordinary Folk Principle)
+- Connect scenes by matching Scene A's outgoing focal point with Scene B's incoming geometry. The hero anchor never abruptly disappears; it morphs, rotates, or expands into the next viewport at peak velocity.
 
-### D. Sıfır-Artıklık (Zero Redundancy) Tipografi Kuralı
-- Pazarlama başlığı ürünün sağladığı **faydayı** (örn. *"Zero-Latency Cryptographic Consistency"*), arayüz etiketleri ise arka planda çalışan **eylemi** (örn. *"Ratchet Key Exchange #4092"*) anlatır. Aynı metin veya slogan 2 farklı yerde asla tekrarlanmaz.
-
----
-
-## 3. ACIMASIZ DENETİM RUBRİĞİ (RUTHLESS AUDIT PROTOCOL)
-
-Bir görsel pafta (`visual-audit-grid.png`) incelenirken şu 5 soruya "HAYIR" cevabı veriliyorsa **RENDER ANINDA REDDEDİLİR**:
-
-1. **Çapa Denetimi:** Bileşenler boşlukta süzülmek yerine yekpare bir pencere veya paylaşımlı ızgara içine kilitlenmiş mi? (Yoksa 3 bağımsız kart uzayda mı duruyor?)
-2. **Konteyner Sürekliliği:** Sahne 1'den Sahne 2'ye geçerken en az bir grafik çapa (Graphic Anchor) kesilmeden form değiştirdi mi? (Yoksa her şey aynı anda silinip yenisi mi geldi?)
-3. **Tipografi ve Negatif Alan:** Başlıklar, metrikler ve rozetler arasında net bir editoryal nefes alanı var mı? Dikey ritim (vertical rhythm) korunuyor mu?
-4. **Gerçek Vektör Anatomisi:** İkonlar ve çizimler doğrulanmış endüstri standartlarında (Lucide/SimpleIcons) mı, yoksa yapay zeka uydurması kırık SVG mi?
-5. **Fiziksel Kütle:** Animasyon durduğunda sahne nefes alıyor mu (`AmbientAliveDriver`) ve açılışlar gerçek yay fiziği (`SpringStaggerGroup`) ile mi gerçekleşiyor?
+### D. Zero Redundancy Typography Rule
+- Marketing headlines communicate the user-facing **benefit**, while UI tags describe the specific **system action**. Never duplicate phrases between title and chip.
 
 ---
 
-## 4. OTONOM MÜDAHALE PROTOKOLÜ
+## 3. RUTHLESS AUDIT PROTOCOL
 
-Bir ajanın görevi "dosya oluştu" diyerek teslim etmek değildir. Görsel paftayı acımasızca incelemeli; bileşenlerin dağınık, yapay zeka slop'u veya havada asılı olduğunu gördüğü an **tek bir soru sormadan Scene.tsx'i yeniden yapılandırmalıdır**.
+When inspecting `visual-audit-grid.png`, if ANY of these 5 criteria fail, **THE RENDER IS IMMEDIATELY REJECTED**:
+
+1. **Anchoring Audit:** Are elements integrated within a cohesive window shell or shared grid, or are they isolated cards floating in space?
+2. **Container Continuity:** Does at least one Graphic Anchor maintain physical presence and morph across scene boundaries without crossfade dissolves?
+3. **Editorial Typography & Space:** Is there generous, intentional negative space between headings, badges, and meters? Is vertical rhythm preserved?
+4. **Authentic Vector Geometry:** Are icons and emblems sourced from verified geometric standards, rather than deformed path approximations?
+5. **Physical Mass & Rest:** Does the stage breathe with subtle ambient life (`AmbientAliveDriver`), and do entrances leverage true damped spring physics (`SpringStaggerGroup`)?
+
+---
+
+## 4. AUTONOMOUS REMEDIATION PROTOCOL
+
+An agent's job is not merely to report file creation. Inspect the visual audit sheet with critical scrutiny; if elements appear misaligned, disconnected, or generic, **refactor Scene.tsx immediately without waiting for user intervention**.

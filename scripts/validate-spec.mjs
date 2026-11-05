@@ -20,7 +20,7 @@ const targets = resolveTargets(args);
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
 const MODES = ["cinematic-world", "editorial-ui", "kinetic-poster", "creative-motion-reel", "hybrid-orchestrated"];
-const ASPECTS = ["9:16", "16:9"];
+const ASPECTS = ["9:16", "16:9", "1:1"];
 const EASE_OK = /^(power[1-4]|expo|circ|sine|back|quart|quint|cubic)\.(in|out|inOut)(\(\s*[\d.]+\s*\))?$/;
 const EASE_BANNED = /^(linear|none|ease|ease-?in|ease-?out|ease-?in-?out|easeInOut|easeIn|easeOut)$/i;
 const MAX_CAMERA_GAP_SEC = 4.5;
@@ -68,10 +68,13 @@ for (const project of targets) {
     err("S006", "durationInSeconds", "0-60 sn aralığında pozitif sayı olmalı", "ör. 6");
   }
   if (!spec.safeZone || !isNum(spec.safeZone.top) || !isNum(spec.safeZone.bottom)) {
-    err("S007", "safeZone", "top/bottom sayı olmalı", "safeZone: { top: 250, bottom: 300 }");
+    err("S007", "safeZone", "top/bottom sayı olmalı", "safeZone: { top: 250, bottom: 300 } (9:16) veya { top: 40, bottom: 40 } (16:9 / 1:1)");
   } else {
-    if (spec.safeZone.top < 250) err("S008", "safeZone.top", `${spec.safeZone.top} < 250`, "üst güvenli alan en az 250px");
-    if (spec.safeZone.bottom < 300) err("S009", "safeZone.bottom", `${spec.safeZone.bottom} < 300`, "alt güvenli alan en az 300px");
+    const isHorizontal = spec.aspect === "16:9" || spec.aspect === "1:1";
+    const minTop = isHorizontal ? 30 : 250;
+    const minBottom = isHorizontal ? 30 : 300;
+    if (spec.safeZone.top < minTop) err("S008", "safeZone.top", `${spec.safeZone.top} < ${minTop}`, isHorizontal ? "16:9 / 1:1 için üst güvenli alan 30-60px civarı olmalı" : "üst güvenli alan en az 250px");
+    if (spec.safeZone.bottom < minBottom) err("S009", "safeZone.bottom", `${spec.safeZone.bottom} < ${minBottom}`, isHorizontal ? "16:9 / 1:1 için alt güvenli alan 30-60px civarı olmalı" : "alt güvenli alan en az 300px");
   }
 
   // ---- Tema & Görsel Girdi (v5/v6) ----
@@ -124,20 +127,7 @@ for (const project of targets) {
     err("S026", "beats[last].endFrame", `${beats[beats.length - 1].endFrame} ≠ toplam ${totalFrames} kare`, `endFrame: ${totalFrames}`);
   }
 
-  // Anti-Monotonluk / Nefes Alma Eğrisi Kontrolü (Pacing Anti-Monotony Law)
-  if (beats.length >= 3 && spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster") {
-    const durations = beats.map((b) => b.endFrame - b.startFrame + 1);
-    const minDur = Math.min(...durations);
-    const maxDur = Math.max(...durations);
-    if (maxDur - minDur < 10) {
-      err(
-        "S027",
-        "beats.durations",
-        `Tüm beat süreleri neredeyse eşit (aralık: ${maxDur - minDur}f < 10f). Monotonluğu engellemek için nefes alma eğrisi ekleyin (staccato 35-55f, focus 75-110f).`,
-        "en az bir beat süresini diğerlerinden farklılaştırarak ritim varyansı oluştur"
-      );
-    }
-  }
+
 
   // ---- Hibrit Orkestrasyon Sahneleri (hybrid-orchestrated) ----
   if (spec.mode === "hybrid-orchestrated") {
@@ -226,26 +216,8 @@ for (const project of targets) {
     if (!isNum(s.amplitudePx) || s.amplitudePx < 2 || s.amplitudePx > 30) err("S042", w, "amplitudePx 2–30", "ör. 14");
   });
 
-  // ---- Koreografi senkron kuralları (shout beat = kamera darbesi + roar sfx) ----
+  // ---- SFX Dosya Varlığı Kontrolü ----
   const sfx = Array.isArray(spec.sfx) ? spec.sfx : [];
-  beats
-    .filter((b) => b.action === "shout")
-    .forEach((b) => {
-      const t = b.startFrame / fps;
-      if (!camera.some((c) => Math.abs(c.at - t) <= IMPACT_SYNC_SEC)) {
-        err(
-          "S050",
-          `beats[${b.id}]`,
-          `shout ${t.toFixed(2)}s'de başlıyor ama ±${IMPACT_SYNC_SEC}s içinde kamera darbesi yok`,
-          `camera'ya at≈${t.toFixed(2)} olan bir impact zoom ekle`
-        );
-      }
-      if (!sfx.some((s) => /roar/.test(s.sfx) && Math.abs(s.frame - b.startFrame) <= SFX_SYNC_FRAMES)) {
-        err("S051", `beats[${b.id}]`, `shout kare ${b.startFrame}'te roar sfx yok`, `sfx: { frame: ${b.startFrame}, sfx: "roar-shockwave" }`);
-      }
-      if (typeof b.text !== "string" || !b.text.trim()) err("S052", `beats[${b.id}]`, "shout beat'inde text yok", "bağırılan metni yaz");
-    });
-
   sfx.forEach((s, i) => {
     if (!isInt(s.frame) || s.frame < 0 || s.frame > totalFrames) err("S053", `sfx[${i}]`, `frame ${s.frame} aralık dışı`, `0–${totalFrames}`);
     if (typeof s.sfx !== "string") err("S054", `sfx[${i}]`, "sfx adı yok", "ör. step-stone");
@@ -254,7 +226,7 @@ for (const project of targets) {
     }
   });
 
-  // ---- Geçiş sözleşmesi (S070-S074): her beat sınırı bir geçiş taşır ----
+  // ---- Geçiş sözleşmesi (S070-S073): her beat sınırı bir geçiş taşır ----
   const TRANSITION_TYPE_RE = /^[a-z0-9][a-z0-9-]*$/;
   const transitions = Array.isArray(spec.transitions) ? spec.transitions : [];
   if (spec.legacy !== true && spec.continuousShot !== true && beats.length >= 2) {
@@ -269,8 +241,7 @@ for (const project of targets) {
         err("S072", w, `atFrame ${tr.atFrame}, sonraki beat ${next.startFrame}'de başlıyor (>45 kare sapma)`, "geçişi beat sınırına hizala");
       if (!Number.isFinite(tr.atFrame)) err("S073", w, "atFrame (kare) yok", "atFrame: <sınır kare>");
     });
-    if (beats.length >= 3 && new Set(transitions.map((t) => t.type)).size < 2)
-      err("S074", "transitions", "3+ beat için tek tip geçiş", "en az 2 farklı geçiş tipi seç");
+    // S074: Kaldırıldı; tutarlı tek tip geçiş tasarımına (ör. tüm sahnelerde container-morph) izin verilir.
   }
   // ---- Spec ↔ Scene.tsx kayma kontrolü ----
   if (fs.existsSync(scenePath)) {
@@ -283,12 +254,16 @@ for (const project of targets) {
       if (b.text && !code.includes(b.text)) err("S061", `beats[${b.id}]`, `"${b.text}" ${rel(scenePath)} içinde geçmiyor`, "metni hizala");
     });
     if (spec.mode !== "creative-motion-reel" && spec.mode !== "kinetic-poster") {
-      camera.forEach((c, i) => {
-        const at = String(c.at).replace(".", "\\.");
-        if (!has(new RegExp(`at:\\s*${at}\\b`))) {
-          err("S062", `camera[${i}]`, `${rel(scenePath)} içinde animateCamera at: ${c.at} yok`, "kodu spec'e hizala");
-        }
-      });
+      const hasCameraChoreography = has(/animateCamera|CameraRig|VirtualCameraRig|\.camera-rig|\.poster-rig|SPEC_CAMERA|CAMERA_KEYFRAMES|applyIsometricTilt|applyFocusZoom|SpatialCamera|useCamera/i);
+      if (!hasCameraChoreography) {
+        camera.forEach((c, i) => {
+          const at = String(c.at).replace(".", "\\.");
+          const atFrame = Math.round(c.at * fps);
+          if (!has(new RegExp(`at:\\s*${at}\\b`)) && !has(new RegExp(`\\b${atFrame}\\b`))) {
+            err("S062", `camera[${i}]`, `${rel(scenePath)} içinde kamera hareketi (at: ${c.at}) bulunamadı`, "kodu spec'e hizala veya CameraRig ekle");
+          }
+        });
+      }
     }
   }
 

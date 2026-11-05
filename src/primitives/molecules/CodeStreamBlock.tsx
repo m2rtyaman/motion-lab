@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { interpolate, useCurrentFrame } from 'remotion';
 
 export interface CodeLineItem {
   number: number;
@@ -11,6 +12,8 @@ export interface CodeStreamBlockProps {
   lines?: CodeLineItem[];
   promptPath?: string;
   cursorBlink?: boolean;
+  startFrame?: number;
+  lineStaggerFrames?: number;
 }
 
 const DEFAULT_LINES: CodeLineItem[] = [
@@ -59,44 +62,73 @@ export const CodeStreamBlock: FC<CodeStreamBlockProps> = ({
   lines = DEFAULT_LINES,
   promptPath = '~/runtime/pipeline',
   cursorBlink = true,
+  startFrame = 0,
+  lineStaggerFrames = 8,
 }) => {
+  const frame = useCurrentFrame();
+  const cursorOpacity = Math.sin(frame * 0.22) >= 0 ? 1 : 0.15;
+
   return (
     <div
       id={id}
-      className={`font-mono text-[18px] leading-relaxed select-none ${className}`}
+      className={`font-mono text-[19px] leading-relaxed select-none flex flex-col justify-between h-full ${className}`}
     >
-      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-white/[0.08] text-white/50 text-[18px]">
-        <span className="text-emerald-400">user@host</span>
-        <span>:</span>
-        <span className="text-sky-400">{promptPath}</span>
-        <span className="text-white/40">$</span>
+      <div>
+        <div className="flex items-center gap-2 mb-5 pb-3 border-b border-white/[0.08] text-white/50 text-[18px]">
+          <span className="text-emerald-400">user@host</span>
+          <span>:</span>
+          <span className="text-sky-400">{promptPath}</span>
+          <span className="text-white/40">$</span>
+        </div>
+
+        <div className="space-y-3">
+          {lines.map((line, idx) => {
+            const lineStart = startFrame + idx * lineStaggerFrames;
+            const progress = interpolate(frame, [lineStart, lineStart + 10], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            });
+            const translateY = (1 - progress) * 10;
+
+            return (
+              <div
+                key={line.number}
+                className="flex items-center gap-5 py-1 px-3 rounded-lg bg-white/[0.02] border border-white/[0.04]"
+                style={{
+                  opacity: progress,
+                  transform: `translateY(${translateY.toFixed(1)}px)`,
+                }}
+              >
+                <span className="w-6 text-right text-white/30 select-none font-bold">
+                  {String(line.number).padStart(2, '0')}
+                </span>
+                <div className="flex-1 whitespace-pre">
+                  {line.tokens.map((token, i) => (
+                    <span key={i} className={token.color || 'text-white/80'}>
+                      {token.text}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      <div className="space-y-1">
-        {lines.map((line) => (
-          <div key={line.number} className="flex items-center gap-4">
-            <span className="w-6 text-right text-white/30 select-none">
-              {line.number}
-            </span>
-            <div className="flex-1 whitespace-pre">
-              {line.tokens.map((token, i) => (
-                <span key={i} className={token.color || 'text-white/80'}>
-                  {token.text}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-
-        <div className="flex items-center gap-4 mt-3">
-          <span className="w-6 text-right text-white/30 select-none">&gt;</span>
-          <div className="flex items-center gap-1 text-emerald-400">
-            <span>ready</span>
+      <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/[0.08]">
+        <div className="flex items-center gap-4">
+          <span className="w-6 text-right text-emerald-400/70 select-none font-bold">&gt;</span>
+          <div className="flex items-center gap-2 text-emerald-400 font-semibold">
+            <span>stream Lock verified</span>
             {cursorBlink && (
-              <span className="w-2.5 h-5 bg-emerald-400 inline-block animate-pulse ml-1" />
+              <span
+                className="w-2.5 h-5 bg-emerald-400 inline-block ml-1"
+                style={{ opacity: cursorOpacity }}
+              />
             )}
           </div>
         </div>
+        <span className="text-[18px] text-white/40 font-mono">60.0 FPS // SYNC</span>
       </div>
     </div>
   );

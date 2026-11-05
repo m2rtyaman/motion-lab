@@ -39,5 +39,5 @@ jobs:
 
       - name: Verify Pre-Render Gate on Default Projects
         run: |
-          pnpm gate --project octosift-commercial
+          pnpm gate --project single-container-broll
           pnpm gate --project kinetic-loud-showreel

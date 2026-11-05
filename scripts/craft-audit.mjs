@@ -43,7 +43,9 @@ for (const project of targets) {
   const warnings = [];
 
   // 1. Harf Avatarı Yasağı (>SY<, >KA< gibi tembel iki harfli avatarlar)
-  const initialsAvatarRegex = />[A-Z]{2}</g;
+  // JSX içindeki <span>AI</span>, <span>UI</span>, <button>OK</button>, <span>US</span> gibi meşru 2 harfli kelimeleri engellememek için
+  // sadece avatar bileşenlerini veya avatar class'ına sahip elemanları hedefler.
+  const initialsAvatarRegex = /<(?:[A-Za-z0-9]*Avatar|[a-z0-9]+[^>]*class(?:Name)?=["'][^"']*\bavatar\b[^"']*)[^>]*>[A-Z]{2}<\//i;
   if (initialsAvatarRegex.test(code)) {
     errors.push('P0: Tembel iki büyük harfli avatar tespit edildi (>SY< vb.). VectorAvatarPortrait kullanılmalı.');
   }
@@ -80,12 +82,12 @@ for (const project of targets) {
     warnings.push('P1: Sahnede sürekli yaşayan mikro-hareket bulunamadı. Metin okuma aralarında AmbientAliveDriver veya sin(frame) kullanılmalı.');
   }
 
-  // 6. Pencere ve Cihaz Çapalaması (Hardware Shell Anchor - Disconnected Floating Bento Ban)
+  // 6. Pencere ve Mimari Sahne Çapalaması (Architectural or Hardware Shell Anchor)
   const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard|TelemetryTile/.test(code);
-  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|TerminalShell|TheHeroActor|ContainerMorphBridge/.test(code);
+  const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|TerminalShell|TheHeroActor|ContainerMorphBridge|HairlineGrid|KineticVectorStage|CameraRig|FullScreenStage|FullBleedStage|AuthenticBrandShell|YouTubeStage|BrandStage|CinemaStage|WatchPageShell|BrandCanvas/.test(code);
 
   if (hasUIComponents && !hasShellAnchor) {
-    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir Hardware Shell / Window Anchor (PrecisionDashboardShell, TerminalShell, DeviceMockupStage, MacOSSequoiaWindow) veya tanımlı bir sahne kabuğu içine kilitlenmelidir.');
+    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir mimari ızgara (HairlineGrid, KineticVectorStage, SpotlightStage) veya Hardware Shell içine kilitlenmelidir.');
   }
 
   // 7. Tek Kap Morfolojisi / Graphic Anchor Geçiş Denetimi
@@ -101,9 +103,10 @@ for (const project of targets) {
   }
 
   // 8b. 3D Katmanda Doğrudan Çapasız UI Elemanı Süzülmesi
-  const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(code);
+  // SpotlightStage, KineticVectorStage, FullScreenStage ve serbest SpecularCard kullanımına izin verilir.
+  const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|KineticVectorStage|FullScreenStage|FullBleedStage|AuthenticBrandShell|HairlineGrid|CameraRig|TerminalShell|WorldStage|<\/LayerPlane>)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(code);
   if (has3DStage && unanchored3DMatch) {
-    errors.push('P0: LayerPlane içinde bir Hardware Shell veya Window Anchor içine sarılmamış bağımsız UI kartı tespit edildi! Tüm UI elemanları PrecisionDashboardShell veya DeviceMockupStage içine kilitlenmelidir.');
+    errors.push('P0: LayerPlane içinde bir Hardware Shell veya Window Anchor içine sarılmamış bağımsız UI kartı tespit edildi! Tüm UI elemanları PrecisionDashboardShell, SpotlightStage veya DeviceMockupStage içine kilitlenmelidir.');
   }
 
   // 9. Sıfır-Artıklık Tipografi Kuralı (Zero Redundancy / No Text Duplication)

@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from 'react';
+import { useCurrentFrame } from 'remotion';
 
 export interface CapsulePillProps {
   id?: string;
@@ -24,6 +25,11 @@ export const CapsulePill: FC<CapsulePillProps> = ({
   tone = 'neutral',
   pulseDot = false,
 }) => {
+  const frame = useCurrentFrame();
+  const pulsePhase = (Math.sin(frame * 0.14) + 1) * 0.5;
+  const ringScale = 1 + pulsePhase * 0.85;
+  const ringOpacity = 0.65 * (1 - pulsePhase * 0.7);
+
   return (
     <div
       id={id}
@@ -31,7 +37,13 @@ export const CapsulePill: FC<CapsulePillProps> = ({
     >
       {pulseDot && (
         <span className="relative flex h-3 w-3 items-center justify-center">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+          <span
+            className="absolute inline-flex h-full w-full rounded-full bg-emerald-400"
+            style={{
+              transform: `scale(${ringScale.toFixed(3)})`,
+              opacity: ringOpacity.toFixed(3),
+            }}
+          />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
         </span>
       )}

@@ -80,6 +80,11 @@ export const SPRING = {
   bouncy: { stiffness: 180, damping: 14, mass: 0.9 },
   gentle: { stiffness: 120, damping: 18, mass: 1 },
   smooth: { stiffness: 120, damping: 24, mass: 1 },
+  liquidLead: { stiffness: 260, damping: 22, mass: 0.8 },
+  liquidTrail: { stiffness: 160, damping: 26, mass: 1 },
+  cameraTrack: { stiffness: 160, damping: 22, mass: 1 },
+  morphSnappy: { stiffness: 210, damping: 22, mass: 0.85 },
+  snapback: { stiffness: 260, damping: 18, mass: 0.9 },
 } as const;
 
 export const PALETTE = {

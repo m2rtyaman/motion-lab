@@ -9,7 +9,7 @@ Bu belge; `motion-lab` deposunun yalnızca belirli bir marka veya senaryoya bağ
 ### 1.1. Esnek Arketip Yönlendiricisi (Narrative Router)
 Gelen prompt ve brief türüne göre aşağıdaki 5 kurgu arketipinden biri seçilir veya disiplinli şekilde melezlenir:
 
-1. **Product-Flow-Tour (Ürün Akışı):** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası). *Örn: Octosift, Linear, Notion.*
+1. **Product-Flow-Tour (Ürün Akışı):** Keşif (Makro Veri/Tablo) → Mikro Etkileşim (İmleç Seçimi) → İçgörü/Değer (Çekmece/Analiz) → Aksiyon (Modal/İşlem) → Büyük Resim (Boru Hattı/Saha Rotası). *Örn: Linear, Notion, Stripe.*
 2. **Problem-Agitation-Solution (PAS - Reklam Kurgusu):** Eski/Yorucu Yöntem (Düşük kontrast, kaos, yavaşlık) → Kırılma Anı (Whip-pan veya morph geçişi) → Ürünle Gelen Çözüm, Hız ve Netlik.
 3. **Kinetic-Manifesto (Tipografi Odaklı):** %80 dev tipografi ve soyut geometrik formlar, %20 ürün/marka vurgusu. Staccato ritim, satır maskeleme ve zıt renk blokları. *Örn: Spotify, Nike, Stripe Sessions.*
 4. **Bento-Feature-Grid (Özellik Vitrini):** Tek bir ana vaat etrafında 4-6 özelliğin modüler kartlar halinde sırayla parlayıp canlandığı lansman kurgusu. *Örn: Apple Hardware/Software Launch.*
@@ -132,12 +132,12 @@ Tüm bileşenler %100 prop ve veri-bağımsız (data-agnostic) çalışır:
 
 ---
 
-## BÖLÜM 6: Octosift B2B SaaS İdeal Senaryo Matrisi (360 Frame / 6 Saniye)
+## BÖLÜM 6: B2B SaaS İdeal Senaryo Matrisi (360 Frame / 6 Saniye)
 
 | Beat | Frame Aralığı | Süre | Odak & Ekran | Kamera Hareketi | Üst Pazarlama Başlığı |
 |---|---|---|---|---|---|
-| **1. Keşif** | f0 - f70 | 1.17s | `MetricCardRow` (250 Kredi, ₺120k Boru Hattı) + `DataTable` (İzmir 30 Firma) | `IsometricTilt` (14° → 3°) & `FocusZoom` | *"Web Sitesi ve Reklamı Olmayan Sıcak Müşterileri Yakalayın"* |
-| **2. İçgörü** | f71 - f150 | 1.33s | `SlideOverDrawer` (Varuna Gezgin) & Amber Uyarı Kutusu | `FocusZoom` (sağa pan, scale: 1.35) | *"Yapay Zeka Destekli Satış ve Fırsat Analizi"* |
-| **3. Randevu** | f151 - f225 | 1.25s | Arka plan blur takvim + Merkezde `ModalDialog` (28.10.2026, 09:00) | Kamera merkeze kilitlenir; spring pop-in | *"Tek Tıkla Görüşme Planlayın"* |
-| **4. Saha Rotası** | f226 - f300 | 1.25s | `InteractiveMap` (İzmir Alsancak pinleri, animasyonlu rota çizgisi) | Harita üzerinde süzülüş (`CanvasPan`) | *"Sahada Akıllı Rota, Maksimum Ciro"* |
-| **5. Kapanış** | f301 - f360 | 1.00s | 2.5D derinlikte süzülen arayüz + Merkezde büyük Octosift Marka Kartı & CTA | `applyIsometricTilt` (geriye çekiliş) | *"B2B Satışlarınızı Otomatikleştirin • octosift.com"* |
+| **1. Keşif** | f0 - f70 | 1.17s | `MetricCardRow` (250 Kredi, $120k Pipeline) + `DataTable` (Target 30 Accounts) | `IsometricTilt` (14° → 3°) & `FocusZoom` | *"Acquire High-Value Accounts Without Inbound Lag"* |
+| **2. İçgörü** | f71 - f150 | 1.33s | `SlideOverDrawer` (Enterprise Lead) & Amber Uyarı Kutusu | `FocusZoom` (sağa pan, scale: 1.35) | *"AI-Driven Opportunity & Pipeline Intelligence"* |
+| **3. Randevu** | f151 - f225 | 1.25s | Arka plan blur takvim + Merkezde `ModalDialog` (Demo Booking, 09:00) | Kamera merkeze kilitlenir; spring pop-in | *"Book Demos With Single-Click Precision"* |
+| **4. Saha Rotası** | f226 - f300 | 1.25s | `InteractiveMap` (Territory Pins, animasyonlu rota çizgisi) | Harita üzerinde süzülüş (`CanvasPan`) | *"Smart Regional Routing, Maximum Revenue"* |
+| **5. Kapanış** | f301 - f360 | 1.00s | 2.5D derinlikte süzülen arayüz + Merkezde büyük Brand Marka Kartı & CTA | `applyIsometricTilt` (geriye çekiliş) | *"Automate Your B2B Pipeline • getstarted.io"* |

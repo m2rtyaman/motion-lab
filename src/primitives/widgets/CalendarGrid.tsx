@@ -105,7 +105,7 @@ export const CalendarGrid: FC<CalendarGridProps> = ({
             return (
               <div
                 key={day}
-                className="w-8 h-8 mx-auto flex items-center justify-center rounded-full text-[16px] font-medium cursor-pointer transition-all"
+                className="w-8 h-8 mx-auto flex items-center justify-center rounded-full text-[16px] font-medium cursor-pointer"
                 style={{
                   backgroundColor: isSelected ? theme.colors.accentPrimary : 'transparent',
                   color: isSelected ? '#ffffff' : theme.colors.textPrimary,
@@ -144,7 +144,7 @@ export const CalendarGrid: FC<CalendarGridProps> = ({
             events.map((evt) => (
               <div
                 key={evt.id}
-                className="flex items-center gap-4 p-4 rounded-xl border transition-all"
+                className="flex items-center gap-4 p-4 rounded-xl border"
                 style={{
                   backgroundColor: theme.colors.bgSurface,
                   borderColor: theme.colors.borderSubtle,

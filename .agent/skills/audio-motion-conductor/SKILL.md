@@ -3,20 +3,20 @@ name: audio-motion-conductor
 description: Guide for connecting music_map.json beat, downbeat, RMS and spectral data to Remotion GSAP timelines and procedural sound design.
 ---
 
-# Skill: Audio-Motion Conductor (Ses & Ritim Orkestrasyon Yönetmeni)
+# Skill: Audio-Motion Conductor (Sound & Rhythm Orchestration Director)
 
-> **Önce `motion-playbook` skill'ini oku.** Geçiş gramerleri, tema seçimi, kamera disiplini ve yasaklı kalıplar orada tanımlıdır; çelişkide o geçerlidir.
-
----
-
-## 1. ROL VE SORUMLULUK
-Sen müzik, ses efektleri ve görsel hareketi tek bir deterministik orkestraya dönüştüren Ses-Hareket Kondüktörüsün. Bir videoda ses yalnızca arkadan çalan bir arka plan melodisi değildir; görsel animasyonun fiziksel itici gücüdür. Her darbe, geçiş, kamera vuruşu ve tipografik patlama müziğin ritim haritasıyla (`music_map.json`) kare bazında kilitlenir.
+> **Read `motion-playbook` first.** Transition grammar, theme selection, camera discipline, and forbidden patterns are defined there; it supersedes all else in case of conflict.
 
 ---
 
-## 2. RİTİM HARİTASI MİMARİSİ (`music_map.json`)
+## 1. ROLE & RESPONSIBILITY
+You are the Audio-Motion Conductor transforming music, sound effects, and visual dynamics into a unified deterministic orchestra. In a motion piece, audio is not merely background wallpaper; it is the physical driving force of the visual animation. Every impact, transition, camera punch, and typographic burst locks frame-accurately to the rhythmic map (`music_map.json`).
 
-Müzik parçası prodüksiyona girmeden önce spektral ve geçici analizden geçirilir:
+---
+
+## 2. RHYTHM MAP ARCHITECTURE (`music_map.json`)
+
+Before entering production, audio tracks undergo spectral and transient analysis:
 
 ```json
 {
@@ -36,21 +36,21 @@ Müzik parçası prodüksiyona girmeden önce spektral ve geçici analizden geç
 
 ---
 
-## 3. FREKANS VE VURUŞ EŞLEŞTİRME KURALLARI (Audio-to-Visual Grammar)
+## 3. FREQUENCY & BEAT MAPPING RULES (Audio-to-Visual Grammar)
 
-| Ses Olayı (Trigger) | Müzikal Unsur | Görsel Karşılık (Visual Action) | GSAP Reçetesi |
+| Audio Event (Trigger) | Musical Element | Visual Action | GSAP Recipe |
 |---|---|---|---|
-| **Downbeat (Bar Başı - 1)** | Ağır Kick + Bas | Sahne / Beat Geçişi veya Büyük Kamera İtişi | `transitionWhipPan` / `transitionZoomPunch` |
-| **Snare / Clap (2 ve 4)** | Keskin Orta Frekans | Darbe Sarsıntısı ve Kromatik Vurgu | `impactShake` / `chromaticAberrationPulse` |
-| **Sub-Bass Drop** | Derin Bas (30–80Hz) | Sahne Arka Plan Titreşimi (`scale: 1.02 -> 1.0`) | `dollyZoomVertigo` / `springSettle` |
-| **Hi-Hat / Percussion** | Yüksek Frekans (8kHz+) | Glif Titremesi veya İmleç Tıklaması | `scrambleTextDecode` / `cursorClickImpulse` |
-| **Silence / Drop Öncesi** | Müzikal Durgunluk | Öngörülü Durgunluk (Anticipatory Stillness) | 300–500 ms sıfır kamera hareketi |
+| **Downbeat (Bar Start - 1)** | Heavy Kick + Bass | Scene / Beat Transition or Major Camera Push | `transitionWhipPan` / `transitionZoomPunch` |
+| **Snare / Clap (2 and 4)** | Sharp Mid-Frequency | Impact Shake & Chromatic Accents | `impactShake` / `chromaticAberrationPulse` |
+| **Sub-Bass Drop** | Deep Bass (30–80Hz) | Stage Atmosphere Vibration (`scale: 1.02 -> 1.0`) | `dollyZoomVertigo` / `springSettle` |
+| **Hi-Hat / Percussion** | High-Frequency (8kHz+) | Glyph Scramble or Cursor Click Impulses | `scrambleTextDecode` / `cursorClickImpulse` |
+| **Silence / Pre-Drop** | Musical Rest | Anticipatory Stillness | 300–500 ms zero camera movement |
 
 ---
 
-## 4. DETERMINİSTİK TIMELINE ENTEGRASYONU (`useRemotionGSAP`)
+## 4. DETERMINISTIC TIMELINE INTEGRATION (`useRemotionGSAP`)
 
-Remotion video render motorunda ses `tl.seek(frame / fps)` determinizmiyle görselle bağlanır:
+In Remotion's video rendering pipeline, audio locks to visuals with `tl.seek(frame / fps)` determinism:
 
 ```tsx
 import { useRemotionGSAP } from '../../core/useRemotionGSAP';
@@ -61,15 +61,15 @@ export const AudioReactiveStage: React.FC = () => {
   const fps = 60;
 
   const { timeline, scopeRef } = useRemotionGSAP((tl) => {
-    // 1. Her downbeat karesinde kamera darbesi
+    // 1. Camera impact on every downbeat frame
     musicMap.downbeats.forEach((downbeatFrame) => {
       const atSeconds = downbeatFrame / fps;
       impactShake(tl, '.stage-camera', atSeconds, 8);
     });
 
-    // 2. Snare / Clap vuruşlarında kromatik darbe
+    // 2. Chromatic pulse on snare / clap beats
     musicMap.beats.forEach((beatFrame, index) => {
-      // 2. ve 4. vuruşlar (snare)
+      // 2nd and 4th beats (snare)
       if (index % 2 === 1) {
         const atSeconds = beatFrame / fps;
         chromaticAberrationPulse(tl, '.hero-metric', atSeconds, 1.05);
@@ -79,7 +79,7 @@ export const AudioReactiveStage: React.FC = () => {
 
   return (
     <div ref={scopeRef} className="relative w-full h-full">
-      {/* Sahne bileşenleri */}
+      {/* Scene components */}
     </div>
   );
 };
@@ -87,12 +87,12 @@ export const AudioReactiveStage: React.FC = () => {
 
 ---
 
-## 5. SES EFEKTİ (SFX) VE HAREKET ZAMANLAMASI KURALLARI
+## 5. SOUND EFFECT (SFX) & MOTION TIMING RULES
 
-1. **Ses Hareketi Takip Etmez, Hareketle Doğar:**
-   - Bir kart ekrana çarptığı anda (`y: 0`) tok SFX ("thud / impact") tetiklenir.
-   - Sesi 3 kare sonra oynatmak gecikme ve lag hissi yaratır.
-2. **Whip-Pan Whoosh Sesi:**
-   - Whip geçişi başlamadan **3–5 kare önce** ses yükselmeye (crescendo) başlar ve geçişin tam ortasında (iki sahnenin kesişiminde) tepe noktasına ulaşır.
-3. **Muted UI Ticks:**
-   - Sayaç (`rollingNumberOdometer`) dönerken her rakam geçişinde `procedural-audio` üzerinden mikro klikler üretilir.
+1. **Audio Born With Motion, Never Trailing:**
+   - The moment a card impacts (`y: 0`), trigger the resonant impact sound ("thud / impact").
+   - Playing the sound 3 frames later creates noticeable latency and destroys punch.
+2. **Whip-Pan Whoosh Dynamics:**
+   - Start the crescendo **3–5 frames before** the whip transition begins, peaking exactly at the boundary crossing between scenes.
+3. **Muted UI Clicks:**
+   - When an odometer or counter (`rollingNumberOdometer`) spins, generate micro-clicks on each digit rollover via procedural sound generation.

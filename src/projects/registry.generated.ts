@@ -10,14 +10,14 @@ import { Scene as Scene_kinetic_loud_showreel } from './kinetic-loud-showreel/Sc
 import { Scene as Scene_kinetic_poster_demo } from './kinetic-poster-demo/Scene';
 import { Scene as Scene_lumen_launch } from './lumen-launch/Scene';
 import { Scene as Scene_my_video } from './my-video/Scene';
-import { Scene as Scene_octosift_ad } from './octosift-ad/Scene';
-import { Scene as Scene_octosift_commercial } from './octosift-commercial/Scene';
+import { Scene as Scene_one_continuous_shape } from './one-continuous-shape/Scene';
 import { Scene as Scene_shy_cloud } from './shy-cloud/Scene';
 import { Scene as Scene_single_container_broll } from './single-container-broll/Scene';
 import { Scene as Scene_swiss_kinetic_grid } from './swiss-kinetic-grid/Scene';
 import { Scene as Scene_whatsapp_campaign } from './whatsapp-campaign/Scene';
+import { Scene as Scene_youtube_player } from './youtube-player/Scene';
 
-export type ProjectAspect = '9:16' | '16:9';
+export type ProjectAspect = '9:16' | '16:9' | '1:1';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster' | 'creative-motion-reel' | 'hybrid-orchestrated';
 
 export interface ProjectEntry {
@@ -29,7 +29,7 @@ export interface ProjectEntry {
   durationInFrames: number;
   width: number;
   height: number;
-  Scene: FC<{ aspect?: ProjectAspect }>;
+  Scene: FC<any>;
 }
 
 export const PROJECTS: ProjectEntry[] = [
@@ -144,26 +144,15 @@ export const PROJECTS: ProjectEntry[] = [
     Scene: Scene_my_video,
   },
   {
-    slug: "octosift-ad",
-    title: "Octosift B2B Lead Engine",
+    slug: "one-continuous-shape",
+    title: "One Continuous Morphing Shape",
     mode: "editorial-ui",
-    aspect: "9:16",
+    aspect: "1:1",
     fps: 60,
-    durationInFrames: 360,
-    width: 1080,
-    height: 1920,
-    Scene: Scene_octosift_ad,
-  },
-  {
-    slug: "octosift-commercial",
-    title: "OCTOSIFT B2B SAAS",
-    mode: "editorial-ui",
-    aspect: "16:9",
-    fps: 60,
-    durationInFrames: 720,
-    width: 1920,
-    height: 1080,
-    Scene: Scene_octosift_commercial,
+    durationInFrames: 840,
+    width: 1440,
+    height: 1440,
+    Scene: Scene_one_continuous_shape,
   },
   {
     slug: "shy-cloud",
@@ -208,5 +197,16 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_whatsapp_campaign,
+  },
+  {
+    slug: "youtube-player",
+    title: "YouTube Player — Authentic Motion Experience",
+    mode: "hybrid-orchestrated",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 600,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_youtube_player,
   },
 ];

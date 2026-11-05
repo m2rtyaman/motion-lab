@@ -159,7 +159,7 @@ export const InteractiveMap: FC<InteractiveMapProps> = ({
           return (
             <div
               key={pin.id}
-              className={`map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer transition-transform duration-300 ${
+              className={`map-pin absolute -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer ${
                 pin.active ? 'scale-110 z-20' : 'z-10'
               }`}
               style={{
@@ -170,7 +170,7 @@ export const InteractiveMap: FC<InteractiveMapProps> = ({
               {/* Dalga / Radar Efekti */}
               {pin.active && (
                 <div
-                  className="absolute w-12 h-12 rounded-full animate-ping opacity-35"
+                  className="absolute w-12 h-12 rounded-full opacity-35"
                   style={{ backgroundColor: pinColor }}
                 />
               )}

@@ -317,4 +317,15 @@ export { ContainerMorphBridge, SceneSlot, type ContainerMorphBridgeProps, type S
 export { KineticBurstWord, type KineticBurstWordProps } from './kinetic/KineticBurstWord';
 export { SculpturalRings, type SculpturalRingsProps } from './kinetic/SculpturalRings';
 
+// Harvester Primitives (EdgeTTS Word Timings & Pexels B-Roll)
+export {
+  HarvestVoiceOver,
+  type HarvestVoiceOverProps,
+  HarvestKineticSubtitles,
+  type HarvestKineticSubtitlesProps,
+  type HarvestHighlightTone,
+  HarvestBRollBackground,
+  type HarvestBRollBackgroundProps,
+} from '../core/harvest';
+
 

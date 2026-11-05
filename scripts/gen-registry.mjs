@@ -50,7 +50,7 @@ const body = `// OTOMATİK ÜRETİLDİ: scripts/gen-registry.mjs — elle düzen
 import type { FC } from 'react';
 ${entries.map((e) => `import { Scene as Scene_${e.ident} } from './${e.slug}/Scene';`).join("\n")}
 
-export type ProjectAspect = '9:16' | '16:9';
+export type ProjectAspect = '9:16' | '16:9' | '1:1';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster' | 'creative-motion-reel' | 'hybrid-orchestrated';
 
 export interface ProjectEntry {
@@ -62,7 +62,7 @@ export interface ProjectEntry {
   durationInFrames: number;
   width: number;
   height: number;
-  Scene: FC<{ aspect?: ProjectAspect }>;
+  Scene: FC<any>;
 }
 
 export const PROJECTS: ProjectEntry[] = [

@@ -149,7 +149,7 @@ export const KanbanBoard: FC<KanbanBoardProps> = ({
                   col.cards.map((card) => (
                     <div
                       key={card.id}
-                      className={`kanban-card kanban-card-${card.id} p-4 rounded-xl flex flex-col gap-2.5 shadow-sm transition-all`}
+                      className={`kanban-card kanban-card-${card.id} p-4 rounded-xl flex flex-col gap-2.5 shadow-sm`}
                       style={{
                         backgroundColor: theme.colors.bgSurface,
                         border: `1px solid ${theme.colors.borderSubtle}`,

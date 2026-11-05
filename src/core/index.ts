@@ -26,3 +26,4 @@ export * from './papercraft-math';
 export * from './deconstructive-type-math';
 export * from './sculptural-reel-math';
 export * from './promo-20s-math';
+export * from './harvest';

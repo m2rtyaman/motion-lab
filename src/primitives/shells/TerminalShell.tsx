@@ -45,7 +45,7 @@ export const TerminalShell: FC<TerminalShellProps> = ({
       </div>
 
       {/* Terminal Body */}
-      <div className="p-6 flex-1 overflow-hidden bg-gradient-to-b from-transparent to-black/20">
+      <div className="p-6 flex-1 overflow-hidden bg-gradient-to-b from-transparent to-black/20 flex flex-col">
         {children}
       </div>
     </div>

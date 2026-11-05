@@ -1,0 +1,139 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "YouTube Player — Authentic Motion Experience",
+  "mode": "hybrid-orchestrated",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 10,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "light"
+  },
+  "singleContainer": true,
+  "scenes": [
+    {
+      "id": "scene-search-discovery",
+      "archetype": "bento-editorial",
+      "startFrame": 0,
+      "endFrame": 110,
+      "heroAnchorId": "#the-hero-actor"
+    },
+    {
+      "id": "scene-watch-experience",
+      "archetype": "kinetic-void",
+      "startFrame": 111,
+      "endFrame": 270,
+      "heroAnchorId": "#the-hero-actor"
+    },
+    {
+      "id": "scene-theatre-explosion",
+      "archetype": "terminal-mockup",
+      "startFrame": 271,
+      "endFrame": 420,
+      "heroAnchorId": "#the-hero-actor"
+    },
+    {
+      "id": "scene-monumental-lockup",
+      "archetype": "product-promo",
+      "startFrame": 421,
+      "endFrame": 600,
+      "heroAnchorId": "#the-hero-actor"
+    }
+  ],
+  "transitions": [
+    {
+      "type": "element-takeover",
+      "atFrame": 105,
+      "bridge": "#the-hero-actor"
+    },
+    {
+      "type": "camera-dive",
+      "atFrame": 265,
+      "bridge": "#the-hero-actor"
+    },
+    {
+      "type": "container-morph",
+      "atFrame": 415,
+      "bridge": "#the-hero-actor"
+    }
+  ],
+  "beats": [
+    {
+      "id": "search-discovery",
+      "startFrame": 0,
+      "endFrame": 110,
+      "intent": "Otantik beyaz YouTube header ve arama çubuğunda organik arama yazımı ve imleç tıklaması",
+      "action": "search-click",
+      "text": "The Art of Motion 4K"
+    },
+    {
+      "id": "watch-experience",
+      "startFrame": 111,
+      "endFrame": 270,
+      "intent": "Otantik YouTube izleme sayfası: Oynatıcı, kanal bilgisi, Abone Ol butonu ve önerilen videolar feed'i",
+      "action": "watch-stream",
+      "text": "THE ART OF MOTION"
+    },
+    {
+      "id": "theatre-explosion",
+      "startFrame": 271,
+      "endFrame": 420,
+      "intent": "Sinema moduna dramatik ölçek patlaması, tam ekran oynatıcı, kırmızı scrubber akışı ve kinetik tipografi",
+      "action": "theatre-expand",
+      "text": "EXPERIENCE BOLD MOTION"
+    },
+    {
+      "id": "monumental-lockup",
+      "startFrame": 421,
+      "endFrame": 600,
+      "intent": "Anıtsal YouTube marka amblemine kilitlenme ve 1.8s mutlak okunabilirlik duraklaması",
+      "action": "brand-resolve",
+      "text": "STREAM WHAT YOU LOVE"
+    }
+  ],
+  "camera": [
+    {
+      "at": 0.05,
+      "duration": 1.1,
+      "ease": "expo.out",
+      "intent": "Arama çubuğuna net odaklanma"
+    },
+    {
+      "at": 1.8,
+      "duration": 0.8,
+      "ease": "expo.inOut",
+      "intent": "İzleme sayfasına geçiş kamera itişi"
+    },
+    {
+      "at": 4.5,
+      "duration": 0.85,
+      "ease": "expo.inOut",
+      "intent": "Sinema moduna tam ekran patlama dalışı"
+    },
+    {
+      "at": 7.0,
+      "duration": 0.75,
+      "ease": "expo.out",
+      "intent": "Anıtsal YouTube marka kilidine yerleşme"
+    }
+  ],
+  "shakes": [],
+  "sfx": [
+    {
+      "frame": 105,
+      "sfx": "whoosh-pan"
+    },
+    {
+      "frame": 265,
+      "sfx": "ui-lock"
+    },
+    {
+      "frame": 415,
+      "sfx": "whoosh-pan"
+    }
+  ]
+}

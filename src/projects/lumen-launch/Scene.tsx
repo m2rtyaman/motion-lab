@@ -353,7 +353,7 @@ export const Scene: FC<SceneProps> = () => {
                 <div className="flex-1 flex items-center text-[28px] font-medium tracking-tight">
                   <span style={{ color: theme.colors.textPrimary }}>{displayedCommand}</span>
                   <span
-                    className="inline-block w-[3px] h-[32px] ml-1.5 animate-pulse"
+                    className="inline-block w-[3px] h-[32px] ml-1.5"
                     style={{ backgroundColor: theme.colors.accentPrimary }}
                   />
                 </div>

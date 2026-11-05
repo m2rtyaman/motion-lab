@@ -17,7 +17,7 @@ export interface DeviceMockupStageProps {
 export const DeviceMockupStage: React.FC<DeviceMockupStageProps> = ({
   children,
   deviceType = 'mobile',
-  title = 'OctoSift Cloud Terminal',
+  title = 'Cloud Terminal',
   width,
   height,
   className = '',

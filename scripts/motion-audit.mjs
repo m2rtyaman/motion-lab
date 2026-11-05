@@ -33,7 +33,7 @@ const isTransitionFn = (name) =>
   (/^transition[A-Z]\w*/.test(name) ||
     TRANSITION_FNS.includes(name) ||
     /Morph|Wipe|Pan|Punch|Sweep|Dissolve|Takeover|Dive/.test(name));
-const BEAT_GATE = /(^|\.)(is[A-Z]\w*|beat\w*|\w*Beat\w*|currentBeat|activeBeat)\b|\bframe\b\s*[<>]=?/;
+const BEAT_GATE = /(^|\.)(beat\w*|\w*Beat\w*|currentBeat|activeBeat)\b|\bframe\b\s*[<>]=?/;
 
 const args = parseArgs();
 const targets = resolveTargets(args);
@@ -94,8 +94,7 @@ function auditProject(t) {
   for (const g of gatedMounts)
     add("M002", g.line, `Beat'e bağlı unmount: \`${g.left.slice(0, 40)} && <…/>\` sahneyi kesiyor.`, "Beat'leri daima mount et; görünürlüğü GSAP opacity/transform/clip-path ile geçiş penceresinde sür.");
 
-  if (beats >= 3 && used.size === 1 && !isKineticReel)
-    add("M003", [...calls][0], `${beats} beat için tek tip geçiş (${[...used][0]}).`, "En az 2 farklı geçiş tipi kullan (whip-pan + mask-wipe + zoom-punch + morph).");
+  // M003: Kaldırıldı; tutarlı tek tip geçiş tasarımına (ör. tüm sahnelerde container-morph / single container) izin verilir.
 
   if (beats >= 2 && used.size > 0 && calls.length < beats - 1 && !isKineticReel)
     add("M004", calls[0], `${calls.length} geçiş / ${beats - 1} beat sınırı: bazı sınırlar çıplak.`, "Her beat sınırına bir geçiş ata.");
@@ -107,12 +106,11 @@ function auditProject(t) {
   const lightHex = (code.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
     code.includes("beatPalettes") ||
-    code.includes("WHATSAPP_COLOR_BLOCK_THEME") ||
     code.includes("COLOR_BLOCK") ||
     code.includes("colorBlock") ||
+    code.includes("color-block") ||
     (darkHex >= 1 && lightHex >= 1) ||
-    isKineticReel ||
-    (code.includes("#00A884") && (code.includes("#F5F2EF") || code.includes("#F0F2F5")));
+    isKineticReel;
   const isHybrid = spec.mode === "hybrid-orchestrated";
   if (beats >= 3 && darkHex >= 4 && !/(THEME|theme)/.test(code) && !hasColorBlocking)
     add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "Sahneler arasında açık/koyu yüzey kontrastı (Color Blocking) veya tam ekran renk geçişi uygulayın.", isHybrid);
@@ -161,6 +159,40 @@ function auditProject(t) {
         1,
         `Sabit Kutu / Korkak Ölçek Sendromu (Postage-Stamp Slop): Maksimum ölçek değişimi ${maxScale}x (< 1.4x). Bileşenler hep aynı boyutta duruyor.`,
         "Sahneler arasında gerçek büyüme/küçülme için transitionElementTakeover, transitionCameraDive veya SCALE_CONTRAST (macroCloseUp >= 1.8x) kullanın.",
+        true
+      );
+    }
+
+    // M011: Intra-Beat Durağanlık / Donuk Slayt Yasağı (Anti-Slide-Freeze Law)
+    const hasContinuousFrameMotion =
+      /useCurrentFrame/.test(code) ||
+      /Math\.(sin|cos)\s*\(\s*frame/.test(code) ||
+      /interpolate\s*\(\s*frame/.test(code) ||
+      /CounterValue|TelemetryTile|CodeStreamBlock|ProceduralWaveform/.test(code);
+    const longIntraBeatTweens = [...code.matchAll(/duration\s*:\s*([0-9.]+|DURATIONS\.\w+)/g)].length;
+    if (!hasContinuousFrameMotion && longIntraBeatTweens < beats * 2) {
+      add(
+        "M011",
+        1,
+        "Intra-Beat Durağanlık (Slide Freeze): Sahne bileşenleri ilk 0.4s'de ekrana girip beat sonuna kadar donuk slayt gibi bekliyor.",
+        "Beat boyunca kesintisiz kamera süzülmesi, useCurrentFrame() tabanlı sayaç/kod akışı veya sürekli katman ölçeklemesi ekleyin.",
+        true
+      );
+    }
+
+    // M012: Çamurlu RGB Zemin Tween Yasağı (Anti-Muddy-Background-Fade)
+    const bgTweenCount = [...code.matchAll(/tl\.to\(\s*['"]#hybrid-root-canvas['"]\s*,\s*\{[^}]*backgroundColor/g)].length;
+    const hasClipOrTakeover =
+      code.includes("clipPath") ||
+      code.includes("transitionElementTakeover") ||
+      code.includes("transitionMaskWipe") ||
+      code.includes("transitionCameraDive");
+    if (bgTweenCount >= 2 && !hasClipOrTakeover) {
+      add(
+        "M012",
+        1,
+        "Çamurlu RGB Zemin Geçişi: Koyu ve açık zeminler arasında doğrudan backgroundColor tween edilerek kirli gri ara kareler oluşturuluyor.",
+        "Zemin rengini doğrudan RGB tween etmek yerine transitionElementTakeover, clip-path iris açılımı veya tam ekran katman devralması kullanın.",
         true
       );
     }

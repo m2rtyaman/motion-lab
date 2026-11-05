@@ -728,7 +728,7 @@ export const CreatorLogPanel: React.FC<CreatorLogPanelProps> = ({
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               ) : it.status === 'processing' ? (
-                <div className="w-4 h-4 rounded-full border-2 border-[#C93B2B] border-t-transparent animate-spin" />
+                <div className="w-4 h-4 rounded-full border-2 border-[#C93B2B] border-t-transparent" />
               ) : (
                 <div className="w-3 h-3 rounded-full bg-black/20" />
               )}

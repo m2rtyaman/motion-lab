@@ -22,7 +22,7 @@ export const TheHeroActor: FC<TheHeroActorProps> = ({
   return (
     <div
       id={id}
-      className={`the-hero-actor relative z-20 flex items-center justify-center transition-none ${className}`}
+      className={`the-hero-actor relative z-20 flex items-center justify-center ${className}`}
       style={{
         willChange: 'transform, width, height, border-radius, background-color',
         ...style,

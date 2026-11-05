@@ -28,7 +28,7 @@ git checkout -b docs/guncelleme-adi
 ## 🌿 2. Dal İsimlendirme Sözleşmesi
 
 Dallar yalnızca küçük harf, rakam ve tire (`-`) içerebilir:
-- `feat/<proje-veya-ozellik>` (ör: `feat/octosift-commercial`, `feat/tesseract-wireframe`)
+- `feat/<proje-veya-ozellik>` (ör: `feat/brand-promo`, `feat/tesseract-wireframe`)
 - `scene/<slug>` (ör: `scene/fintech-dashboard`)
 - `fix/<hata>` (ör: `fix/audio-sync-drift`)
 - `docs/<konu>` (ör: `docs/pr-guidelines`)

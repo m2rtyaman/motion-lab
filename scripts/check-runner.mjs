@@ -12,47 +12,47 @@ function run(cmd, cmdArgs) {
   }
 }
 
-console.log("[CHECK] Proje kayıt defteri güncelleniyor...");
+console.log("[CHECK] Updating project registry...");
 run("node", ["scripts/gen-registry.mjs"]);
 
-console.log("\n[CHECK] Stüdyo beceri bütünlüğü ve zorunluluk matrisi denetleniyor...");
+console.log("\n[CHECK] Verifying studio skills integrity and enforcement matrix...");
 run("node", ["scripts/audit-skills.mjs"]);
 
-console.log("\n[CHECK] Spec sözleşmesi doğrulanıyor...");
+console.log("\n[CHECK] Validating motion spec contracts...");
 run("node", ["scripts/validate-spec.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Storyboard & kurgu yönetmeni denetleniyor (Shift-Left)...");
+console.log("\n[CHECK] Auditing storyboard & creative direction (Shift-Left)...");
 run("node", ["scripts/audit-storyboard.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] AST sözdizimi denetleniyor...");
+console.log("\n[CHECK] Auditing AST syntax & code purity...");
 run("node", ["scripts/ast-lint.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Hareket kalitesi (geçiş / kesme) denetleniyor...");
+console.log("\n[CHECK] Auditing motion quality & transition continuity...");
 run("node", ["scripts/motion-audit.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Slop ve yayın standartları taranıyor...");
+console.log("\n[CHECK] Scanning for slop & broadcast violations...");
 run("node", ["scripts/slop-linter.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Motion Studio v5.0 Craft & Determinizm denetleniyor...");
+console.log("\n[CHECK] Auditing Motion Studio v5.0 Craft & Determinism...");
 run("node", ["scripts/craft-audit.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Visual QA & Görsel Kanıt kontrol ediliyor...");
+console.log("\n[CHECK] Verifying Visual QA & Frame Evidence...");
 run("node", ["scripts/visual-qa.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Opus Critic Audit çalıştırılıyor...");
+console.log("\n[CHECK] Executing Opus Critic Director Audit...");
 run("node", ["scripts/critic-audit.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Glif ve tipografi denetleniyor...");
+console.log("\n[CHECK] Auditing typography & glyphs...");
 run("node", ["scripts/glyph-audit.mjs", ...projectFlag]);
 
-console.log("\n[CHECK] Çekirdek matematik birim testleri (Spring / Bézier / Scramble) çalıştırılıyor...");
+console.log("\n[CHECK] Running core math unit tests (Spring / Bézier / Scramble)...");
 run("npx", ["tsx", "scripts/test-math-core.mjs"]);
 
-console.log("\n[CHECK] Şablon kütüphanesi ve zaman köprüsü denetleniyor...");
+console.log("\n[CHECK] Auditing template library and time-driver bridge...");
 run("node", ["scripts/test-templates.mjs"]);
 
-console.log("\n[CHECK] TypeScript tip denetimi yapılıyor...");
+console.log("\n[CHECK] Executing TypeScript compiler check...");
 run("npx", ["tsc", "--noEmit"]);
 
-console.log("\n\x1b[32m\x1b[1m[CHECK: TÜM TESTLER BAŞARIYLA GEÇTİ]\x1b[0m\n");
+console.log("\n\x1b[32m\x1b[1m[CHECK: ALL QUALITY GATES PASSED SUCCESSFULLY]\x1b[0m\n");
 

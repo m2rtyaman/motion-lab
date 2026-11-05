@@ -36,9 +36,9 @@ const title = getArg("--title", slug ? slug.replace(/-/g, " ").toUpperCase() : "
 const THEMES = ["light", "dark", "vibrant-brand", "editorial-warm", "kinetic-acid", "technical-drafting"];
 const DEFAULT_THEME = { "editorial-ui": "light", "kinetic-poster": "editorial-warm", "cinematic-world": "dark", "creative-motion-reel": "dark", "hybrid-orchestrated": "dark" };
 const TRANSITION_CYCLE = [
-  { type: "whip-pan", fn: "transitionWhipPan" },
+  { type: "element-takeover", fn: "transitionElementTakeover" },
+  { type: "camera-dive", fn: "transitionCameraDive" },
   { type: "mask-wipe", fn: "transitionMaskWipe" },
-  { type: "zoom-punch", fn: "transitionZoomPunch" },
 ];
 const RED = "\x1b[31m", GREEN = "\x1b[32m", BOLD = "\x1b[1m", RESET = "\x1b[0m";
 
@@ -54,7 +54,7 @@ if (!MODES.includes(mode)) {
 }
 
 if (!ASPECT_DIMS[aspect]) {
-  console.error(`${RED}${BOLD}[ERROR] Geçersiz oran:${RESET} "${aspect}". Seçenekler: 9:16 | 16:9`);
+  console.error(`${RED}${BOLD}[ERROR] Geçersiz oran:${RESET} "${aspect}". Seçenekler: 9:16 | 16:9 | 1:1`);
   process.exit(1);
 }
 
@@ -265,19 +265,22 @@ export default Scene;
   L("    ]);");
   L();
   beats.forEach((b, i) => {
-    const t0 = (b.startFrame / 60).toFixed(2);
-    L("    // Beat " + (i + 1) + " (" + b.id + "): giriş");
-    L("    tl.fromTo('.b" + (i + 1) + "-eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: DURATIONS.panel, ease: EASING.powerOut }, " + (i === 0 ? "0.15" : (b.startFrame / 60 + 0.1).toFixed(2)) + ");");
-    L("    tl.fromTo('.b" + (i + 1) + "-title', { opacity: 0, y: 48, filter: 'blur(12px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: DURATIONS.camera, ease: EASING.expoOut }, " + (i === 0 ? "0.25" : (b.startFrame / 60 + 0.2).toFixed(2)) + ");");
-    L("    tl.fromTo('.b" + (i + 1) + "-body', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: DURATIONS.panel, ease: EASING.powerOut }, " + (i === 0 ? "0.5" : (b.startFrame / 60 + 0.4).toFixed(2)) + ");");
+    const t0 = Number((b.startFrame / 60).toFixed(2));
+    const tEnd = Number((b.endFrame / 60).toFixed(2));
+    const holdDur = Math.max(0.6, Number((tEnd - t0 - 0.35).toFixed(2)));
+    L("    // Beat " + (i + 1) + " (" + b.id + "): giriş + sürekli intra-beat hareket (donuk slayt yasağı)");
+    L("    tl.fromTo('.b" + (i + 1) + "-title', { opacity: 0, y: 40, scale: 0.94 }, { opacity: 1, y: 0, scale: 1.0, duration: DURATIONS.camera, ease: EASING.expoOut }, " + (i === 0 ? "0.1" : (t0 + 0.08).toFixed(2)) + ");");
+    L("    tl.fromTo('.b" + (i + 1) + "-sub', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: DURATIONS.panel, ease: EASING.powerOut }, " + (i === 0 ? "0.28" : (t0 + 0.22).toFixed(2)) + ");");
+    L("    // Beat boyunca kesintisiz ölçek/derinlik akışı (intra-beat alive motion)");
+    L("    tl.to('.b" + (i + 1) + "-stage', { scale: 1.06, y: -12, duration: " + holdDur + ", ease: 'sine.inOut' }, " + (t0 + 0.25).toFixed(2) + ");");
     if (i < beats.length - 1) {
       const tr = transitions[i];
       const at = (tr.atFrame / 60).toFixed(2);
       const out = ".scene-beat-" + (i + 1), inc = ".scene-beat-" + (i + 2);
-      L("    // Geçiş " + (i + 1) + ": " + tr.type + " (beat sınırı)");
-      if (tr.type === "whip-pan") L("    transitionWhipPan(tl, '" + out + "', '" + inc + "', { at: " + at + ", direction: 'left', duration: DURATIONS.panel });");
-      else if (tr.type === "mask-wipe") L("    transitionMaskWipe(tl, '" + inc + "', { at: " + at + ", type: 'diagonal', duration: DURATIONS.scene, outgoingSelector: '" + out + "' });");
-      else L("    transitionZoomPunch(tl, '" + out + "', '" + inc + "', { at: " + at + ", duration: DURATIONS.camera });");
+      L("    // Geçiş " + (i + 1) + ": " + tr.type + " (kinetik devir teslim)");
+      if (tr.type === "element-takeover") L("    transitionElementTakeover(tl, '.b" + (i + 1) + "-trigger', '" + out + "', '" + inc + "', { at: " + at + ", duration: DURATIONS.camera });");
+      else if (tr.type === "camera-dive") L("    transitionCameraDive(tl, '.camera-rig', '" + out + "', '" + inc + "', { at: " + at + ", duration: DURATIONS.long, diveScale: 2.4 });");
+      else L("    transitionMaskWipe(tl, '" + inc + "', { at: " + at + ", type: 'diagonal', duration: DURATIONS.scene, outgoingSelector: '" + out + "' });");
     }
     L();
   });
@@ -288,11 +291,12 @@ export default Scene;
   L("      <div className=\"camera-rig absolute inset-0\">");
   beats.forEach((b, i) => {
     const first = i === 0;
-    L("        <section className=\"scene-beat-" + (i + 1) + " absolute inset-0 flex flex-col items-" + (poster ? "start" : "center") + " justify-center gap-8 px-24\" style={{ opacity: " + (first ? 1 : 0) + ", backgroundColor: theme.colors." + (i % 2 ? "bgSurfaceSubtle" : "bgPrimary") + " }}>");
+    L("        <section className=\"scene-beat-" + (i + 1) + " absolute inset-0 flex flex-col items-" + (poster ? "start" : "center") + " justify-center px-24 overflow-hidden\" style={{ opacity: " + (first ? 1 : 0) + ", backgroundColor: theme.colors." + (i % 2 ? "bgSurfaceSubtle" : "bgPrimary") + " }}>");
     L("          <BackdropField theme={theme} variant=\"" + ["mesh", "grid", "rings", "rays"][i % 4] + "\" intensity={0.6} />");
-    L("          <p className=\"b" + (i + 1) + "-eyebrow " + (poster ? "text-[22px]" : "text-[20px]") + " font-mono font-semibold uppercase tracking-[0.18em]\" style={{ color: theme.colors.accentPrimary }}>" + String(i + 1).padStart(2, "0") + " / " + b.id + "</p>");
-    L("          <h1 className={`b" + (i + 1) + "-title ${theme.typography.heroClass} " + (poster ? "" : "text-center") + "`} style={{ color: theme.colors.textPrimary, fontSize: " + (poster ? 200 : 132) + ", lineHeight: 1.02 }}>" + (first ? title : "Beat " + (i + 1) + " headline") + "</h1>");
-    L("          <p className={`b" + (i + 1) + "-body ${theme.typography.bodyClass} max-w-[1100px]" + (poster ? "" : " text-center") + "`} style={{ color: theme.colors.textMuted, fontSize: 34 }}>" + b.intent + "</p>");
+    L("          <div className=\"b" + (i + 1) + "-stage relative z-10 flex flex-col items-" + (poster ? "start" : "center") + " gap-6\">");
+    L("            <h1 className={`b" + (i + 1) + "-title ${theme.typography.heroClass} " + (poster ? "" : "text-center") + "`} style={{ color: theme.colors.textPrimary, fontSize: " + (poster ? 188 : 128) + ", lineHeight: 0.98 }}>" + (first ? title : b.id.toUpperCase()) + "</h1>");
+    L("            <p className={`b" + (i + 1) + "-sub b" + (i + 1) + "-trigger ${theme.typography.bodyClass} max-w-[960px]" + (poster ? "" : " text-center") + "`} style={{ color: theme.colors.textMuted, fontSize: 32 }}>" + b.intent + "</p>");
+    L("          </div>");
     L("        </section>");
   });
   L("      </div>");

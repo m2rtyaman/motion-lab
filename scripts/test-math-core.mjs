@@ -1150,6 +1150,120 @@ test('Promo 20s Math: Write-on progress, warp shape geometry, and vertical panel
   assert.ok(panel0.translateYPercent >= -100 && panel0.translateYPercent <= 100);
 });
 
+test('Harvest Math: Word timing normalization, frame lookup, progress clamp, and Ken Burns trajectory', async () => {
+  const {
+    normalizeHarvestWords,
+    getWordAtFrame,
+    getActiveOrLastWordIndex,
+    calculateWordProgress,
+    getActiveWordsInWindow,
+    computeHarvestKenBurns,
+  } = await import('../src/core/harvest-math.ts');
+  const { resolveHarvestAsset } = await import('../src/core/harvest.tsx');
+
+  // 1. Empty / null inputs
+  assert.deepEqual(normalizeHarvestWords([]), []);
+  assert.deepEqual(normalizeHarvestWords(null), []);
+  assert.equal(getWordAtFrame([], 10), null);
+  assert.deepEqual(getActiveWordsInWindow([], 10, 15), []);
+  assert.deepEqual(getActiveOrLastWordIndex([], 10), {
+    activeIndex: -1,
+    pivotIndex: -1,
+    isBefore: true,
+    isAfter: true,
+  });
+
+  // 2. Normalization and sorting
+  const rawWords = [
+    { index: 1, word: 'world', token: 'world', startTime: 1.0, endTime: 1.5, startMs: 1000, endMs: 1500, durationMs: 500, startFrame: 60, endFrame: 90, durationFrames: 30 },
+    { index: 0, word: 'hello', token: 'hello', startTime: 0.2, endTime: 0.8, startMs: 200, endMs: 800, durationMs: 600, startFrame: 12, endFrame: 48, durationFrames: 36 },
+  ];
+  const normalized = normalizeHarvestWords(rawWords, 60);
+  assert.equal(normalized.length, 2);
+  assert.equal(normalized[0].word, 'hello');
+  assert.equal(normalized[1].word, 'world');
+  assert.equal(normalized[0].startFrame, 12);
+  assert.equal(normalized[0].endFrame, 48);
+
+  // Zero-duration edge case normalization
+  const zeroDur = normalizeHarvestWords([{ index: 0, word: 'ping', token: 'ping', startTime: 0.5, endTime: 0.5, startMs: 500, endMs: 500, durationMs: 0, startFrame: 30, endFrame: 30, durationFrames: 0 }], 60);
+  assert.ok(zeroDur[0].durationFrames >= 1);
+  assert.ok(zeroDur[0].endFrame >= zeroDur[0].startFrame + 1);
+
+  // 3. Frame lookup at boundaries
+  assert.equal(getWordAtFrame(normalized, 5), null, 'Before first word');
+  assert.equal(getWordAtFrame(normalized, 12)?.word, 'hello', 'At start of first word');
+  assert.equal(getWordAtFrame(normalized, 30)?.word, 'hello', 'Middle of first word');
+  assert.equal(getWordAtFrame(normalized, 52), null, 'In pause between words');
+  assert.equal(getWordAtFrame(normalized, 75)?.word, 'world', 'In second word');
+  assert.equal(getWordAtFrame(normalized, 120), null, 'After last word');
+
+  // Adjacent boundary test: word A [10..40), word B [40..70]
+  const adjacent = normalizeHarvestWords([
+    { index: 0, word: 'one', token: 'one', startTime: 0.1666, endTime: 0.6666, startMs: 167, endMs: 667, durationMs: 500, startFrame: 10, endFrame: 40, durationFrames: 30 },
+    { index: 1, word: 'two', token: 'two', startTime: 0.6666, endTime: 1.1666, startMs: 667, endMs: 1167, durationMs: 500, startFrame: 40, endFrame: 70, durationFrames: 30 },
+  ], 60);
+  assert.equal(getWordAtFrame(adjacent, 39)?.word, 'one', 'End frame of first adjacent word');
+  assert.equal(getWordAtFrame(adjacent, 40)?.word, 'two', 'Start frame of second adjacent word switches immediately');
+
+  // 4. Subtitle pivot stability during pauses & speech end
+  const stateBefore = getActiveOrLastWordIndex(normalized, 5);
+  assert.equal(stateBefore.isBefore, true);
+  assert.equal(stateBefore.pivotIndex, 0);
+
+  const stateWord0 = getActiveOrLastWordIndex(normalized, 25);
+  assert.equal(stateWord0.activeIndex, 0);
+  assert.equal(stateWord0.pivotIndex, 0);
+
+  const statePause = getActiveOrLastWordIndex(normalized, 52);
+  assert.equal(statePause.activeIndex, -1, 'No word active in pause');
+  assert.equal(statePause.pivotIndex, 0, 'Pause MUST keep pivot on most recent word (hello), not snap to 0');
+
+  const stateWord1 = getActiveOrLastWordIndex(normalized, 70);
+  assert.equal(stateWord1.activeIndex, 1);
+  assert.equal(stateWord1.pivotIndex, 1);
+
+  const stateAfter = getActiveOrLastWordIndex(normalized, 130);
+  assert.equal(stateAfter.isAfter, true);
+  assert.equal(stateAfter.activeIndex, -1);
+  assert.equal(stateAfter.pivotIndex, 1, 'After speech ends, pivot MUST stay on last word (world), never slam to 0');
+
+  // 5. Progress calculation and clamping
+  const first = normalized[0];
+  assert.equal(calculateWordProgress(first, 0), 0);
+  assert.equal(calculateWordProgress(first, 12), 0);
+  assert.ok(calculateWordProgress(first, 30) > 0 && calculateWordProgress(first, 30) < 1);
+  assert.equal(calculateWordProgress(first, 48), 1);
+  assert.equal(calculateWordProgress(first, 100), 1);
+
+  // 6. Active words window query
+  const windowWords = getActiveWordsInWindow(normalized, 30, 20);
+  assert.ok(windowWords.some((w) => w.word === 'hello'));
+
+  // 7. Ken Burns trajectory calculation & negative bounds
+  const kbNeg = computeHarvestKenBurns(-10, 100, 1.1);
+  assert.equal(kbNeg.scale, 1.0);
+  assert.equal(kbNeg.opacity, 0.0);
+
+  const kb0 = computeHarvestKenBurns(0, 100, 1.1);
+  assert.equal(kb0.scale, 1.0);
+  assert.equal(kb0.opacity, 0.0);
+
+  const kbMid = computeHarvestKenBurns(50, 100, 1.1);
+  assert.ok(kbMid.scale > 1.0 && kbMid.scale < 1.1);
+  assert.equal(kbMid.opacity, 1.0);
+
+  const kbEnd = computeHarvestKenBurns(100, 100, 1.1);
+  assert.ok(Math.abs(kbEnd.scale - 1.1) < 1e-4);
+
+  // 8. Asset path resolver
+  assert.equal(resolveHarvestAsset('https://videos.pexels.com/stock.mp4'), 'https://videos.pexels.com/stock.mp4');
+  assert.equal(resolveHarvestAsset('http://cdn.example.com/audio.wav'), 'http://cdn.example.com/audio.wav');
+  assert.equal(resolveHarvestAsset('data:audio/wav;base64,AAAA'), 'data:audio/wav;base64,AAAA');
+  assert.ok(resolveHarvestAsset('audio.wav', 'my-proj').includes('harvest/my-proj/audio.wav'));
+  assert.ok(resolveHarvestAsset('harvest/my-proj/audio.wav').includes('harvest/my-proj/audio.wav'));
+});
+
 
 
 
