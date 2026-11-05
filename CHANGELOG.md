@@ -27,8 +27,9 @@ multi-layer quality gate into a single, reproducible baseline.
   the license boundary between original and upstream code.
 - `src/templates/LICENSES/Apache-2.0.txt` so Apache-2.0 template notices travel
   with the redistributed files.
-- Version metadata in `package.json` (`0.8.0`) and an explicit `engines.node`
-  requirement.
+- Version metadata in `package.json` (`0.8.0`), an explicit `engines.node`
+  requirement (`>=22`), and a `webpack` override that keeps the Remotion bundler
+  on a patched release.
 
 ### Changed
 
@@ -46,6 +47,11 @@ multi-layer quality gate into a single, reproducible baseline.
   remain available under MIT.
 - **README:** rewritten for precision — no marketing claims, no fabricated
   metrics, no decorative emoji; every capability maps to a command or a file.
+- **Toolchain:** dependencies raised to their current releases — Remotion
+  `4.0.541`, GSAP `3.15.1`, Motion `14.9.1`, Tailwind CSS `4.3.4`, Vite plugin
+  React `6.2.1`, Babel parser `8.1.0`, Lucide `1.68.0`, and `@types/node`
+  `26.6.6`. CI moved to Node 26 LTS, pnpm 12, `actions/checkout@v7`,
+  `actions/setup-node@v7`, and `pnpm/action-setup@v6`.
 
 ### Removed
 

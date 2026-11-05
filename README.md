@@ -6,8 +6,8 @@ Motion is written as code, validated by static gates, and rendered to MP4 at 60 
 [![Release](https://img.shields.io/badge/release-0.8.0%20(pre--release)-orange.svg)](CHANGELOG.md)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![CI](https://github.com/m2rtyaman/motion-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/m2rtyaman/motion-lab/actions/workflows/ci.yml)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-339933.svg)](https://nodejs.org/)
-[![pnpm](https://img.shields.io/badge/pnpm-10-f69220.svg)](https://pnpm.io/)
+[![Node](https://img.shields.io/badge/node-%3E%3D22-339933.svg)](https://nodejs.org/)
+[![pnpm](https://img.shields.io/badge/pnpm-12-f69220.svg)](https://pnpm.io/)
 
 ---
 
@@ -119,8 +119,8 @@ behaviour lives in primitives and `src/core`. A project never forks the engine.
 
 | Tool | Version |
 | --- | --- |
-| Node.js | >= 20 |
-| pnpm | 10 (CI uses 10) |
+| Node.js | >= 22 (CI uses Node 26 LTS) |
+| pnpm | 12 (CI uses 12) |
 | Chromium | installed automatically by Remotion on first render |
 
 > **Remotion licensing:** Remotion is free for individuals, non-profits, and
