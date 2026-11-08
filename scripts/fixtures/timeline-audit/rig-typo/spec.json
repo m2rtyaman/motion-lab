@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "harness": 2,
+  "title": "Fixture: rig typo",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 4.8,
+  "beats": [
+    { "id": "a", "startFrame": 0, "endFrame": 287, "intent": "rig walks, selector typo" }
+  ]
+}

@@ -133,7 +133,7 @@ export const CalendarGrid: FC<CalendarGridProps> = ({
                 color: theme.colors.accentPrimary,
               }}
             >
-              {events.length} appointments
+              {events.length} {events.length === 1 ? 'appointment' : 'appointments'}
             </span>
           </div>
         </div>

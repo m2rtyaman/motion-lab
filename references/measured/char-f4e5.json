@@ -1,0 +1,149 @@
+{
+  "source": "f4e5e79c874016ae04df.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 540,
+    "height": 540,
+    "analysisSize": "192x192"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.544,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 12.797,
+    "median": 4.526,
+    "p90": 40.432,
+    "max": 50.035,
+    "pctFramesStill": 2.1
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 3.375,
+          "f60": 202.5
+        },
+        "peak": {
+          "s": 4.417,
+          "f60": 265
+        },
+        "end": {
+          "s": 5.625,
+          "f60": 337.5
+        },
+        "duration": {
+          "s": 2.25,
+          "f60": 135
+        },
+        "onsetToPeak": {
+          "s": 1.083,
+          "f60": 65
+        },
+        "peakToRest": {
+          "s": 1.208,
+          "f60": 72.5
+        },
+        "asymmetry": 1.12,
+        "peakEnergy": 44.27,
+        "peakRegionalSpeedPxPerFrame": 10.48,
+        "peakGlobalSpeedPxPerFrame": 1.39
+      },
+      {
+        "start": {
+          "s": 6.417,
+          "f60": 385
+        },
+        "peak": {
+          "s": 6.958,
+          "f60": 417.5
+        },
+        "end": {
+          "s": 7.333,
+          "f60": 440
+        },
+        "duration": {
+          "s": 0.917,
+          "f60": 55
+        },
+        "onsetToPeak": {
+          "s": 0.583,
+          "f60": 35
+        },
+        "peakToRest": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "asymmetry": 0.64,
+        "peakEnergy": 50.04,
+        "peakRegionalSpeedPxPerFrame": 0.76,
+        "peakGlobalSpeedPxPerFrame": 0.55
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 149,
+    "searchSaturatedBlockPct": 1,
+    "globalMedian": 0.18,
+    "globalP95": 2.83,
+    "regionalMedian": 0.47,
+    "regionalP95": 12.57,
+    "regionalMax": 27.55
+  },
+  "meta": {
+    "id": "char-f4e5",
+    "category": "character",
+    "catalogCaseId": "x-2102436001473786054",
+    "catalogFile": "f4e5e79c874016ae04df.mp4",
+    "creator": "dfeinition",
+    "creditLink": "https://x.com/dfeinition/status/2102436001473786054",
+    "catalogStyleId": "mosaic"
+  }
+}

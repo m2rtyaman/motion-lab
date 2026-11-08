@@ -33,10 +33,13 @@ jobs:
       - name: Build CSS
         run: pnpm build:css
 
-      - name: Run Full Quality Gate (Spec, AST, Slop, Critic, Glyph, Types)
+      # Harness v2 gate: spec, storyboard (SB), AST (V2), timeline (T), slop, unit and eval
+      # self-tests, generated-doc freshness, tsc. The browser-probe fixture tests need Chrome and
+      # run only with CHECK_PROBE=1, which is deliberately not set here (they are skipped, not failed).
+      - name: Run Full Quality Gate (pnpm check)
         run: pnpm check
 
-      - name: Run 14-Point Studio Doctor Health Audit
+      - name: Run Studio Doctor Health Audit (14 points)
         run: pnpm audit:doctor
 
       - name: Verify Pre-Render Gate on Default Projects

@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Stagger Rhythm",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 5.8,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "beats": [
+    {
+      "id": "open",
+      "startFrame": 0,
+      "endFrame": 71,
+      "intent": "Two panels with eight empty slots and the timing ticks of each rhythm",
+      "board": {"focal":".title","zone":"top-center","start":"Dark grid with a centre divider","end":"Two panels of eight empty slots with the timing ticks of each rhythm","text":[],"transitionIn":"cut","why":"both rhythms are shown empty so the timing is judged before items land"}
+    },
+    {
+      "id": "phrase-a",
+      "startFrame": 72,
+      "endFrame": 143,
+      "intent": "Left: metronome. Right: a quick burst of three",
+      "samples": [
+        100,
+        125
+      ],
+      "board": {"focal":".slot","zone":"middle-center","start":"Slots empty on both sides","end":"Left slots filling at equal gaps, right a quick burst of three landed","text":[],"transitionIn":"cut","why":"start both sides together so the viewer compares the first onsets"}
+    },
+    {
+      "id": "phrase-b",
+      "startFrame": 144,
+      "endFrame": 215,
+      "intent": "Left keeps ticking. Right: a pause, one hero item, a pair",
+      "samples": [
+        160,
+        190
+      ],
+      "board": {"focal":".tick","zone":"middle-center","start":"Left steady, right three items landed","end":"Left keeps ticking, right has rested then landed one hero item and a pair","text":[],"transitionIn":"cut","why":"the pause before the hero is what makes it a phrase"}
+    },
+    {
+      "id": "phrase-c",
+      "startFrame": 216,
+      "endFrame": 348,
+      "intent": "The last items land, caption, then the 1.2s hold",
+      "samples": [
+        225,
+        260
+      ],
+      "board": {"focal":".caption","zone":"bottom-left","start":"Last items landing, caption absent","end":"All slots filled, caption states the rule","text":["Equal gaps feel like a metronome."],"transitionIn":"cut","why":"the last items complete the picture, then the rule holds still for the 1.2s"}
+    }
+  ]
+}

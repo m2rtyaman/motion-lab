@@ -10,6 +10,62 @@ See [Versioning](#versioning) for the compatibility policy.
 
 ---
 
+## [0.9.0] — 2026-11-08 — Pre-release
+
+Harness v2: a rule, preset and grading system designed so that mid-size models
+(Gemini Flash, DeepSeek) can produce good motion graphics without taking
+shortcuts. Projects opt in with `"harness": 2` in `spec.json`; `pnpm new` now
+scaffolds v2 by default (`--legacy` keeps the old layout).
+
+> **Pre-release notice:** `0.9.0` is still pre-1.0. Legacy projects keep
+> working; the v2 audits, preset API, and eval scoring may change before `1.0.0`.
+
+### Added
+
+- **Motion vocabulary:** `src/core/presets.ts` (`beat`, `enter`, `exit`,
+  `emphasize`, `camera`, `transition`, `holdFinal`) and `src/core/physics.ts`
+  (bounce, anticipate, follow-through, arcs, walk cycle, `RigCharacter`
+  helpers), documented in `docs/PRESETS.md`.
+- **Teaching docs:** `docs/MOTION_MATH.md` (generated from the code),
+  `docs/ANIMATION_STUDIES.md`, `docs/CHARACTER_ANIMATION.md`,
+  `docs/STORYBOARD.md`, `docs/DESIGN_SYSTEM.md` (generated),
+  `docs/COMPONENT_GALLERY.md`, `docs/COMPONENT_RECIPES.md`, and
+  `references/measured/` (timing statistics measured from 33 reference clips).
+- **`RigCharacter`:** a jointed vector character with foot-planted walk, idle
+  breath, look-at, and reaction helpers.
+- **Behavior-based audits:** `timeline-audit` (T000-T014), `storyboard-audit`
+  (SB001-SB007), v2 `ast-lint` rules (V2-001 to V2-013), and a headless-Chrome
+  DOM probe (`scripts/browser-probe.mjs`, P001-P009) that checks what is
+  actually visible on screen.
+- **Storyboards:** per-beat `board` cards in `spec.json` and
+  `pnpm render:poses` for key-pose stills before motion is added.
+- **Curated primitives:** `src/primitives/curated.ts` (26 verified components
+  with a thumbnail gallery); the legacy primitives are marked `@deprecated`.
+- **Examples and studies:** six golden examples (`example-*`) and seven
+  animation studies (`study-*`), all passing the full gate.
+- **Evals:** eight graded tasks, a scorer (`pnpm eval:score`), a visual rubric
+  with hash-bound answers, reference solutions, and an integrity lock
+  (`evals/harness.lock.json`).
+
+### Changed
+
+- **Rules:** `RULES.md` is the single canonical rule file. `CLAUDE.md`,
+  `AGENTS.md`, `CODEX.md`, `.cursorrules`, and `.cursor/rules/motion-lab.mdc`
+  are short pointers to it.
+- **Skills:** 21 studio skills were consolidated into 6 maintained skills; the
+  rest moved to `.agent/skills-archive/` and `references/archive/`.
+- **Audit messages:** the Turkish user-facing messages in `scripts/` are now
+  English, with the exact expected and actual values.
+- **Calibration:** settle-time and speed guidance now follows the measured
+  reference data.
+
+### Removed
+
+- The mandatory web-search gate, the blueprint-before-code rule, and keyword
+  presence checks for v2 projects (replaced by behavior checks).
+
+---
+
 ## [0.8.0] — 2026-11-05 — Pre-release
 
 The first tagged release of Motion Lab. It consolidates the deterministic
@@ -81,4 +137,5 @@ published as **pre-releases** until `1.0.0`.
 
 ---
 
+[0.9.0]: https://github.com/m2rtyaman/motion-lab/releases/tag/v0.9.0
 [0.8.0]: https://github.com/m2rtyaman/motion-lab/releases/tag/v0.8.0

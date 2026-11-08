@@ -14,7 +14,7 @@ if (!fs.existsSync(sfxDir)) {
 const SAMPLE_RATE = 44100;
 
 /**
- * 16-Bit Mono PCM WAV Dosyası Yazıcı
+ * 16-bit mono PCM WAV file writer
  */
 function writeWav(filename, samplesFloat32) {
   const numSamples = samplesFloat32.length;
@@ -48,7 +48,7 @@ function writeWav(filename, samplesFloat32) {
 
   const outPath = path.join(sfxDir, filename);
   fs.writeFileSync(outPath, buffer);
-  console.log(`[SFX GENERATOR] Üretildi: public/sfx/${filename} (${(buffer.length / 1024).toFixed(1)} kB)`);
+  console.log(`[SFX GENERATOR] Generated: public/sfx/${filename} (${(buffer.length / 1024).toFixed(1)} kB)`);
 }
 
 // Deterministic pseudo-random noise
@@ -58,7 +58,7 @@ function nextNoise() {
   return (seed / 2147483648) - 1;
 }
 
-// 1. TAŞ ZEMİN ADIM SESİ (step-stone.wav — 0.14s)
+// 1. STONE FLOOR FOOTSTEP (step-stone.wav — 0.14s)
 {
   const duration = 0.14;
   const samples = new Float32Array(Math.floor(SAMPLE_RATE * duration));
@@ -74,7 +74,7 @@ function nextNoise() {
   writeWav('step-stone.wav', samples);
 }
 
-// 2. Savaş Çığlığı & Sonik Şok Dalgası (roar-shockwave.wav — 0.95s)
+// 2. War Cry & Sonic Shockwave (roar-shockwave.wav — 0.95s)
 {
   const duration = 0.95;
   const samples = new Float32Array(Math.floor(SAMPLE_RATE * duration));
@@ -105,7 +105,7 @@ function nextNoise() {
   writeWav('roar-shockwave.wav', samples);
 }
 
-// 3. Kamera Pan & Hızlı Dönüş Rüzgarı (whoosh-pan.wav — 0.42s)
+// 3. Camera Pan & Fast Turn Whoosh (whoosh-pan.wav — 0.42s)
 {
   const duration = 0.42;
   const samples = new Float32Array(Math.floor(SAMPLE_RATE * duration));

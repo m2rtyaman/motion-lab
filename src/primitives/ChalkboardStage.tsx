@@ -22,6 +22,7 @@ export interface ChalkboardStageProps {
  * 
  * Eğitici, matematiksel ve bilimsel animasyonlar için tebeşir tozu ve tahta patinası sunar.
  */
+/** @deprecated legacy look — not for v2 */
 export const ChalkboardStage: React.FC<ChalkboardStageProps> = ({
   chalkDustIntensity = 0.35,
   frameBorder = true,

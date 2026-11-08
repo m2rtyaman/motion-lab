@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "harness": 2,
+  "title": "Probe fixture runtime-throw",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 3,
+  "beats": [
+    { "id": "move", "startFrame": 0, "endFrame": 107, "intent": "The ball slides right", "board": { "focal": ".ball", "zone": "middle-center", "start": "Ball left", "end": "Ball right", "text": [], "transitionIn": "cut", "why": "fixture" } },
+    { "id": "rest", "startFrame": 108, "endFrame": 179, "intent": "Caption holds", "board": { "focal": ".caption", "zone": "bottom-center", "start": "Ball right", "end": "Caption under the ball", "text": ["All done."], "transitionIn": "cut", "why": "fixture" } }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Tallybook Month-End",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "light" },
+  "beats": [
+    { "id": "open", "startFrame": 0, "endFrame": 119, "intent": "The product UI arrives, calm and complete",
+      "board": {"focal":".frame-wrap","zone":"center","start":"Empty light canvas, nothing on screen","end":"Headline above a centred browser frame showing the October close header and one large chart","text":["Month-end, handled.","October close","214 transactions matched"],"transitionIn":"cut","why":"the viewer meets the whole product, calm and complete, before anything moves"} },
+    { "id": "act", "startFrame": 120, "endFrame": 251, "intent": "Cursor clicks Reconcile all; the camera leans in",
+      "board": {"focal":".reconcile-btn","zone":"top-right","start":"Cursor enters from the lower left, Reconcile all idle","end":"Cursor rests on Reconcile all, ripple fired, camera leaned in on the button","text":["Reconcile all"],"transitionIn":"cut","why":"the click is the cause; the finale is its effect, so it must come first"} },
+    { "id": "finale", "startFrame": 252, "endFrame": 480, "intent": "The button takes over the screen and resolves to logo and CTA (1.2s hold)",
+      "board": {"focal":".finale-word","zone":"center","start":"Iris wipe opens the brand canvas around the button","end":"Mark, headline and CTA sharp and centred on the brand colour","text":["Close the month before lunch.","Try Tallybook free"],"transitionIn":"transition:maskWipe","why":"the result of the click becomes the message; the CTA holds still for the full 1.2s"} }
+  ]
+}

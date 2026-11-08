@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Character Acting",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 7.4,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "enter", "startFrame": 0, "endFrame": 53, "intent": "Ground and the character arrive, standing",
+      "board": {"focal":".hero-root","zone":"bottom-center","start":"Dark grid, empty","end":"Ground line and the character standing upright","text":[],"transitionIn":"cut","why":"introduce the actor before asking it to act"} },
+    { "id": "wait", "startFrame": 54, "endFrame": 149, "intent": "Waiting: breathing moving hold with one blink", "samples": [80, 110],
+      "board": {"focal":".hero-head","zone":"middle-center","start":"Character standing","end":"Character breathing in a moving hold, one blink done","text":[],"transitionIn":"cut","why":"a living hold sets up the surprise that follows"} },
+    { "id": "hear", "startFrame": 150, "endFrame": 206, "intent": "A bubble pops; eyes lead, head and torso follow", "samples": [160, 180],
+      "board": {"focal":".bubble","zone":"middle-right","start":"Character idle, bubble hidden","end":"Bubble popped at the right, eyes turned to it before the head and torso","text":[],"transitionIn":"cut","why":"the cause (the bubble) appears first, then the eyes react to it"} },
+    { "id": "double-take", "startFrame": 207, "endFrame": 296, "intent": "Glance away (subtle), hold 0.3 s, snap back stronger", "samples": [225, 270],
+      "board": {"focal":".hero-head","zone":"middle-center","start":"Character looking at the bubble","end":"Character glanced away, held, then snapped back stronger","text":[],"transitionIn":"cut","why":"the second look is bigger than the first, which is what sells it"} },
+    { "id": "gesture", "startFrame": 297, "endFrame": 444, "intent": "Crouch, arms up, settle, then the 1.2 s closing hold", "samples": [310, 320, 340, 420],
+      "board": {"focal":".hero-root","zone":"bottom-center","start":"Character looking at the bubble, upright","end":"Character crouched, arms up, settled in the closing pose","text":["Holds of 0.3 to 0.5 s between the beats"],"transitionIn":"cut","why":"the reaction releases the tension and holds still for the 1.2s"} }
+  ]
+}

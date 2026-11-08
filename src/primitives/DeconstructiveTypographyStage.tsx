@@ -34,6 +34,7 @@ export interface IlluminatedFloorSurfaceProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const IlluminatedFloorSurface: FC<IlluminatedFloorSurfaceProps> = ({
   yPositionPercent = 75,
   opacity = 0.65,
@@ -80,6 +81,7 @@ export interface HorizontalGraphicSlitProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const HorizontalGraphicSlit: FC<HorizontalGraphicSlitProps> = ({
   progress,
   lineCount = 4,
@@ -125,6 +127,7 @@ export interface DeconstructiveTypographyStageProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const DeconstructiveTypographyStage: FC<DeconstructiveTypographyStageProps> = ({
   children,
   aspect = '16:9',
@@ -177,6 +180,7 @@ export interface DeconstructiveWordAssemblyProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const DeconstructiveWordAssembly: FC<DeconstructiveWordAssemblyProps> = ({
   fragments,
   startFrame = 0,

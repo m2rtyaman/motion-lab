@@ -88,7 +88,7 @@ async function main() {
   }).join('&');
 
   const googleCssUrl = `https://fonts.googleapis.com/css2?${cssFamilies}&display=swap`;
-  console.log(`[1/3] Google Fonts CSS alınıyor...`);
+  console.log(`[1/3] Fetching Google Fonts CSS...`);
   const cssText = await fetchText(googleCssUrl);
 
   // Parse font-face rules
@@ -116,7 +116,7 @@ async function main() {
     }
   }
 
-  console.log(`[2/3] Toplam ${fontFaces.length} font varyantı ayrıştırıldı. Dosyalar indiriliyor...`);
+  console.log(`[2/3] Parsed ${fontFaces.length} font variants. Downloading files...`);
 
   const downloadedFonts = new Map();
 
@@ -128,9 +128,9 @@ async function main() {
     if (!fs.existsSync(destPath)) {
       try {
         await downloadBinary(item.url, destPath);
-        process.stdout.write(`  ✓ İndirildi: ${filename}\n`);
+        process.stdout.write(`  ✓ Downloaded: ${filename}\n`);
       } catch (err) {
-        console.error(`  ✗ Hata (${filename}):`, err.message);
+        console.error(`  ✗ Error (${filename}):`, err.message);
       }
     } else {
       process.stdout.write(`  • Zaten mevcut: ${filename}\n`);
@@ -147,7 +147,7 @@ async function main() {
     }
   }
 
-  console.log('\n[3/3] İndirme tamamlandı! Toplam font sayısı:', fs.readdirSync(fontsDir).length);
+  console.log('\n[3/3] Download complete! Total font count:', fs.readdirSync(fontsDir).length);
 }
 
 main().catch(console.error);

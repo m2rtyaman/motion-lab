@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Editorial Data: Ardmore Cycling",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "editorial-warm"
+  },
+  "beats": [
+    {
+      "id": "stat",
+      "startFrame": 0,
+      "endFrame": 131,
+      "intent": "One striking number lands with its meaning",
+      "board": {
+        "focal": ".stat-num",
+        "zone": "middle-left",
+        "start": "Warm paper canvas with a faint grid, nothing on screen",
+        "end": "Giant 3.4x numeral at the left with its label at the right, sharp and still",
+        "text": [
+          "3.4×",
+          "more weekday bike trips downtown than in 2019"
+        ],
+        "transitionIn": "cut",
+        "why": "state the claim first so the chart reads as proof, not as a puzzle"
+      }
+    },
+    {
+      "id": "chart",
+      "startFrame": 132,
+      "endFrame": 227,
+      "intent": "The numeral shrinks to a header and the chart builds bar by bar",
+      "board": {
+        "focal": ".bar",
+        "zone": "middle-center",
+        "start": "Numeral still large, label beside it, no chart",
+        "end": "Numeral and label in the header row, seven bars grown, the 2025 bar in the accent color",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "the numeral stays on screen and moves up so the proof grows beneath the claim"
+      }
+    },
+    {
+      "id": "lanes",
+      "startFrame": 228,
+      "endFrame": 335,
+      "intent": "The pre-lane years dim and the lanes annotation marks the turning point",
+      "board": {
+        "focal": ".chart-annot",
+        "zone": "middle-center",
+        "start": "Seven bars at full tone, no annotation",
+        "end": "Years before 2022 dimmed, dashed line and Protected lanes open label at 2022",
+        "text": [
+          "Protected lanes open"
+        ],
+        "transitionIn": "cut",
+        "why": "the cause of the climb is named after the viewer has seen the climb"
+      }
+    },
+    {
+      "id": "takeaway",
+      "startFrame": 336,
+      "endFrame": 480,
+      "intent": "The closing line resolves and holds",
+      "board": {
+        "focal": ".takeaway-word",
+        "zone": "bottom-center",
+        "start": "Chart complete, the last bar pulsing once",
+        "end": "Takeaway line under the chart with its accent rule, everything sharp",
+        "text": [
+          "Protected lanes pay off in riders.",
+          "Source: Ardmore Cycling Count, 2019 to 2025"
+        ],
+        "transitionIn": "cut",
+        "why": "the conclusion follows the evidence and holds still for the full 1.2s"
+      }
+    }
+  ]
+}

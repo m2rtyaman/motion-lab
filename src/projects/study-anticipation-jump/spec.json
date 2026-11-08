@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Anticipation Jump",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6.2,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "ready", "startFrame": 0, "endFrame": 71, "intent": "Block and target ghosts appear; the block breathes in a moving hold",
+      "board": {"focal":".block-wrap","zone":"bottom-center","start":"Dark grid, nothing placed","end":"Ground line, ghost outlines of the start and target, the block breathing in a moving hold","text":[],"transitionIn":"cut","why":"show the whole stage first so the jump has somewhere to go"} },
+    { "id": "jump", "startFrame": 72, "endFrame": 179, "intent": "Wind-up down, stretched launch up, overshoot, settle on the target", "samples": [90, 100, 113],
+      "board": {"focal":".block-wrap","zone":"middle-center","start":"Block at rest on the start ghost","end":"Block landed and settled on the target ghost after wind-up, stretch and overshoot","text":[],"transitionIn":"cut","why":"wind-up before action, overshoot before settle: the order is the lesson"} },
+    { "id": "hop", "startFrame": 180, "endFrame": 263, "intent": "Same gesture sideways, shorter and quicker",
+      "board": {"focal":".block-wrap","zone":"middle-right","start":"Block settled on the first target","end":"Block landed on the next ghost after a shorter, quicker hop","text":[],"transitionIn":"cut","why":"the same gesture at a smaller scale proves it is a rule"} },
+    { "id": "rest", "startFrame": 264, "endFrame": 372, "intent": "Caption names the four parts, then the 1.2s hold",
+      "board": {"focal":".caption","zone":"bottom-left","start":"Block still on the last target, caption not yet visible","end":"Caption states the rule under the still block","text":["Skip the wind-up."],"transitionIn":"cut","why":"the rule appears after the examples and holds still for the 1.2s"} }
+  ]
+}

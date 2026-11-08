@@ -1,0 +1,28 @@
+{
+  "task": "product-ui-feature",
+  "aspect": "16:9",
+  "durationSeconds": { "min": 7.8, "max": 8.2 },
+  "beats": { "min": 3, "max": 4 },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    { "label": "the click is emphasised", "anyOf": ["emphasize:punch", "emphasize:glint"] },
+    { "label": "camera or scene transition supports the click", "anyOf": ["camera:pushIn", "camera:settle", "transition:*"] },
+    { "label": "list or result items arrive as a group", "anyOf": ["enter:stagger", "enter:words"] }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.65,
+  "minTweens": 12,
+  "maxWarnings": { "default": 0 },
+  "maxSceneLines": 150,
+  "maxRawTweens": 3,
+  "maxLocalComponents": 1,
+  "requiredStrings": ["Tidemark", "Saves that sort themselves", "Sort into collections", "Try Tidemark free", "Design", "Reading list", "Recipes", "Nature"],
+  "requiredCode": [
+    { "label": "UI is anchored in a shell (BrowserFrame or AppShell)", "anyOf": ["<BrowserFrame", "<AppShell"] }
+  ],
+  "closingHold": { "groups": [
+    { "label": "the headline \"Saves that sort themselves\"", "anyOf": ["Saves that sort themselves"] },
+    { "label": "the call to action \"Try Tidemark free\"", "anyOf": ["Try Tidemark free"] }
+  ] },
+  "forbiddenPatterns": ["ops/sec", "enclave-", "POP mesh", "latency"]
+}

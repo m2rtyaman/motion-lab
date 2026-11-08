@@ -69,7 +69,7 @@ export const ChartCanvas: FC<ChartCanvasProps> = ({
   const svgWidth = 800;
   const svgHeight = 240;
   const paddingX = 40;
-  const paddingY = 24;
+  const paddingY = 32;
   const innerWidth = svgWidth - paddingX * 2;
   const innerHeight = svgHeight - paddingY * 2;
 

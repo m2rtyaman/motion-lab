@@ -1,0 +1,149 @@
+{
+  "source": "b8cb5c71deecbe35e330.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 480,
+    "height": 270,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 1.053,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 4.46,
+    "median": 2.923,
+    "p90": 9.197,
+    "max": 12.261,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        6
+      ],
+      "f60": [
+        360
+      ]
+    },
+    "median": {
+      "s": 6,
+      "f60": 360
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 1.917,
+          "f60": 115
+        },
+        "peak": {
+          "s": 3.458,
+          "f60": 207.5
+        },
+        "end": {
+          "s": 4.917,
+          "f60": 295
+        },
+        "duration": {
+          "s": 3,
+          "f60": 180
+        },
+        "onsetToPeak": {
+          "s": 1.583,
+          "f60": 95
+        },
+        "peakToRest": {
+          "s": 1.458,
+          "f60": 87.5
+        },
+        "asymmetry": 0.92,
+        "peakEnergy": 12.26,
+        "peakRegionalSpeedPxPerFrame": 47.37,
+        "peakGlobalSpeedPxPerFrame": 18.52
+      },
+      {
+        "start": {
+          "s": 5.375,
+          "f60": 322.5
+        },
+        "peak": {
+          "s": 5.667,
+          "f60": 340
+        },
+        "end": {
+          "s": 6,
+          "f60": 360
+        },
+        "duration": {
+          "s": 0.625,
+          "f60": 37.5
+        },
+        "onsetToPeak": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "peakToRest": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "asymmetry": 1,
+        "peakEnergy": 11.84,
+        "peakRegionalSpeedPxPerFrame": 47.17,
+        "peakGlobalSpeedPxPerFrame": 35.81
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 134,
+    "searchSaturatedBlockPct": 0.8,
+    "globalMedian": 4.8,
+    "globalP95": 17.03,
+    "regionalMedian": 8.88,
+    "regionalP95": 34.43,
+    "regionalMax": 47.37
+  },
+  "meta": {
+    "id": "ui-b8cb",
+    "category": "ui_product",
+    "catalogCaseId": "lemomo-satellite-briefing",
+    "catalogFile": "b8cb5c71deecbe35e330.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://github.com/lemomo-ai/lemo-opuscar/releases/tag/films",
+    "catalogStyleId": "archive"
+  }
+}

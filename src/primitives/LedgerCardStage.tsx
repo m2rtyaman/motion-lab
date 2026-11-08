@@ -50,6 +50,7 @@ export interface LedgerCardStageProps {
  * - Amber #FFC21A word erasure / correction blocks
  * - Fixed-width tabular numeric typography for forensic precision
  */
+/** @deprecated legacy look — not for v2 */
 export const LedgerCardStage: React.FC<LedgerCardStageProps> = ({
   title = 'AUDIT RECORD & ASSET LEDGER',
   ledgerCode = 'FOLIO NO. 448-E / RESTRICTED',

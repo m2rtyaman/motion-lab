@@ -1,0 +1,187 @@
+{
+  "source": "488b4c1026b42dd141d9.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.42,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 3.161,
+    "median": 2.519,
+    "p90": 6.345,
+    "max": 12.428,
+    "pctFramesStill": 3.1
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        0.25
+      ],
+      "f60": [
+        15
+      ]
+    },
+    "starts": {
+      "s": [
+        0
+      ],
+      "f60": [
+        0
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 3,
+    "list": [
+      {
+        "start": {
+          "s": 0.958,
+          "f60": 57.5
+        },
+        "peak": {
+          "s": 1.208,
+          "f60": 72.5
+        },
+        "end": {
+          "s": 1.5,
+          "f60": 90
+        },
+        "duration": {
+          "s": 0.542,
+          "f60": 32.5
+        },
+        "onsetToPeak": {
+          "s": 0.292,
+          "f60": 17.5
+        },
+        "peakToRest": {
+          "s": 0.292,
+          "f60": 17.5
+        },
+        "asymmetry": 1,
+        "peakEnergy": 6.68,
+        "peakRegionalSpeedPxPerFrame": 0.32,
+        "peakGlobalSpeedPxPerFrame": 0.25
+      },
+      {
+        "start": {
+          "s": 2.542,
+          "f60": 152.5
+        },
+        "peak": {
+          "s": 4.792,
+          "f60": 287.5
+        },
+        "end": {
+          "s": 6.417,
+          "f60": 385
+        },
+        "duration": {
+          "s": 3.875,
+          "f60": 232.5
+        },
+        "onsetToPeak": {
+          "s": 2.292,
+          "f60": 137.5
+        },
+        "peakToRest": {
+          "s": 1.625,
+          "f60": 97.5
+        },
+        "asymmetry": 0.71,
+        "peakEnergy": 5.03,
+        "peakRegionalSpeedPxPerFrame": 38.91,
+        "peakGlobalSpeedPxPerFrame": 7.68
+      },
+      {
+        "start": {
+          "s": 6.625,
+          "f60": 397.5
+        },
+        "peak": {
+          "s": 6.958,
+          "f60": 417.5
+        },
+        "end": {
+          "s": 7.792,
+          "f60": 467.5
+        },
+        "duration": {
+          "s": 1.167,
+          "f60": 70
+        },
+        "onsetToPeak": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "peakToRest": {
+          "s": 0.833,
+          "f60": 50
+        },
+        "asymmetry": 2.22,
+        "peakEnergy": 12.43,
+        "peakRegionalSpeedPxPerFrame": 21.44,
+        "peakGlobalSpeedPxPerFrame": 10.1
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 114,
+    "searchSaturatedBlockPct": 1.6,
+    "globalMedian": 0.16,
+    "globalP95": 5.29,
+    "regionalMedian": 3.14,
+    "regionalP95": 30.75,
+    "regionalMax": 38.91
+  },
+  "meta": {
+    "id": "kin-488b",
+    "category": "kinetic_editorial",
+    "catalogCaseId": "c-cb3cf6a94194f405",
+    "catalogFile": "488b4c1026b42dd141d9.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://lemomo-ai.github.io/lemo-opuscar/#whiteboard",
+    "catalogStyleId": "handdrawn"
+  }
+}

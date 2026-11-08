@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "bouncing-ball",
+  "title": "Ball Video",
+  "mode": "kinetic-poster",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 5,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "a", "startFrame": 0, "endFrame": 99, "intent": "ball falls", "board": {"focal":".ball","zone":"top-center","start":"Empty dark stage","end":"Ball falling toward the floor","text":[],"transitionIn":"cut","why":"the ball is the only subject"} },
+    { "id": "b", "startFrame": 100, "endFrame": 199, "intent": "ball rises", "board": {"focal":".ball","zone":"middle-center","start":"Ball at the floor","end":"Ball rising again","text":[],"transitionIn":"camera:pushIn","why":"the rebound changes height and depth"} },
+    { "id": "c", "startFrame": 200, "endFrame": 300, "intent": "caption (1.2s hold)", "board": {"focal":".caption","zone":"bottom-center","start":"Ball at rest","end":"Caption visible and still","text":["Lorem ipsum your text here"],"transitionIn":"cut","why":"the caption is the closing line"} }
+  ]
+}

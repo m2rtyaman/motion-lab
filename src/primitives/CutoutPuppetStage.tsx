@@ -46,6 +46,7 @@ export interface CutoutPuppetStageProps {
  * - 12 FPS stepped stop-motion quantization
  * - Handheld frame-to-frame micro-shake
  */
+/** @deprecated legacy look — not for v2 */
 export const CutoutPuppetStage: React.FC<CutoutPuppetStageProps> = ({
   headContent,
   torsoContent,

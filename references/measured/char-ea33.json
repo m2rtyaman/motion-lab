@@ -1,0 +1,119 @@
+{
+  "source": "ea33605a21dfab4a954a.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 480,
+    "height": 262,
+    "analysisSize": "192x104"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 1.315,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 5.968,
+    "median": 5.434,
+    "p90": 10.509,
+    "max": 26.105,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        6
+      ],
+      "f60": [
+        360
+      ]
+    },
+    "median": {
+      "s": 6,
+      "f60": 360
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 0.917,
+          "f60": 55
+        },
+        "peak": {
+          "s": 2,
+          "f60": 120
+        },
+        "end": {
+          "s": 2.792,
+          "f60": 167.5
+        },
+        "duration": {
+          "s": 1.875,
+          "f60": 112.5
+        },
+        "onsetToPeak": {
+          "s": 1.125,
+          "f60": 67.5
+        },
+        "peakToRest": {
+          "s": 0.792,
+          "f60": 47.5
+        },
+        "asymmetry": 0.7,
+        "peakEnergy": 26.1,
+        "peakRegionalSpeedPxPerFrame": 38.21,
+        "peakGlobalSpeedPxPerFrame": 15.86
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 137,
+    "searchSaturatedBlockPct": 1,
+    "globalMedian": 3.4,
+    "globalP95": 9.53,
+    "regionalMedian": 7.24,
+    "regionalP95": 16.76,
+    "regionalMax": 38.21
+  },
+  "meta": {
+    "id": "char-ea33",
+    "category": "character",
+    "catalogCaseId": "x-2103082371570340234",
+    "catalogFile": "ea33605a21dfab4a954a.mp4",
+    "creator": "petergostev",
+    "creditLink": "https://x.com/petergostev/status/2103033635397898433",
+    "catalogStyleId": "painted"
+  }
+}

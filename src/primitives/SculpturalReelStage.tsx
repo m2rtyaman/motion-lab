@@ -36,6 +36,7 @@ export interface ChampagneBeveledRingProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const ChampagneBeveledRing: FC<ChampagneBeveledRingProps> = ({
   size = 380,
   frame: frameProp,
@@ -143,6 +144,7 @@ export interface DiagonalGradientSweepProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const DiagonalGradientSweep: FC<DiagonalGradientSweepProps> = ({
   progress,
   bandColors = [
@@ -197,6 +199,7 @@ export interface PerspectiveDiscCascadeProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const PerspectiveDiscCascade: FC<PerspectiveDiscCascadeProps> = ({
   progress,
   count = 5,
@@ -243,6 +246,7 @@ export interface PaletteGridResetProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const PaletteGridReset: FC<PaletteGridResetProps> = ({
   swatches = [
     SCULPTURAL_REEL_PALETTE.goldChampagne,
@@ -293,6 +297,7 @@ export interface SculpturalReelStageProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const SculpturalReelStage: FC<SculpturalReelStageProps> = ({
   children,
   aspect = '16:9',

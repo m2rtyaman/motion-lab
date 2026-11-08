@@ -1,0 +1,92 @@
+{
+  "task": "list-reveal",
+  "aspect": "16:9",
+  "durationSeconds": {
+    "min": 4.8,
+    "max": 5.2
+  },
+  "beats": {
+    "min": 3,
+    "max": 5
+  },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    {
+      "label": "items enter with rise or stagger",
+      "anyOf": [
+        "enter:rise",
+        "enter:stagger"
+      ]
+    },
+    {
+      "label": "the hero step gets an emphasis",
+      "anyOf": [
+        "emphasize:*",
+        "camera:pushIn"
+      ]
+    }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 8,
+  "rhythm": {
+    "minDistinctOnsets": 7,
+    "minGapSigmaFrames": 8
+  },
+  "maxWarnings": {
+    "default": 0
+  },
+  "maxSceneLines": 110,
+  "maxRawTweens": 1,
+  "maxLocalComponents": 0,
+  "requiredStrings": [
+    "How we work",
+    "Listen",
+    "Sketch",
+    "Prototype",
+    "Animate",
+    "Ship"
+  ],
+  "requiredCode": [],
+  "forbiddenPatterns": [],
+  "closingHold": {
+    "groups": [
+      {
+        "label": "the title \"How we work\"",
+        "anyOf": [
+          "How we work"
+        ]
+      },
+      {
+        "label": "the step \"Listen\"",
+        "anyOf": [
+          "Listen"
+        ]
+      },
+      {
+        "label": "the step \"Sketch\"",
+        "anyOf": [
+          "Sketch"
+        ]
+      },
+      {
+        "label": "the step \"Prototype\"",
+        "anyOf": [
+          "Prototype"
+        ]
+      },
+      {
+        "label": "the step \"Animate\"",
+        "anyOf": [
+          "Animate"
+        ]
+      },
+      {
+        "label": "the step \"Ship\"",
+        "anyOf": [
+          "Ship"
+        ]
+      }
+    ]
+  }
+}

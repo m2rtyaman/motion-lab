@@ -1,0 +1,119 @@
+{
+  "source": "9453048b3a844f035773.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 480,
+    "height": 270,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 3.763,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 8.123,
+    "median": 7.346,
+    "p90": 12.151,
+    "max": 15.366,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 0,
+          "f60": 0
+        },
+        "peak": {
+          "s": 3.583,
+          "f60": 215
+        },
+        "end": {
+          "s": 5.667,
+          "f60": 340
+        },
+        "duration": {
+          "s": 5.667,
+          "f60": 340
+        },
+        "onsetToPeak": {
+          "s": 3.625,
+          "f60": 217.5
+        },
+        "peakToRest": {
+          "s": 2.083,
+          "f60": 125
+        },
+        "asymmetry": 0.57,
+        "peakEnergy": 15.37,
+        "peakRegionalSpeedPxPerFrame": 9.15,
+        "peakGlobalSpeedPxPerFrame": 7.9
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 191,
+    "searchSaturatedBlockPct": 1,
+    "globalMedian": 4.14,
+    "globalP95": 5.45,
+    "regionalMedian": 5.3,
+    "regionalP95": 7.84,
+    "regionalMax": 9.15
+  },
+  "meta": {
+    "id": "spat-9453",
+    "category": "spatial_other",
+    "catalogCaseId": "x-2103129343253778767",
+    "catalogFile": "9453048b3a844f035773.mp4",
+    "creator": "koldo2k",
+    "creditLink": "https://x.com/koldo2k/status/2103129343253778767",
+    "catalogStyleId": "collage"
+  }
+}

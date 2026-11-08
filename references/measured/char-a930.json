@@ -1,0 +1,415 @@
+{
+  "source": "a9308f9b2726f0d8d1bd.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 190,
+    "width": 640,
+    "height": 356,
+    "analysisSize": "192x106"
+  },
+  "duration": {
+    "s": 7.917,
+    "f60": 475
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 9.984,
+    "median": 9.996,
+    "p90": 21.131,
+    "max": 22.54,
+    "pctFramesStill": 10.5
+  },
+  "cuts": {
+    "count": 6,
+    "perTenSeconds": 7.58,
+    "at": {
+      "s": [
+        0.125,
+        4.917,
+        5.167,
+        5.667,
+        5.792,
+        6.292
+      ],
+      "f60": [
+        7.5,
+        295,
+        310,
+        340,
+        347.5,
+        377.5
+      ]
+    }
+  },
+  "shots": {
+    "count": 7,
+    "lengths": {
+      "s": [
+        0.125,
+        4.792,
+        0.25,
+        0.5,
+        0.125,
+        0.5,
+        1.625
+      ],
+      "f60": [
+        7.5,
+        287.5,
+        15,
+        30,
+        7.5,
+        30,
+        97.5
+      ]
+    },
+    "median": {
+      "s": 0.5,
+      "f60": 30
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 10,
+    "list": [
+      {
+        "start": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peak": {
+          "s": 2.25,
+          "f60": 135
+        },
+        "end": {
+          "s": 2.458,
+          "f60": 147.5
+        },
+        "duration": {
+          "s": 2.25,
+          "f60": 135
+        },
+        "onsetToPeak": {
+          "s": 2.083,
+          "f60": 125
+        },
+        "peakToRest": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "asymmetry": 0.1,
+        "peakEnergy": 21.62,
+        "peakRegionalSpeedPxPerFrame": 5,
+        "peakGlobalSpeedPxPerFrame": 4.03
+      },
+      {
+        "start": {
+          "s": 2.5,
+          "f60": 150
+        },
+        "peak": {
+          "s": 2.542,
+          "f60": 152.5
+        },
+        "end": {
+          "s": 2.708,
+          "f60": 162.5
+        },
+        "duration": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 2,
+        "peakEnergy": 22.54,
+        "peakRegionalSpeedPxPerFrame": 0.04,
+        "peakGlobalSpeedPxPerFrame": 0.03
+      },
+      {
+        "start": {
+          "s": 2.75,
+          "f60": 165
+        },
+        "peak": {
+          "s": 2.792,
+          "f60": 167.5
+        },
+        "end": {
+          "s": 2.958,
+          "f60": 177.5
+        },
+        "duration": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 2,
+        "peakEnergy": 21,
+        "peakRegionalSpeedPxPerFrame": 0.05,
+        "peakGlobalSpeedPxPerFrame": 0.03
+      },
+      {
+        "start": {
+          "s": 3,
+          "f60": 180
+        },
+        "peak": {
+          "s": 3.042,
+          "f60": 182.5
+        },
+        "end": {
+          "s": 3.208,
+          "f60": 192.5
+        },
+        "duration": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 2,
+        "peakEnergy": 21.15,
+        "peakRegionalSpeedPxPerFrame": 0.05,
+        "peakGlobalSpeedPxPerFrame": 0.03
+      },
+      {
+        "start": {
+          "s": 3.25,
+          "f60": 195
+        },
+        "peak": {
+          "s": 3.292,
+          "f60": 197.5
+        },
+        "end": {
+          "s": 3.458,
+          "f60": 207.5
+        },
+        "duration": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 2,
+        "peakEnergy": 20.9,
+        "peakRegionalSpeedPxPerFrame": 0.04,
+        "peakGlobalSpeedPxPerFrame": 0.03
+      },
+      {
+        "start": {
+          "s": 3.5,
+          "f60": 210
+        },
+        "peak": {
+          "s": 4.792,
+          "f60": 287.5
+        },
+        "end": {
+          "s": 4.875,
+          "f60": 292.5
+        },
+        "duration": {
+          "s": 1.375,
+          "f60": 82.5
+        },
+        "onsetToPeak": {
+          "s": 1.333,
+          "f60": 80
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 0.06,
+        "peakEnergy": 22.29,
+        "peakRegionalSpeedPxPerFrame": 0.07,
+        "peakGlobalSpeedPxPerFrame": 0.04
+      },
+      {
+        "start": {
+          "s": 5,
+          "f60": 300
+        },
+        "peak": {
+          "s": 5.042,
+          "f60": 302.5
+        },
+        "end": {
+          "s": 5.125,
+          "f60": 307.5
+        },
+        "duration": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 1,
+        "peakEnergy": 22.41,
+        "peakRegionalSpeedPxPerFrame": 0.03,
+        "peakGlobalSpeedPxPerFrame": 0.02
+      },
+      {
+        "start": {
+          "s": 5.25,
+          "f60": 315
+        },
+        "peak": {
+          "s": 5.292,
+          "f60": 317.5
+        },
+        "end": {
+          "s": 5.625,
+          "f60": 337.5
+        },
+        "duration": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "asymmetry": 4,
+        "peakEnergy": 22.07,
+        "peakRegionalSpeedPxPerFrame": 0.07,
+        "peakGlobalSpeedPxPerFrame": 0.04
+      },
+      {
+        "start": {
+          "s": 5.875,
+          "f60": 352.5
+        },
+        "peak": {
+          "s": 6.167,
+          "f60": 370
+        },
+        "end": {
+          "s": 6.25,
+          "f60": 375
+        },
+        "duration": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "onsetToPeak": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 0.25,
+        "peakEnergy": 6.05,
+        "peakRegionalSpeedPxPerFrame": 0.03,
+        "peakGlobalSpeedPxPerFrame": 0.03
+      },
+      {
+        "start": {
+          "s": 6.375,
+          "f60": 382.5
+        },
+        "peak": {
+          "s": 6.417,
+          "f60": 385
+        },
+        "end": {
+          "s": 7.875,
+          "f60": 472.5
+        },
+        "duration": {
+          "s": 1.5,
+          "f60": 90
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 1.458,
+          "f60": 87.5
+        },
+        "asymmetry": 17.5,
+        "peakEnergy": 9.52,
+        "peakRegionalSpeedPxPerFrame": 5.79,
+        "peakGlobalSpeedPxPerFrame": 2.09
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 116,
+    "searchSaturatedBlockPct": 0.1,
+    "globalMedian": 0.04,
+    "globalP95": 2.06,
+    "regionalMedian": 0.06,
+    "regionalP95": 3.53,
+    "regionalMax": 5.79
+  },
+  "meta": {
+    "id": "char-a930",
+    "category": "character",
+    "catalogCaseId": "x-2102495989194236158",
+    "catalogFile": "a9308f9b2726f0d8d1bd.mp4",
+    "creator": "shfred0",
+    "creditLink": "https://x.com/shfred0/status/2102495989194236158",
+    "catalogStyleId": "handdrawn"
+  }
+}

@@ -8,11 +8,11 @@ import { parseArgs, resolveTargets, rootDir, rel } from "./lib/projects.mjs";
  * Kaynak: references/SAAS_WORKFLOW_GUIDE.md
  * (Motion Graphics Workflow Guide - 6 Short Blocks Architecture)
  *
- * spec.json ve direction.md dosyalarından beslenerek video AI modelleri
- * (Gemini Omni Flash, Kling, Sora, Runway) veya yaratıcı yönetmen teslimatı için
- * standart 6 bloklu deterministik prodüksiyon promptu derler.
+ * Built from spec.json and direction.md to feed video AI models
+ * (Gemini Omni Flash, Kling, Sora, Runway) or a creative director handoff,
+ * compiles a standard 6-block deterministic production prompt.
  *
- * Kullanım:
+ * Usage:
  *   node scripts/compile-master-prompt.mjs --project <slug>
  */
 
@@ -29,7 +29,7 @@ for (const project of targets) {
   const directionPath = project.direction;
 
   if (!fs.existsSync(specPath)) {
-    console.error(`[HATA] spec.json bulunamadı: ${specPath}`);
+    console.error(`[ERROR] spec.json not found: ${specPath}`);
     continue;
   }
 
@@ -39,7 +39,7 @@ for (const project of targets) {
     direction = fs.readFileSync(directionPath, "utf-8");
   }
 
-  // Direction içinden renkleri, başlığı ve tasarım kararlarını analiz et
+  // Analyze colors, title and design decisions from direction
   const paletteMatch = direction.match(/Renk Paleti|Palette|Colors/i);
   const beats = spec.beats || [];
   const camera = spec.camera || [];
@@ -103,7 +103,7 @@ ${consistency}
 ${qualityControl}
 `;
 
-  // Çıktıyı dosyaya kaydet
+  // Save output to file
   const outDir = path.join(rootDir, "out", project.slug);
   fs.mkdirSync(outDir, { recursive: true });
   const outPath = path.join(outDir, "master-prompt.txt");

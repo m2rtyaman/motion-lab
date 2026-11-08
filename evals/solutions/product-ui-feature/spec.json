@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "product-ui-feature",
+  "title": "Tidemark Collections",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "light" },
+  "beats": [
+    { "id": "open", "startFrame": 0, "endFrame": 119, "intent": "The Tidemark inbox arrives in a browser frame, rows queue up",
+      "board": {"focal":".frame-wrap","zone":"center","start":"Empty light canvas","end":"Headline above a centred browser frame with the inbox rows queued","text":["Saves that sort themselves."],"transitionIn":"cut","why":"the whole product is visible before the action"} },
+    { "id": "act", "startFrame": 120, "endFrame": 263, "intent": "Cursor clicks Sort into collections; collections appear with a push-in",
+      "board": {"focal":".sort-btn","zone":"top-right","start":"Cursor entering, inbox unsorted","end":"Cursor on Sort into collections and the collections appeared, camera leaned in","text":["Sort into collections"],"transitionIn":"cut","why":"the click is the cause; the collections are its effect and appear after it"} },
+    { "id": "finale", "startFrame": 264, "endFrame": 480, "intent": "The page iris-wipes to the brand colour, mark and CTA resolve (1.2s hold)",
+      "board": {"focal":".finale-word","zone":"center","start":"Iris wipe opening the brand canvas","end":"Mark, headline and CTA sharp and centred","text":["Try Tidemark free"],"transitionIn":"transition:maskWipe","why":"the result becomes the message and the CTA holds still for 1.2s"} }
+  ]
+}

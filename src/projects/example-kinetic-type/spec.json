@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Margin Manifesto",
+  "mode": "kinetic-poster",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "theme": { "surfaceMode": "editorial-warm" },
+  "beats": [
+    { "id": "hook", "startFrame": 0, "endFrame": 95, "intent": "State the problem in four heavy words",
+      "board": {"focal":".hook-word","zone":"middle-center","start":"Dark poster, no type yet","end":"Four heavy words stacked, the last one punched","text":["Most writing"],"transitionIn":"cut","why":"state the problem in four words before offering the fix"} },
+    { "id": "turn", "startFrame": 96, "endFrame": 221, "intent": "Dark panel wipes in with the editing mantra",
+      "board": {"focal":".turn-line","zone":"middle-center","start":"Hook words still on screen, a dark panel starts to wipe in diagonally","end":"Panel covers the poster, three short lines stacked and pushed in on","text":["Cut it.","Then cut it again."],"transitionIn":"transition:maskWipe","why":"the mantra answers the problem, so it takes over the whole frame"} },
+    { "id": "sign", "startFrame": 222, "endFrame": 360, "intent": "Resolve to the product mark and tagline (1.2s hold)",
+      "board": {"focal":".sign-word","zone":"middle-center","start":"Panel gone, the poster resolving to the product mark","end":"Mark, tagline and brand line sharp and still","text":["Write short.","Think long."],"transitionIn":"cut","why":"the sign-off is the takeaway and holds still for the 1.2s so it can be read"} }
+  ]
+}

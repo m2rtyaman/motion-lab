@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Overlap and Follow-Through",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6.2,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "setup", "startFrame": 0, "endFrame": 71, "intent": "A stack of four bars and a hanging chain of four links arrive",
+      "board": {"focal":".bar","zone":"middle-center","start":"Dark grid, empty","end":"A stack of four bars at the left and a hanging chain of four links at the right","text":[],"transitionIn":"cut","why":"show the parts and their parents before any of them move"} },
+    { "id": "stack", "startFrame": 72, "endFrame": 179, "intent": "The parent bar moves and stops; each child starts 3 f later and overshoots more", "samples": [95, 105, 116],
+      "board": {"focal":".bar","zone":"middle-left","start":"Bars stacked at rest","end":"Parent bar stopped, each child settled after it with more overshoot","text":[],"transitionIn":"cut","why":"parent first and children later is overlap"} },
+    { "id": "chain", "startFrame": 180, "endFrame": 251, "intent": "The chain swings; each link follows its parent 3 f late and swings wider", "samples": [195, 205, 220],
+      "board": {"focal":".chain","zone":"middle-right","start":"Chain hanging still","end":"Chain swung and settled, each link late and wider than its parent","text":[],"transitionIn":"cut","why":"the second example moves the viewer's eye to the other half of the frame"} },
+    { "id": "rest", "startFrame": 252, "endFrame": 372, "intent": "Caption states the rule, then the 1.2s hold",
+      "board": {"focal":".caption","zone":"bottom-left","start":"Bars and chain at rest, caption absent","end":"Caption states the rule under both examples","text":["nothing stops on the same frame."],"transitionIn":"cut","why":"the rule follows the evidence and holds still for the 1.2s"} }
+  ]
+}

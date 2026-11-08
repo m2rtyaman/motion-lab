@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "bouncing-ball",
+  "title": "Heavy Ball",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 4,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "setup", "startFrame": 0, "endFrame": 36, "intent": "Floor appears, the ball waits at the top left",
+      "board": {"focal":".ball","zone":"top-left","start":"Dark grid, empty","end":"Floor drawn and the ball waiting at the top left","text":[],"transitionIn":"cut","why":"the floor and the ball must exist before anything drops"} },
+    { "id": "drop", "startFrame": 37, "endFrame": 131, "intent": "Fall, squash on contact, three rebounds that decay while the ball travels right",
+      "board": {"focal":".ball","zone":"middle-center","start":"Ball hanging at the top left","end":"Ball resting at the right after a fall, squash and three decaying bounces","text":[],"transitionIn":"cut","why":"the fall is the cause of the squash, the squash of the rebounds"} },
+    { "id": "rest", "startFrame": 132, "endFrame": 240, "intent": "Ball settles, caption names the feeling (1.2s hold)",
+      "board": {"focal":".caption","zone":"bottom-center","start":"Ball still, caption absent","end":"Caption under the still ball","text":["Lighter with every bounce."],"transitionIn":"cut","why":"the caption names the feeling after it is seen and holds still for 1.2s"} }
+  ]
+}

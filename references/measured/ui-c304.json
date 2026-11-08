@@ -1,0 +1,137 @@
+{
+  "source": "c304dee653d4e271e912.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.477,
+    "noiseFloor": 0.239,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 2.304,
+    "median": 1.432,
+    "p90": 5.875,
+    "max": 16.411,
+    "pctFramesStill": 16
+  },
+  "cuts": {
+    "count": 1,
+    "perTenSeconds": 1.67,
+    "at": {
+      "s": [
+        5.792
+      ],
+      "f60": [
+        347.5
+      ]
+    }
+  },
+  "shots": {
+    "count": 2,
+    "lengths": {
+      "s": [
+        5.792,
+        0.208
+      ],
+      "f60": [
+        347.5,
+        12.5
+      ]
+    },
+    "median": {
+      "s": 3,
+      "f60": 180
+    }
+  },
+  "holds": {
+    "count": 2,
+    "lengths": {
+      "s": [
+        0.292,
+        0.417
+      ],
+      "f60": [
+        17.5,
+        25
+      ]
+    },
+    "starts": {
+      "s": [
+        4.083,
+        5
+      ],
+      "f60": [
+        245,
+        300
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 2.375,
+          "f60": 142.5
+        },
+        "peak": {
+          "s": 2.458,
+          "f60": 147.5
+        },
+        "end": {
+          "s": 3.333,
+          "f60": 200
+        },
+        "duration": {
+          "s": 0.958,
+          "f60": 57.5
+        },
+        "onsetToPeak": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "peakToRest": {
+          "s": 0.875,
+          "f60": 52.5
+        },
+        "asymmetry": 7,
+        "peakEnergy": 16.41,
+        "peakRegionalSpeedPxPerFrame": 13.49,
+        "peakGlobalSpeedPxPerFrame": 6.3
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 120,
+    "searchSaturatedBlockPct": 0.4,
+    "globalMedian": 0.12,
+    "globalP95": 4.14,
+    "regionalMedian": 0.26,
+    "regionalP95": 9.62,
+    "regionalMax": 13.49
+  },
+  "meta": {
+    "id": "ui-c304",
+    "category": "ui_product",
+    "catalogCaseId": "c-43788d50f8641308",
+    "catalogFile": "c304dee653d4e271e912.mp4",
+    "creator": "Vincentwei1021",
+    "creditLink": "https://vincentwei1021.github.io/mg-styles-15/#22-hud",
+    "catalogStyleId": "hud"
+  }
+}

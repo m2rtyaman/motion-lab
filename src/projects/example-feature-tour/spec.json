@@ -1,0 +1,119 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Feature Tour: Foldline",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 11.2,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "beats": [
+    {
+      "id": "open",
+      "startFrame": 0,
+      "endFrame": 107,
+      "intent": "The app window arrives under a one-line promise",
+      "board": {
+        "focal": ".app-window",
+        "zone": "middle-center",
+        "start": "Dark grid, nothing on screen",
+        "end": "Headline above one complete app window with the Today list",
+        "text": [
+          "A calmer to-do list."
+        ],
+        "transitionIn": "cut",
+        "why": "meet the whole product before zooming into any part of it"
+      }
+    },
+    {
+      "id": "capture",
+      "startFrame": 108,
+      "endFrame": 257,
+      "intent": "Click the quick-add bar; a new task slides in at the top of the list",
+      "board": {
+        "focal": ".quickadd",
+        "zone": "middle-center",
+        "start": "Wide window, camera starting to push in",
+        "end": "Camera leaned on the list, cursor on the plus, Draft launch email added at the top",
+        "text": [
+          "Add a task in one click"
+        ],
+        "transitionIn": "camera:pushIn",
+        "why": "the click on quick add is the cause; the new row is its effect"
+      }
+    },
+    {
+      "id": "schedule",
+      "startFrame": 258,
+      "endFrame": 365,
+      "intent": "Click the due chip; the date menu opens",
+      "board": {
+        "focal": ".due-chip",
+        "zone": "middle-right",
+        "start": "New row with a dashed No date chip, camera moving right",
+        "end": "Date menu open under the chip, cursor travelling to Friday",
+        "text": [
+          "Pick a due date"
+        ],
+        "transitionIn": "camera:pushIn",
+        "why": "the chip is the cause and the menu is the middle step, so it opens before anything is picked"
+      }
+    },
+    {
+      "id": "pick",
+      "startFrame": 366,
+      "endFrame": 437,
+      "intent": "Pick Friday; the menu closes and the chip fills with the date",
+      "board": {
+        "focal": ".pick-2",
+        "zone": "bottom-right",
+        "start": "Menu open, cursor on Friday",
+        "end": "Menu closed, the chip filled blue with Fri 17",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "the pick is the cause; the filled chip is its effect"
+      }
+    },
+    {
+      "id": "share",
+      "startFrame": 438,
+      "endFrame": 545,
+      "intent": "Click Share; avatars appear and a toast confirms",
+      "board": {
+        "focal": ".share-btn",
+        "zone": "top-right",
+        "start": "Chip filled, cursor travelling up to the Share button",
+        "end": "Avatar stack beside Share and the Shared with Design toast under it, clear of the Add a task bar, just before the toast leaves",
+        "text": [
+          "Share in a click"
+        ],
+        "transitionIn": "camera:pushIn",
+        "why": "the click on Share is the cause; avatars and toast are the proof"
+      }
+    },
+    {
+      "id": "outro",
+      "startFrame": 546,
+      "endFrame": 672,
+      "intent": "The camera pulls back to the full window and the closing line holds",
+      "board": {
+        "focal": ".cta",
+        "zone": "bottom-center",
+        "start": "Toast leaving, camera starting to pull back from the zoomed window",
+        "end": "Window pushed back and dimmed, brand mark, two-line headline and a large Try Foldline free button centred and sharp",
+        "text": [
+          "Three clicks, one calm day."
+        ],
+        "transitionIn": "camera:pullOut",
+        "why": "the recap is the message and the button is the ask, so the window steps back and the card holds still for the full 1.2s"
+      }
+    }
+  ]
+}

@@ -3,15 +3,15 @@ import path from 'node:path';
 import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 
 /**
- * GLYPH AUDIT (Motion Lab Animasyon Rehberi Glif ve Tipografi Güvenliği)
+ * GLYPH AUDIT (Motion Lab animation guide: glyph and typography safety)
  *
- * README.md: "Türkçe karakterler bozuk: Yazı tipinde Türkçe glif yok.
- * Türkçe destekli bir Google Fonts yazı tipi kullan, İ Ş Ğ Ü Ö Ç'yi test karesinde göster."
+ * README.md: "Turkish characters are broken: the font has no Turkish glyphs.
+ * Use a Google Fonts typeface with Turkish support and show İ Ş Ğ Ü Ö Ç in the test frame."
  *
- * Projedeki metinlerin UTF-8 bütünlüğünü, kırık karakterleri (\uFFFD vb.) ve
- * Türkçe karakterlerin (İ, Ş, Ğ, Ü, Ö, Ç, ı) font desteğini denetler.
+ * Checks UTF-8 integrity of project text, broken characters (\uFFFD etc.) and
+ * font support for Turkish characters (İ, Ş, Ğ, Ü, Ö, Ç, ı).
  *
- * Kullanım: node scripts/glyph-audit.mjs [--project <slug>]
+ * Usage: node scripts/glyph-audit.mjs [--project <slug>]
  */
 
 const args = parseArgs();
@@ -43,40 +43,40 @@ for (const project of targets) {
   filesToCheck.forEach((file) => {
     const content = fs.readFileSync(file, 'utf-8');
 
-    // 1. Kırık karakter kontrolü
+    // 1. Broken character check
     if (BROKEN_CHARS.test(content)) {
       issues.push({
         file: rel(file),
-        problem: 'Bozuk veya görünmeyen kontrol karakteri tespit edildi (UTF-8 encoding hatası).',
-        fix: 'Dosyayı UTF-8 olarak yeniden kaydedin.',
+        problem: 'Broken or invisible control character detected (UTF-8 encoding error).',
+        fix: 'Re-save the file as UTF-8.',
       });
       totalErrors++;
     }
 
-    // 2. Türkçe karakter tespiti
+    // 2. Turkish character detection
     const matches = content.match(/[çÇğĞıİöÖşŞüÜ]/g);
     if (matches) {
       turkishCharCount += matches.length;
     }
   });
 
-  console.log(`${BOLD}▶ PROJE: ${project.slug.toUpperCase()}${RESET}`);
-  console.log(`  Türkçe Glif Sayısı : ${turkishCharCount > 0 ? GREEN + turkishCharCount : YELLOW + '0 (Salt İngilizce)'}${RESET}`);
+  console.log(`${BOLD}▶ PROJECT: ${project.slug.toUpperCase()}${RESET}`);
+  console.log(`  Turkish Glyph Count : ${turkishCharCount > 0 ? GREEN + turkishCharCount : YELLOW + '0 (English only)'}${RESET}`);
 
   if (issues.length === 0) {
-    console.log(`  ${GREEN}✓ UTF-8 karakter seti sağlam, kırık glif yok.${RESET}\n`);
+    console.log(`  ${GREEN}✓ UTF-8 character set is sound, no broken glyphs.${RESET}\n`);
   } else {
     issues.forEach((iss) => {
-      console.log(`  ${RED}${BOLD}[HATA] ${iss.file}${RESET}: ${iss.problem}\n     Çözüm → ${iss.fix}`);
+      console.log(`  ${RED}${BOLD}[ERROR] ${iss.file}${RESET}: ${iss.problem}\n     Fix → ${iss.fix}`);
     });
     console.log('');
   }
 }
 
 if (totalErrors === 0) {
-  console.log(`${GREEN}${BOLD}[GLİF DENETİMİ: BAŞARILI] Tüm projeler UTF-8 ve uluslararası tipografiyle tam uyumlu.${RESET}\n`);
+  console.log(`${GREEN}${BOLD}[GLYPH AUDIT: PASSED] All projects are fully compliant with UTF-8 and international typography.${RESET}\n`);
   process.exit(0);
 } else {
-  console.log(`${RED}${BOLD}[GLİF DENETİMİ: BAŞARISIZ] ${totalErrors} adet kırık karakter bulundu.${RESET}\n`);
+  console.log(`${RED}${BOLD}[GLYPH AUDIT: FAILED] ${totalErrors} broken character(s) found.${RESET}\n`);
   process.exit(1);
 }

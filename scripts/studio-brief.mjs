@@ -3,21 +3,21 @@ import path from 'node:path';
 import { rootDir, SLUG_RE, MODES, ASPECT_DIMS } from './lib/projects.mjs';
 
 /**
- * STUDIO BRIEF (Motion Lab Animasyon Rehberi 7 Parçalı Yönetmen Brifing Motoru)
+ * STUDIO BRIEF (Motion Lab animation guide: 7-part director briefing engine)
  *
- * Prompt 2 & 2b: Kullanıcının sadece konu ve hedef cümlesiyle
- * profesyonel 7 parçalı direction.md ve spec.json sözleşmesini otonom üretir.
+ * Prompt 2 & 2b: from only the user's topic and goal sentence,
+ * autonomously generates a professional 7-part direction.md and spec.json contract.
  *
- * 7 Parça:
+ * 7 Parts:
  * 1. Rol (Motion Designer / Creative Director)
- * 2. Tek Cümlelik Hedef
- * 3. Format & Çözünürlük
- * 4. Fikir Sırası (Sahne Listesi)
- * 5. Sanat Yönü & Palet
- * 6. Hareket Dili (Anlamsal hareket)
- * 7. Yasaklar & Kontrol Sözleşmesi
+ * 2. One-Sentence Goal
+ * 3. Format & Resolution
+ * 4. Idea Order (Scene List)
+ * 5. Art Direction & Palette
+ * 6. Motion Language (semantic motion)
+ * 7. Prohibitions & Control Contract
  *
- * Kullanım:
+ * Usage:
  *   node scripts/studio-brief.mjs <slug> --topic "..." --goal "..." [--mode editorial-ui] [--aspect 16:9] [--duration 10]
  */
 
@@ -37,8 +37,8 @@ const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 
 if (!slug || !SLUG_RE.test(slug)) {
-  console.error(`${RED}${BOLD}[HATA] Geçersiz slug:${RESET} "${slug}"`);
-  console.log('Kullanım: node scripts/studio-brief.mjs <slug> --topic "..." --goal "..."');
+  console.error(`${RED}${BOLD}[ERROR] Invalid slug:${RESET} "${slug}"`);
+  console.log('Usage: node scripts/studio-brief.mjs <slug> --topic "..." --goal "..."');
   process.exit(1);
 }
 
@@ -53,7 +53,7 @@ const totalFrames = Math.round(duration * fps);
 const projectDir = path.join(rootDir, 'src', 'projects', slug);
 fs.mkdirSync(projectDir, { recursive: true });
 
-// 1. DIRECTION.MD (7 Parçalı Brif)
+// 1. DIRECTION.MD (7-Part Brief)
 const directionContent = `# Direction — ${topic}
 
 ## 1. ROL
@@ -94,7 +94,7 @@ ${goal}
 
 fs.writeFileSync(path.join(projectDir, 'direction.md'), directionContent, 'utf-8');
 
-// 2. SPEC.JSON (Hareket Sözleşmesi)
+// 2. SPEC.JSON (Motion Contract)
 const b1End = Math.round(totalFrames * 0.25) - 1;
 const b2End = Math.round(totalFrames * 0.55) - 1;
 const b3End = Math.round(totalFrames * 0.85) - 1;
@@ -194,7 +194,7 @@ fs.writeFileSync(path.join(projectDir, 'spec.json'), JSON.stringify(specContent,
 console.log(`\n${BOLD}====================================================${RESET}`);
 console.log(`${BOLD}   MOTION LAB AUTO-BRIEF GENERATED: ${slug.toUpperCase()}   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
-console.log(`Hedef Cümlesi : ${CYAN}"${goal}"${RESET}`);
-console.log(`Oluşturuldu   : ${GREEN}direction.md${RESET} (7 Parçalı Yönetmen Brifi)`);
-console.log(`Oluşturuldu   : ${GREEN}spec.json${RESET} (4 Beat, 7 Kamera Sözleşmesi)`);
-console.log(`Format        : ${aspect} (${totalFrames} kare @ ${fps} FPS)\n`);
+console.log(`Goal Sentence : ${CYAN}"${goal}"${RESET}`);
+console.log(`Created       : ${GREEN}direction.md${RESET} (7-Part Director Brief)`);
+console.log(`Created       : ${GREEN}spec.json${RESET} (4 Beats, 7 Camera Contract)`);
+console.log(`Format        : ${aspect} (${totalFrames} frames @ ${fps} FPS)\n`);

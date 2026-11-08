@@ -1,0 +1,433 @@
+{
+  "source": "3df79c0113d2ad88199f.mp4",
+  "native": {
+    "fps": 60,
+    "frames": 960,
+    "width": 480,
+    "height": 270,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 16,
+    "f60": 960
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 7.871,
+    "median": 3.192,
+    "p90": 23.873,
+    "max": 52.511,
+    "pctFramesStill": 17.3
+  },
+  "cuts": {
+    "count": 15,
+    "perTenSeconds": 9.38,
+    "at": {
+      "s": [
+        0.9,
+        3.25,
+        3.717,
+        4.1,
+        4.567,
+        4.65,
+        5.6,
+        12.633,
+        13.1,
+        13.567,
+        13.683,
+        13.8,
+        13.917,
+        14.033,
+        15.9
+      ],
+      "f60": [
+        54,
+        195,
+        223,
+        246,
+        274,
+        279,
+        336,
+        758,
+        786,
+        814,
+        821,
+        828,
+        835,
+        842,
+        954
+      ]
+    }
+  },
+  "shots": {
+    "count": 16,
+    "lengths": {
+      "s": [
+        0.9,
+        2.35,
+        0.467,
+        0.383,
+        0.467,
+        0.083,
+        0.95,
+        7.033,
+        0.467,
+        0.467,
+        0.117,
+        0.117,
+        0.117,
+        0.117,
+        1.867,
+        0.1
+      ],
+      "f60": [
+        54,
+        141,
+        28,
+        23,
+        28,
+        5,
+        57,
+        422,
+        28,
+        28,
+        7,
+        7,
+        7,
+        7,
+        112,
+        6
+      ]
+    },
+    "median": {
+      "s": 0.467,
+      "f60": 28
+    }
+  },
+  "holds": {
+    "count": 2,
+    "lengths": {
+      "s": [
+        0.633,
+        0.65
+      ],
+      "f60": [
+        38,
+        39
+      ]
+    },
+    "starts": {
+      "s": [
+        0.15,
+        15.117
+      ],
+      "f60": [
+        9,
+        907
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 9,
+    "list": [
+      {
+        "start": {
+          "s": 2.617,
+          "f60": 157
+        },
+        "peak": {
+          "s": 2.717,
+          "f60": 163
+        },
+        "end": {
+          "s": 2.783,
+          "f60": 167
+        },
+        "duration": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "onsetToPeak": {
+          "s": 0.117,
+          "f60": 7
+        },
+        "peakToRest": {
+          "s": 0.067,
+          "f60": 4
+        },
+        "asymmetry": 0.57,
+        "peakEnergy": 18.17,
+        "peakRegionalSpeedPxPerFrame": 118.24,
+        "peakGlobalSpeedPxPerFrame": 116.7
+      },
+      {
+        "start": {
+          "s": 5.1,
+          "f60": 306
+        },
+        "peak": {
+          "s": 5.133,
+          "f60": 308
+        },
+        "end": {
+          "s": 5.267,
+          "f60": 316
+        },
+        "duration": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "onsetToPeak": {
+          "s": 0.05,
+          "f60": 3
+        },
+        "peakToRest": {
+          "s": 0.133,
+          "f60": 8
+        },
+        "asymmetry": 2.67,
+        "peakEnergy": 17.63,
+        "peakRegionalSpeedPxPerFrame": 135.54,
+        "peakGlobalSpeedPxPerFrame": 100.97
+      },
+      {
+        "start": {
+          "s": 5.617,
+          "f60": 337
+        },
+        "peak": {
+          "s": 6.2,
+          "f60": 372
+        },
+        "end": {
+          "s": 6.367,
+          "f60": 382
+        },
+        "duration": {
+          "s": 0.75,
+          "f60": 45
+        },
+        "onsetToPeak": {
+          "s": 0.6,
+          "f60": 36
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 0.28,
+        "peakEnergy": 6.43,
+        "peakRegionalSpeedPxPerFrame": 50.9,
+        "peakGlobalSpeedPxPerFrame": 0.92
+      },
+      {
+        "start": {
+          "s": 6.633,
+          "f60": 398
+        },
+        "peak": {
+          "s": 6.867,
+          "f60": 412
+        },
+        "end": {
+          "s": 7.267,
+          "f60": 436
+        },
+        "duration": {
+          "s": 0.633,
+          "f60": 38
+        },
+        "onsetToPeak": {
+          "s": 0.25,
+          "f60": 15
+        },
+        "peakToRest": {
+          "s": 0.4,
+          "f60": 24
+        },
+        "asymmetry": 1.6,
+        "peakEnergy": 29.96,
+        "peakRegionalSpeedPxPerFrame": 113.69,
+        "peakGlobalSpeedPxPerFrame": 14.14
+      },
+      {
+        "start": {
+          "s": 8.283,
+          "f60": 497
+        },
+        "peak": {
+          "s": 9.35,
+          "f60": 561
+        },
+        "end": {
+          "s": 10.3,
+          "f60": 618
+        },
+        "duration": {
+          "s": 2.017,
+          "f60": 121
+        },
+        "onsetToPeak": {
+          "s": 1.083,
+          "f60": 65
+        },
+        "peakToRest": {
+          "s": 0.95,
+          "f60": 57
+        },
+        "asymmetry": 0.88,
+        "peakEnergy": 52.51,
+        "peakRegionalSpeedPxPerFrame": 123.7,
+        "peakGlobalSpeedPxPerFrame": 114.44
+      },
+      {
+        "start": {
+          "s": 12.017,
+          "f60": 721
+        },
+        "peak": {
+          "s": 12.15,
+          "f60": 729
+        },
+        "end": {
+          "s": 12.633,
+          "f60": 758
+        },
+        "duration": {
+          "s": 0.617,
+          "f60": 37
+        },
+        "onsetToPeak": {
+          "s": 0.15,
+          "f60": 9
+        },
+        "peakToRest": {
+          "s": 0.483,
+          "f60": 29
+        },
+        "asymmetry": 3.22,
+        "peakEnergy": 50.91,
+        "peakRegionalSpeedPxPerFrame": 82.07,
+        "peakGlobalSpeedPxPerFrame": 68.34
+      },
+      {
+        "start": {
+          "s": 13.133,
+          "f60": 788
+        },
+        "peak": {
+          "s": 13.2,
+          "f60": 792
+        },
+        "end": {
+          "s": 13.567,
+          "f60": 814
+        },
+        "duration": {
+          "s": 0.433,
+          "f60": 26
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.367,
+          "f60": 22
+        },
+        "asymmetry": 4.4,
+        "peakEnergy": 15.39,
+        "peakRegionalSpeedPxPerFrame": 49.12,
+        "peakGlobalSpeedPxPerFrame": 21.75
+      },
+      {
+        "start": {
+          "s": 13.933,
+          "f60": 836
+        },
+        "peak": {
+          "s": 13.967,
+          "f60": 838
+        },
+        "end": {
+          "s": 14.017,
+          "f60": 841
+        },
+        "duration": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "onsetToPeak": {
+          "s": 0.05,
+          "f60": 3
+        },
+        "peakToRest": {
+          "s": 0.05,
+          "f60": 3
+        },
+        "asymmetry": 1,
+        "peakEnergy": 50.18,
+        "peakRegionalSpeedPxPerFrame": 71.15,
+        "peakGlobalSpeedPxPerFrame": 28.8
+      },
+      {
+        "start": {
+          "s": 14.95,
+          "f60": 897
+        },
+        "peak": {
+          "s": 14.983,
+          "f60": 899
+        },
+        "end": {
+          "s": 15.067,
+          "f60": 904
+        },
+        "duration": {
+          "s": 0.117,
+          "f60": 7
+        },
+        "onsetToPeak": {
+          "s": 0.05,
+          "f60": 3
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 1.67,
+        "peakEnergy": 1.83,
+        "peakRegionalSpeedPxPerFrame": 5.66,
+        "peakGlobalSpeedPxPerFrame": 2.08
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 663,
+    "searchSaturatedBlockPct": 1.4,
+    "globalMedian": 5.86,
+    "globalP95": 50.78,
+    "regionalMedian": 10.1,
+    "regionalP95": 100.13,
+    "regionalMax": 135.54
+  },
+  "meta": {
+    "id": "sting-3df7",
+    "category": "brand_sting",
+    "catalogCaseId": "x-2103151003272962130",
+    "catalogFile": "3df79c0113d2ad88199f.mp4",
+    "creator": "shneural",
+    "creditLink": "https://x.com/shneural/status/2103151003272962130",
+    "catalogStyleId": "mixed"
+  }
+}

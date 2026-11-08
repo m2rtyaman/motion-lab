@@ -1,83 +1,46 @@
-# CODEX.md — OpenAI Codex & Copilot Harness
+# CODEX.md
 
-Deterministic, broadcast-grade 60 FPS video graphics engineering manual for OpenAI Codex, GitHub Copilot, and LLM coding agents working in **Motion Lab**.
+Deterministic motion-graphics studio: React + Remotion + GSAP, 60 fps, 9:16 or 16:9, rendered to MP4 (harness v2).
 
----
+`RULES.md` is the canonical rule file; if anything else disagrees, RULES.md wins. Web search is never required.
 
-## 1. Quick Command Reference
+## Read in this order
+1. `RULES.md` (what the scripts enforce)
+2. `docs/STORYBOARD.md`: write a board per beat in `spec.json` (focal, zone, key poses, text, why) before any code
+3. `docs/DESIGN_SYSTEM.md` (type scale, spacing, safe areas, contrast, UI scale: numbers, not adjectives)
+4. `docs/COMPONENT_GALLERY.md` (pictures of the curated primitives) and `docs/COMPONENT_RECIPES.md` (how to design cards, rows, charts, buttons, CTA, toasts, app windows; BAD/GOOD pairs)
+5. `docs/PRESETS.md` (the motion vocabulary you schedule instead of writing tweens; code in `src/core/presets.ts`, `src/core/physics.ts`)
+6. `docs/MOTION_MATH.md` (why the numbers are what they are)
+7. The doc for your task: `docs/ANIMATION_STUDIES.md` for physics, `docs/CHARACTER_ANIMATION.md` for characters
+8. The closest example in `src/projects/example-*` (`editorial-data` 16:9 data story, `social-promo` 9:16 character + UI, `feature-tour` 16:9 app tour, `product-ui`, `kinetic-type`, `logo-sting`); copy its structure, not its content
+Optional help: `.agent/skills/` (six maintained skills, start with `motion-playbook`), `references/MASTER_STORYBOARD_RULES.md`, `references/TYPOGRAPHY_GUIDE.md`. `.agent/skills-archive/` and `references/archive/` are legacy: do not follow.
 
+## Commands
 ```bash
-# Scaffold a new isolated video project
-pnpm new <slug> --mode <cinematic-world | editorial-ui | kinetic-poster | hybrid-orchestrated> [--aspect 9:16 | 16:9] [--duration 6]
-
-# Run full multi-layer quality gate
-pnpm check
-pnpm check --project <slug>
-
-# Generate visual audit contact sheet (beat boundary frames)
-pnpm render:contact-sheet --project <slug>
-
-# Render physical broadcast MP4 (out/<slug>/<slug>.mp4)
-pnpm render --project <slug>
-
-# Harvest keyless EdgeTTS voiceover & word timings
-pnpm harvest --project <slug> --text "Your voice narration script here."
+pnpm new <slug> --mode <editorial-ui|kinetic-poster|hybrid-orchestrated|cinematic-world> [--aspect 9:16|16:9] [--duration 6]
+pnpm check --project <slug>                  # (CHECK_FAST=1 skips cheat fixtures, CHECK_PROBE=1 adds probe tests) quality gate (incl. storyboard audit SB001-SB007); fix every error, then warnings
+pnpm render:poses --project <slug>           # key-pose stills per beat + out/<slug>/poses/poses-grid.png (before adding motion)
+pnpm render:contact-sheet --project <slug>   # out/<slug>/visual-audit-grid.png
+pnpm render --project <slug>                 # out/<slug>/<slug>.mp4
+pnpm eval:score --task <id> --project <slug> # graded exercises, see evals/README.md
 ```
+All modes scaffold v2 with a board per beat; `cinematic-world` gives a `RigCharacter` scene (rigWalk/lookAt/react). `--legacy` is the old layout.
 
----
+## Workflow: storyboard, poses, then motion
+1. Boards in `spec.json` (`beats[].board`), `pnpm check` shows no SB error. 2. Static layout in `Scene.tsx`. 3. `pnpm render:poses`, open the grid, fix layout against each board. 4. Only then add motion.
 
-## 2. Directory Architecture & Single Source of Truth
+## Rules of thumb
+- Scenes export `buildTimeline` and call `useRemotionGSAP(buildTimeline)`; motion is `beat/enter/exit/emphasize/camera/transition/holdFinal` and physics helpers. No direct `gsap.*`, no invented durations or eases.
+- Import primitives only from `src/primitives/curated` (plus `characters/RigCharacter`), `src/core/*`, react, remotion, gsap, your own folder.
+- Project components live in `components/*.tsx`: at most 6 files, each at most 120 lines, presentational only. No motion, no raw colors (take them from the `theme` prop), text of 18px or more, and each root forwards `className`. Scene.tsx keeps at most 2 local components.
+- Wrap shells in `UI_SCALE.recommendedZoom[0]` and counter-zoom the content (see `example-product-ui`). Do not use `emphasize` glint on a decorative overlay.
+- Text 18 px or larger, inside the safe zone; no emoji, lorem ipsum, fake telemetry or real brand logos; no `Math.random`, `Date.now`, timers or CSS transitions.
+- Finish with a still `holdFinal(tl, at, 1.2)`.
+- Every selector in `buildTimeline` must match a static `className`/`id` in the JSX (T014); do not animate in React (`spring`, `interpolate`/`useCurrentFrame` for style, props or showing/hiding: V2-005). Characters: `RigCharacter` plus the rig helpers only, no own tweens on rig parts.
 
-Every scene/video is completely isolated in `src/projects/<slug>/`:
-```
-src/projects/<slug>/
-  direction.md        # Creative direction, 3-input separation, physics decisions
-  spec.json           # Motion contract (beat timeline, camera keyframes, SFX cues)
-  Scene.tsx           # Remotion React component with GSAP seeking
-  vision-notes.md     # Visual contact sheet audit notes and sign-offs
-```
-- **Registry:** `src/projects/registry.generated.ts` is auto-generated by `scripts/gen-registry.mjs`. Never edit manually.
-- **Engine Core:** `src/core/` (deterministic bridges, spring solvers, design tokens).
-- **Primitives:** `src/primitives/` (atomic stages, hardware shells, camera rigs, kinetic typography).
-
----
-
-## 3. Strict Deterministic Engineering Rules
-
-1. **Deterministic Seeking (`useRemotionGSAP`):**
-   - Animation timelines must use `useRemotionGSAP` with `tl.seek(frame / fps)`.
-   - Never use `Math.random()`, `Date.now()`, `setTimeout()`, `setInterval()`, or CSS `@keyframes`/transitions. Use seeded PRNG (`mulberry32`).
-2. **GPU Purity (Zero Layout Reflow):**
-   - Animate ONLY `transform` (`x`, `y`, `scale`, `rotate`, `rotateX`, `rotateY`), `opacity`, and `filter`.
-   - Tweening layout properties (`width`, `height`, `top`, `left`, `margin`, `padding`) during playback is **STRICTLY PROHIBITED**. Use FLIP container morphing or SVG path transforms.
-3. **Pacing Tokens:**
-   - Derive durations and spring constants from `src/core/tokens.ts` and `src/core/recipes.ts`.
-   - Forbidden eases: raw `linear` (except continuous rotary loops) and `easeInOut`.
-
----
-
-## 4. The 5 Universal Storyboard Laws (`references/MASTER_STORYBOARD_RULES.md`)
-
-1. **Continuous Hero Actor Law:**
-   - Unmounting scenes via slide-deck crossfades (`opacity: 0` dissolves) is prohibited.
-   - `TheHeroActor` remains physically mounted ($opacity > 0$) from frame 0 through the final frame, evolving geometry across scene boundaries.
-2. **1.0–1.5s Micro-Beat Pulse & 1.2s Stillness Hold:**
-   - Visual focus, camera perspective, or depth must evolve every 60–90 frames (1.0–1.5s). Equal-duration beats are forbidden ($\sigma > 14\text{ frames}$).
-   - The closing brand resolve and call-to-action must hold static and readable for **at least 1.2 seconds (72 frames @ 60 FPS)**.
-3. **Three-Layer Depth Architecture:**
-   - Layer 1 (Base): Atmospheric grid, illuminated floor, or diffused ambient glow.
-   - Layer 2 (Secondary Depth): Trailing ghost outlines (2–3 frame lag), contact shadows.
-   - Layer 3 (Foreground Hero): Razor-sharp typography, authentic product UI, 1px specular beveled edges.
-4. **Authentic Interface Anatomy (Anti-DevOps Slop):**
-   - For consumer, media, and enterprise brands, fabricating arbitrary server telemetry (`ops/sec`, `POP mesh`, `enclave-lon1-v4`) is a P0 violation. Rebuild authentic brand anatomy (e.g. YouTube Header, Search Pill, Video Player, Subscribe Button).
-5. **Stage & Shell Anchoring:**
-   - UI elements must never float in void space. Anchor them inside `AppShell`, `BrowserFrame`, `PrecisionDashboardShell`, or a 1px hairline matrix (`gap-[1px] bg-white/[0.08]`). Minimum broadcast font size is 18px.
-
----
-
-## 5. Definition of Done
-
-A task is complete ONLY when:
+## Definition of Done
 1. `pnpm check --project <slug>` passes with 0 errors.
-2. `pnpm render:contact-sheet --project <slug>` generates `visual-audit-grid.png` and passes visual inspection.
-3. `pnpm render --project <slug>` renders the physical MP4 video file to `out/<slug>/<slug>.mp4`.
+2. Storyboard poses and contact sheet generated and reviewed: open `visual-audit-grid.png`, answer the generic block (and your task block) of `evals/VISUAL_RUBRIC.md` yes/no from what you see, fix every "no".
+3. `pnpm render --project <slug>` produced `out/<slug>/<slug>.mp4`.
+
+Never edit `scripts/`, `evals/`, `src/core/`, `src/primitives/`, `specs/`, `docs/` or `RULES.md` (TAMPERED = 0); do not copy `evals/solutions` (C001); fix the scene instead. Do not hand-edit `src/projects/registry.generated.ts` or commit `out/`.

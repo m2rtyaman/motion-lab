@@ -38,6 +38,7 @@ export interface TechnicalDraftingStageProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const TechnicalDraftingStage: React.FC<TechnicalDraftingStageProps> = ({
   sectionIndex = 1,
   sectionTotal = 4,

@@ -4,6 +4,12 @@ import { Scene as Scene_batman_noir } from './batman-noir/Scene';
 import { Scene as Scene_claude_motion_reel } from './claude-motion-reel/Scene';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
+import { Scene as Scene_example_editorial_data } from './example-editorial-data/Scene';
+import { Scene as Scene_example_feature_tour } from './example-feature-tour/Scene';
+import { Scene as Scene_example_kinetic_type } from './example-kinetic-type/Scene';
+import { Scene as Scene_example_logo_sting } from './example-logo-sting/Scene';
+import { Scene as Scene_example_product_ui } from './example-product-ui/Scene';
+import { Scene as Scene_example_social_promo } from './example-social-promo/Scene';
 import { Scene as Scene_fintech_teaser } from './fintech-teaser/Scene';
 import { Scene as Scene_hybrid_showcase } from './hybrid-showcase/Scene';
 import { Scene as Scene_kinetic_loud_showreel } from './kinetic-loud-showreel/Scene';
@@ -13,9 +19,17 @@ import { Scene as Scene_my_video } from './my-video/Scene';
 import { Scene as Scene_one_continuous_shape } from './one-continuous-shape/Scene';
 import { Scene as Scene_shy_cloud } from './shy-cloud/Scene';
 import { Scene as Scene_single_container_broll } from './single-container-broll/Scene';
+import { Scene as Scene_study_anticipation_jump } from './study-anticipation-jump/Scene';
+import { Scene as Scene_study_arcs_spacing } from './study-arcs-spacing/Scene';
+import { Scene as Scene_study_bouncing_ball } from './study-bouncing-ball/Scene';
+import { Scene as Scene_study_character_acting } from './study-character-acting/Scene';
+import { Scene as Scene_study_character_walk } from './study-character-walk/Scene';
+import { Scene as Scene_study_overlap_follow_through } from './study-overlap-follow-through/Scene';
+import { Scene as Scene_study_stagger_rhythm } from './study-stagger-rhythm/Scene';
 import { Scene as Scene_swiss_kinetic_grid } from './swiss-kinetic-grid/Scene';
 import { Scene as Scene_whatsapp_campaign } from './whatsapp-campaign/Scene';
 import { Scene as Scene_youtube_player } from './youtube-player/Scene';
+import { Scene as Scene_zz_gallery } from './zz-gallery/Scene';
 
 export type ProjectAspect = '9:16' | '16:9' | '1:1';
 export type ProjectMode = 'cinematic-world' | 'editorial-ui' | 'kinetic-poster' | 'creative-motion-reel' | 'hybrid-orchestrated';
@@ -76,6 +90,72 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1080,
     height: 1920,
     Scene: Scene_editorial_telemetry,
+  },
+  {
+    slug: "example-editorial-data",
+    title: "Editorial Data: Ardmore Cycling",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 480,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_example_editorial_data,
+  },
+  {
+    slug: "example-feature-tour",
+    title: "Feature Tour: Foldline",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 672,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_example_feature_tour,
+  },
+  {
+    slug: "example-kinetic-type",
+    title: "Margin Manifesto",
+    mode: "kinetic-poster",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 360,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_example_kinetic_type,
+  },
+  {
+    slug: "example-logo-sting",
+    title: "Orbit Logo Sting",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 240,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_example_logo_sting,
+  },
+  {
+    slug: "example-product-ui",
+    title: "Tallybook Month-End",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 480,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_example_product_ui,
+  },
+  {
+    slug: "example-social-promo",
+    title: "Social Promo: Brewmark",
+    mode: "cinematic-world",
+    aspect: "9:16",
+    fps: 60,
+    durationInFrames: 480,
+    width: 1080,
+    height: 1920,
+    Scene: Scene_example_social_promo,
   },
   {
     slug: "fintech-teaser",
@@ -177,6 +257,83 @@ export const PROJECTS: ProjectEntry[] = [
     Scene: Scene_single_container_broll,
   },
   {
+    slug: "study-anticipation-jump",
+    title: "Study: Anticipation Jump",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 372,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_anticipation_jump,
+  },
+  {
+    slug: "study-arcs-spacing",
+    title: "Study: Arcs and Spacing",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 372,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_arcs_spacing,
+  },
+  {
+    slug: "study-bouncing-ball",
+    title: "Study: Bouncing Ball",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 402,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_bouncing_ball,
+  },
+  {
+    slug: "study-character-acting",
+    title: "Study: Character Acting",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 444,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_character_acting,
+  },
+  {
+    slug: "study-character-walk",
+    title: "Study: Character Walk",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 480,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_character_walk,
+  },
+  {
+    slug: "study-overlap-follow-through",
+    title: "Study: Overlap and Follow-Through",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 372,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_overlap_follow_through,
+  },
+  {
+    slug: "study-stagger-rhythm",
+    title: "Study: Stagger Rhythm",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 348,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_study_stagger_rhythm,
+  },
+  {
     slug: "swiss-kinetic-grid",
     title: "Swiss Kinetic Geometry & Corporate Infographics",
     mode: "editorial-ui",
@@ -208,5 +365,16 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1920,
     height: 1080,
     Scene: Scene_youtube_player,
+  },
+  {
+    slug: "zz-gallery",
+    title: "Component Gallery",
+    mode: "editorial-ui",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 660,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_zz_gallery,
   },
 ];

@@ -1,3 +1,5 @@
+> Optional reference, checked against `public/fonts/` and `src/index.css`. `RULES.md` wins on any conflict (it enforces the 18 px minimum).
+
 # MOTION STUDIO — TYPOGRAPHY & FONT LIBRARY GUIDE
 
 To render broadcast-grade videos offline without external network dependencies, this repository bundles **5 primary motion graphics typography families** under `public/fonts/`. All fonts fully support extended Latin glyphs and international character sets.
@@ -61,6 +63,6 @@ Dynamic annotations, loupe callout notes, signature sign-offs, and creative acce
 ---
 
 ## 3. GOLDEN READABILITY & GLYPH INVARIANTS
-1. **No Micro-Fonts:** In 1080p vertical or horizontal video, font sizes must never drop below 18px (`text-[18px]` is the minimum).
+1. **No micro-fonts:** keep every font size at 18px or larger (`audit:slop` rejects `text-xs`, `text-sm` and `text-[8..14px]`).
 2. **Tabular Numerals:** Animated counters (`CounterValue`) must use `tabular-nums` and `font-mono` to prevent horizontal number jitter.
 3. **Glyph Integrity:** All bundled fonts include the `latin-ext` subset, validated deterministically via `pnpm audit:glyph`.

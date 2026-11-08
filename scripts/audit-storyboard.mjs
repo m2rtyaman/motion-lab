@@ -5,23 +5,24 @@ import {
   resolveTargets,
   rootDir,
   rel,
+  isHarnessV2,
 } from "./lib/projects.mjs";
 
 /**
  * SHIFT-LEFT STORYBOARD & BEAT DIRECTOR AUDITOR (v1.0)
  *
- * Kod yazılmadan önce kurgunun kalitesini, ritmini ve görsel akışını denetler.
- * Zayıf, monoton, nefes almayan veya kopuk bir storyboard kodlama aşamasına GEÇEMEZ.
+ * Audits the quality, rhythm and visual flow of the edit before any code is written.
+ * A weak, monotonous, breathless or disconnected storyboard CANNOT advance to the coding stage.
  *
- * Denetlenen Kurallar:
- * [STORY-001] Tek Cümlelik Hedef (direction.md içinde net hedef cümlesi)
- * [STORY-002] Ritim & Tempo Kontrastı (Eşit süreli monoton beat yasağı, stddev >= 18f)
- * [STORY-003] Okunabilirlik & Bilişsel Yük (Metin tutma >= 1.2s / 72f, WPM <= 220)
- * [STORY-004] Tek Kap / Görsel Köprü (Sahneler arası geçiş köprüsü veya tek-plan tanımı)
- * [STORY-005] Kamera Motivasyonu (Her kamera hareketinde somut ve anlamlı intent)
- * [STORY-006] Anlatı İlerlemesi & Çeşitlilik (Ardışık aynı tip beat yasağı)
+ * Rules checked:
+ * [STORY-001] One-Sentence Goal (a clear goal sentence in direction.md)
+ * [STORY-002] Rhythm & Tempo Contrast (ban on monotonous equal-length beats, stddev >= 18f)
+ * [STORY-003] Readability & Cognitive Load (text hold >= 1.2s / 72f, WPM <= 220)
+ * [STORY-004] Single Container / Visual Bridge (transition bridge between scenes, or single-take definition)
+ * [STORY-005] Camera Motivation (every camera move has a concrete, meaningful intent)
+ * [STORY-006] Narrative Progression & Variety (ban on consecutive same-type beats)
  *
- * Kullanım:
+ * Usage:
  *   node scripts/audit-storyboard.mjs [--project <slug>]
  */
 
@@ -52,12 +53,13 @@ for (const project of targets) {
   try {
     spec = JSON.parse(fs.readFileSync(specPath, "utf-8").replace(/^\uFEFF/, ""));
   } catch (e) {
-    console.error(`${RED}[HATA] spec.json okunamadı:${RESET} ${e.message}`);
+    console.error(`${RED}[ERROR] Could not read spec.json:${RESET} ${e.message}`);
     totalErrors++;
     continue;
   }
 
   const legacy = spec.legacy === true;
+  const v2 = isHarnessV2(spec); // v2: blueprint / Phase-0 / 3D-filter keyword plans are not required
   const errors = [];
   const warnings = [];
 
@@ -68,7 +70,7 @@ for (const project of targets) {
   const addWarn = (code, title, detail, fix) => warnings.push({ code, title, detail, fix });
 
   // ---------------------------------------------------------------------------
-  // [STORY-001] Tek Cümlelik Hedef Denetimi (direction.md)
+  // [STORY-001] One-Sentence Goal check (direction.md)
   // ---------------------------------------------------------------------------
   let directionText = "";
   if (fs.existsSync(directionPath)) {
@@ -85,14 +87,14 @@ for (const project of targets) {
   if (!hasGoal) {
     addErr(
       "STORY-001",
-      "Eksik Tek Cümlelik Hedef",
-      "direction.md içinde net bir izleyici hedefi bulunamadı.",
-      'direction.md dosyasına şunu ekleyin: "Bu videonun tek cümlelik hedefi şu: [hedef]."'
+      "Missing One-Sentence Goal",
+      "No clear viewer goal was found in direction.md.",
+      'Add to direction.md: "Bu videonun tek cümlelik hedefi şu: [hedef]." Keep this exact Turkish sentence; the checker matches it.'
     );
   }
 
   // ---------------------------------------------------------------------------
-  // [STORY-002] Ritim & Tempo Kontrastı (spec.beats)
+  // [STORY-002] Rhythm & Tempo Contrast (spec.beats)
   // ---------------------------------------------------------------------------
   const beats = Array.isArray(spec.beats) ? spec.beats : [];
   const isKineticReel = spec.mode === "creative-motion-reel" || spec.mode === "kinetic-poster";
@@ -105,15 +107,15 @@ for (const project of targets) {
     if (stdDev < 14) {
       addErr(
         "STORY-002",
-        "Ritim Monotonluğu",
-        `Beat süreleri neredeyse tekdüze (stddev: ${stdDev.toFixed(1)}f < 14f). Video bir metronom gibi akar.`,
-        "Beat sürelerini çeşitlendirin: Vurucu anlar (Staccato 35-55f) ve derin okuma anları (Focus 75-120f) ile ritmi canlandırın."
+        "Rhythm Monotony",
+        `Beat durations are nearly uniform (stddev: ${stdDev.toFixed(1)}f < 14f). The video plays like a metronome.`,
+        "Vary beat durations: energize the rhythm with punchy moments (Staccato 35-55f) and deep reading moments (Focus 75-120f)."
       );
     }
   }
 
   // ---------------------------------------------------------------------------
-  // [STORY-003] Okunabilirlik & Bilişsel Yük Denetimi
+  // [STORY-003] Readability & Cognitive Load check
   // ---------------------------------------------------------------------------
   const fps = spec.fps || 60;
   beats.forEach((b, i) => {
@@ -122,48 +124,48 @@ for (const project of targets) {
 
     if (b.text && typeof b.text === "string" && b.text.trim()) {
       const isKineticBeat = b.kinetic === true || b.isKinetic === true || isKineticReel;
-      const minDuration = isKineticBeat ? 0.12 : 1.15; // Kinetik tipografi hızlı beat kesmeleri için 8-28 kare serbesttir
-      // 1.2s kuralı
+      const minDuration = isKineticBeat ? 0.12 : 1.15; // 8-28 frames are allowed for fast beat cuts in kinetic typography
+      // 1.2s rule
       if (durSec < minDuration) {
         addErr(
           "STORY-003",
-          `Beat [${b.id}] Metin Okuma Süresi Yetersiz`,
-          `"${b.text}" metni sadece ${durSec.toFixed(2)}s (${durFrames}f) ekranda kalıyor. Minimum ${minDuration}s gereklidir.`,
-          `Beat süresini en az 72 kareye uzatın veya metni kısaltın.`
+          `Beat [${b.id}] Text Reading Time Insufficient`,
+          `"${b.text}" stays on screen for only ${durSec.toFixed(2)}s (${durFrames}f). A minimum of ${minDuration}s is required.`,
+          `Extend the beat to at least 72 frames or shorten the text.`
         );
       }
 
-      // WPM kuralı
+      // WPM rule
       const words = b.text.trim().split(/\s+/).length;
       const wpm = (words / durSec) * 60;
       if (wpm > 240 && words > 4 && !isKineticBeat) {
         addWarn(
           "STORY-003",
-          `Beat [${b.id}] Bilişsel Yük Yüksek`,
-          `Okuma hızı ${Math.round(wpm)} WPM. İzleyicinin gözü metni takip etmekte zorlanabilir.`,
-          `Kelime sayısını azaltın veya süreyi artırarak WPM hızını <= 220 seviyesine çekin.`
+          `Beat [${b.id}] High Cognitive Load`,
+          `Reading speed ${Math.round(wpm)} WPM. The viewer's eyes may struggle to follow the text.`,
+          `Reduce the word count or lengthen the duration to bring WPM down to <= 220.`
         );
       }
     }
   });
 
   // ---------------------------------------------------------------------------
-  // [STORY-004] Tek Kap / Görsel Köprü Denetimi
+  // [STORY-004] Single Container / Visual Bridge check
   // ---------------------------------------------------------------------------
-  if (spec.mode !== "cinematic-world" && !isKineticReel && beats.length >= 2) {
+  if (spec.mode !== "cinematic-world" && !isKineticReel && !v2 && beats.length >= 2) { // v2: boundaries are real preset tweens on the timeline
     const transitions = Array.isArray(spec.transitions) ? spec.transitions : [];
     if (transitions.length === 0 && spec.continuousShot !== true) {
       addErr(
         "STORY-004",
-        "Geçiş ve Görsel Köprü Tanımsız",
-        `Sahne ${beats.length} beat içeriyor ancak spec.transitions dizisi boş. Slayt kesmesi riski.`,
-        'spec.json içine her beat sınırı için bir geçiş tanımlayın (whip-pan, mask-wipe, zoom-punch, container-morph).'
+        "Transition and Visual Bridge Undefined",
+        `Scene has ${beats.length} beats but the spec.transitions array is empty. Risk of slide-style cuts.`,
+        'Define a transition for every beat boundary in spec.json (whip-pan, mask-wipe, zoom-punch, container-morph).'
       );
     }
   }
 
   // ---------------------------------------------------------------------------
-  // [STORY-005] Kamera Motivasyonu Denetimi
+  // [STORY-005] Camera Motivation check
   // ---------------------------------------------------------------------------
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
   camera.forEach((c, i) => {
@@ -171,15 +173,15 @@ for (const project of targets) {
     if (!intent || intent.length < 6 || intent.toLowerCase() === "kamera") {
       addErr(
         "STORY-005",
-        `Kamera [${i}] Gerekçesi (Intent) Yetersiz`,
-        `Kamera hareketi (at: ${c.at}s) için motive edici bir amaç tanımlanmamış: "${intent}".`,
-        'Kameranın neden hareket ettiğini ve neye odaklandığını açıklayın (ör. "Geçiş 1 ile takvim matrisine itiş").'
+        `Camera [${i}] Rationale (Intent) Insufficient`,
+        `No motivating purpose is defined for the camera move (at: ${c.at}s): "${intent}".`,
+        'Explain why the camera moves and what it focuses on (e.g. "push into the calendar matrix with Transition 1").'
       );
     }
   });
 
   // ---------------------------------------------------------------------------
-  // [STORY-006] Anlatı İlerlemesi & Çeşitlilik
+  // [STORY-006] Narrative Progression & Variety
   // ---------------------------------------------------------------------------
   for (let i = 0; i < beats.length - 1; i++) {
     const curr = beats[i];
@@ -187,27 +189,27 @@ for (const project of targets) {
     if (curr.action && next.action && curr.action === next.action) {
       addWarn(
         "STORY-006",
-        `Ardışık Tek Tip Eylem [Beat ${curr.id} -> ${next.id}]`,
-        `İki beat art arda aynı aksiyona sahip: "${curr.action}". Kompozisyon tekrarı riski.`,
-        "Her beat'e farklı bir görsel odak (overview -> micro-interaction -> telemetry -> climax) verin."
+        `Consecutive Same Action [Beat ${curr.id} -> ${next.id}]`,
+        `Two beats in a row share the same action: "${curr.action}". Risk of composition repetition.`,
+        "Give each beat a different visual focus (overview -> micro-interaction -> telemetry -> climax)."
       );
     }
   }
 
   // ---------------------------------------------------------------------------
-  // [STORY-007] PHASE 0 Canlı Web, Vektör ve Stüdyo Araştırma Dosyası Denetimi
+  // [STORY-007] PHASE 0 Live Web, Vector and Studio Research File check
   // ---------------------------------------------------------------------------
   const blueprintPath = path.join(project.dir, "choreography-blueprint.md");
-  if (fs.existsSync(blueprintPath)) {
+  if (!v2 && fs.existsSync(blueprintPath)) {
     const bpText = fs.readFileSync(blueprintPath, "utf-8");
     const hasPhase0 = /PHASE\s*0/i.test(bpText);
     const hasSvgSource = /SimpleIcons|Wikimedia|lucide|tabler|d="M|<path/i.test(bpText);
     if (!hasPhase0 || !hasSvgSource) {
       addErr(
         "STORY-007",
-        "Eksik PHASE 0 Canlı Web & Vektör Araştırması",
-        "choreography-blueprint.md içinde PHASE 0 (Resmi SVG path koordinatları ve UI Tear-Down) eksik.",
-        "Kodlamadan önce search_web ile PHASE 0 bölümüne gerçek SVG path ve UI anatomisi bulgularını yazın."
+        "Missing PHASE 0 Live Web & Vector Research",
+        "PHASE 0 (official SVG path coordinates and UI Tear-Down) is missing from choreography-blueprint.md.",
+        "Before coding, use search_web to write real SVG path and UI anatomy findings into the PHASE 0 section."
       );
     }
 
@@ -221,9 +223,9 @@ for (const project of targets) {
     if (!has3DAndFilters) {
       addErr(
         "STORY-008",
-        "Eksik 3D Katman (LayeredStage3D) & Vektör Filtre (SvgFilterLab) Planı",
-        "choreography-blueprint.md içinde 3D Z-ekseni katman ayrışması (LayeredStage3D / translateZ) veya SvgFilterLab (<defs> gradyan/filtre) tanımlanmamış.",
-        "Düz 2D kutular yerine PHASE 4 ve PHASE 6 içinde LayeredStage3D (translateZ düzlemleri) ve SvgFilterLab (gradyan/gooey filtreler) mimarisini planlayın."
+        "Missing 3D Layer (LayeredStage3D) & Vector Filter (SvgFilterLab) Plan",
+        "choreography-blueprint.md does not define 3D Z-axis layer separation (LayeredStage3D / translateZ) or SvgFilterLab (<defs> gradient/filter).",
+        "Instead of flat 2D boxes, plan a LayeredStage3D (translateZ planes) and SvgFilterLab (gradient/gooey filters) architecture within PHASE 4 and PHASE 6."
       );
     }
   }
@@ -238,15 +240,15 @@ for (const project of targets) {
     if (finalDuration < 60 && !legacy) {
       addWarn(
         "STORY-009",
-        "Yetersiz Kapanış Süresi (Ending Hold < 1.0s)",
-        `Son beat (${finalBeat.id}) yalnızca ${finalDuration} kare (${(finalDuration / 60).toFixed(2)}s) sürüyor. İzleyici CTA/logoyu okuyamaz.`,
-        "Final marka / CTA / URL sahnesini en az 72 kare (1.2s) ekranda tutun."
+        "Insufficient Ending Hold (Ending Hold < 1.0s)",
+        `The final beat (${finalBeat.id}) lasts only ${finalDuration} frames (${(finalDuration / 60).toFixed(2)}s). The viewer cannot read the CTA/logo.`,
+        "Keep the final brand / CTA / URL scene on screen for at least 72 frames (1.2s)."
       );
     }
   }
 
   // ---------------------------------------------------------------------------
-  // [STORY-010] Master Storyboard Standardı (5 Evrensel Yasa & 3 Katmanlı Derinlik)
+  // [STORY-010] Master Storyboard Standard (5 Universal Laws & 3-Layer Depth)
   // ---------------------------------------------------------------------------
   const has3Layers =
     /(?:3|three)[- ]layer|3 Katman|Üç Katman|Hayalet Kontur|Ghost.*(?:Layer|Outline)|Zemin.*Ön Plan/i.test(directionText) ||
@@ -255,12 +257,12 @@ for (const project of targets) {
     /TheHeroActor|Hero.*Actor|Kahraman.*Aktör|Tek.*Kap|Single.*Container|Living.*Container/i.test(directionText) ||
     spec.continuousShot === true;
 
-  if (!legacy && (!has3Layers || !hasHeroContinuity)) {
+  if (!legacy && !v2 && (!has3Layers || !hasHeroContinuity)) {
     addWarn(
       "STORY-010",
       "Master Storyboard 5 Laws Missing",
-      `direction.md lacks 3-Layer Depth Architecture (Base -> Ghost Outline -> Foreground Hero) or TheHeroActor lifecycle.`,
-      "Add 3-Layer Depth and TheHeroActor continuity plan to direction.md (see references/MASTER_STORYBOARD_RULES.md)."
+      `direction.md lacks 3-Layer Depth Architecture (Base -> Ghost Outline -> Foreground Hero) or hero-element continuity (one element that stays on screen across beats).`,
+      "Add a 3-layer depth plan and a hero-element continuity plan to direction.md."
     );
   }
 

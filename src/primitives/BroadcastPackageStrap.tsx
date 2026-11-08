@@ -37,6 +37,7 @@ export interface BroadcastPackageStrapProps {
  * - Split-flap text cell grid for key findings
  * - Live broadcast badge & timecode clock
  */
+/** @deprecated legacy look — not for v2 */
 export const BroadcastPackageStrap: React.FC<BroadcastPackageStrapProps> = ({
   category = 'VERIFIED EVIDENCE',
   categoryColor = '#FF4A2E',

@@ -1,0 +1,83 @@
+{
+  "task": "character-walk-react",
+  "aspect": "16:9",
+  "durationSeconds": {
+    "min": 5.8,
+    "max": 6.2
+  },
+  "beats": {
+    "min": 3,
+    "max": 5
+  },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    {
+      "label": "rig walk (IK feet, hip bob, counter-swinging arms)",
+      "anyOf": [
+        "physics:rigWalk"
+      ]
+    },
+    {
+      "label": "acting hold (idle breath or moving hold)",
+      "anyOf": [
+        "physics:idleBreath",
+        "physics:movingHold"
+      ]
+    },
+    {
+      "label": "eyes and head lead (lookAt)",
+      "anyOf": [
+        "physics:lookAt"
+      ]
+    },
+    {
+      "label": "reaction with anticipation (react)",
+      "anyOf": [
+        "physics:react"
+      ]
+    }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 14,
+  "maxWarnings": {
+    "default": 0
+  },
+  "maxSceneLines": 150,
+  "maxRawTweens": 1,
+  "maxLocalComponents": 1,
+  "requiredStrings": [],
+  "requiredCode": [
+    {
+      "label": "a RigCharacter renders the legs, arms and head as separate parts",
+      "anyOf": [
+        "RigCharacter"
+      ]
+    }
+  ],
+  "behavior": [
+    {
+      "type": "travelRun",
+      "minFraction": 0.12
+    },
+    {
+      "type": "holdBeforeReaction",
+      "minSeconds": 0.3,
+      "presets": [
+        "physics:idleBreath",
+        "physics:movingHold"
+      ]
+    },
+    {
+      "type": "lookLeadsReaction"
+    },
+    {
+      "type": "reactAnticipates"
+    },
+    {
+      "type": "targetVisible",
+      "minFraction": 0.8
+    }
+  ],
+  "forbiddenPatterns": []
+}

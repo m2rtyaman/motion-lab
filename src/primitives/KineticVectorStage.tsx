@@ -20,6 +20,7 @@ export interface SwissCrosshairProps {
 /**
  * İsviçre Kılcal Artı İşareti (+)
  */
+/** @deprecated legacy look — not for v2 */
 export const SwissCrosshair: React.FC<SwissCrosshairProps> = ({
   x,
   y,
@@ -50,6 +51,7 @@ export interface DynamicSwissGridProps {
 /**
  * Yaşayan Parametrik İsviçre Kılcal Izgarası
  */
+/** @deprecated legacy look — not for v2 */
 export const DynamicSwissGrid: React.FC<DynamicSwissGridProps> = ({
   width = 1920,
   height = 1080,
@@ -141,6 +143,7 @@ export interface GeometricBurstProps {
 /**
  * 2D Vektörel Radyal Işın / Geometrik Patlama Primitifi
  */
+/** @deprecated legacy look — not for v2 */
 export const GeometricBurst: React.FC<GeometricBurstProps> = ({
   cx,
   cy,
@@ -195,6 +198,7 @@ export interface SwissVectorCrossProps {
 /**
  * İsviçre Haçı Vektör Mührü
  */
+/** @deprecated legacy look — not for v2 */
 export const SwissVectorCross: React.FC<SwissVectorCrossProps> = ({
   cx,
   cy,
@@ -248,6 +252,7 @@ export const SwissVectorCross: React.FC<SwissVectorCrossProps> = ({
  * KineticVectorStage — Saf 2D Vektör Hareket Sahnesi
  * Arayüz kutuları içermez; tüm sahneyi tek bir yaşayan SVG tuvalinde kurgular.
  */
+/** @deprecated legacy look — not for v2 */
 export const KineticVectorStage: React.FC<KineticVectorStageProps> = ({
   width = 1920,
   height = 1080,

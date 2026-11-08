@@ -1,0 +1,107 @@
+{
+  "task": "stat-counter",
+  "aspect": "9:16",
+  "durationSeconds": {
+    "min": 4.8,
+    "max": 5.2
+  },
+  "beats": {
+    "min": 3,
+    "max": 4
+  },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    {
+      "label": "the number arrives with an entrance preset",
+      "anyOf": [
+        "enter:pop",
+        "enter:rise",
+        "enter:blurIn",
+        "enter:words"
+      ]
+    },
+    {
+      "label": "the finished number lands with weight (punch or push-in)",
+      "anyOf": [
+        "emphasize:punch",
+        "emphasize:glint",
+        "camera:pushIn"
+      ]
+    },
+    {
+      "label": "the label settles in separately",
+      "anyOf": [
+        "enter:rise",
+        "enter:wipe",
+        "enter:blurIn",
+        "enter:words"
+      ]
+    }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 7,
+  "maxWarnings": {
+    "default": 0
+  },
+  "maxSceneLines": 100,
+  "maxRawTweens": 1,
+  "maxLocalComponents": 0,
+  "requiredStrings": [
+    "48,200",
+    "riders this month",
+    "Harbor Line"
+  ],
+  "requiredCode": [
+    {
+      "label": "count is frame-driven (useCurrentFrame / interpolate / AnimatedCounter)",
+      "anyOf": [
+        "useCurrentFrame\\s*\\(",
+        "<AnimatedCounter"
+      ]
+    },
+    {
+      "label": "digits do not jitter (tabular numerals or a monospaced font)",
+      "anyOf": [
+        "tabular-nums",
+        "font-mono",
+        "tabularNums",
+        "fontVariantNumeric",
+        "AnimatedCounter"
+      ]
+    }
+  ],
+  "closingHold": {
+    "groups": [
+      {
+        "label": "the number \"48,200\"",
+        "anyOf": [
+          "48,200"
+        ],
+        "browserOnly": true
+      },
+      {
+        "label": "the brand line \"Harbor Line\"",
+        "anyOf": [
+          "Harbor Line"
+        ]
+      },
+      {
+        "label": "the label \"riders this month\"",
+        "anyOf": [
+          "riders this month"
+        ]
+      }
+    ]
+  },
+  "forbiddenPatterns": [],
+  "behavior": [
+    {
+      "type": "textChanges",
+      "find": "48,200",
+      "minDistinct": 10,
+      "monotonic": true,
+      "final": "48,200"
+    }
+  ]
+}

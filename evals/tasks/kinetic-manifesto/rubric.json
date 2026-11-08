@@ -1,0 +1,25 @@
+{
+  "task": "kinetic-manifesto",
+  "aspect": "9:16",
+  "durationSeconds": { "min": 5.8, "max": 6.2 },
+  "beats": { "min": 3, "max": 4 },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    { "label": "headline words animate as a group", "anyOf": ["enter:words", "enter:stagger"] },
+    { "label": "at least one emphasis or camera move", "anyOf": ["emphasize:*", "camera:pushIn", "camera:settle", "camera:pullOut"] },
+    { "label": "lines hand over to each other (exit or transition)", "anyOf": ["exit:*", "transition:*"] }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 8,
+  "maxWarnings": { "default": 0 },
+  "maxSceneLines": 100,
+  "maxRawTweens": 1,
+  "maxLocalComponents": 0,
+  "requiredStrings": ["Less noise.", "More signal.", "Say it once."],
+  "requiredCode": [],
+  "closingHold": { "groups": [
+    { "label": "the last line \"Say it once.\"", "anyOf": ["Say it once."] }
+  ] },
+  "forbiddenPatterns": []
+}

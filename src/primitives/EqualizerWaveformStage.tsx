@@ -35,6 +35,7 @@ export interface WaveformVisualizerProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const WaveformVisualizer: FC<WaveformVisualizerProps> = ({
   barCount = 36,
   width = 640,
@@ -114,6 +115,7 @@ export interface MusicPillInterfaceProps {
   accentColor?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const MusicPillInterface: FC<MusicPillInterfaceProps> = ({
   title = 'Soundtrack of Motion',
   subtitle = 'Lossless Audio Stream • 48 kHz',
@@ -213,6 +215,7 @@ export interface SelectiveEmphasisTextProps {
   emphasisClassName?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const SelectiveEmphasisText: FC<SelectiveEmphasisTextProps> = ({
   text,
   emphasizeWords,
@@ -263,6 +266,7 @@ export interface EqualizerWaveformStageProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const EqualizerWaveformStage: FC<EqualizerWaveformStageProps> = ({
   children,
   aspect = '16:9',

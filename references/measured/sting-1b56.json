@@ -1,0 +1,175 @@
+{
+  "source": "1b5669be3e51ff1f0591.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 480,
+    "height": 270,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.062,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 2.705,
+    "median": 0.414,
+    "p90": 8.35,
+    "max": 31.23,
+    "pctFramesStill": 44.4
+  },
+  "cuts": {
+    "count": 2,
+    "perTenSeconds": 3.33,
+    "at": {
+      "s": [
+        1.667,
+        3.042
+      ],
+      "f60": [
+        100,
+        182.5
+      ]
+    }
+  },
+  "shots": {
+    "count": 3,
+    "lengths": {
+      "s": [
+        1.667,
+        1.375,
+        2.958
+      ],
+      "f60": [
+        100,
+        82.5,
+        177.5
+      ]
+    },
+    "median": {
+      "s": 1.667,
+      "f60": 100
+    }
+  },
+  "holds": {
+    "count": 3,
+    "lengths": {
+      "s": [
+        0.292,
+        0.25,
+        1.792
+      ],
+      "f60": [
+        17.5,
+        15,
+        107.5
+      ]
+    },
+    "starts": {
+      "s": [
+        0.583,
+        1.375,
+        4.208
+      ],
+      "f60": [
+        35,
+        82.5,
+        252.5
+      ]
+    },
+    "final": {
+      "s": 1.792,
+      "f60": 107.5
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 0.875,
+          "f60": 52.5
+        },
+        "peak": {
+          "s": 0.917,
+          "f60": 55
+        },
+        "end": {
+          "s": 1.042,
+          "f60": 62.5
+        },
+        "duration": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "asymmetry": 1.5,
+        "peakEnergy": 8.52,
+        "peakRegionalSpeedPxPerFrame": 19.31,
+        "peakGlobalSpeedPxPerFrame": 17.16
+      },
+      {
+        "start": {
+          "s": 1.875,
+          "f60": 112.5
+        },
+        "peak": {
+          "s": 2.125,
+          "f60": 127.5
+        },
+        "end": {
+          "s": 2.292,
+          "f60": 137.5
+        },
+        "duration": {
+          "s": 0.417,
+          "f60": 25
+        },
+        "onsetToPeak": {
+          "s": 0.292,
+          "f60": 17.5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 0.57,
+        "peakEnergy": 2.4,
+        "peakRegionalSpeedPxPerFrame": 8.75,
+        "peakGlobalSpeedPxPerFrame": 5.05
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 63,
+    "searchSaturatedBlockPct": 5.7,
+    "globalMedian": 0.5,
+    "globalP95": 15.59,
+    "regionalMedian": 2.52,
+    "regionalP95": 21.77,
+    "regionalMax": 33.51
+  },
+  "meta": {
+    "id": "sting-1b56",
+    "category": "brand_sting",
+    "catalogCaseId": "c-aeab3276aae6dcde",
+    "catalogFile": "1b5669be3e51ff1f0591.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://lemomo-ai.github.io/lemo-opuscar/#papercut-red",
+    "catalogStyleId": "paper"
+  }
+}

@@ -85,6 +85,7 @@ export interface WavyRibbonProps {
  * Continuous rounded stroke / ribbon flowing across canvas with dynamic strokeDashoffset
  * and parametric Bézier path that guides the viewer's eye across scene transitions.
  */
+/** @deprecated legacy look — not for v2 */
 export const WavyRibbon: React.FC<WavyRibbonProps> = ({
   progress = 1,
   startX = 0,
@@ -188,6 +189,7 @@ export interface CircularApertureWipeProps {
  * Expanding radial circular aperture / disc that punches through a solid card or viewport
  * to reveal the product stage beneath without an unmount cut.
  */
+/** @deprecated legacy look — not for v2 */
 export const CircularApertureWipe: React.FC<CircularApertureWipeProps> = ({
   progress,
   maxRadius = 1400,
@@ -280,6 +282,7 @@ export interface TiltedPhoneStageProps {
  * 3/4 tilted perspective phone mockup with floating screen UI, parallax concentric backdrop discs,
  * and subtle floating idle tilt (default rotateY: -16deg, rotateX: 8deg, perspective: 1200px).
  */
+/** @deprecated legacy look — not for v2 */
 export const TiltedPhoneStage: React.FC<TiltedPhoneStageProps> = ({
   children,
   screenContent,
@@ -437,6 +440,7 @@ export interface WordBurstSwapProps {
  * Single centered card with rapid beat-locked word + icon replacements.
  * Features a rock-solid stable baseline and punchy scale pop to eliminate layout jumping.
  */
+/** @deprecated legacy look — not for v2 */
 export const WordBurstSwap: React.FC<WordBurstSwapProps> = ({
   words,
   activeIndex,
@@ -521,6 +525,7 @@ export interface VoiceControlCardProps {
 /**
  * Floating dark rounded voice feature card ("HOLD TO TALK", speaker avatar, language prompt, audio wave indicator).
  */
+/** @deprecated legacy look — not for v2 */
 export const VoiceControlCard: React.FC<VoiceControlCardProps> = ({
   title = 'HOLD TO TALK',
   languagePrompt = 'English (US)',
@@ -633,6 +638,7 @@ export interface CreatorLogPanelProps {
 /**
  * Vertical 9:16 floating card with segmented status pills, striped progress bar, and occlusion wipe rise.
  */
+/** @deprecated legacy look — not for v2 */
 export const CreatorLogPanel: React.FC<CreatorLogPanelProps> = ({
   title = 'PRODUCTION PIPELINE',
   statusPills = [
@@ -772,6 +778,7 @@ export interface ClapperboardCTAProps {
 /**
  * Action button with playful mini clapperboard graphic and impact bounce.
  */
+/** @deprecated legacy look — not for v2 */
 export const ClapperboardCTA: React.FC<ClapperboardCTAProps> = ({
   label = 'HIT RENDER',
   clapperAngle = 0,
@@ -841,6 +848,7 @@ export interface WaveformPulseProps {
 /**
  * Minimal horizontal heartbeat/signal line with pulse accent.
  */
+/** @deprecated legacy look — not for v2 */
 export const WaveformPulse: React.FC<WaveformPulseProps> = ({
   progress = 1,
   width = 600,

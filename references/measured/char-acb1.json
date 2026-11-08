@@ -1,0 +1,217 @@
+{
+  "source": "acb1a6e94c42cca40a32.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.126,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 0.88,
+    "median": 0.451,
+    "p90": 2.332,
+    "max": 6.562,
+    "pctFramesStill": 33.9
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        2.5
+      ],
+      "f60": [
+        150
+      ]
+    },
+    "starts": {
+      "s": [
+        4.208
+      ],
+      "f60": [
+        252.5
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 4,
+    "list": [
+      {
+        "start": {
+          "s": 3.458,
+          "f60": 207.5
+        },
+        "peak": {
+          "s": 3.5,
+          "f60": 210
+        },
+        "end": {
+          "s": 3.583,
+          "f60": 215
+        },
+        "duration": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 1,
+        "peakEnergy": 4,
+        "peakRegionalSpeedPxPerFrame": 1.21,
+        "peakGlobalSpeedPxPerFrame": 0.19
+      },
+      {
+        "start": {
+          "s": 3.667,
+          "f60": 220
+        },
+        "peak": {
+          "s": 3.833,
+          "f60": 230
+        },
+        "end": {
+          "s": 3.917,
+          "f60": 235
+        },
+        "duration": {
+          "s": 0.25,
+          "f60": 15
+        },
+        "onsetToPeak": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 0.4,
+        "peakEnergy": 4.63,
+        "peakRegionalSpeedPxPerFrame": 1.86,
+        "peakGlobalSpeedPxPerFrame": 0.22
+      },
+      {
+        "start": {
+          "s": 4.042,
+          "f60": 242.5
+        },
+        "peak": {
+          "s": 4.125,
+          "f60": 247.5
+        },
+        "end": {
+          "s": 4.208,
+          "f60": 252.5
+        },
+        "duration": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "onsetToPeak": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "peakToRest": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "asymmetry": 0.67,
+        "peakEnergy": 3.32,
+        "peakRegionalSpeedPxPerFrame": 4.85,
+        "peakGlobalSpeedPxPerFrame": 0.2
+      },
+      {
+        "start": {
+          "s": 6.75,
+          "f60": 405
+        },
+        "peak": {
+          "s": 6.875,
+          "f60": 412.5
+        },
+        "end": {
+          "s": 7.375,
+          "f60": 442.5
+        },
+        "duration": {
+          "s": 0.625,
+          "f60": 37.5
+        },
+        "onsetToPeak": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "peakToRest": {
+          "s": 0.5,
+          "f60": 30
+        },
+        "asymmetry": 3,
+        "peakEnergy": 6.56,
+        "peakRegionalSpeedPxPerFrame": 32.47,
+        "peakGlobalSpeedPxPerFrame": 23.55
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 127,
+    "searchSaturatedBlockPct": 0.7,
+    "globalMedian": 0.1,
+    "globalP95": 2.51,
+    "regionalMedian": 0.62,
+    "regionalP95": 6.23,
+    "regionalMax": 32.47
+  },
+  "meta": {
+    "id": "char-acb1",
+    "category": "character",
+    "catalogCaseId": "c-dda3800f7eb73cd7",
+    "catalogFile": "acb1a6e94c42cca40a32.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://lemomo-ai.github.io/lemo-opuscar/#hd-2d",
+    "catalogStyleId": "pixel"
+  }
+}

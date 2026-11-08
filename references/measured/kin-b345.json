@@ -1,0 +1,163 @@
+{
+  "source": "b345483cf0ae7103c68f.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 480,
+    "height": 852,
+    "analysisSize": "192x340"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 1.471,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 4.961,
+    "median": 4.126,
+    "p90": 9.301,
+    "max": 10.845,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 3,
+    "perTenSeconds": 3.75,
+    "at": {
+      "s": [
+        0.917,
+        3.625,
+        6
+      ],
+      "f60": [
+        55,
+        217.5,
+        360
+      ]
+    }
+  },
+  "shots": {
+    "count": 4,
+    "lengths": {
+      "s": [
+        0.917,
+        2.708,
+        2.375,
+        2
+      ],
+      "f60": [
+        55,
+        162.5,
+        142.5,
+        120
+      ]
+    },
+    "median": {
+      "s": 2.188,
+      "f60": 131.3
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 3.708,
+          "f60": 222.5
+        },
+        "peak": {
+          "s": 4.292,
+          "f60": 257.5
+        },
+        "end": {
+          "s": 4.958,
+          "f60": 297.5
+        },
+        "duration": {
+          "s": 1.25,
+          "f60": 75
+        },
+        "onsetToPeak": {
+          "s": 0.625,
+          "f60": 37.5
+        },
+        "peakToRest": {
+          "s": 0.667,
+          "f60": 40
+        },
+        "asymmetry": 1.07,
+        "peakEnergy": 9.8,
+        "peakRegionalSpeedPxPerFrame": 14.81,
+        "peakGlobalSpeedPxPerFrame": 12.69
+      },
+      {
+        "start": {
+          "s": 5.125,
+          "f60": 307.5
+        },
+        "peak": {
+          "s": 5.417,
+          "f60": 325
+        },
+        "end": {
+          "s": 5.958,
+          "f60": 357.5
+        },
+        "duration": {
+          "s": 0.833,
+          "f60": 50
+        },
+        "onsetToPeak": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "peakToRest": {
+          "s": 0.542,
+          "f60": 32.5
+        },
+        "asymmetry": 1.63,
+        "peakEnergy": 10.85,
+        "peakRegionalSpeedPxPerFrame": 14.36,
+        "peakGlobalSpeedPxPerFrame": 9.51
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 179,
+    "searchSaturatedBlockPct": 1.2,
+    "globalMedian": 0.59,
+    "globalP95": 8.59,
+    "regionalMedian": 2.19,
+    "regionalP95": 11.36,
+    "regionalMax": 14.81
+  },
+  "meta": {
+    "id": "kin-b345",
+    "category": "kinetic_editorial",
+    "catalogCaseId": "x-2107826563786084783",
+    "catalogFile": "b345483cf0ae7103c68f.mp4",
+    "creator": "okazaky",
+    "creditLink": "https://x.com/okazaky/status/2107826563786084783",
+    "catalogStyleId": "print"
+  }
+}

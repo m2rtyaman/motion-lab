@@ -1,0 +1,139 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Component Gallery",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 11,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "beats": [
+    {
+      "id": "p0",
+      "startFrame": 0,
+      "endFrame": 71,
+      "intent": "Shells page of the component gallery",
+      "board": {
+        "focal": ".page-0 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Shells tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p1",
+      "startFrame": 72,
+      "endFrame": 155,
+      "intent": "Widgets A page of the component gallery",
+      "board": {
+        "focal": ".page-1 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Widgets A tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p2",
+      "startFrame": 156,
+      "endFrame": 227,
+      "intent": "Widgets B page of the component gallery",
+      "board": {
+        "focal": ".page-2 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Widgets B tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p3",
+      "startFrame": 228,
+      "endFrame": 299,
+      "intent": "Overlays and devices page of the component gallery",
+      "board": {
+        "focal": ".page-3 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Overlays and devices tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p4",
+      "startFrame": 300,
+      "endFrame": 383,
+      "intent": "Atoms and molecules page of the component gallery",
+      "board": {
+        "focal": ".page-4 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Atoms and molecules tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p5",
+      "startFrame": 384,
+      "endFrame": 455,
+      "intent": "Type and stages page of the component gallery",
+      "board": {
+        "focal": ".page-5 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Type and stages tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p6",
+      "startFrame": 456,
+      "endFrame": 533,
+      "intent": "Legacy sample page of the component gallery",
+      "board": {
+        "focal": ".page-6 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Legacy sample tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them"
+      }
+    },
+    {
+      "id": "p7",
+      "startFrame": 534,
+      "endFrame": 660,
+      "intent": "Depth and lens page of the component gallery",
+      "board": {
+        "focal": ".page-7 .gal-tile",
+        "zone": "center",
+        "start": "Previous page, tiles not yet risen",
+        "end": "Depth and lens tiles settled with captions",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "each page shows one primitive group at broadcast scale so models can see them and the last page holds still for the full 1.2s so every tile can be read"
+      }
+    }
+  ]
+}

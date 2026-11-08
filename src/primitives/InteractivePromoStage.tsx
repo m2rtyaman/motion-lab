@@ -34,6 +34,7 @@ export interface WriteOnScriptProps {
   color?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const WriteOnScript: FC<WriteOnScriptProps> = ({
   progress,
   scriptText = 'remyframe',
@@ -119,6 +120,7 @@ export interface WarpShapeFrameProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const WarpShapeFrame: FC<WarpShapeFrameProps> = ({
   children,
   frame: frameProp,
@@ -181,6 +183,7 @@ export interface VerticalPanelResetProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const VerticalPanelReset: FC<VerticalPanelResetProps> = ({
   progress,
   panels = ['#ff7675', '#6c5ce7', '#00cec9', '#07090e'],
@@ -220,6 +223,7 @@ export interface InteractivePromoStageProps {
   className?: string;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const InteractivePromoStage: FC<InteractivePromoStageProps> = ({
   children,
   mode = 'dark-editor',

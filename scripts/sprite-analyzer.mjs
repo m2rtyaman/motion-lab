@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-// Kullanım: node scripts/sprite-analyzer.mjs --project <slug> [--sheet dosya.png]
+// Usage: node scripts/sprite-analyzer.mjs --project <slug> [--sheet file.png]
 const argv = process.argv.slice(2);
 const argOf = (k, d) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : d);
 const projectSlug = argOf('--project', 'dwarf-arena');
@@ -21,9 +21,9 @@ if (!fs.existsSync(outDir)) {
 }
 
 /**
- * Akıllı Sprite Bölge ve Ayak Hizalama Tanımları
- * - Yan kare sızıntılarını ve yerdeki kesik kılıç/gölge kalıntılarını hariç tutar.
- * - Tüm pozların çizmelerini aynı 'footBaselineY = 148' tabanına oturtur.
+ * Smart sprite region and foot alignment definitions
+ * - Excludes bleed from neighboring frames and cut-off sword/shadow remnants on the ground.
+ * - Aligns all poses' boots to the same 'footBaselineY = 148' baseline.
  */
 const SPRITE_REGIONS = [
   { name: 'idle', role: 'idle', minX: 70, maxX: 174, minY: 72, maxY: 161 },
@@ -38,7 +38,7 @@ const SPRITE_REGIONS = [
     minX: 465,
     maxX: 547,
     minY: 220,
-    maxY: 309, // Yerdeki kılıç parçasını ve gölge kalıntılarını tamamen dışarıda bırakır
+    maxY: 309, // Fully excludes the sword fragment and shadow remnants on the ground
   },
 ];
 
@@ -59,7 +59,7 @@ fs.createReadStream(inputPath)
     };
 
     for (const reg of SPRITE_REGIONS) {
-      // Gerçek içerik sınırlarını (tight bounding box) bul
+      // Find the actual content bounds (tight bounding box)
       let tightMinX = reg.maxX;
       let tightMaxX = reg.minX;
       let tightMinY = reg.maxY;
@@ -72,7 +72,7 @@ fs.createReadStream(inputPath)
           const g = this.data[idx + 1];
           const b = this.data[idx + 2];
 
-          // Beyaz arka plan ve soluk yer gölgesini filtrele
+          // Filter out the white background and faint ground shadow
           const isWhiteBg = r > 232 && g > 232 && b > 232;
           const isGroundShadow =
             y > reg.maxY - 6 &&
@@ -101,7 +101,7 @@ fs.createReadStream(inputPath)
           const srcX = tightMinX + x;
           const srcY = tightMinY + y;
 
-          // 'shout' karesinde sağ alt köşedeki kılıç kabzası kalıntısını temizle
+          // Clear the sword hilt remnant in the bottom-right corner of the 'shout' frame
           if (reg.name === 'shout' && srcY > 302 && srcX > 522 && this.data[(totalW * srcY + srcX) << 2] < 160) {
             continue;
           }
@@ -150,5 +150,5 @@ fs.createReadStream(inputPath)
 
     const manifestPath = path.join(outDir, 'manifest.json');
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
-    console.log(`[SPRITE ANALYZER] ${Object.keys(manifest.frames).length} kare temizlendi ve manifest.json üretildi.`);
+    console.log(`[SPRITE ANALYZER] ${Object.keys(manifest.frames).length} frames cleaned and manifest.json generated.`);
   });

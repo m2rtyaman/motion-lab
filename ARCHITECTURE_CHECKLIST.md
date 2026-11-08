@@ -1,4 +1,4 @@
-# UNIVERSAL MOTION GRAPHICS STUDIO — MASTER ARCHITECTURAL SPECIFICATION & QUALITY GATES (v0.8)
+# UNIVERSAL MOTION GRAPHICS STUDIO — MASTER ARCHITECTURAL SPECIFICATION & QUALITY GATES (v0.9)
 
 This document establishes the architecture, mathematical formulas, and quality gates enabling `motion-lab` to autonomously process any creative brief (B2B SaaS, E-commerce, Fintech, Mobile App, Launch Teaser) at **Motion Lab / Apple Keynote** broadcast standards.
 
@@ -49,14 +49,14 @@ Every scene transition must be motivated by a clear cinematographic rationale:
 
 ### 2.2. Zero-Dead-Frame Law (Ambient Drift)
 - **The Problem:** Camera locking dead after a GSAP tween, producing frozen static frames for 40+ frames (`diffs: 0.01` or `0`).
-- **The Universal Rule:** Even when primary tweens conclude, a deterministic `ambientDrift(frame)` function remains active:
+- **The Universal Rule:** Even when primary tweens conclude, a deterministic ambient drift stays active (in v2: `camera(tl, target, 'drift', at)`; the only motion allowed inside the final hold). The legacy formula, for reference:
   $$\Delta y = \sin(\text{frame} \times 0.04) \times 3\text{px}$$
   $$\Delta \text{scale} = 1 + \sin(\text{frame} \times 0.02) \times 0.015$$
   $$\Delta \text{rotZ} = \cos(\text{frame} \times 0.03) \times 0.15^\circ$$
 - Frame-to-frame diffs never drop below 1.2; the canvas breathes continuously.
 
 ### 2.3. Co-Spatial Camera & Actor Discipline
-- Actors like `<SimulatedCursor>`, `<ClickRipple>`, and `<CalloutBadge>` reside inside the virtual canvas coordinate space (`.spatial-world`), not on an isolated viewport overlay.
+- Actors like `<SimulatedCursor>` (curated) and the legacy `ClickRipple` and `CalloutBadge` reside inside the virtual canvas coordinate space (`.spatial-world`), not on an isolated viewport overlay.
 - When the camera executes `rotateX(15deg) rotateY(-12deg) scale(1.6)`, the cursor remains pixel-locked to its target button without drifting.
 
 ---
@@ -79,21 +79,21 @@ Before code generation, establish the `ThemeConfig`:
 
 ---
 
-## SECTION 4: Universal Primitives Library (`src/primitives/`)
+## SECTION 4: Universal Primitives Library (`src/primitives/curated.ts`)
 
-All primitives operate 100% data-agnostically:
+All primitives operate 100% data-agnostically. v2 scenes import only from `src/primitives/curated` (exact exports and props: `docs/COMPONENT_GALLERY.md`). Names marked "legacy" below are not curated exports.
 
 1. **Shells:**
    - `<BrowserFrame>`: URL bar, tab titles, traffic lights, theme-adaptive canvas.
-   - `<DesktopAppShell>`: Responsive sidebar, search bar, avatar, main canvas.
-   - `<MobileDeviceFrame>`: Dynamic Island, speaker grille, mobile navigation pill.
-   - `<BentoStage>`: 2x2 or 3x2 modular card showcases.
+   - `<AppShell>`: Responsive sidebar, search bar, avatar, main canvas.
+   - `<DeviceMockupStage>`: Dynamic Island, speaker grille, mobile navigation pill.
+   - `BentoStage` (legacy): 2x2 or 3x2 modular card showcases.
    - `<VirtualCanvas>`: Fixed desktop canvas normalized for 3D camera navigation.
 
 2. **Data & UI Widgets:**
    - `<DataTable>`: Multi-column account/transaction tables, status pills, highlighted rows.
-   - `<MetricCardRow>`: KPI counters, live `NumberTicker`, trend badges (+24%), sparklines.
-   - `<InteractiveMap>`: Vector SVG coastline/street maps, radar ping pins, animated route dashed lines.
+   - `<MetricCardRow>`: KPI counters, live counter (`CounterValue` / `AnimatedCounter`), trend badges (+24%), sparklines.
+   - `InteractiveMap` (legacy): Vector SVG coastline/street maps, radar ping pins, animated route dashed lines.
    - `<CalendarGrid>`: Monthly/weekly schedule grid, active appointment slots.
    - `<KanbanBoard>`: Columns, pipeline metrics, cards transitioning between stages via 3D transforms.
    - `<SlideOverDrawer>`: Slide-in detail panel, structured form fields, alert callouts.
@@ -108,27 +108,27 @@ All primitives operate 100% data-agnostically:
 
 ## SECTION 5: Automated Quality Gates & Audit Standards
 
-### 5.1. `validate-spec.mjs` (Motion Contract Gate)
-- **Visual Alignment:** All primary screen widgets specified in brief or screenshots must be declared in `spec.json` (`detectedWidgets`) and instantiated in JSX.
-- **Pacing Variance:** Equal-length beats ($\sigma < 10\text{ frames}$) trigger immediate audit failure.
-- **Camera Continuity:** Gaps between camera moves cannot exceed 1.0s; stagnation is rejected.
+### 5.1. `validate-spec.mjs` (`audit:spec`, motion contract gate)
+- **Contract:** fps 60, duration 0-60 s, safe-zone minimums, unique beat ids, beats that touch with no gap or overlap (S0xx).
+- **Component stack:** `componentStack` (or `detectedWidgets`) in `spec.json` must be an array of component names (S016, S017); for legacy projects `ast-lint` then checks that they appear in the JSX (SLOP-004).
+- **Camera continuity:** when camera keyframes are used, a static stretch longer than 4.5 s is an error (S036; kinetic-poster and single-container scenes are exempt).
+- **Pacing (v2):** equal-length beats, or beats under 0.6 s or over 3.0 s, are timeline warnings (T011), not spec errors.
 
-### 5.2. `ast-lint.mjs` (AST Syntax & Purity Gate)
-- **`SLOP-004` (Widget Verification):** Confirms all `detectedWidgets` in `spec.json` exist as valid JSX opening elements in `Scene.tsx`.
-- **`SLOP-001` (Stage Anchoring):** Blocks naked floating divs; requires verified stage shells.
-- **GPU Purity:** Blocks `top, left, width, height` tweens; enforces `transform`, `opacity`, `filter`.
+### 5.2. `ast-lint.mjs`, `timeline-audit.mjs`, `storyboard-audit.mjs` (v2 behavior gates)
+- **`audit:ast`:** V2-001 to V2-013 (imports from `curated`, no direct `gsap.*`, no React animation, no environment sniffing, component limits) and A001-A006 (durations, eases, determinism). Legacy projects are also checked for SLOP-001 (stage anchoring) and SLOP-004 (widget verification).
+- **`audit:timeline`:** runs `buildTimeline` and checks T000-T014: beat labels, a tween in every beat, the 1.2 s final hold, no layout-property tweens, selectors that match real classNames, easing direction, speed, stagger, rhythm, dead time.
+- **`audit:storyboard2`:** SB001-SB007: a board per beat, focal element exists, reading time, text rendered, closing hold.
+- **GPU purity:** tweens on `top`, `left`, `width`, `height`, margins and padding are rejected (T005, A003); animate `transform`, `opacity`, `filter`.
 
-### 5.3. `contact-sheet.mjs` & `manifest.json` (Render Verification)
-- **Sub-Beat Motion Gate:**
-  Every consecutive frame diff in `beat.diffs` must satisfy $d \ge 1.2$:
-  $$\forall d \in \text{beat.diffs}: d \ge 1.2$$
-  Any recorded diff $\le 0.01$ fails the quality gate.
-- **Adversarial Visual Inspection:**
-  Visual critics evaluate against 4 cardinal defects:
+### 5.3. Render verification (`render:poses`, `contact-sheet.mjs`, `pnpm probe`)
+- **Poses:** `pnpm render:poses` renders the start and end key pose of every beat before motion is added.
+- **Sub-beat motion gate:** `contact-sheet.mjs` computes mean absolute frame differences between sampled frames of each beat and flags a beat as static when its largest difference is below 0.8.
+- **Browser probe:** `pnpm probe` (P001-P009) checks in real Chrome that animated targets are visible and painted, that motion shows up in the DOM, contrast, text of 18 px or larger, and that the closing text stays on screen for the whole hold.
+- **Adversarial visual inspection:** review `visual-audit-grid.png` against the questions in `evals/VISUAL_RUBRIC.md`. Defects to look for:
   1. Horizontal or vertical text/box clipping.
   2. Overlapping unreadable ghost layers.
-  3. Stagnant frozen frames ($d < 1.2$).
-  4. Illegible micro-fonts (<16px) or washed-out CTAs.
+  3. Stagnant frozen frames.
+  4. Illegible micro-fonts (under 18 px) or washed-out CTAs.
 
 ---
 
@@ -139,5 +139,8 @@ All primitives operate 100% data-agnostically:
 | **1. Discovery** | f0 – f70 | 1.17s | `MetricCardRow` ($120k Pipeline) + `DataTable` (Target Accounts) | `IsometricTilt` (14° → 3°) & `FocusZoom` | *"Acquire High-Value Accounts Without Inbound Lag"* |
 | **2. Insight** | f71 – f150 | 1.33s | `SlideOverDrawer` (Enterprise Lead) & Warning Callout | `FocusZoom` (pan right, scale: 1.35) | *"AI-Driven Opportunity & Pipeline Intelligence"* |
 | **3. Action** | f151 – f225 | 1.25s | Background blurred calendar + Centered `ModalDialog` (Demo Booking) | Centered lock-in; spring pop-in | *"Book Demos With Single-Click Precision"* |
-| **4. Routing** | f226 – f300 | 1.25s | `InteractiveMap` (Territory Pins, animated route line) | Aerial glide (`CanvasPan`) | *"Smart Regional Routing, Maximum Revenue"* |
+| **4. Routing** | f226 – f300 | 1.25s | `InteractiveMap` (legacy; Territory Pins, animated route line) | Aerial glide (`CanvasPan`) | *"Smart Regional Routing, Maximum Revenue"* |
 | **5. Resolve** | f301 – f360 | 1.00s | Floating 2.5D interface + Centered glassmorphic Brand Emblem & CTA | `applyIsometricTilt` (pull back) | *"Automate Your B2B Pipeline • getstarted.io"* |
+
+> **Status (v0.9).** This is a design checklist for editorial UI videos: narrative, camera, theming and visual-QA principles. It is guidance, not the rule file. What scripts actually enforce is in [`RULES.md`](RULES.md), which wins on any conflict. The v2 architecture and flow (spec boards, `Scene.tsx` `buildTimeline`, presets and physics, audits, browser probe, render) are in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). In v2 scenes motion comes from `src/core/presets.ts` (`camera(tl, target, "drift" | "pushIn" | "pullOut" | "settle", at)`, `transition(...)`) instead of hand-written tweens, and primitives come from `src/primitives/curated.ts` ([gallery](docs/COMPONENT_GALLERY.md)). Component names below are conceptual; those marked "legacy" are not curated exports.
+

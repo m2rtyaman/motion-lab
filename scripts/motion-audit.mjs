@@ -1,20 +1,20 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
-import { parseArgs, resolveTargets, rel } from "./lib/projects.mjs";
+import { parseArgs, resolveTargets, rel, isHarnessV2 } from "./lib/projects.mjs";
 
 /**
- * MOTION AUDIT (audit:motion) - "slayt gösterisi" dedektörü.
- * Diğer linter'lar kod hijyenini denetler; bu kapı HAREKET KALİTESİNİ denetler.
+ * MOTION AUDIT (audit:motion) - "slideshow" detector.
+ * Other linters check code hygiene; this gate checks MOTION QUALITY.
  *
- * M001 çok beat'li projede hiç geçiş (transition*) çağrısı yok       -> sert kesme
- * M002 beat'e bağlı `{isBeatX && <Scene/>}` / `frame >= N && <X/>`   -> unmount ile kesme
- * M003 3+ beat'te tek tip geçiş (çeşitlilik yok)                      -> monoton
- * M004 geçiş sayısı < beat sayısı - 1 (bazı beat sınırları çıplak)    -> kesik sınır
- * M005 spec.theme.surfaceMode tanımsız                                -> tema sözleşmesi yok
- * M006 tüm sahne tek koyu zeminde (3+ beat, hardcode #0x… zemin)     -> tekdüze stil (uyarı)
+ * M001 multi-beat project with no transition* calls at all               -> hard cut
+ * M002 beat-bound `{isBeatX && <Scene/>}` / `frame >= N && <X/>`          -> cut via unmount
+ * M003 same transition type across 3+ beats (no variety)                  -> monotonous
+ * M004 transition count < beat count - 1 (some beat boundaries bare)     -> broken boundary
+ * M005 spec.theme.surfaceMode undefined                                   -> no theme contract
+ * M006 whole scene on one dark background (3+ beats, hardcoded #0x… bg) -> uniform style (warning)
  *
- * spec.json içinde `"legacy": true` olan projelerde ihlaller UYARI olur (migrasyon borcu).
- * Kullanım: node scripts/motion-audit.mjs [--project <slug>]
+ * In projects with `"legacy": true` in spec.json, violations become WARNINGS (migration debt).
+ * Usage: node scripts/motion-audit.mjs [--project <slug>]
  */
 const require = createRequire(import.meta.url);
 const { parse } = require("@babel/parser");
@@ -53,18 +53,19 @@ function walkAst(node, fn, parents = []) {
 function auditProject(t) {
   const spec = JSON.parse(fs.readFileSync(t.spec, "utf-8"));
   const legacy = spec.legacy === true;
+  const v2 = isHarnessV2(spec); // v2: keyword rules replaced by scripts/timeline-audit.mjs
   const file = rel(t.scene);
   const code = fs.readFileSync(t.scene, "utf-8");
   const add = (rule, line, msg, fix, hard = true) =>
     issues.push({ rule, file, line, msg, fix, level: hard && !legacy ? "error" : "warn", slug: t.slug });
 
-  // continuousShot: bilinçli tek-plan (kesme yok) - geçiş zorunlu değil, beat sınırlarını kamera taşır.
+  // continuousShot: deliberate single take (no cuts) - transitions not required; the camera carries the beat boundaries.
   const beats = spec.continuousShot === true ? 1 : spec.beats?.length ?? 0;
   let ast;
   try {
     ast = parse(code, { sourceType: "module", plugins: ["typescript", "jsx"] });
   } catch (e) {
-    add("M000", e.loc?.line ?? 1, `ayrıştırılamadı: ${e.message}`, "sözdizimini düzelt");
+    add("M000", e.loc?.line ?? 1, `could not parse: ${e.message}`, "fix the syntax");
     return;
   }
 
@@ -88,19 +89,19 @@ function auditProject(t) {
 
   const isKineticReel = spec.mode === "creative-motion-reel" || spec.mode === "kinetic-poster";
 
-  if (beats >= 2 && used.size === 0 && !isKineticReel)
-    add("M001", 1, `${beats} beat var ama hiç transition çağrısı yok (sert kesme).`, "src/core/transitions.ts: transitionWhipPan / MaskWipe / ZoomPunch / ContainerMorph kullan.");
+  if (!v2 && beats >= 2 && used.size === 0 && !isKineticReel)
+    add("M001", 1, `${beats} beats but no transition calls at all (hard cut).`, "Use src/core/transitions.ts: transitionWhipPan / MaskWipe / ZoomPunch / ContainerMorph.");
 
   for (const g of gatedMounts)
-    add("M002", g.line, `Beat'e bağlı unmount: \`${g.left.slice(0, 40)} && <…/>\` sahneyi kesiyor.`, "Beat'leri daima mount et; görünürlüğü GSAP opacity/transform/clip-path ile geçiş penceresinde sür.");
+    add("M002", g.line, `Beat-bound unmount: \`${g.left.slice(0, 40)} && <…/>\` is cutting the scene.`, "Always mount beats; drive visibility with GSAP opacity/transform/clip-path within the transition window.");
 
-  // M003: Kaldırıldı; tutarlı tek tip geçiş tasarımına (ör. tüm sahnelerde container-morph / single container) izin verilir.
+  // M003: Removed; a consistent single-type transition design (e.g. container-morph / single container across all scenes) is allowed.
 
-  if (beats >= 2 && used.size > 0 && calls.length < beats - 1 && !isKineticReel)
-    add("M004", calls[0], `${calls.length} geçiş / ${beats - 1} beat sınırı: bazı sınırlar çıplak.`, "Her beat sınırına bir geçiş ata.");
+  if (!v2 && beats >= 2 && used.size > 0 && calls.length < beats - 1 && !isKineticReel)
+    add("M004", calls[0], `${calls.length} transitions / ${beats - 1} beat boundaries: some boundaries are bare.`, "Assign a transition to every beat boundary.");
 
   if (!spec.theme?.surfaceMode)
-    add("M005", 1, "spec.theme.surfaceMode tanımsız.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm|kinetic-acid" }', false);
+    add("M005", 1, "spec.theme.surfaceMode is undefined.", 'spec.json -> "theme": { "surfaceMode": "light|dark|vibrant-brand|editorial-warm|kinetic-acid" }', false);
 
   const darkHex = (code.match(/#0[0-9a-fA-F]{5}\b/g) ?? []).length;
   const lightHex = (code.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
@@ -112,40 +113,40 @@ function auditProject(t) {
     (darkHex >= 1 && lightHex >= 1) ||
     isKineticReel;
   const isHybrid = spec.mode === "hybrid-orchestrated";
-  if (beats >= 3 && darkHex >= 4 && !/(THEME|theme)/.test(code) && !hasColorBlocking)
-    add("M006", 1, "Tema sözleşmesi veya Renk Kontrastı (Color Blocking) kullanılmadan tekdüze koyu zemin.", "Sahneler arasında açık/koyu yüzey kontrastı (Color Blocking) veya tam ekran renk geçişi uygulayın.", isHybrid);
+  if (!v2 && beats >= 3 && darkHex >= 4 && !/(THEME|theme)/.test(code) && !hasColorBlocking)
+    add("M006", 1, "Uniform dark background with no theme contract or Color Blocking contrast.", "Apply light/dark surface contrast (Color Blocking) or a full-screen color transition between scenes.", isHybrid);
 
-  // M007: Büyük darbe öncesi öngörülü durgunluk kontrolü (Anticipatory Stillness 300-500ms)
+  // M007: Anticipatory stillness check before large impacts (Anticipatory Stillness 300-500ms)
   const hasShake = (spec.shakes && spec.shakes.length > 0) || code.includes("impactShake");
   const hasAnticipation =
     code.includes("anticipation") ||
     code.includes("cursorClickImpulse") ||
     code.includes("windUp") ||
     (spec.camera && spec.camera.some((c) => c.intent && /durgun|hazırlık|nefes/i.test(c.intent)));
-  if (hasShake && !hasAnticipation) {
-    add("M007", 1, "Darbe sarsıntısı var ancak öncesinde 300-500ms öngörülü durgunluk (anticipation) bulunamadı.", "Büyük darbeden hemen önce 300-500ms mikro-durgunluk bırakarak etkiyi katlayın.", false);
+  if (!v2 && hasShake && !hasAnticipation) {
+    add("M007", 1, "Impact shake present, but no 300-500ms anticipatory stillness (anticipation) found before it.", "Leave a 300-500ms micro-stillness right before the big impact to amplify it.", false);
   }
 
-  // M008: Organik kavisli imleç kontrolü (Curved Cursor Path)
+  // M008: Organic curved cursor check (Curved Cursor Path)
   const hasCursor = /cursor/i.test(code);
   const hasCurvedPath =
     code.includes("cursorNaturalPath") ||
     code.includes("createCurvedCursorTrajectory") ||
     code.includes("bezier") ||
     code.includes("rotateZ");
-  if (hasCursor && !hasCurvedPath) {
-    add("M008", 1, "İmleç animasyonu düz doğrusal hatta hareket ediyor.", "İnsansı imleç hareketi için kavisli yörünge (cursorNaturalPath / createCurvedCursorTrajectory) kullanın.", false);
+  if (!v2 && hasCursor && !hasCurvedPath) {
+    add("M008", 1, "Cursor animation moves along a straight linear path.", "For human-like cursor motion, use a curved trajectory (cursorNaturalPath / createCurvedCursorTrajectory).", false);
   }
 
-  // M009: Ardıl hareket ve basamaklama kontrolü (Follow-Through Stagger)
+  // M009: Follow-through and stagger check (Follow-Through Stagger)
   const hasMultiItems = code.includes(".card") || code.includes(".item") || code.includes("Badge") || code.includes("Metric");
   const hasStagger = code.includes("stagger") || code.includes("depthStaggerReveal") || code.includes("TIMING.itemStagger");
-  if (hasMultiItems && !hasStagger && beats >= 2) {
-    add("M009", 1, "Çoklu kart/liste elemanları eşzamanlı blok olarak hareket ediyor.", "Disney follow-through gereği elemanları TIMING.itemStagger ile basamaklandırın.", false);
+  if (!v2 && hasMultiItems && !hasStagger && beats >= 2) {
+    add("M009", 1, "Multiple card/list items move together as one block.", "Per Disney follow-through, stagger the items with TIMING.itemStagger.", false);
   }
 
-  // M010: Ölçek Kontrastı ve Pul Boyutunda Sabit Kutu Yasağı (Anti-Postage-Stamp Scale Contrast Law)
-  if (spec.mode === "hybrid-orchestrated") {
+  // M010: Scale contrast and ban on fixed postage-stamp-sized boxes (Anti-Postage-Stamp Scale Contrast Law)
+  if (!v2 && spec.mode === "hybrid-orchestrated") {
     const scaleMatches = [...code.matchAll(/\bscale\s*:\s*([0-9.]+)/g)].map((m) => parseFloat(m[1]));
     const maxScale = scaleMatches.length ? Math.max(...scaleMatches) : 1.0;
     const hasDramaticScale =
@@ -157,13 +158,13 @@ function auditProject(t) {
       add(
         "M010",
         1,
-        `Sabit Kutu / Korkak Ölçek Sendromu (Postage-Stamp Slop): Maksimum ölçek değişimi ${maxScale}x (< 1.4x). Bileşenler hep aynı boyutta duruyor.`,
-        "Sahneler arasında gerçek büyüme/küçülme için transitionElementTakeover, transitionCameraDive veya SCALE_CONTRAST (macroCloseUp >= 1.8x) kullanın.",
+        `Fixed box / timid scale syndrome (Postage-Stamp Slop): maximum scale change ${maxScale}x (< 1.4x). Components stay the same size throughout.`,
+        "For real growth/shrink between scenes, use transitionElementTakeover, transitionCameraDive or SCALE_CONTRAST (macroCloseUp >= 1.8x).",
         true
       );
     }
 
-    // M011: Intra-Beat Durağanlık / Donuk Slayt Yasağı (Anti-Slide-Freeze Law)
+    // M011: Intra-beat stillness / frozen slide ban (Anti-Slide-Freeze Law)
     const hasContinuousFrameMotion =
       /useCurrentFrame/.test(code) ||
       /Math\.(sin|cos)\s*\(\s*frame/.test(code) ||
@@ -174,13 +175,13 @@ function auditProject(t) {
       add(
         "M011",
         1,
-        "Intra-Beat Durağanlık (Slide Freeze): Sahne bileşenleri ilk 0.4s'de ekrana girip beat sonuna kadar donuk slayt gibi bekliyor.",
-        "Beat boyunca kesintisiz kamera süzülmesi, useCurrentFrame() tabanlı sayaç/kod akışı veya sürekli katman ölçeklemesi ekleyin.",
+        "Intra-beat stillness (Slide Freeze): scene components enter within the first 0.4s and then sit frozen like a slide until the beat ends.",
+        "Add a continuous camera drift across the beat, a useCurrentFrame()-based counter/code flow, or continuous layer scaling.",
         true
       );
     }
 
-    // M012: Çamurlu RGB Zemin Tween Yasağı (Anti-Muddy-Background-Fade)
+    // M012: Ban on muddy RGB background tweens (Anti-Muddy-Background-Fade)
     const bgTweenCount = [...code.matchAll(/tl\.to\(\s*['"]#hybrid-root-canvas['"]\s*,\s*\{[^}]*backgroundColor/g)].length;
     const hasClipOrTakeover =
       code.includes("clipPath") ||
@@ -191,8 +192,8 @@ function auditProject(t) {
       add(
         "M012",
         1,
-        "Çamurlu RGB Zemin Geçişi: Koyu ve açık zeminler arasında doğrudan backgroundColor tween edilerek kirli gri ara kareler oluşturuluyor.",
-        "Zemin rengini doğrudan RGB tween etmek yerine transitionElementTakeover, clip-path iris açılımı veya tam ekran katman devralması kullanın.",
+        "Muddy RGB background transition: directly tweening backgroundColor between dark and light backgrounds creates dirty gray in-between frames.",
+        "Instead of tweening the background color directly in RGB, use transitionElementTakeover, a clip-path iris reveal, or a full-screen layer takeover.",
         true
       );
     }

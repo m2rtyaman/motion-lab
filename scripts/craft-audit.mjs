@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
  * craft-audit.mjs
- * Motion Studio v0.8 Görsel İşçilik & Determinizm Denetçisi.
- * Kör koordinat sallama, harf avatarları, linear easing, bozuk Three.js saatleri,
- * çapasız 3D kartlar, kopuk bento slop'u ve metin artıklığını denetler.
+ * Motion Studio v0.9 Visual Craft & Determinism Auditor.
+ * Checks blind coordinate jitter, letter avatars, linear easing, broken Three.js clocks,
+ * unanchored 3D cards, disconnected bento slop and text redundancy.
  *
- * Kullanım:
+ * Usage:
  *   node scripts/craft-audit.mjs [--project <slug>]
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { parseArgs, resolveTargets, rootDir } from './lib/projects.mjs';
+import { parseArgs, resolveTargets, rootDir, isHarnessV2 } from './lib/projects.mjs';
 
 const args = parseArgs();
 const targets = resolveTargets(args);
@@ -23,7 +23,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}==================================================${RESET}`);
-console.log(`${BOLD}🎨 CRAFT AUDIT & ADVERSARIAL VISUAL GATE (v0.8)${RESET}`);
+console.log(`${BOLD}🎨 CRAFT AUDIT & ADVERSARIAL VISUAL GATE (v0.9)${RESET}`);
 console.log(`${BOLD}==================================================${RESET}`);
 
 let totalErrors = 0;
@@ -38,39 +38,40 @@ for (const project of targets) {
   const code = fs.readFileSync(sceneFile, 'utf8');
   const spec = fs.existsSync(specFile) ? JSON.parse(fs.readFileSync(specFile, 'utf8').replace(/^\uFEFF/, '')) : {};
   const isLegacy = spec.legacy === true;
+  const v2 = isHarnessV2(spec); // v2: shell-anchor / container-morph / 3D-stage keyword rules are skipped
 
   const errors = [];
   const warnings = [];
 
-  // 1. Harf Avatarı Yasağı (>SY<, >KA< gibi tembel iki harfli avatarlar)
-  // JSX içindeki <span>AI</span>, <span>UI</span>, <button>OK</button>, <span>US</span> gibi meşru 2 harfli kelimeleri engellememek için
-  // sadece avatar bileşenlerini veya avatar class'ına sahip elemanları hedefler.
+  // 1. Letter Avatar Ban (lazy two-letter avatars such as >SY<, >KA<)
+  // To avoid blocking legitimate 2-letter words in JSX such as <span>AI</span>, <span>UI</span>, <button>OK</button>, <span>US</span>,
+  // only avatar components or elements with an avatar class are targeted.
   const initialsAvatarRegex = /<(?:[A-Za-z0-9]*Avatar|[a-z0-9]+[^>]*class(?:Name)?=["'][^"']*\bavatar\b[^"']*)[^>]*>[A-Z]{2}<\//i;
   if (initialsAvatarRegex.test(code)) {
-    errors.push('P0: Tembel iki büyük harfli avatar tespit edildi (>SY< vb.). VectorAvatarPortrait kullanılmalı.');
+    errors.push('P0: Lazy two-uppercase-letter avatar detected (>SY< etc.). Use VectorAvatarPortrait.');
   }
 
-  // 2. Linear & Yasak Easing Denetimi
+  // 2. Linear & Banned Easing check
   if (/ease\s*:\s*["']linear["']/i.test(code) && spec.mode !== 'creative-motion-reel' && spec.mode !== 'kinetic-poster') {
-    errors.push('P0: Animasyonlarda yasaklı "linear" easing bulundu! SpringStaggerGroup veya power3.out kullanılmalı.');
+    errors.push('P0: Banned "linear" easing found in animations! Use SpringStaggerGroup or power3.out.');
   }
   if (/ease\s*:\s*["']easeInOut["']/i.test(code) || /ease\s*:\s*["']ease\.inOut["']/i.test(code)) {
-    warnings.push('P1: Standart "easeInOut" tespit edildi. Doğal hareketler için yay fiziği (spring) veya expo.inOut tercih edilmeli.');
+    warnings.push('P1: Standard "easeInOut" detected. For natural motion, prefer spring physics or expo.inOut.');
   }
 
-  // 3. Three.js Determinizm Denetimi
+  // 3. Three.js Determinism check
   if (/clock\.getElapsedTime\(\)/.test(code) || /useFrame\s*\(\s*\([^)]*\)\s*=>[^}]*\+=\s*delta/.test(code)) {
-    errors.push('P0: Three.js sahnesinde determinizmi bozan clock/delta kullanımı bulundu! Remotion useCurrentFrame() kullanılmalı.');
+    errors.push('P0: Clock/delta usage that breaks determinism found in the Three.js scene! Use Remotion useCurrentFrame().');
   }
 
-  // 4. Doğrudan Ham/Kör SVG Poligon Koordinatı Uydurma Denetimi
+  // 4. Raw/blind SVG polygon coordinate fabrication check
   const longRawSvgPath = /<path[^>]+d=["'][MC][^"']{120,}["']/g;
   const hasVectorImport = /from\s+["'].*\/assets\/vectors/i.test(code) || /from\s+["'].*\/procedural/i.test(code);
   if (longRawSvgPath.test(code) && !hasVectorImport) {
-    warnings.push('P1: Scene.tsx içinde uzun serbest el SVG koordinatları tespit edildi. Kör koordinat sallamak yerine VerifiedVectorLibrary veya ParametricCurves kullanılmalı.');
+    warnings.push('P1: Long freehand SVG coordinates detected in Scene.tsx. Use VerifiedVectorLibrary or ParametricCurves instead of blind coordinate jitter.');
   }
 
-  // 5. Statik Sahne / Ölü Kare Kontrolü
+  // 5. Static Scene / Dead Frame check
   const hasAliveMotion =
     /AmbientAliveDriver/.test(code) ||
     /useSecondaryMotion/.test(code) ||
@@ -78,38 +79,38 @@ for (const project of targets) {
     /microPulse/.test(code) ||
     /TemplateFrame/.test(code);
 
-  if (!hasAliveMotion && !isLegacy && spec.mode === 'editorial-ui') {
-    warnings.push('P1: Sahnede sürekli yaşayan mikro-hareket bulunamadı. Metin okuma aralarında AmbientAliveDriver veya sin(frame) kullanılmalı.');
+  if (!v2 && !hasAliveMotion && !isLegacy && spec.mode === 'editorial-ui') {
+    warnings.push('P1: No continuously alive micro-motion found in the scene. Use AmbientAliveDriver or sin(frame) during text reading gaps.');
   }
 
-  // 6. Pencere ve Mimari Sahne Çapalaması (Architectural or Hardware Shell Anchor)
+  // 6. Window and Architectural Scene Anchoring (Architectural or Hardware Shell Anchor)
   const hasUIComponents = /ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|SpecularCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard|TelemetryTile/.test(code);
   const hasShellAnchor = /PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|VirtualCanvas|WorldStage|TerminalShell|TheHeroActor|ContainerMorphBridge|HairlineGrid|KineticVectorStage|CameraRig|FullScreenStage|FullBleedStage|AuthenticBrandShell|YouTubeStage|BrandStage|CinemaStage|WatchPageShell|BrandCanvas/.test(code);
 
-  if (hasUIComponents && !hasShellAnchor) {
-    errors.push('P0: Boşlukta süzülen kopuk kartlar (Disconnected Floating Bento Slop) tespit edildi! UI bileşenleri bir mimari ızgara (HairlineGrid, KineticVectorStage, SpotlightStage) veya Hardware Shell içine kilitlenmelidir.');
+  if (!v2 && hasUIComponents && !hasShellAnchor) {
+    errors.push('P0: Disconnected cards floating in space (Disconnected Floating Bento Slop) detected! UI components must be locked inside an architectural grid (HairlineGrid, KineticVectorStage, SpotlightStage) or a Hardware Shell.');
   }
 
-  // 7. Tek Kap Morfolojisi / Graphic Anchor Geçiş Denetimi
+  // 7. Single Container Morphology / Graphic Anchor transition check
   const hasContainerMorph = /transition(ContainerMorph|WhipPan|MaskWipe|ZoomPunch|ElementTakeover|CameraDive)|GraphicAnchor|morphProgress|containerMorph|BrowserFrame|SpotlightStage|BackdropField|TheHeroActor|the-hero-actor|ContainerMorphBridge/.test(code);
-  if ((spec.mode === 'editorial-ui' || spec.mode === 'hybrid-orchestrated') && !isLegacy && !hasContainerMorph) {
-    errors.push('P0: Tek Kap Morfolojisi / Graphic Anchor geçişi eksik! Sahneler arası kopuk slayt geçişi yerine tek kap morfolojisi (transitionContainerMorph, transitionElementTakeover, transitionCameraDive veya Graphic Anchor) zorunludur.');
+  if (!v2 && (spec.mode === 'editorial-ui' || spec.mode === 'hybrid-orchestrated') && !isLegacy && !hasContainerMorph) {
+    errors.push('P0: Single Container Morphology / Graphic Anchor transition missing! Instead of disconnected slide transitions between scenes, a single-container morph (transitionContainerMorph, transitionElementTakeover, transitionCameraDive or Graphic Anchor) is required.');
   }
 
-  // 8. 3D Boşlukta Çapasız Yüzme Yasağı (Unanchored in 3D Space)
+  // 8. Ban on unanchored floating in 3D space (Unanchored in 3D Space)
   const has3DStage = /LayeredStage3D|LayerPlane/.test(code);
-  if (has3DStage && hasUIComponents && !hasShellAnchor) {
-    errors.push('P0: 3D sahnede boşlukta süzülen çapasız bileşenler tespit edildi! Kartlar bir Hardware Shell veya PrecisionDashboardShell içine yerleştirilmelidir.');
+  if (!v2 && has3DStage && hasUIComponents && !hasShellAnchor) {
+    errors.push('P0: Unanchored components floating in 3D space detected! Cards must be placed inside a Hardware Shell or PrecisionDashboardShell.');
   }
 
-  // 8b. 3D Katmanda Doğrudan Çapasız UI Elemanı Süzülmesi
-  // SpotlightStage, KineticVectorStage, FullScreenStage ve serbest SpecularCard kullanımına izin verilir.
+  // 8b. Unanchored UI element floating directly on the 3D layer
+  // SpotlightStage, KineticVectorStage, FullScreenStage and free-standing SpecularCard usage is allowed.
   const unanchored3DMatch = /<LayerPlane[^>]*>(?:(?!PrecisionDashboardShell|DeviceMockupStage|MacOSSequoiaWindow|BrowserFrame|AppShell|SpotlightStage|KineticVectorStage|FullScreenStage|FullBleedStage|AuthenticBrandShell|HairlineGrid|CameraRig|TerminalShell|WorldStage|<\/LayerPlane>)[\s\S])*?<(ParticipantStudioTile|TelemetryBentoCard|EncryptedChatStream|MetricCardRow|BentoCard|MetricTelemetryCard|EditorialDialogueCard|PipelineTerminalCard|SplitComparisonCard)\b/.test(code);
-  if (has3DStage && unanchored3DMatch) {
-    errors.push('P0: LayerPlane içinde bir Hardware Shell veya Window Anchor içine sarılmamış bağımsız UI kartı tespit edildi! Tüm UI elemanları PrecisionDashboardShell, SpotlightStage veya DeviceMockupStage içine kilitlenmelidir.');
+  if (!v2 && has3DStage && unanchored3DMatch) {
+    errors.push('P0: Standalone UI card inside LayerPlane not wrapped in a Hardware Shell or Window Anchor detected! All UI elements must be locked inside PrecisionDashboardShell, SpotlightStage or DeviceMockupStage.');
   }
 
-  // 9. Sıfır-Artıklık Tipografi Kuralı (Zero Redundancy / No Text Duplication)
+  // 9. Zero-Redundancy Typography Rule (Zero Redundancy / No Text Duplication)
   const propMatches = Array.from(code.matchAll(/\b(?:title|subtitle|heading|headline|tag|badge|label|statusBadge|status)\s*=\s*["']([^"']{10,})["']/g)).map((m) => m[1].trim());
   const tagMatches = Array.from(code.matchAll(/<(?:h[1-6]|span|p)\b[^>]*class(?:Name)?=["'][^"']*(?:title|heading|headline|tag|badge|label|status)[^"']*["'][^>]*>([^<]{10,})<\/(?:h[1-6]|span|p)>/gi)).map((m) => m[1].trim());
   const combinedTexts = [...propMatches, ...tagMatches];
@@ -119,7 +120,7 @@ for (const project of targets) {
   }
   const duplicates = Object.keys(stringFreq).filter((s) => stringFreq[s] > 1);
   if (duplicates.length > 0) {
-    errors.push(`P0: Anlamsal artık-değer / Sahte metin tekrarı (Text Redundancy) tespit edildi! Başlık ile arayüz rozeti arasında aynı metin tekrarlanamaz: "${duplicates[0]}"`);
+    errors.push(`P0: Semantic redundancy / fake text repetition (Text Redundancy) detected! The same text cannot be repeated between a heading and a UI badge: "${duplicates[0]}"`);
   }
 
   console.log(`\n▶ [${project.slug}]`);
