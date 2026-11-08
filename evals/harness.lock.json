@@ -373,7 +373,7 @@
     "scripts/fixtures/timeline-audit/rig-typo/Scene.tsx": "6b1815a67dd13b0881de70d52f96ad930c1ef26b66e636b6560f50716a0c7bb6",
     "scripts/fixtures/timeline-audit/rig-typo/spec.json": "5ae1be7169ce2e454927af793797b9a4ac8129c1c3f992c6002008eb3b036344",
     "scripts/gallery.mjs": "4cffd06a8fab0950fbbe7449ca998fdd577a65bd4d1ea6bf901325b692eaeeab",
-    "scripts/gen-design-system.mjs": "fd777d180f22f8e2ecf3034909574a7521ea946dc8af9f44dd3c19f873173569",
+    "scripts/gen-design-system.mjs": "4cfeffc030ec70bcedd8d0c4ff3ccebb4921e2b8769c2ff8ee6a10467f9f786a",
     "scripts/gen-motion-math.mjs": "61c18d775167980f7eb89acade25f3a309fcdb27afacea117382468f9718d4d7",
     "scripts/gen-registry.mjs": "99dac953e5ad082649ffe844d5bd3ef9afe638470177f28de20ab1e6d80a1265",
     "scripts/gen-template-manifest.mjs": "6a444ea2da7e7a03a0adb150ada854c6ccde46a32bfc85320f533ab0bbadcade",

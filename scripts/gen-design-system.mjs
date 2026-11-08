@@ -147,7 +147,7 @@ push("## 6. Radii, strokes, shadows", "",
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 const text = out.join("\n") + "\n";
 if (CHECK) {
-  const cur = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf-8") : "";
+  const cur = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf-8").replace(/\r\n/g, "\n") : ""; // CRLF checkouts are not stale
   if (cur !== text) { console.error("docs/DESIGN_SYSTEM.md is stale: run `npx tsx scripts/gen-design-system.mjs`"); process.exit(1); }
   console.log("docs/DESIGN_SYSTEM.md is up to date");
 } else {

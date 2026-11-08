@@ -19,9 +19,10 @@ pnpm harvest:broll --query "office desk" --out-dir public/harvest/<slug> --aspec
 - `--project` reads `src/projects/<slug>/spec.json` to infer aspect and fps (60).
 - `--voice` is any EdgeTTS voice id; default `en-US-ChristopherNeural`. Examples: `en-US-JennyNeural`, `tr-TR-EmelNeural`,
   `de-DE-SeraphinaMultilingualNeural`. Speech synthesis calls Microsoft's free EdgeTTS service, so it needs internet access.
-- B-roll is local only: the script picks an `.mp4` from `public/assets/` or `.cache/broll/videos/` whose file name contains
-  the query (or "broll"). If none exists it writes a `broll.json` marking a procedural fallback; drop your own clip in
-  `public/assets/` first when you want footage. Only use footage you have the rights to.
+- B-roll is local only: the script picks an `.mp4` from `public/assets/<clip>.mp4` or `.cache/broll/videos/` whose file name
+  contains the query (or "broll"). If none exists it writes a `broll.json` marking a procedural fallback; create that
+  folder (it is not tracked in git) and drop your own clip there first when you want footage. Only use
+  footage you have the rights to.
 
 ## Output
 `public/harvest/<slug>/` (mirrored to `src/projects/<slug>/harvest/`): `audio.mp3`, `audio.wav` (when ffmpeg exists),
