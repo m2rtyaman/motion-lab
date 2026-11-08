@@ -40,6 +40,7 @@ export interface RoughCanvasProps {
  * roughjs motorunu deterministik tohum (seed) ile çalıştırarak kareler arasında
  * rastgele titreme olmaksızın organik el çizimi hissi üretir.
  */
+/** @deprecated legacy look — not for v2 */
 export const RoughCanvas: React.FC<RoughCanvasProps> = ({
   shapes,
   seed = 42,

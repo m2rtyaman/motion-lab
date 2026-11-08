@@ -30,6 +30,7 @@ const DEFAULT_SPARKLINE =
  * VectorDraw — Deterministik SVG Çizgi, Bağlantı Hattı ve Sparkline Çizici
  * Kartlar arası konuşma/olay bağını veya telemetri eğrilerini `frame / fps` ile canlı çizer.
  */
+/** @deprecated legacy look — not for v2 */
 export const VectorDraw: FC<VectorDrawProps> = ({
   variant = 'vertical-thread',
   startAtSec,

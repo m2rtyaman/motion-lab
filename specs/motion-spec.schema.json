@@ -58,6 +58,25 @@
   "properties": {
     "$schema": { "type": "string" },
     "version": { "const": 1 },
+    "harness": { "const": 2, "description": "Opt-in to Harness v2: Scene.tsx exports buildTimeline and is verified behaviorally by scripts/timeline-audit.mjs (keyword audits are skipped)." },
+    "evalTask": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Optional: id of an exercise in evals/tasks/<id>; makes pnpm eval:all score this project." },
+    "audit": {
+      "type": "object",
+      "description": "Per-project timeline-audit settings. allow suppresses intentional findings (printed as [allowed]).",
+      "properties": {
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "reason"],
+            "properties": {
+              "code": { "type": "string", "pattern": "^T[0-9]{3}$" },
+              "reason": { "type": "string", "minLength": 15, "description": "Why this finding is intentional (>= 15 chars)." }
+            }
+          }
+        }
+      }
+    },
     "title": { "type": "string", "minLength": 1 },
     "mode": {
       "enum": [
@@ -139,7 +158,22 @@
           "endFrame": { "type": "integer", "minimum": 0 },
           "intent": { "type": "string", "minLength": 3 },
           "action": { "type": "string" },
-          "text": { "type": "string" }
+          "text": { "type": "string" },
+          "samples": { "type": "array", "items": { "type": "integer", "minimum": 0 }, "description": "Extra frames the contact sheet must show for this beat (e.g. the contact frame of a bounce)." },
+          "board": {
+            "type": "object",
+            "description": "Storyboard card (harness v2, checked by scripts/storyboard-audit.mjs, rules SB001-SB007). See docs/STORYBOARD.md.",
+            "required": ["focal", "zone", "start", "end", "why"],
+            "properties": {
+              "focal": { "type": "string", "minLength": 2, "description": "CSS selector of the one element the viewer must look at; must match a static className/id in Scene.tsx (SB002)." },
+              "zone": { "type": "string", "enum": ["top-left", "top-center", "top-right", "middle-left", "middle-center", "middle-right", "bottom-left", "bottom-center", "bottom-right", "center", "top", "bottom", "left", "right"], "description": "3x3 grid cell where the focal sits." },
+              "start": { "type": "string", "minLength": 3, "description": "Key pose at beat start, one sentence." },
+              "end": { "type": "string", "minLength": 3, "description": "Key pose at beat end, one sentence." },
+              "text": { "type": "array", "items": { "type": "string" }, "description": "On-screen strings introduced in this beat; must be rendered in Scene.tsx (SB005) and readable in the beat time (SB003)." },
+              "transitionIn": { "type": "string", "description": "Preset (e.g. transition:maskWipe, camera:pushIn) or the word cut." },
+              "why": { "type": "string", "minLength": 3, "description": "Motivation, one clause. The final beat must mention the hold (SB006)." }
+            }
+          }
         }
       }
     },

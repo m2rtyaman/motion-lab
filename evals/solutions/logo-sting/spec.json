@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "logo-sting",
+  "title": "Halcyon Sting",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 4,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "form", "startFrame": 0, "endFrame": 77, "intent": "Waves rise, the sun pops above them on a quiet grid",
+      "board": {"focal":".sun","zone":"middle-left","start":"Quiet dark grid","end":"Waves risen and the sun popped above them","text":[],"transitionIn":"cut","why":"the mark builds from the bottom up so the sun is the last thing to land"} },
+    { "id": "resolve", "startFrame": 78, "endFrame": 240, "intent": "Mark slides aside, wordmark resolves sharp, tagline rises, 1.2s hold",
+      "board": {"focal":".wordmark","zone":"middle-center","start":"Mark centred","end":"Mark slid left, wordmark and tagline resolved sharp beside it","text":["Halcyon","Calm software."],"transitionIn":"cut","why":"the name arrives after the mark that explains it, then holds still for 1.2s"} }
+  ]
+}

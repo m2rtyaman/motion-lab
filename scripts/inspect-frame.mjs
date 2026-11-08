@@ -4,14 +4,14 @@ import { spawnSync } from 'node:child_process';
 import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
 
 /**
- * INSPECT FRAME (Motion Lab Animasyon Rehberi Tek Kare Teftiş Köprüsü)
+ * INSPECT FRAME (Motion Lab animation guide: single-frame inspection bridge)
  *
- * MOTION_RULES.md: "URL'de ?t=3.2 verilirse o anı çizip dursun (tek kare kontrolü için)."
+ * MOTION_RULES.md: "If ?t=3.2 is given in the URL, render that moment and stop (for single-frame checks)."
  *
- * Bir sahnenin istenen saniyesini veya karesini anında PNG olarak yakalar ve
- * o andaki beat, kamera, metin ve telemetri durumunu raporlar.
+ * Instantly captures a scene's requested second or frame as a PNG and
+ * reports the beat, camera, text and telemetry state at that moment.
  *
- * Kullanım:
+ * Usage:
  *   node scripts/inspect-frame.mjs <slug> [--t 3.5] [--frame 210]
  *   pnpm inspect <slug> --t 3.5
  */
@@ -33,14 +33,14 @@ const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 
 if (!slug) {
-  console.error(`${RED}${BOLD}[HATA] Proje slug'ı belirtilmedi.${RESET}`);
-  console.log(`Kullanım: node scripts/inspect-frame.mjs <slug> [--t 3.2 | --frame 192]`);
+  console.error(`${RED}${BOLD}[ERROR] Project slug not specified.${RESET}`);
+  console.log(`Usage: node scripts/inspect-frame.mjs <slug> [--t 3.2 | --frame 192]`);
   process.exit(1);
 }
 
 const specPath = path.join(rootDir, 'src', 'projects', slug, 'spec.json');
 if (!fs.existsSync(specPath)) {
-  console.error(`${RED}${BOLD}[HATA] spec.json bulunamadı:${RESET} ${specPath}`);
+  console.error(`${RED}${BOLD}[ERROR] spec.json not found:${RESET} ${specPath}`);
   process.exit(1);
 }
 
@@ -65,17 +65,17 @@ const currentTimeSec = (frame / fps).toFixed(3);
 console.log(`\n${BOLD}====================================================${RESET}`);
 console.log(`${BOLD}   MOTION LAB INSPECT FRAME: ${slug.toUpperCase()}   ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
-console.log(`Zaman Damgası : ${CYAN}t = ${currentTimeSec}s${RESET} (Kare: ${BOLD}${frame}${RESET} / ${totalFrames}) | FPS: ${fps}`);
+console.log(`Timestamp : ${CYAN}t = ${currentTimeSec}s${RESET} (Frame: ${BOLD}${frame}${RESET} / ${totalFrames}) | FPS: ${fps}`);
 
-// 1. AKTİF BEAT ANALİZİ
+// 1. ACTIVE BEAT ANALYSIS
 const activeBeat = (spec.beats || []).find((b) => frame >= b.startFrame && frame <= b.endFrame);
 if (activeBeat) {
-  console.log(`Aktif Beat    : ${GREEN}${activeBeat.id}${RESET} [f${activeBeat.startFrame} – f${activeBeat.endFrame}] → "${activeBeat.intent}"`);
+  console.log(`Active Beat    : ${GREEN}${activeBeat.id}${RESET} [f${activeBeat.startFrame} – f${activeBeat.endFrame}] → "${activeBeat.intent}"`);
 } else {
-  console.log(`Aktif Beat    : ${YELLOW}Beat aralığı dışında${RESET}`);
+  console.log(`Active Beat    : ${YELLOW}outside beat range${RESET}`);
 }
 
-// 2. AKTİF KAMERA GEÇİŞİ ANALİZİ
+// 2. ACTIVE CAMERA TRANSITION ANALYSIS
 const activeCamera = (spec.camera || []).find((c) => {
   const startF = Math.round(c.at * fps);
   const endF = Math.round((c.at + c.duration) * fps);
@@ -83,9 +83,9 @@ const activeCamera = (spec.camera || []).find((c) => {
 });
 
 if (activeCamera) {
-  console.log(`Kamera Hareketi: ${CYAN}${activeCamera.intent}${RESET} (Ease: ${activeCamera.ease}, Süre: ${activeCamera.duration}s)`);
+  console.log(`Camera Move: ${CYAN}${activeCamera.intent}${RESET} (Ease: ${activeCamera.ease}, Duration: ${activeCamera.duration}s)`);
 } else {
-  console.log(`Kamera Hareketi: Durağan / Ambient`);
+  console.log(`Camera Move: Static / Ambient`);
 }
 
 // 3. REMOTION STILL RENDER
@@ -93,7 +93,7 @@ const outDir = path.join(rootDir, 'out', slug, 'inspection');
 fs.mkdirSync(outDir, { recursive: true });
 const outPng = path.join(outDir, `frame_${String(frame).padStart(4, '0')}.png`);
 
-console.log(`\n${YELLOW}Kare render ediliyor...${RESET}`);
+console.log(`\n${YELLOW}Rendering frame...${RESET}`);
 
 const res = spawnSync(
   'npx',
@@ -115,9 +115,9 @@ const res = spawnSync(
 
 if (res.status === 0 && fs.existsSync(outPng)) {
   const stat = fs.statSync(outPng);
-  console.log(`${GREEN}✓ Kare başarıyla kaydedildi:${RESET} ${rel(outPng)} (${(stat.size / 1024).toFixed(1)} KB)`);
-  console.log(`\nGörsel denetim için dosyayı açabilirsiniz.`);
+  console.log(`${GREEN}✓ Frame saved:${RESET} ${rel(outPng)} (${(stat.size / 1024).toFixed(1)} KB)`);
+  console.log(`\nYou can open the file for visual inspection.`);
 } else {
-  console.error(`${RED}Render başarısız:${RESET}\n${res.stderr?.toString() || res.stdout?.toString()}`);
+  console.error(`${RED}Render failed:${RESET}\n${res.stderr?.toString() || res.stdout?.toString()}`);
 }
 console.log('');

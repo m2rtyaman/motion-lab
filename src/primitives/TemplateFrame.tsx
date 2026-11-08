@@ -24,6 +24,7 @@ export interface TemplateFrameProps {
   style?: React.CSSProperties;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const TemplateFrame: React.FC<TemplateFrameProps> = ({
   templateId,
   data,

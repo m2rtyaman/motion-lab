@@ -1,0 +1,255 @@
+{
+  "source": "e8aeeb0c2e25d4d1b9ef.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 536,
+    "height": 360,
+    "analysisSize": "192x128"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.07,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 0.82,
+    "median": 0.689,
+    "p90": 1.644,
+    "max": 3.232,
+    "pctFramesStill": 15.6
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 3,
+    "lengths": {
+      "s": [
+        0.333,
+        0.25,
+        0.25
+      ],
+      "f60": [
+        20,
+        15,
+        15
+      ]
+    },
+    "starts": {
+      "s": [
+        1.958,
+        4.792,
+        6.667
+      ],
+      "f60": [
+        117.5,
+        287.5,
+        400
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 5,
+    "list": [
+      {
+        "start": {
+          "s": 0,
+          "f60": 0
+        },
+        "peak": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "end": {
+          "s": 0.875,
+          "f60": 52.5
+        },
+        "duration": {
+          "s": 0.875,
+          "f60": 52.5
+        },
+        "onsetToPeak": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peakToRest": {
+          "s": 0.708,
+          "f60": 42.5
+        },
+        "asymmetry": 3.4,
+        "peakEnergy": 2.28,
+        "peakRegionalSpeedPxPerFrame": 2.98,
+        "peakGlobalSpeedPxPerFrame": 1.04
+      },
+      {
+        "start": {
+          "s": 2.375,
+          "f60": 142.5
+        },
+        "peak": {
+          "s": 2.5,
+          "f60": 150
+        },
+        "end": {
+          "s": 2.625,
+          "f60": 157.5
+        },
+        "duration": {
+          "s": 0.25,
+          "f60": 15
+        },
+        "onsetToPeak": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "peakToRest": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "asymmetry": 0.75,
+        "peakEnergy": 1.16,
+        "peakRegionalSpeedPxPerFrame": 1.84,
+        "peakGlobalSpeedPxPerFrame": 0.15
+      },
+      {
+        "start": {
+          "s": 2.958,
+          "f60": 177.5
+        },
+        "peak": {
+          "s": 3.5,
+          "f60": 210
+        },
+        "end": {
+          "s": 4,
+          "f60": 240
+        },
+        "duration": {
+          "s": 1.042,
+          "f60": 62.5
+        },
+        "onsetToPeak": {
+          "s": 0.583,
+          "f60": 35
+        },
+        "peakToRest": {
+          "s": 0.5,
+          "f60": 30
+        },
+        "asymmetry": 0.86,
+        "peakEnergy": 1.85,
+        "peakRegionalSpeedPxPerFrame": 2.48,
+        "peakGlobalSpeedPxPerFrame": 0.39
+      },
+      {
+        "start": {
+          "s": 5.042,
+          "f60": 302.5
+        },
+        "peak": {
+          "s": 5.333,
+          "f60": 320
+        },
+        "end": {
+          "s": 5.875,
+          "f60": 352.5
+        },
+        "duration": {
+          "s": 0.833,
+          "f60": 50
+        },
+        "onsetToPeak": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "peakToRest": {
+          "s": 0.542,
+          "f60": 32.5
+        },
+        "asymmetry": 1.63,
+        "peakEnergy": 3.23,
+        "peakRegionalSpeedPxPerFrame": 11.83,
+        "peakGlobalSpeedPxPerFrame": 3.44
+      },
+      {
+        "start": {
+          "s": 5.042,
+          "f60": 302.5
+        },
+        "peak": {
+          "s": 6.417,
+          "f60": 385
+        },
+        "end": {
+          "s": 6.625,
+          "f60": 397.5
+        },
+        "duration": {
+          "s": 1.583,
+          "f60": 95
+        },
+        "onsetToPeak": {
+          "s": 1.417,
+          "f60": 85
+        },
+        "peakToRest": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "asymmetry": 0.15,
+        "peakEnergy": 1.85,
+        "peakRegionalSpeedPxPerFrame": 11.83,
+        "peakGlobalSpeedPxPerFrame": 3.44
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 171,
+    "searchSaturatedBlockPct": 0,
+    "globalMedian": 0.15,
+    "globalP95": 1.18,
+    "regionalMedian": 0.75,
+    "regionalP95": 4.23,
+    "regionalMax": 11.83
+  },
+  "meta": {
+    "id": "char-e8ae",
+    "category": "character",
+    "catalogCaseId": "x-2102458348511879448",
+    "catalogFile": "e8aeeb0c2e25d4d1b9ef.mp4",
+    "creator": "alexalbert__",
+    "creditLink": "https://x.com/alexalbert__/status/2102458348511879448",
+    "catalogStyleId": "toy"
+  }
+}

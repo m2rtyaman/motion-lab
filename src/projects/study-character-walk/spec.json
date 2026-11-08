@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Character Walk",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "enter", "startFrame": 0, "endFrame": 59, "intent": "Ground and the character arrive, standing",
+      "board": {"focal":".hero-root","zone":"bottom-left","start":"Dark grid, empty","end":"Ground line and the character standing at the left","text":[],"transitionIn":"cut","why":"introduce the actor before it moves"} },
+    { "id": "walk", "startFrame": 60, "endFrame": 206, "intent": "Three steps in, the closing foot catches up and the weight settles", "samples": [75, 100, 125, 150, 180],
+      "board": {"focal":".hero-root","zone":"bottom-center","start":"Character standing at the left","end":"Character three steps in, the closing foot caught up and the weight settled","text":[],"transitionIn":"cut","why":"the walk defines the space the story happens in"} },
+    { "id": "idle", "startFrame": 207, "endFrame": 302, "intent": "Breathing moving hold with one blink", "samples": [240, 270],
+      "board": {"focal":".hero-head","zone":"middle-center","start":"Character settled after the last step","end":"Character breathing in a moving hold, one blink done","text":[],"transitionIn":"cut","why":"a living hold gives the notice something to interrupt"} },
+    { "id": "notice", "startFrame": 303, "endFrame": 350, "intent": "Something appears: eyes first, then the head, then the torso", "samples": [312, 325],
+      "board": {"focal":".thing","zone":"middle-right","start":"Character idle, nothing else on screen","end":"The thing has appeared and the eyes, head and torso have turned to it in that order","text":[],"transitionIn":"cut","why":"the cause appears first and the character reacts after it"} },
+    { "id": "react", "startFrame": 351, "endFrame": 480, "intent": "Crouch (anticipation), hop with arms up, land, settle, then the 1.2 s closing hold", "samples": [362, 372, 386, 470],
+      "board": {"focal":".hero-root","zone":"bottom-center","start":"Character facing the thing","end":"Character crouched, hopped with arms up, landed and settled in the closing pose","text":["a crouch comes before the hop"],"transitionIn":"cut","why":"anticipation before the hop, then a still closing pose held for 1.2s"} }
+  ]
+}

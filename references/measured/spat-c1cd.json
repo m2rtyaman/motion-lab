@@ -1,0 +1,127 @@
+{
+  "source": "c1cd0f12ff128733cc52.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 480,
+    "height": 852,
+    "analysisSize": "192x340"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.308,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 3.401,
+    "median": 3.069,
+    "p90": 6.002,
+    "max": 10.759,
+    "pctFramesStill": 6.3
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        0.5
+      ],
+      "f60": [
+        30
+      ]
+    },
+    "starts": {
+      "s": [
+        7.083
+      ],
+      "f60": [
+        425
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 1.5,
+          "f60": 90
+        },
+        "peak": {
+          "s": 4.25,
+          "f60": 255
+        },
+        "end": {
+          "s": 7,
+          "f60": 420
+        },
+        "duration": {
+          "s": 5.5,
+          "f60": 330
+        },
+        "onsetToPeak": {
+          "s": 2.792,
+          "f60": 167.5
+        },
+        "peakToRest": {
+          "s": 2.75,
+          "f60": 165
+        },
+        "asymmetry": 0.99,
+        "peakEnergy": 10.76,
+        "peakRegionalSpeedPxPerFrame": 0.66,
+        "peakGlobalSpeedPxPerFrame": 0.33
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 182,
+    "searchSaturatedBlockPct": 0.8,
+    "globalMedian": 0.12,
+    "globalP95": 0.32,
+    "regionalMedian": 0.2,
+    "regionalP95": 0.58,
+    "regionalMax": 1.45
+  },
+  "meta": {
+    "id": "spat-c1cd",
+    "category": "spatial_other",
+    "catalogCaseId": "x-2103167623303397647",
+    "catalogFile": "c1cd0f12ff128733cc52.mp4",
+    "creator": "AGIOyaZ",
+    "creditLink": "https://x.com/AGIOyaZ/status/2103167623303397647",
+    "catalogStyleId": "mosaic"
+  }
+}

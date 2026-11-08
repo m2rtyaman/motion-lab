@@ -4,15 +4,16 @@ import { bundle } from "@remotion/bundler";
 import { renderStill, selectComposition } from "@remotion/renderer";
 import { PNG } from "pngjs";
 import { parseArgs, resolveProject, rel, rootDir, buildCss } from "./lib/projects.mjs";
+import { writeRenderManifest, manifestPathFor, sha256Of } from "./lib/render-manifest.mjs";
 
 /**
- * VISION LOOP v3 (Çok Projeli)
- * - Örnekleme projenin spec.json beat'lerinden türetilir.
- * - Kareler tek seferlik derlenen bundle üzerinden hızlıca render edilir.
- * - Çıktı: out/<slug>/visual-audit-grid.png + out/<slug>/vision/manifest.json
- * - Kare-farkı (frame-diff) metriği: beat içinde hareket yoksa hata raporlar.
+ * VISION LOOP v3 (multi-project)
+ * - Sampling is derived from the project's spec.json beats.
+ * - Frames are rendered quickly from a single pre-compiled bundle.
+ * - Output: out/<slug>/visual-audit-grid.png + out/<slug>/vision/manifest.json
+ * - Frame-diff metric: reports an error if a beat has no motion.
  *
- * Kullanım:
+ * Usage:
  *   node scripts/contact-sheet.mjs [--project <slug>]
  */
 
@@ -29,10 +30,10 @@ const TILE_W = is16by9 ? 480 : (isSquare ? 360 : 270);
 const TILE_H = is16by9 ? 270 : (isSquare ? 360 : 480);
 const MIN_MOTION = 0.8;
 
-// CSS güncelliğini garanti et
+// Ensure CSS is up to date
 buildCss();
 
-// ---- Örnekleme Planı ----
+// ---- Sampling Plan ----
 const plan = [];
 for (const b of spec.beats) {
   const len = b.endFrame - b.startFrame;
@@ -42,6 +43,7 @@ for (const b of spec.beats) {
   } else if (len > 40) {
     picks.add(Math.round((b.startFrame + b.endFrame) / 2));
   }
+  if (Array.isArray(b.samples)) b.samples.forEach((f) => { if (Number.isInteger(f) && f >= b.startFrame && f <= b.endFrame) picks.add(f); }); // spec-chosen key frames
   [...picks].sort((a, c) => a - c).forEach((f) => {
     plan.push({
       frame: Math.max(0, Math.min(f, spec.durationInSeconds * 60 - 1)),
@@ -63,10 +65,12 @@ fs.mkdirSync(framesDir, { recursive: true });
 
 const fileOf = (f) => path.join(framesDir, `f${String(f).padStart(3, "0")}.png`);
 
-console.log(`\nVISION LOOP v3 [${project.slug}] — ${frames.length} kare, ${spec.beats.length} beat`);
-console.log("Remotion paketi derleniyor (tek seferlik bundle)...");
+console.log(`\nVISION LOOP v3 [${project.slug}] — ${frames.length} frames, ${spec.beats.length} beats`);
+console.log("Bundling Remotion (one-time bundle)...");
 const bundleLocation = await bundle({ entryPoint: path.resolve(rootDir, "src/remotion/index.ts") });
-const composition = await selectComposition({ serveUrl: bundleLocation, id: COMP_ID });
+// Optional: REMOTION_BROWSER_EXECUTABLE=<path to chrome/edge> avoids the Chrome Headless Shell download.
+const browserExecutable = process.env.REMOTION_BROWSER_EXECUTABLE || undefined;
+const composition = await selectComposition({ serveUrl: bundleLocation, id: COMP_ID, browserExecutable });
 
 let done = 0;
 for (const item of frames) {
@@ -76,13 +80,14 @@ for (const item of frames) {
     output: fileOf(item.frame),
     frame: item.frame,
     scale: 0.5,
+    browserExecutable,
     chromiumOptions: { gl: "angle" },
   });
-  process.stdout.write(`\r  render: ${++done}/${frames.length} (kare ${item.frame})`);
+  process.stdout.write(`\r  render: ${++done}/${frames.length} (frame ${item.frame})`);
 }
 console.log();
 
-// ---- Izgara Birleştirme & Hareket Analizi ----
+// ---- Grid Compositing & Motion Analysis ----
 const load = (f) => PNG.sync.read(fs.readFileSync(fileOf(f)));
 const rows = Math.ceil(frames.length / COLS);
 const grid = new PNG({ width: TILE_W * COLS, height: TILE_H * rows });
@@ -158,10 +163,13 @@ const manifest = {
 };
 
 fs.writeFileSync(project.manifest, JSON.stringify(manifest, null, 2));
+// signed render manifest: the image is bound to this project source and this harness lock (eval-visual refuses anything else)
+writeRenderManifest({ manifestFile: manifestPathFor(project.slug), slug: project.slug, projectDir: project.dir, kind: "contactSheet", imageFile: project.grid, tool: "scripts/contact-sheet.mjs", extra: { layout: manifest.layout, frames: Object.fromEntries(frames.map((f) => [`f${f.frame}`, sha256Of(fileOf(f.frame))])) } });
 
-console.log(`Izgara Paftası : ${rel(project.grid)} (${COLS}x${rows}, soldan sağa)`);
-console.log(`Kare Manifest  : ${rel(project.manifest)}`);
+console.log(`Contact sheet : ${rel(project.grid)} (${COLS}x${rows}, left to right)`);
+console.log(`Frame manifest: ${rel(project.manifest)}`);
+console.log(`Render manifest: ${rel(manifestPathFor(project.slug))} (signed: image + project source + harness lock)`);
 beatReports.forEach((r) =>
-  console.log(`  ${r.static ? "⚠ STATİK BEAT" : "✓"} ${r.beat.padEnd(12)} kareler: [${r.frames.join(", ")}] fark: [${r.diffs.join(", ")}]`)
+  console.log(`  ${r.static ? "WARN STATIC BEAT" : "✓"} ${r.beat.padEnd(12)} frames: [${r.frames.join(", ")}] diff: [${r.diffs.join(", ")}]`)
 );
-console.log(`İnceleme: out/${project.slug}/visual-audit-grid.png dosyasını açıp değerlendir.\n`);
+console.log(`Review: open out/${project.slug}/visual-audit-grid.png and check it against evals/VISUAL_RUBRIC.md.\n`);

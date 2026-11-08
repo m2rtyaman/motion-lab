@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "kinetic-manifesto",
+  "title": "Signal Manifesto",
+  "mode": "kinetic-poster",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "less", "startFrame": 0, "endFrame": 89, "intent": "Line one lands word by word; the last word punches",
+      "board": {"focal":".l1","zone":"middle-center","start":"Dark poster, empty","end":"Line one landed word by word, the last word punched","text":["Less"],"transitionIn":"cut","why":"the first claim lands alone so it can be read"} },
+    { "id": "more", "startFrame": 90, "endFrame": 191, "intent": "Line one sinks, line two drops in with a slow push",
+      "board": {"focal":".l2","zone":"middle-center","start":"Line one still visible","end":"Line one sunk away, line two dropped in with a slow push","text":["More signal."],"transitionIn":"cut","why":"the second claim answers the first, so it replaces it as the focus"} },
+    { "id": "once", "startFrame": 192, "endFrame": 360, "intent": "Line three resolves and the poster holds still for 1.2s",
+      "board": {"focal":".l3","zone":"middle-center","start":"Line two on screen","end":"Line three resolved and the poster still","text":["Say it once."],"transitionIn":"cut","why":"the closing line is the takeaway and holds still for 1.2s"} }
+  ]
+}

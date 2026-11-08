@@ -86,6 +86,7 @@ export interface TactileCapsuleProps {
  * Glossy, soft-neumorphic rounded capsule with subtle bevel,
  * soft contact shadow, icon slot, counter value, and label.
  */
+/** @deprecated legacy look — not for v2 */
 export const TactileCapsule: React.FC<TactileCapsuleProps> = ({
   icon,
   label,
@@ -228,6 +229,7 @@ export interface CapsuleClusterProps {
  * 1-to-3 pill expansion component that smoothly slides two matching
  * capsules outward from a central pill with staggered delays.
  */
+/** @deprecated legacy look — not for v2 */
 export const CapsuleCluster: React.FC<CapsuleClusterProps> = ({
   items,
   progress = 1,
@@ -337,6 +339,7 @@ export interface CurvedBraceProps {
  * Dynamic thin SVG curved bracket/brace that visually frames
  * and links the 3 capsules to an overarching summary score.
  */
+/** @deprecated legacy look — not for v2 */
 export const CurvedBrace: React.FC<CurvedBraceProps> = ({
   width = 460,
   height = 50,
@@ -453,6 +456,7 @@ export interface PerspectiveDashboardSlabProps {
  * Sits in shallow perspective (rotateX: 8deg, rotateY: -4deg),
  * floating softly with subtle hover offset and soft ambient occlusion.
  */
+/** @deprecated legacy look — not for v2 */
 export const PerspectiveDashboardSlab: React.FC<PerspectiveDashboardSlabProps> = ({
   rotateX = 8,
   rotateY = -4,
@@ -529,6 +533,7 @@ export interface SquareConfettiBurstProps {
  * A single celebratory burst of pastel square confetti around
  * a hero icon that quickly clears (not a continuous particle shower).
  */
+/** @deprecated legacy look — not for v2 */
 export const SquareConfettiBurst: React.FC<SquareConfettiBurstProps> = ({
   count = 24,
   progress = 0,
@@ -621,6 +626,7 @@ export interface SpotlightConeProps {
 /**
  * Warm top-down amber spotlight cone for premium brand end-cards.
  */
+/** @deprecated legacy look — not for v2 */
 export const SpotlightCone: React.FC<SpotlightConeProps> = ({
   topWidth = 80,
   bottomWidth = 720,

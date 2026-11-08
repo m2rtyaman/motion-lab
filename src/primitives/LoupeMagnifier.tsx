@@ -45,6 +45,7 @@ export interface LoupeMagnifierProps {
  * - Dynamic angle leader line linking target to magnified inset
  * - 2x-4x optical zoom with coordinate crosshair reticle and glass specular boundary
  */
+/** @deprecated legacy look — not for v2 */
 export const LoupeMagnifier: React.FC<LoupeMagnifierProps> = ({
   target,
   loupeCenter,

@@ -8,13 +8,13 @@ const YELLOW = '\x1b[33m';
 const RESET = '\x1b[0m';
 
 /**
- * SKILL FABRİKASI (Motion Lab Animasyon Rehberi Prompt 11)
+ * SKILL FACTORY (Motion Lab animation guide, Prompt 11)
  *
- * Beğenilen ve cilalanan bir animasyon stilini tek komutla
- * Antigravity ve yapay zeka ajanlarının otomatik kullanabileceği
- * yeniden kullanılabilir bir `.agent/skills/<name>/` paketine dönüştürür.
+ * Converts an approved, polished animation style with one command
+ * into a reusable package that Antigravity and AI agents can use automatically:
+ * `.agent/skills/<name>/`
  *
- * Kullanım:
+ * Usage:
  *   pnpm export:skill <slug> [--name <skill-name>]
  */
 
@@ -22,7 +22,7 @@ const args = parseArgs();
 const targetSlug = args.project || args.positional[0];
 
 if (!targetSlug) {
-  console.error('Lütfen bir proje belirtin: pnpm export:skill <slug> [--name <skill-name>]');
+  console.error('Please specify a project: pnpm export:skill <slug> [--name <skill-name>]');
   process.exit(1);
 }
 
@@ -33,7 +33,7 @@ const skillName = customName || `motion-${project.slug}`;
 const skillDir = path.resolve(rootDir, '.agent', 'skills', skillName);
 
 if (!fs.existsSync(project.spec) || !fs.existsSync(project.scene)) {
-  console.error(`Proje dosyaları eksik: ${project.slug}`);
+  console.error(`Project files missing: ${project.slug}`);
   process.exit(1);
 }
 
@@ -112,7 +112,7 @@ const checklistMd = `# CİLALAMA VE DENETİM KONTROL LİSTESİ (PROMPT 10/11)
 - [ ] **P2:** Kontak sayfası (\`visual-audit-grid.png\`) direktör gözüyle incelendi mi?
 `;
 
-// Dosyaları yaz
+// Write files
 fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skillMd);
 fs.writeFileSync(path.join(skillDir, 'STYLE.md'), styleMd);
 fs.writeFileSync(path.join(skillDir, 'MOTION.md'), motionMd);
@@ -121,7 +121,7 @@ fs.writeFileSync(path.join(skillDir, 'CHECKLIST.md'), checklistMd);
 fs.writeFileSync(path.join(skillDir, 'reference', 'Scene.tsx'), sceneCode);
 fs.writeFileSync(path.join(skillDir, 'reference', 'spec.json'), JSON.stringify(spec, null, 2));
 
-console.log(`\n${GREEN}${BOLD}[SKILL FABRİKASI: BAŞARILI]${RESET}`);
-console.log(`Proje: ${BOLD}${project.slug}${RESET}`);
-console.log(`Üretilen Skill: ${BOLD}.agent/skills/${skillName}${RESET}`);
+console.log(`\n${GREEN}${BOLD}[SKILL FACTORY: SUCCESS]${RESET}`);
+console.log(`Project: ${BOLD}${project.slug}${RESET}`);
+console.log(`Generated Skill: ${BOLD}.agent/skills/${skillName}${RESET}`);
 console.log(`Dosyalar: SKILL.md, STYLE.md, MOTION.md, PIPELINE.md, CHECKLIST.md, reference/Scene.tsx\n`);

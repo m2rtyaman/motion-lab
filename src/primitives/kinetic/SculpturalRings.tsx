@@ -8,6 +8,7 @@ export interface SculpturalRingsProps {
   ringCount?: number;
 }
 
+/** @deprecated legacy look — not for v2 */
 export const SculpturalRings: FC<SculpturalRingsProps> = ({
   id,
   className = '',

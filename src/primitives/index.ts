@@ -329,3 +329,6 @@ export {
 } from '../core/harvest';
 
 
+
+// Characters
+export { RigCharacter, DEFAULT_RIG_PALETTE, type RigCharacterProps, type RigPalette } from './characters/RigCharacter';

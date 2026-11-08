@@ -1,0 +1,155 @@
+{
+  "source": "ed5d16cc42f19c5fc073.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 240,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 10,
+    "f60": 600
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.295,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 0.573,
+    "median": 0.432,
+    "p90": 1.211,
+    "max": 1.562,
+    "pctFramesStill": 70
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        10
+      ],
+      "f60": [
+        600
+      ]
+    },
+    "median": {
+      "s": 10,
+      "f60": 600
+    }
+  },
+  "holds": {
+    "count": 8,
+    "lengths": {
+      "s": [
+        2.25,
+        0.708,
+        0.25,
+        0.25,
+        0.583,
+        1.083,
+        0.25,
+        1.375
+      ],
+      "f60": [
+        135,
+        42.5,
+        15,
+        15,
+        35,
+        65,
+        15,
+        82.5
+      ]
+    },
+    "starts": {
+      "s": [
+        0,
+        2.375,
+        3.125,
+        3.458,
+        4.833,
+        5.458,
+        6.667,
+        6.958
+      ],
+      "f60": [
+        0,
+        142.5,
+        187.5,
+        207.5,
+        290,
+        327.5,
+        400,
+        417.5
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 3.875,
+          "f60": 232.5
+        },
+        "peak": {
+          "s": 4.292,
+          "f60": 257.5
+        },
+        "end": {
+          "s": 4.5,
+          "f60": 270
+        },
+        "duration": {
+          "s": 0.625,
+          "f60": 37.5
+        },
+        "onsetToPeak": {
+          "s": 0.458,
+          "f60": 27.5
+        },
+        "peakToRest": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "asymmetry": 0.45,
+        "peakEnergy": 1.56,
+        "peakRegionalSpeedPxPerFrame": 0.17,
+        "peakGlobalSpeedPxPerFrame": 0.09
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 161,
+    "searchSaturatedBlockPct": 0,
+    "globalMedian": 0.06,
+    "globalP95": 0.09,
+    "regionalMedian": 0.09,
+    "regionalP95": 0.34,
+    "regionalMax": 0.41
+  },
+  "meta": {
+    "id": "spat-ed5d",
+    "category": "spatial_other",
+    "catalogCaseId": "lemomo-memphis-diorama",
+    "catalogFile": "ed5d16cc42f19c5fc073.mp4",
+    "creator": "EianLu · Lemomo",
+    "creditLink": "https://github.com/lemomo-ai/lemo-opuscar/blob/f17136060781a0068a7951245a3aa7835a7230de/styles/memphis-diorama/STYLE.md",
+    "catalogStyleId": "miniature"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "character-walk-react",
+  "title": "Walk, Notice, React",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "beats": [
+    {
+      "id": "walk",
+      "startFrame": 0,
+      "endFrame": 108,
+      "intent": "Brisk walk right on planted feet, the closing foot catches up and the weight settles",
+      "board": {
+        "focal": ".courier-root",
+        "zone": "bottom-left",
+        "start": "Dark grid, floor and parcel appearing, courier rising at the left",
+        "end": "Courier has walked right and is stopping short of the parcel",
+        "text": [],
+        "transitionIn": "cut",
+        "why": "the walk sets the courier moving toward the parcel"
+      }
+    },
+    {
+      "id": "notice",
+      "startFrame": 109,
+      "endFrame": 236,
+      "intent": "Stopped and breathing, then the eyes find the parcel first, head and torso follow",
+      "board": {
+        "focal": ".parcel",
+        "zone": "bottom-right",
+        "start": "Courier stopped and breathing",
+        "end": "Pupils, head and torso turned down to the parcel",
+        "text": [],
+        "transitionIn": "camera:pushIn",
+        "why": "the courier's look moves the viewer's eye to the parcel before anything else happens"
+      }
+    },
+    {
+      "id": "react",
+      "startFrame": 237,
+      "endFrame": 360,
+      "intent": "Crouch (anticipation), hop with arms up and a bang, land, settle, then the 1.2s closing hold",
+      "board": {
+        "focal": ".bang",
+        "zone": "top-center",
+        "start": "Courier looking at the parcel",
+        "end": "Courier landed and settled, the bang mark above",
+        "text": [
+          "!"
+        ],
+        "transitionIn": "cut",
+        "why": "the bang closes the story and the settled pose holds still for 1.2s"
+      }
+    }
+  ]
+}

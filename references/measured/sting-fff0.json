@@ -1,0 +1,197 @@
+{
+  "source": "fff0fc963e2b327eadc5.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.316,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 6.288,
+    "median": 5.191,
+    "p90": 15.216,
+    "max": 36.56,
+    "pctFramesStill": 3.1
+  },
+  "cuts": {
+    "count": 2,
+    "perTenSeconds": 2.5,
+    "at": {
+      "s": [
+        1.083,
+        6.417
+      ],
+      "f60": [
+        65,
+        385
+      ]
+    }
+  },
+  "shots": {
+    "count": 3,
+    "lengths": {
+      "s": [
+        1.083,
+        5.333,
+        1.583
+      ],
+      "f60": [
+        65,
+        320,
+        95
+      ]
+    },
+    "median": {
+      "s": 1.583,
+      "f60": 95
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        0.25
+      ],
+      "f60": [
+        15
+      ]
+    },
+    "starts": {
+      "s": [
+        6.458
+      ],
+      "f60": [
+        387.5
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 3,
+    "list": [
+      {
+        "start": {
+          "s": 0,
+          "f60": 0
+        },
+        "peak": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "end": {
+          "s": 0.75,
+          "f60": 45
+        },
+        "duration": {
+          "s": 0.75,
+          "f60": 45
+        },
+        "onsetToPeak": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peakToRest": {
+          "s": 0.583,
+          "f60": 35
+        },
+        "asymmetry": 2.8,
+        "peakEnergy": 36.56,
+        "peakRegionalSpeedPxPerFrame": 27.26,
+        "peakGlobalSpeedPxPerFrame": 24.26
+      },
+      {
+        "start": {
+          "s": 1.125,
+          "f60": 67.5
+        },
+        "peak": {
+          "s": 3.667,
+          "f60": 220
+        },
+        "end": {
+          "s": 3.792,
+          "f60": 227.5
+        },
+        "duration": {
+          "s": 2.667,
+          "f60": 160
+        },
+        "onsetToPeak": {
+          "s": 2.583,
+          "f60": 155
+        },
+        "peakToRest": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "asymmetry": 0.05,
+        "peakEnergy": 19.93,
+        "peakRegionalSpeedPxPerFrame": 9.92,
+        "peakGlobalSpeedPxPerFrame": 6.31
+      },
+      {
+        "start": {
+          "s": 3.917,
+          "f60": 235
+        },
+        "peak": {
+          "s": 4.25,
+          "f60": 255
+        },
+        "end": {
+          "s": 6.333,
+          "f60": 380
+        },
+        "duration": {
+          "s": 2.417,
+          "f60": 145
+        },
+        "onsetToPeak": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "peakToRest": {
+          "s": 2.083,
+          "f60": 125
+        },
+        "asymmetry": 5.56,
+        "peakEnergy": 7.56,
+        "peakRegionalSpeedPxPerFrame": 26.05,
+        "peakGlobalSpeedPxPerFrame": 1.06
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 164,
+    "searchSaturatedBlockPct": 0.1,
+    "globalMedian": 1.05,
+    "globalP95": 5.69,
+    "regionalMedian": 4.44,
+    "regionalP95": 16.75,
+    "regionalMax": 27.26
+  },
+  "meta": {
+    "id": "sting-fff0",
+    "category": "brand_sting",
+    "catalogCaseId": "x-2103176631917641956",
+    "catalogFile": "fff0fc963e2b327eadc5.mp4",
+    "creator": "pradeepXkapoor",
+    "creditLink": "https://x.com/pradeepXkapoor/status/2103056276188238147",
+    "catalogStyleId": "product"
+  }
+}

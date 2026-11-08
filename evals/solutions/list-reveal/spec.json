@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "list-reveal",
+  "title": "How We Work",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 5,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "title", "startFrame": 0, "endFrame": 59, "intent": "Rule wipes in, the three title words drop",
+      "board": {"focal":".title-word","zone":"middle-left","start":"Dark grid, empty","end":"Rule wiped in and the three title words dropped at the left","text":[],"transitionIn":"cut","why":"the title frames the list before its items arrive"} },
+    { "id": "steps", "startFrame": 60, "endFrame": 179, "intent": "Five steps arrive in phrases: burst of three, rest, hero, rest, last",
+      "board": {"focal":".list","zone":"middle-right","start":"Title at the left, list area empty","end":"Five steps filling the list in phrases: a burst of three, a rest, a hero, a rest, the last","text":["Listen","Sketch","Prototype","Animate","Ship"],"transitionIn":"cut","why":"grouped arrivals give the list rhythm instead of a metronome"} },
+    { "id": "close", "startFrame": 180, "endFrame": 300, "intent": "List leans in, closing line rises, 1.2s hold",
+      "board": {"focal":".footer","zone":"bottom-left","start":"Five steps listed","end":"List leaned in and the closing line risen below","text":["Five steps. No detours."],"transitionIn":"camera:pushIn","why":"the summary comes after the steps and holds still for 1.2s"} }
+  ]
+}

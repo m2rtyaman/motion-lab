@@ -1,0 +1,25 @@
+{
+  "task": "logo-sting",
+  "aspect": "16:9",
+  "durationSeconds": { "min": 3.8, "max": 4.2 },
+  "beats": { "min": 2, "max": 3 },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    { "label": "the mark builds on with an entrance preset", "anyOf": ["enter:wipe", "enter:pop", "enter:stagger", "enter:blurIn"] },
+    { "label": "the wordmark resolves (blur-in, pop or rise)", "anyOf": ["enter:blurIn", "enter:pop", "enter:rise", "enter:words"] }
+  ],
+  "forbiddenTags": ["transition:*"],
+  "minPresetRatio": 0.75,
+  "minTweens": 5,
+  "maxWarnings": { "default": 0 },
+  "maxSceneLines": 90,
+  "maxRawTweens": 1,
+  "maxLocalComponents": 0,
+  "requiredStrings": ["Halcyon", "Calm software."],
+  "requiredCode": [],
+  "closingHold": { "groups": [
+    { "label": "the brand name \"Halcyon\"", "anyOf": ["Halcyon"] },
+    { "label": "the tagline \"Calm software.\"", "anyOf": ["Calm software."] }
+  ] },
+  "forbiddenPatterns": []
+}

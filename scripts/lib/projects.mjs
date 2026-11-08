@@ -69,6 +69,23 @@ export function listProjects(options = {}) {
     .sort();
 }
 
+/**
+ * Harness v2 opt-in: spec.json has `"harness": 2`. Accepts a project object (reads project.spec),
+ * a spec path string, or an already-parsed spec object. v2 projects are checked by behavior
+ * (scripts/timeline-audit.mjs) instead of source-keyword audits.
+ */
+export function isHarnessV2(projectOrSpec) {
+  try {
+    let spec = projectOrSpec;
+    if (typeof projectOrSpec === "string") spec = JSON.parse(fs.readFileSync(projectOrSpec, "utf-8").replace(/^﻿/, ""));
+    else if (projectOrSpec && typeof projectOrSpec.spec === "string")
+      spec = JSON.parse(fs.readFileSync(projectOrSpec.spec, "utf-8").replace(/^﻿/, ""));
+    return spec?.harness === 2;
+  } catch {
+    return false;
+  }
+}
+
 export function projectPaths(slug) {
   const dir = path.join(projectsDir, slug);
   const outDir = path.join(rootDir, "out", slug);

@@ -23,6 +23,7 @@ export interface PaperTextureOverlayProps {
  * 
  * GPU saflığını bozmadan SVG filtreleri ve radyal gradyan ile katmanlı doku sunar.
  */
+/** @deprecated legacy look — not for v2 */
 export const PaperTextureOverlay: React.FC<PaperTextureOverlayProps> = ({
   tone = 'warm-parchment',
   fiberIntensity = 0.35,

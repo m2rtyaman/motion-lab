@@ -40,6 +40,7 @@ export interface RegistrationGridProps {
  * Technical Registration Grid
  * Fine architectural hairline grid with center crosshair, circular guide, and coordinate nodes.
  */
+/** @deprecated legacy look — not for v2 */
 export const RegistrationGrid: React.FC<RegistrationGridProps> = ({
   width = 1920,
   height = 1080,
@@ -226,6 +227,7 @@ export interface CornerHandlesProps {
  * Sharp Corner Handles
  * Framing brackets for specimen focal bounds, crops, and analytical bounding boxes.
  */
+/** @deprecated legacy look — not for v2 */
 export const CornerHandles: React.FC<CornerHandlesProps> = ({
   x = 0,
   y = 0,
@@ -340,6 +342,7 @@ export interface AnnotationCalloutProps {
  * Specimen Annotation Callout
  * Dogleg leader line, coordinate stamp, and editorial micro-label.
  */
+/** @deprecated legacy look — not for v2 */
 export const AnnotationCallout: React.FC<AnnotationCalloutProps> = ({
   sourceX,
   sourceY,
@@ -480,6 +483,7 @@ export interface MeasurementArcProps {
  * Radial Measurement Arc
  * Architectural angle measurement with radial tick marks, radius indicator, and degree notation.
  */
+/** @deprecated legacy look — not for v2 */
 export const MeasurementArc: React.FC<MeasurementArcProps> = ({
   centerX,
   centerY,
@@ -637,6 +641,7 @@ export interface ComponentStripProps {
  * Specimen Anatomy Component Strip
  * Horizontal series of analytical component cards with curved SVG connectors.
  */
+/** @deprecated legacy look — not for v2 */
 export const ComponentStrip: React.FC<ComponentStripProps> = ({
   items,
   activeIndex = 0,
@@ -773,6 +778,7 @@ export interface TypeInterlockProps {
  * Editorial Layered Typography Interlock
  * Oversized typographic backdrop that passes behind or interlocks with foreground specimen actors.
  */
+/** @deprecated legacy look — not for v2 */
 export const TypeInterlock: React.FC<TypeInterlockProps> = ({
   text,
   fontSize = 180,
@@ -838,6 +844,7 @@ export interface EditorialSpecimenStageProps {
  * Editorial Specimen Stage
  * Foundation stage for high-end graphic analysis, forensic layout, and specimen animation.
  */
+/** @deprecated legacy look — not for v2 */
 export const EditorialSpecimenStage: React.FC<EditorialSpecimenStageProps> = ({
   width = 1920,
   height = 1080,

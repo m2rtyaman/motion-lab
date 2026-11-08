@@ -1,0 +1,96 @@
+{
+  "source": "c0003e34da759456ed31.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.002,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 0.06,
+    "median": 0.036,
+    "p90": 0.138,
+    "max": 0.219,
+    "pctFramesStill": 100
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "starts": {
+      "s": [
+        0
+      ],
+      "f60": [
+        0
+      ]
+    },
+    "final": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "events": {
+    "count": 0,
+    "list": []
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 0,
+    "searchSaturatedBlockPct": 0,
+    "globalMedian": 0,
+    "globalP95": 0,
+    "regionalMedian": 0,
+    "regionalP95": 0,
+    "regionalMax": 0
+  },
+  "meta": {
+    "id": "spat-c000",
+    "category": "spatial_other",
+    "catalogCaseId": "x-2103288413969621231",
+    "catalogFile": "c0003e34da759456ed31.mp4",
+    "creator": "AxtonLiu",
+    "creditLink": "https://x.com/AxtonLiu/status/2103288413969621231",
+    "catalogStyleId": "painted"
+  }
+}

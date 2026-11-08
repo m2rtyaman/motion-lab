@@ -14,23 +14,23 @@ import {
 } from "./lib/projects.mjs";
 
 /**
- * STUDIO PIPELINE ORKESTRATÖRÜ V3 (Çok Projeli)
+ * STUDIO PIPELINE ORCHESTRATOR V3 (multi-project)
  *
- * Her proje için bağımsız state (.studio/<slug>/state.json) ve aşama zinciri yönetir:
+ * Manages independent state per project (.studio/<slug>/state.json) and the stage chain:
  *   direction → spec → code → vision → render
  *
  * Komutlar:
  *   node scripts/studio.mjs init "<brief>" [--project <slug>]
  *   node scripts/studio.mjs status [--project <slug>]
  *   node scripts/studio.mjs next [--project <slug>]
- *   node scripts/studio.mjs check [aşama] [--project <slug>]
+ *   node scripts/studio.mjs check [stage] [--project <slug>]
  *   node scripts/studio.mjs run [--project <slug>]
  */
 
 const rawArgs = process.argv.slice(2);
 const parsed = parseArgs(rawArgs);
 
-// İlk konumsal argüman komuttur (init, status, next, check, run)
+// The first positional argument is the command (init, status, next, check, run)
 const cmd = parsed.positional[0] ?? "status";
 const subArg = parsed.positional.slice(1).join(" ").trim();
 
@@ -42,7 +42,7 @@ const promptsDir = path.join(studioDir, "prompts");
 
 const RED = "\x1b[31m", GREEN = "\x1b[32m", YELLOW = "\x1b[33m", BOLD = "\x1b[1m", DIM = "\x1b[2m", RESET = "\x1b[0m";
 
-// ---------- Yardımcılar ----------
+// ---------- Helpers ----------
 const sha = (buf) => crypto.createHash("sha1").update(buf).digest("hex");
 const readIf = (p) => (fs.existsSync(p) ? fs.readFileSync(p) : null);
 const mtime = (p) => (fs.existsSync(p) ? fs.statSync(p).mtimeMs : 0);
@@ -70,8 +70,8 @@ function skill(name, extra = []) {
 
 function loadState() {
   if (!fs.existsSync(statePath)) {
-    console.error(`${RED}${BOLD}[ERROR] "${project.slug}" için aktif studio koşusu yok.${RESET}`);
-    console.log(`Başlat: pnpm studio:init --project ${project.slug} "<brief>"`);
+    console.error(`${RED}${BOLD}[ERROR] "${project.slug}" has no active studio run.${RESET}`);
+    console.log(`Start with: pnpm studio:init --project ${project.slug} "<brief>"`);
     process.exit(1);
   }
   return JSON.parse(fs.readFileSync(statePath, "utf-8"));
@@ -94,7 +94,7 @@ function readSpec() {
   }
 }
 
-// ---------- Aşama Tanımları ----------
+// ---------- Stage Definitions ----------
 const STAGES = [
   {
     id: "direction",
@@ -102,23 +102,23 @@ const STAGES = [
     artifact: () => rel(project.direction),
     hash: () => sha(readIf(project.direction) ?? ""),
     prompt: (state) => ({
-      skills: [skill("studio-router"), skill("motion-director", ["rules.md"])],
+      skills: [skill("motion-playbook")],
       task:
-        `Proje: ${project.slug}\nBrief: ${state.brief}\n\n` +
-        `\`${rel(project.direction)}\` dosyasını yaz. SADECE konsept ve fizik kararları; KOD VE SÜRE/KARE YOK.\n` +
-        `Zorunlu başlıklar: \`## Paradigm\` (tek satır: ${MODES.join(" | ")}), \`## Concept\`, \`## Physics\` ` +
-        `(ağırlık, ivme, darbe hissi, yay/damping karakteri), \`## Typography & Palette\`. Her bölüm en az 40 karakter.`,
+        `Project: ${project.slug}\nBrief: ${state.brief}\n\n` +
+        `\`${rel(project.direction)}\` file. ONLY concept and physics decisions; NO CODE, NO DURATION/FRAMES.\n` +
+        `Required headings: \`## Paradigm\` (single line: ${MODES.join(" | ")}), \`## Concept\`, \`## Physics\` ` +
+        `(weight, acceleration, impact feel, spring/damping character), \`## Typography & Palette\`. Each section must be at least 40 characters.`,
     }),
     check() {
       const buf = readIf(project.direction);
-      if (!buf) return fail(`${rel(project.direction)} bulunamadı.`);
+      if (!buf) return fail(`${rel(project.direction)} not found.`);
       const md = buf.toString("utf-8");
       const errs = [];
       const paradigm = section(md, "Paradigm").split(/\s+/)[0];
-      if (!MODES.includes(paradigm)) errs.push(`## Paradigm geçersiz: "${paradigm}" (${MODES.join(" | ")})`);
+      if (!MODES.includes(paradigm)) errs.push(`## Paradigm is invalid: "${paradigm}" (${MODES.join(" | ")})`);
       for (const h of ["Concept", "Physics", "Typography & Palette"]) {
         if (section(md, h.replace("&", "\\&")).length < 40) {
-          errs.push(`## ${h} eksik veya 40 karakterden kısa.`);
+          errs.push(`## ${h} is missing or shorter than 40 characters.`);
         }
       }
       return errs.length ? fail(errs.join("\n")) : pass();
@@ -130,22 +130,24 @@ const STAGES = [
     artifact: () => rel(project.spec),
     hash: () => sha(readIf(project.spec) ?? ""),
     prompt: (state) => {
-      const dirText = readIf(project.direction)?.toString("utf-8") ?? "(yok)";
+      const dirText = readIf(project.direction)?.toString("utf-8") ?? "(none)";
       return {
         skills: [
-          skill("motion-choreographer"),
-          `### Şema\n${readIf(path.join(rootDir, "specs", "motion-spec.schema.json"))?.toString("utf-8") ?? ""}`,
-          `### Örnek spec\n${readIf(project.spec)?.toString("utf-8") ?? ""}`,
+          skill("motion-playbook"),
+          `### Storyboard (docs/STORYBOARD.md)
+${readIf(path.join(rootDir, "docs", "STORYBOARD.md"))?.toString("utf-8") ?? ""}`,
+          `### Schema\n${readIf(path.join(rootDir, "specs", "motion-spec.schema.json"))?.toString("utf-8") ?? ""}`,
+          `### Example spec\n${readIf(project.spec)?.toString("utf-8") ?? ""}`,
         ],
         task:
-          `Proje: ${project.slug}\nBrief: ${state.brief}\n\nONAYLI YÖNLENDİRME:\n${dirText}\n\n` +
-          `\`${rel(project.spec)}\` dosyasını yaz (yalnızca JSON; JSX/TSX YAZMA). \`mode\` yönlendirmedeki Paradigm ile aynı olmalı. ` +
-          `Doğrulama: \`node scripts/validate-spec.mjs --project ${project.slug}\`. Hatalar geçersiz sayılır, "Çözüm →" satırlarını uygula.`,
+          `Project: ${project.slug}\nBrief: ${state.brief}\n\nAPPROVED DIRECTION:\n${dirText}\n\n` +
+          `\`${rel(project.spec)}\` file (JSON only; DO NOT WRITE JSX/TSX). \`mode\` must match the Paradigm in the direction. ` +
+          `Validation: \`node scripts/validate-spec.mjs --project ${project.slug}\`. Invalid specs are rejected; apply the "Fix →" lines.`,
       };
     },
     check() {
       const v = runNode("validate-spec.mjs", ["--project", project.slug]);
-      if (v.code !== 0) return fail(`validate-spec başarısız:\n${tail(v.out, 30)}`);
+      if (v.code !== 0) return fail(`validate-spec failed:\n${tail(v.out, 30)}`);
       const dir = readIf(project.direction)?.toString("utf-8") ?? "";
       const paradigm = section(dir, "Paradigm").split(/\s+/)[0];
       const specObj = readSpec();
@@ -157,17 +159,17 @@ const STAGES = [
   },
   {
     id: "code",
-    title: "Remotion Engineer (Scene.tsx) + statik denetim",
+    title: "Remotion Engineer (Scene.tsx) + static audit",
     artifact: () => `${rel(project.dir)}/**/*.{ts,tsx}`,
     hash: () => sha(projectCodeFiles().map((f) => `${f}:${sha(fs.readFileSync(f))}`).join("|")),
     prompt: (state) => {
-      const specText = readIf(project.spec)?.toString("utf-8") ?? "(yok)";
+      const specText = readIf(project.spec)?.toString("utf-8") ?? "(none)";
       return {
-        skills: [skill("remotion-engineer"), skill("anti-slop-auditor")],
+        skills: [skill("motion-playbook")],
         task:
-          `Proje: ${project.slug}\nBrief: ${state.brief}\n\nONAYLI SPEC:\n${specText}\n\n` +
-          `\`${rel(project.scene)}\` dosyasını spec'teki beat/kamera/sfx değerlerine birebir uyacak şekilde kodla. ` +
-          `Sayıları tokens.ts üzerinden kullan, sihirli süre/ease kullanma. Bitince: \`pnpm check --project ${project.slug}\`.`,
+          `Project: ${project.slug}\nBrief: ${state.brief}\n\nONAYLI SPEC:\n${specText}\n\n` +
+          `\`${rel(project.scene)}\` code the file to match the beat/camera/sfx values in the spec exactly. ` +
+          `Use numbers via tokens.ts; do not use magic duration/ease values. When done: \`pnpm check --project ${project.slug}\`.`,
       };
     },
     check() {
@@ -175,21 +177,21 @@ const STAGES = [
       const v = runNode("validate-spec.mjs", ["--project", project.slug]);
       if (v.code !== 0) return fail(`Spec ↔ kod uyumsuz:\n${tail(v.out, 30)}`);
       const a = runNode("ast-lint.mjs", ["--project", project.slug]);
-      if (a.code !== 0) return fail(`ast-lint başarısız:\n${tail(a.out, 30)}`);
+      if (a.code !== 0) return fail(`ast-lint failed:\n${tail(a.out, 30)}`);
       const l = runNode("slop-linter.mjs", ["--project", project.slug]);
-      if (l.code !== 0) return fail(`slop-linter başarısız:\n${tail(l.out, 30)}`);
+      if (l.code !== 0) return fail(`slop-linter failed:\n${tail(l.out, 30)}`);
       const t = spawnSync("npx", ["tsc", "--noEmit"], {
         cwd: rootDir,
         shell: process.platform === "win32",
         encoding: "utf-8",
       });
-      if (t.status !== 0) return fail(`tsc hatası:\n${tail(t.stdout + t.stderr, 25)}`);
+      if (t.status !== 0) return fail(`tsc error:\n${tail(t.stdout + t.stderr, 25)}`);
       return pass();
     },
   },
   {
     id: "vision",
-    title: "Görsel denetim (contact-sheet + yazılı gözlem)",
+    title: "Visual audit (contact-sheet + written observations)",
     artifact: () => `${rel(project.grid)} + ${rel(project.notes)}`,
     hash: () =>
       sha(
@@ -203,22 +205,22 @@ const STAGES = [
       const specObj = readSpec();
       const ids = (specObj?.beats ?? []).map((b) => b.id).join(", ");
       return {
-        skills: [skill("anti-slop-auditor")],
+        skills: [skill("motion-playbook")],
         task:
-          `1) \`pnpm render:contact-sheet --project ${project.slug}\` çalıştır.\n` +
-          `2) \`${rel(project.grid)}\` görselini AÇIP İNCELE.\n` +
-          `3) \`${rel(project.notes)}\` dosyasına HER beat için (${ids}) AYRI SATIR yaz;\n` +
-          `   Satır beat id'sini ve manifest'teki örnek kare numarasını "f130" formatında içermelidir.\n` +
-          `   Gözlemlerini, kompozisyon uyumunu ve varsa kalite borçlarını belirt.`,
+          `1) \`pnpm render:contact-sheet --project ${project.slug}\` run.\n` +
+          `2) \`${rel(project.grid)}\` image: OPEN and REVIEW it.\n` +
+          `3) \`${rel(project.notes)}\` file: write ONE SEPARATE LINE for EACH beat (${ids});\n` +
+          `   Each line must include the beat id and the sample frame number from the manifest in "f130" format.\n` +
+          `   State your observations, composition consistency, and any quality debt.`,
       };
     },
     check() {
       if (!fs.existsSync(project.grid)) {
-        return fail(`${rel(project.grid)} yok. \`pnpm render:contact-sheet --project ${project.slug}\` çalıştır.`);
+        return fail(`${rel(project.grid)} is missing. \`pnpm render:contact-sheet --project ${project.slug}\` run.`);
       }
       const newestInput = Math.max(...projectCodeFiles().map(mtime), mtime(project.spec));
       if (mtime(project.grid) < newestInput) {
-        return fail("Grid görseli kodun/spec'in gerisinde (stale). contact-sheet'i yeniden üret.");
+        return fail("The grid image is behind the code/spec (stale). Regenerate the contact-sheet.");
       }
       const manifest = (() => {
         try {
@@ -228,36 +230,36 @@ const STAGES = [
         }
       })();
       if (!manifest) {
-        return fail(`${rel(project.manifest)} yok/bozuk. contact-sheet yeniden çalıştır.`);
+        return fail(`${rel(project.manifest)} is missing/corrupt. Re-run contact-sheet.`);
       }
 
       const notes = readIf(project.notes)?.toString("utf-8");
       if (!notes) {
-        return fail(`${rel(project.notes)} yok. Görseli inceleyip yazılı gözlem bırak.`);
+        return fail(`${rel(project.notes)} is missing. Review the image and leave written observations.`);
       }
       if (mtime(project.notes) < mtime(project.grid)) {
-        return fail("Vision notları grid'den önce yazılmış; görseli inceledikten sonra yaz.");
+        return fail("Vision notes were written before the grid; write them after reviewing the image.");
       }
 
       const specBeats = readSpec()?.beats ?? [];
-      const stat = manifest.beats.filter((b) => b.static).map((b) => `${b.beat} (hareket ${b.motion} < ${manifest.minMotion})`);
+      const stat = manifest.beats.filter((b) => b.static).map((b) => `${b.beat} (motion ${b.motion} < ${manifest.minMotion})`);
       if (stat.length) {
-        return fail(`Statik beat tespit edildi (kare-farkı): ${stat.join("; ")}\nAnimasyonu düzeltip grid'i yeniden üret.`);
+        return fail(`Static beat detected (frame diff): ${stat.join("; ")}\nFix the animation and regenerate the grid.`);
       }
 
       const problems = [];
       for (const b of manifest.beats) {
         if (!notes.includes(b.beat)) {
-          problems.push(`beat "${b.beat}" notlarda yok`);
+          problems.push(`beat "${b.beat}" missing from notes`);
           continue;
         }
         const line = notes.split("\n").filter((l) => l.includes(b.beat)).join(" ");
         if (!b.frames.some((f) => new RegExp(`f0*${f}\\b`).test(line))) {
-          problems.push(`beat "${b.beat}" satırı örneklenen karelerden birine atıf yapmıyor (örn. ${b.frames.map((f) => "f" + f).join(", ")})`);
+          problems.push(`beat "${b.beat}" line does not reference any sampled frame (e.g. ${b.frames.map((f) => "f" + f).join(", ")})`);
         }
       }
-      if (problems.length) return fail(`Vision notları yetersiz:\n- ${problems.join("\n- ")}`);
-      if (notes.trim().length < 160) return fail("Notlar çok kısa (<160 karakter); somut gözlem yaz.");
+      if (problems.length) return fail(`Vision notes insufficient:\n- ${problems.join("\n- ")}`);
+      if (notes.trim().length < 160) return fail("Notes are too short (<160 characters); write concrete observations.");
 
       return pass();
     },
@@ -270,16 +272,16 @@ const STAGES = [
       const s = fs.existsSync(project.video) ? fs.statSync(project.video) : null;
       return s ? `${s.size}:${Math.round(s.mtimeMs)}` : "none";
     },
-    prompt: () => ({ skills: [], task: `\`pnpm render --project ${project.slug}\` çalıştır.` }),
+    prompt: () => ({ skills: [], task: `\`pnpm render --project ${project.slug}\` run.` }),
     check() {
-      if (!fs.existsSync(project.video)) return fail(`${rel(project.video)} yok.`);
+      if (!fs.existsSync(project.video)) return fail(`${rel(project.video)} is missing.`);
       const st = fs.statSync(project.video);
-      if (st.size < 50 * 1024) return fail(`MP4 şüpheli derecede küçük (${st.size} B).`);
-      if (st.mtimeMs < mtime(project.notes)) return fail("MP4 vision notlarından eski; yeniden render et.");
+      if (st.size < 50 * 1024) return fail(`MP4 is suspiciously small (${st.size} B).`);
+      if (st.mtimeMs < mtime(project.notes)) return fail("MP4 is older than the vision notes; re-render.");
       return pass();
     },
     exec() {
-      console.log(`${DIM}pnpm render --project ${project.slug} çalıştırılıyor...${RESET}`);
+      console.log(`${DIM}Running pnpm render --project ${project.slug}...${RESET}`);
       const r = spawnSync(process.execPath, [path.join(rootDir, "scripts", "render.mjs"), "--project", project.slug], {
         cwd: rootDir,
         stdio: "inherit",
@@ -337,50 +339,50 @@ function checkStage(state, stage) {
   const ev = evaluate(state);
   for (let i = 0; i < idx; i++) {
     if (ev[i].status !== "done") {
-      console.log(`${RED}${BOLD}[KAPI KAPALI]${RESET} '${stage.id}' için önce '${STAGES[i].id}' geçmeli (durum: ${ev[i].status}).`);
+      console.log(`${RED}${BOLD}[GATE CLOSED]${RESET} '${stage.id}' requires '${STAGES[i].id}' to pass first (status: ${ev[i].status}).`);
       return false;
     }
   }
   const res = stage.check();
   if (!res.ok) {
-    console.log(`${RED}${BOLD}[${stage.id}: GEÇERSİZ]${RESET}\n${res.msg}\n\n${RED}Düzeltene kadar sonraki aşamaya geçilemez.${RESET}\n`);
+    console.log(`${RED}${BOLD}[${stage.id}: INVALID]${RESET}\n${res.msg}\n\n${RED}The next stage cannot be entered until this is fixed.${RESET}\n`);
     return false;
   }
   state.stages[stage.id] = { chain: chainHashes()[idx], at: new Date().toISOString() };
   STAGES.slice(idx + 1).forEach((s) => delete state.stages[s.id]);
   saveState(state);
-  console.log(`${GREEN}${BOLD}[${stage.id}: MÜHÜRLENDİ]${RESET}`);
+  console.log(`${GREEN}${BOLD}[${stage.id}: SEALED]${RESET}`);
   return true;
 }
 
-// ---------- Komut İşleyicileri ----------
+// ---------- Command Handlers ----------
 if (cmd === "init") {
-  const brief = subArg || "Motion graphic sahne üretimi";
+  const brief = subArg || "Motion graphic scene production";
   if (fs.existsSync(studioDir)) {
     const archive = path.join(rootDir, ".studio", `${project.slug}-archive-${Date.now()}`);
     fs.renameSync(studioDir, archive);
-    console.log(`${DIM}Önceki koşu arşivlendi: ${rel(archive)}${RESET}`);
+    console.log(`${DIM}Previous run archived: ${rel(archive)}${RESET}`);
   }
   fs.mkdirSync(promptsDir, { recursive: true });
   saveState({ project: project.slug, brief, createdAt: new Date().toISOString(), stages: {} });
-  console.log(`${GREEN}${BOLD}Yeni koşu başlatıldı [${project.slug}].${RESET}`);
+  console.log(`${GREEN}${BOLD}New run started [${project.slug}].${RESET}`);
   printStatus(loadState());
-  console.log(`Sıradaki: ${BOLD}node scripts/studio.mjs next --project ${project.slug}${RESET}`);
+  console.log(`Next: ${BOLD}node scripts/studio.mjs next --project ${project.slug}${RESET}`);
 } else if (cmd === "status") {
   printStatus(loadState());
 } else if (cmd === "next") {
   const state = loadState();
   const act = activeStage(state);
   if (!act) {
-    console.log(`${GREEN}${BOLD}Tüm aşamalar tamam. Teslimat: ${rel(project.video)}${RESET}`);
+    console.log(`${GREEN}${BOLD}All stages complete. Delivery: ${rel(project.video)}${RESET}`);
     process.exit(0);
   }
   const { skills, task } = act.stage.prompt(state);
   const body =
-    `# AŞAMA ${STAGES.indexOf(act.stage) + 1}/${STAGES.length}: ${act.stage.id.toUpperCase()} — ${act.stage.title} [${project.slug}]\n\n` +
-    `Durum: ${act.status}. Bu aşamada SADECE aşağıdaki artifact'i üret; sonraki aşamaların işini yapma.\n\n` +
-    `## GÖREV\n${task}\n\n## BAĞLAM (bu aşamaya ait skill'ler)\n${skills.filter(Boolean).join("\n\n---\n\n") || "(yok)"}\n\n` +
-    `## BİTİNCE\n\`node scripts/studio.mjs check --project ${project.slug}\` çalıştır.\n`;
+    `# STAGE ${STAGES.indexOf(act.stage) + 1}/${STAGES.length}: ${act.stage.id.toUpperCase()} — ${act.stage.title} [${project.slug}]\n\n` +
+    `Status: ${act.status}. In this stage, produce ONLY the artifact below; do not do the work of later stages.\n\n` +
+    `## TASK\n${task}\n\n## CONTEXT (skills for this stage)\n${skills.filter(Boolean).join("\n\n---\n\n") || "(none)"}\n\n` +
+    `## WHEN DONE\n\`node scripts/studio.mjs check --project ${project.slug}\` run.\n`;
   fs.mkdirSync(promptsDir, { recursive: true });
   const out = path.join(promptsDir, `${act.stage.id}.md`);
   fs.writeFileSync(out, body);
@@ -391,11 +393,11 @@ if (cmd === "init") {
   const targetStageId = parsed.positional[1];
   const target = targetStageId ? STAGES.find((s) => s.id === targetStageId) : activeStage(state)?.stage;
   if (targetStageId && !target) {
-    console.error(`Bilinmeyen aşama: ${targetStageId}`);
+    console.error(`Unknown stage: ${targetStageId}`);
     process.exit(1);
   }
   if (!target) {
-    console.log(`${GREEN}Tüm aşamalar tamam.${RESET}`);
+    console.log(`${GREEN}All stages complete.${RESET}`);
     process.exit(0);
   }
   const ok = checkStage(state, target);
@@ -408,7 +410,7 @@ if (cmd === "init") {
     if (cur.status === "done") continue;
     if (stage.id === "render" && stage.exec) {
       if (!stage.exec()) {
-        console.log(`${RED}${BOLD}[render: BAŞARISIZ]${RESET}`);
+        console.log(`${RED}${BOLD}[render: FAILED]${RESET}`);
         process.exit(1);
       }
     }
@@ -418,8 +420,8 @@ if (cmd === "init") {
     }
   }
   printStatus(state);
-  console.log(`${GREEN}${BOLD}TESLİMAT TAMAM:${RESET} ${rel(project.video)}`);
+  console.log(`${GREEN}${BOLD}DELIVERED:${RESET} ${rel(project.video)}`);
 } else {
-  console.error("Komutlar: init | status | next | check [aşama] | run");
+  console.error("Commands: init | status | next | check [stage] | run");
   process.exit(1);
 }

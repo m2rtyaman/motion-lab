@@ -1,0 +1,149 @@
+{
+  "source": "240e771a1ca809fae5ba.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 480,
+    "height": 270,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 2.077,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 4.954,
+    "median": 3.85,
+    "p90": 6.101,
+    "max": 23.344,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        6
+      ],
+      "f60": [
+        360
+      ]
+    },
+    "median": {
+      "s": 6,
+      "f60": 360
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 1.833,
+          "f60": 110
+        },
+        "peak": {
+          "s": 2,
+          "f60": 120
+        },
+        "end": {
+          "s": 2.125,
+          "f60": 127.5
+        },
+        "duration": {
+          "s": 0.292,
+          "f60": 17.5
+        },
+        "onsetToPeak": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peakToRest": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "asymmetry": 0.6,
+        "peakEnergy": 23.34,
+        "peakRegionalSpeedPxPerFrame": 15.09,
+        "peakGlobalSpeedPxPerFrame": 3.42
+      },
+      {
+        "start": {
+          "s": 2.458,
+          "f60": 147.5
+        },
+        "peak": {
+          "s": 2.625,
+          "f60": 157.5
+        },
+        "end": {
+          "s": 4.833,
+          "f60": 290
+        },
+        "duration": {
+          "s": 2.375,
+          "f60": 142.5
+        },
+        "onsetToPeak": {
+          "s": 0.208,
+          "f60": 12.5
+        },
+        "peakToRest": {
+          "s": 2.208,
+          "f60": 132.5
+        },
+        "asymmetry": 10.6,
+        "peakEnergy": 19.67,
+        "peakRegionalSpeedPxPerFrame": 14.3,
+        "peakGlobalSpeedPxPerFrame": 3.72
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 143,
+    "searchSaturatedBlockPct": 1,
+    "globalMedian": 0.96,
+    "globalP95": 2.86,
+    "regionalMedian": 1.43,
+    "regionalP95": 4.04,
+    "regionalMax": 15.09
+  },
+  "meta": {
+    "id": "spat-240e",
+    "category": "spatial_other",
+    "catalogCaseId": "lemomo-white-model",
+    "catalogFile": "240e771a1ca809fae5ba.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://github.com/lemomo-ai/lemo-opuscar/releases/tag/films",
+    "catalogStyleId": "miniature"
+  }
+}

@@ -1,59 +1,136 @@
-# Architecture & Design System — Motion Lab
+# Architecture & Design System — Motion Lab (v0.9)
 
-## 1. The Core Determinist Engine (`useRemotionGSAP`)
+Motion Lab separates **engine** (`src/core`), **vocabulary** (presets, physics, curated primitives) and **content** (`src/projects/<slug>`). [`RULES.md`](../RULES.md) is the canonical rule file; this document explains how the pieces fit.
 
-Traditional web animations rely on requestAnimationFrame and real-time clock loops (`Date.now()`, `performance.now()`), which introduces jitter, dropped frames, and non-reproducible rendering in video export.
+---
 
-Motion Lab bridges Remotion's offline frame server with GSAP:
+## 1. The Core Deterministic Engine (`useRemotionGSAP`)
+
+Traditional web animations rely on `requestAnimationFrame` and real-time clock loops (`Date.now()`, `performance.now()`), which introduce jitter, dropped frames, and non-reproducible rendering in video export.
+
+Motion Lab bridges Remotion's offline frame server with GSAP. A v2 scene exports a pure `buildTimeline` and hands it to the bridge, which builds the timeline paused and seeks it to `frame / fps` on every frame:
 
 ```typescript
-const frame = useCurrentFrame();
-const { fps } = useVideoConfig();
+export const buildTimeline = (tl: gsap.core.Timeline) => {
+  beat(tl, 'intro', 0);                // label beat:intro, must match spec.json
+  enter(tl, '.headline', 'rise', 0.2);   // preset name + start time in seconds
+  holdFinal(tl, 5.0, 1.2);                  // still final hold
+  return tl;
+};
 
-useRemotionGSAP(() => {
-  const tl = gsap.timeline({ paused: true });
-  // Build declarative motion timeline...
-  tl.seek(frame / fps);
-}, [frame, fps]);
+export const Scene: FC = () => {
+  useRemotionGSAP(buildTimeline);           // builds paused, seeks to frame / fps
+  return <AbsoluteFill>{/* static JSX with the classNames the timeline targets */}</AbsoluteFill>;
+};
 ```
 
-- **Zero Frame Drifts:** Every pixel at frame $N$ is mathematically identical regardless of CPU rendering load.
-- **Pure GPU Composition:** Animations tween only `transform` (`x`, `y`, `scale`, `rotation`), `opacity`, and `filter`. Layout properties (`width`, `height`, `top`, `left`, `margin`) are forbidden during animation.
+- **Zero frame drift:** every pixel at frame N is identical regardless of CPU rendering load.
+- **GPU-friendly motion:** animations tween only `transform` (`x`, `y`, `scale`, `rotation`), `opacity` and `filter`. Layout properties (`width`, `height`, `top`, `left`, margins) are rejected by the audits (T005, A003).
+- **No hidden state:** randomness is seeded; timers, CSS transitions and environment sniffing (`window`, `document`, ...) are rejected, so the audits, the browser probe and the real render all see the same scene.
 
 ---
 
-## 2. Paradigms & Composition Rules
+## 2. Harness v2 flow
 
-### 1. `editorial-ui`
-- **Use Cases:** B2B SaaS launch videos, fintech analytics, developer tool demos.
-- **Visuals:** Dark specular glass (`rgba(255, 255, 255, 0.04)`), 1px subtle borders (`rgba(255, 255, 255, 0.08)`), SVG charts, interactive maps, slide-over panels.
-- **Camera:** 3D SpatialCamera subtle drift (`rotateX: 12`, `rotateY: -16`, `scale: 1.05`).
+A project opts in with `"harness": 2` in `spec.json`. The flow from idea to MP4:
 
-### 2. `cinematic-world`
-- **Use Cases:** 2.5D game arenas, character actions, narrative shorts.
-- **Visuals:** Sprite sheets, torch lighting layers, dynamic ground shadows, particle embers, and radial sonic shockwaves.
-- **Animation Principles:** Squash & stretch, braking anticipation, step-arc bobbing, and footstep dust.
+```
+spec.json boards      one card per beat: focal, 3x3 zone, start/end poses, text, why
+        |             (docs/STORYBOARD.md; audit:storyboard2, SB001-SB007)
+        v
+Scene.tsx             static layout from curated primitives, then buildTimeline
+        |             (pnpm render:poses checks key poses before any motion)
+        v
+presets / physics     beat, enter, exit, emphasize, camera, transition, holdFinal
+        |             (src/core/presets.ts); bounce, arcs, walk, rig helpers
+        |             (src/core/physics.ts); numbers from tokens.ts, recipes.ts
+        v
+audits                pnpm check: spec, ast (V2-0xx), timeline (T000-T014), slop, tests,
+        |             generated-doc freshness, tsc
+        v
+browser probe         pnpm probe: real headless Chrome, P001-P009 (what is on screen)
+        |
+        v
+render                pnpm render -> out/<slug>/<slug>.mp4 (60 fps, 9:16 or 16:9)
+```
 
-### 3. `kinetic-poster`
-- **Use Cases:** Brand manifestos, high-impact social teasers, typographic drops.
-- **Visuals:** High-contrast typography, split-screen wipes, rhythmic beat-locked cuts, tabular monospaced counters.
+`pnpm eval:score` grades the same artefacts (audits plus probe plus a rubric) against the tasks in `evals/`.
+
+Rules of the scene layer (details in `RULES.md`):
+- Scenes export `buildTimeline` and call `useRemotionGSAP(buildTimeline)`; motion is scheduled with presets and physics helpers, never with raw `gsap.*` calls or invented easing numbers.
+- Imports are limited to react, remotion, gsap, `src/core/*`, `src/primitives/curated` (plus `characters/RigCharacter`) and the project's own folder.
+- Optional `components/*.tsx` are presentational only (max 6 files, 120 lines each, no motion, colors from the `theme` prop).
+- Every selector in `buildTimeline` must match a static `className` or `id` that can render (T014).
+- The scene ends with a still `holdFinal(tl, at, 1.2)`.
 
 ---
 
-## 3. The Single Container Principle (Continuous Living Container)
+## 3. Directory layout
 
-In modern motion design, scene cuts cause cognitive friction. Instead of destroying scene A and creating scene B, Motion Lab promotes continuous morphing:
+```
+src/
+  core/               Engine and vocabulary
+    useRemotionGSAP.ts, time-driver.ts   deterministic bridge
+    presets.ts, physics.ts               motion vocabulary (docs/PRESETS.md)
+    tokens.ts, recipes.ts, transitions.ts   durations, springs, eases
+    ...                                  math, audio, camera, contracts (legacy helpers included)
+  primitives/
+    curated.ts        the only primitives v2 scenes import (docs/COMPONENT_GALLERY.md)
+    characters/       RigCharacter (jointed vector character with rig helpers)
+    shells/ widgets/ atoms/ molecules/ typography/ kinetic/ ...   implementation folders
+    index.ts + top-level legacy stages   deprecated, kept for older projects
+  projects/
+    example-*         six golden examples (copy one)
+    study-*           seven animation studies (docs/ANIMATION_STUDIES.md)
+    zz-gallery        renders the component gallery thumbnails
+    <other>           legacy projects
+    registry.generated.ts   generated by pnpm registry (never hand-edit)
+  remotion/           composition entry point and registry
+  templates/ world/ vfx/ archetypes/ stage/ camera/ motion/ materials/ procedural/   legacy and supporting layers
+evals/                tasks/, solutions/, fixtures/, VISUAL_RUBRIC.md, judges.json, harness.lock.json
+scripts/              CLI, audits, browser probe (browser-probe.mjs, lib/probe-*), eval scorer, renderers
+docs/                 teaching docs, generated docs (MOTION_MATH, DESIGN_SYSTEM), gallery/ thumbnails
+references/           MASTER_STORYBOARD_RULES.md, TYPOGRAPHY_GUIDE.md, measured/, prompts/, broll-examples/, archive/ (legacy)
+.agent/skills/        6 maintained skills; .agent/skills-archive/ is legacy and unread
+public/               fonts, sfx, audio, harvested assets
+out/                  render outputs (git-ignored)
+```
+
+Files that pin the harness (`scripts/`, `src/core`, `src/primitives`, `docs/`, `evals/`, ...) are covered by `evals/harness.lock.json`; see `CONTRIBUTING.md`.
+
+---
+
+## 4. Orchestration modes
+
+`pnpm new --mode` picks the starting scaffold.
+
+| Mode | Use cases | Notes |
+| --- | --- | --- |
+| `editorial-ui` | B2B SaaS launch videos, fintech analytics, developer tool demos | Curated shells and widgets inside a `UI_SCALE.recommendedZoom[0]` wrapper, camera moves over a virtual canvas. |
+| `cinematic-world` | Characters, narrative shorts | `RigCharacter` scene with `rigWalk`, `lookAt`, `react`, `idleBreath`, `turn`. |
+| `kinetic-poster` | Brand manifestos, social teasers, typographic drops | Words, stagger, punch, mask wipes (`kinetic-type` skill). |
+| `hybrid-orchestrated` | Multi-archetype stories | One hero element carried across beats. |
+
+---
+
+## 5. The Single Container Principle
+
+Scene cuts cause cognitive friction. Instead of destroying scene A and creating scene B, prefer continuous morphing: one hero container expands, changes content, and settles, while the camera and secondary elements change around it.
 
 ```
 [ Action Button ]
-       ↓ (expands & morphs border-radius)
+       | (expands, morphs border-radius)
 [ Audio Waveform Pulse ]
-       ↓ (unfolds into text card)
-[ Transcribed Note & AI Task ]
-       ↓ (snaps into table grid)
-[ Calendar Slot ]
-       ↓ (collapses into confirmation badge)
+       | (unfolds into text card)
+[ Transcribed Note ]
+       | (collapses into confirmation badge)
 [ Success Checkmark ]
 ```
 
-The viewer's eye remains locked onto the hero container throughout the entire commercial.
+The viewer's eye stays on the hero element for the whole clip. This is craft guidance (`RULES.md` section 3), not an audit.
+
+---
+
+## 6. Legacy layers (brief)
+
+Projects without `"harness": 2` still build. They use the older primitives from `src/primitives/index.ts` (marked `@deprecated`), hand-written timelines, templates under `src/templates/`, and the keyword audits `audit:motion`, `audit:craft`, `audit:critic` and `audit:storyboard`. New work should use harness v2; `pnpm new --legacy` exists only to maintain old-layout projects. The pre-v2 workflow documents live in `references/archive/` and `.agent/skills-archive/` and are not maintained.

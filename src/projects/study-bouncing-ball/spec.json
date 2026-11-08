@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Bouncing Ball",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6.7,
+  "safeZone": {
+    "top": 30,
+    "bottom": 30
+  },
+  "theme": {
+    "surfaceMode": "dark"
+  },
+  "beats": [
+    {
+      "id": "setup",
+      "startFrame": 0,
+      "endFrame": 71,
+      "intent": "Ground, apex guides and the ball hanging at its highest point",
+      "board": {"focal":".ball","zone":"top-left","start":"Dark grid and nothing else","end":"Ground, apex guides and the ball hanging at its highest point","text":[],"transitionIn":"cut","why":"show the drop height and the ground before the ball falls"}
+    },
+    {
+      "id": "fall",
+      "startFrame": 72,
+      "endFrame": 161,
+      "intent": "First fall: slow at the top, stretching as it speeds up",
+      "samples": [
+        106,
+        108
+      ],
+      "board": {"focal":".ball","zone":"middle-left","start":"Ball hanging at the top, slow","end":"Ball just before the ground, stretched and fast","text":[],"transitionIn":"cut","why":"slow at the top and fast at the bottom is the weight cue"}
+    },
+    {
+      "id": "decay",
+      "startFrame": 162,
+      "endFrame": 299,
+      "intent": "Four rebounds, each lower and quicker than the last",
+      "samples": [
+        167
+      ],
+      "board": {"focal":".ball","zone":"bottom-center","start":"Ball touching the ground after the first fall","end":"Ball resting on the ground at the right after four ever lower bounces","text":[],"transitionIn":"cut","why":"each rebound is lower and quicker, so energy visibly drains"}
+    },
+    {
+      "id": "rest",
+      "startFrame": 300,
+      "endFrame": 402,
+      "intent": "The rule in one line, then the 1.2s hold",
+      "board": {"focal":".caption","zone":"bottom-left","start":"Ball still, caption absent","end":"Caption gives the rule under the still ball","text":["Each bounce: height"],"transitionIn":"cut","why":"the rule follows the evidence and holds still for the 1.2s"}
+    }
+  ]
+}

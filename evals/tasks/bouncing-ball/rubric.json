@@ -1,0 +1,51 @@
+{
+  "task": "bouncing-ball",
+  "aspect": "16:9",
+  "durationSeconds": {
+    "min": 3.8,
+    "max": 4.2
+  },
+  "beats": {
+    "min": 3,
+    "max": 4
+  },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    {
+      "label": "bounce uses the physics helper (decay, squash, stretch)",
+      "anyOf": [
+        "physics:bounce"
+      ]
+    }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 6,
+  "maxWarnings": {
+    "default": 0
+  },
+  "maxSceneLines": 80,
+  "maxRawTweens": 0,
+  "maxLocalComponents": 0,
+  "requiredStrings": [],
+  "requiredCode": [],
+  "behavior": [
+    {
+      "type": "netTravel",
+      "minFraction": 0.25
+    },
+    {
+      "type": "bounces",
+      "min": 3
+    },
+    {
+      "type": "squash",
+      "maxScaleY": 0.92
+    },
+    {
+      "type": "targetVisible",
+      "minFraction": 0.8
+    }
+  ],
+  "forbiddenPatterns": []
+}

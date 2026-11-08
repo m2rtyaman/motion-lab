@@ -1,0 +1,53 @@
+{
+  "task": "anticipation-jump",
+  "aspect": "16:9",
+  "durationSeconds": {
+    "min": 2.8,
+    "max": 3.2
+  },
+  "beats": {
+    "min": 3,
+    "max": 4
+  },
+  "requireHoldFinal": true,
+  "requiredTags": [
+    {
+      "label": "jump has a wind-up, action and settle (launch or anticipate)",
+      "anyOf": [
+        "physics:launch",
+        "physics:anticipate"
+      ]
+    },
+    {
+      "label": "character is alive before the jump (moving hold)",
+      "anyOf": [
+        "physics:movingHold"
+      ]
+    }
+  ],
+  "forbiddenTags": [],
+  "minPresetRatio": 0.8,
+  "minTweens": 8,
+  "maxWarnings": {
+    "default": 0
+  },
+  "maxSceneLines": 90,
+  "maxRawTweens": 0,
+  "maxLocalComponents": 0,
+  "requiredStrings": [],
+  "requiredCode": [],
+  "behavior": [
+    {
+      "type": "windup",
+      "axis": "y",
+      "direction": "up",
+      "minMain": 100,
+      "label": "a wind-up (small move down) comes right before the jump up"
+    },
+    {
+      "type": "targetVisible",
+      "minFraction": 0.8
+    }
+  ],
+  "forbiddenPatterns": []
+}

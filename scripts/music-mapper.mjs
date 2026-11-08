@@ -4,16 +4,16 @@ import { spawnSync } from 'node:child_process';
 import { rootDir, rel } from './lib/projects.mjs';
 
 /**
- * MUSIC MAPPER (Motion Lab Animasyon Rehberi Müzik Haritalayıcı)
+ * MUSIC MAPPER (Motion Lab animation guide: music mapper)
  *
- * Prompt 6: "Müziği canlı dinletme, önce notaya dök.
- * Şarkının haritasını çıkarır (BPM, vuruşlar, enerji); animasyon bu haritayı okur."
+ * Prompt 6: "Don't play the music live; transcribe it to notes first.
+ * Extracts the song map (BPM, beats, energy); animation reads this map."
  *
- * Bir ses dosyasını (WAV, MP3) analiz eder; kare bazında RMS enerjisini,
- * vuruşları (beats), güçlü vuruşları (downbeats) ve tepe anlarını music_map.json olarak kaydeder.
+ * Analyzes an audio file (WAV, MP3) and records per-frame RMS energy,
+ * beats, downbeats and peak moments to music_map.json.
  *
- * Kullanım:
- *   node scripts/music-mapper.mjs <dosya-veya-slug> [--fps 60] [--out music_map.json]
+ * Usage:
+ *   node scripts/music-mapper.mjs <file-or-slug> [--fps 60] [--out music_map.json]
  */
 
 const argv = process.argv.slice(2);
@@ -33,12 +33,12 @@ const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 
 if (!target) {
-  console.error(`${RED}${BOLD}[HATA] Ses dosyası veya proje adı belirtilmedi.${RESET}`);
-  console.log('Kullanım: node scripts/music-mapper.mjs <audio.wav | slug> [--fps 60]');
+  console.error(`${RED}${BOLD}[ERROR] No audio file or project name specified.${RESET}`);
+  console.log('Usage: node scripts/music-mapper.mjs <audio.wav | slug> [--fps 60]');
   process.exit(1);
 }
 
-// Dosya yolu belirleme: ya doğrudan dosya, ya da proje dizinindeki audio
+// Resolve file path: either a direct file, or the audio file in the project directory
 let audioPath = target;
 if (!fs.existsSync(audioPath)) {
   const projAudio = path.join(rootDir, 'src', 'projects', target, 'audio.wav');
@@ -51,7 +51,7 @@ if (!fs.existsSync(audioPath)) {
 }
 
 if (!fs.existsSync(audioPath)) {
-  console.error(`${RED}${BOLD}[HATA] Ses dosyası bulunamadı:${RESET} ${target}`);
+  console.error(`${RED}${BOLD}[ERROR] Audio file not found:${RESET} ${target}`);
   process.exit(1);
 }
 
@@ -62,9 +62,9 @@ fs.mkdirSync(path.dirname(tempWav), { recursive: true });
 console.log(`\n${BOLD}====================================================${RESET}`);
 console.log(`${BOLD}   MOTION LAB MUSIC MAPPER (AUDIO-FIRST ENGINE)           ${RESET}`);
 console.log(`${BOLD}====================================================${RESET}`);
-console.log(`Girdi Dosyası : ${CYAN}${rel(audioPath)}${RESET} | FPS: ${fps}`);
+console.log(`Input File    : ${CYAN}${rel(audioPath)}${RESET} | FPS: ${fps}`);
 
-// 1. FFMPEG İLE STANDART 16-BIT 48KHZ MONO PCM ÇEVİRİMİ
+// 1. CONVERT TO STANDARD 16-BIT 48KHZ MONO PCM WITH FFMPEG
 const conv = spawnSync(
   'npx',
   ['remotion', 'ffmpeg', '-y', '-i', `"${audioPath}"`, '-ac', '1', '-ar', '48000', '-f', 'wav', `"${tempWav}"`],
@@ -72,7 +72,7 @@ const conv = spawnSync(
 );
 
 if (conv.status !== 0 || !fs.existsSync(tempWav)) {
-  console.error(`${RED}FFmpeg ses dönüşümü başarısız oldu.${RESET}`);
+  console.error(`${RED}FFmpeg audio conversion failed.${RESET}`);
   process.exit(1);
 }
 
@@ -87,9 +87,9 @@ const durationSec = totalSamples / sampleRate;
 const totalFrames = Math.floor(durationSec * fps);
 const samplesPerFrame = Math.floor(sampleRate / fps);
 
-console.log(`Süre          : ${durationSec.toFixed(2)} saniye (${totalFrames} kare)`);
+console.log(`Duration      : ${durationSec.toFixed(2)} seconds (${totalFrames} frames)`);
 
-// 3. ENERJİ (RMS) VE GEÇİCİ TEPE (TRANSIENT) TESPİTİ
+// 3. ENERGY (RMS) AND TRANSIENT PEAK DETECTION
 const rawEnergy = [];
 let maxRms = 0;
 
@@ -108,23 +108,23 @@ for (let f = 0; f < totalFrames; f++) {
   rawEnergy.push(rms);
 }
 
-// Normalize enerji eğrisi (0.0 – 1.0)
+// Normalize energy curve (0.0 – 1.0)
 const energy = rawEnergy.map((e) => (maxRms > 0 ? Math.round((e / maxRms) * 1000) / 1000 : 0));
 
-// Vuruş ve Tepe Tespiti (Dynamic Thresholding)
+// Beat and Peak Detection (Dynamic Thresholding)
 const beats = [];
 const downbeats = [];
 const peaks = [];
 
 let lastBeatFrame = -999;
-const minBeatInterval = Math.round(fps * 0.28); // max ~210 BPM sınırı
+const minBeatInterval = Math.round(fps * 0.28); // max ~210 BPM limit
 
 for (let f = 1; f < totalFrames - 1; f++) {
   const prev = energy[f - 1];
   const curr = energy[f];
   const next = energy[f + 1];
 
-  // Tepe vuruş
+  // Peak beat
   if (curr > prev && curr >= next && curr > 0.35) {
     if (f - lastBeatFrame >= minBeatInterval) {
       beats.push(f);
@@ -137,12 +137,12 @@ for (let f = 1; f < totalFrames - 1; f++) {
   }
 }
 
-// Downbeats (ortalama her 4 vuruşta bir)
+// Downbeats (roughly every 4 beats)
 for (let i = 0; i < beats.length; i += 4) {
   downbeats.push(beats[i]);
 }
 
-// Ortalama BPM Hesabı
+// Average BPM calculation
 let bpm = 120;
 if (beats.length > 3) {
   const intervals = [];
@@ -153,7 +153,7 @@ if (beats.length > 3) {
   bpm = Math.round((fps * 60) / avgInterval);
 }
 
-// Geçici dosyayı temizle
+// Clean up temp file
 try {
   fs.unlinkSync(tempWav);
 } catch {}
@@ -175,7 +175,7 @@ const musicMap = {
 
 fs.writeFileSync(outPath, JSON.stringify(musicMap, null, 2), 'utf-8');
 
-console.log(`\n${GREEN}✓ Müzik Haritası Başarıyla Üretildi:${RESET} ${rel(outPath)}`);
+console.log(`\n${GREEN}✓ Music map generated successfully:${RESET} ${rel(outPath)}`);
 console.log(`Tahmini BPM   : ${BOLD}${bpm} BPM${RESET}`);
-console.log(`Toplam Vuruş  : ${beats.length} beat (${downbeats.length} downbeat, ${peaks.length} doruk anı)`);
-console.log(`Örnek Vuruşlar: ${beats.slice(0, 8).join(', ')}...\n`);
+console.log(`Total Beats   : ${beats.length} beats (${downbeats.length} downbeats, ${peaks.length} peak moments)`);
+console.log(`Sample Beats : ${beats.slice(0, 8).join(', ')}...\n`);

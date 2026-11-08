@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "stat-counter",
+  "title": "Harbor Line Riders",
+  "mode": "kinetic-poster",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 5,
+  "safeZone": { "top": 250, "bottom": 300 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "build", "startFrame": 0, "endFrame": 59, "intent": "Rule wipes in, the Harbor Line kicker rises",
+      "board": {"focal":".kicker","zone":"top-center","start":"Dark grid, empty","end":"Rule wiped in and the Harbor Line kicker risen","text":[],"transitionIn":"cut","why":"the kicker says what is being counted before the number arrives"} },
+    { "id": "count", "startFrame": 60, "endFrame": 161, "intent": "The number pops in and counts up with an out-ease, then punches",
+      "board": {"focal":".number","zone":"middle-center","start":"Kicker alone","end":"Number popped in, counted up and punched at its final value","text":[],"transitionIn":"cut","why":"the number counts up after the label that explains it"} },
+    { "id": "land", "startFrame": 162, "endFrame": 300, "intent": "Label rises under the finished number, underline wipes, 1.2s hold",
+      "board": {"focal":".label","zone":"bottom-center","start":"Final number on screen","end":"Label risen under the number and the underline wiped","text":["riders this month"],"transitionIn":"cut","why":"the label closes the claim and the finished number holds still for 1.2s"} }
+  ]
+}

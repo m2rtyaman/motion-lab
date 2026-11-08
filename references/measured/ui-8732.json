@@ -1,0 +1,157 @@
+{
+  "source": "873263f0c39bb5d35603.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.08,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 1.72,
+    "median": 1.633,
+    "p90": 3.274,
+    "max": 5.326,
+    "pctFramesStill": 14.6
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        6
+      ],
+      "f60": [
+        360
+      ]
+    },
+    "median": {
+      "s": 6,
+      "f60": 360
+    }
+  },
+  "holds": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        0.75
+      ],
+      "f60": [
+        45
+      ]
+    },
+    "starts": {
+      "s": [
+        4.167
+      ],
+      "f60": [
+        250
+      ]
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 1.125,
+          "f60": 67.5
+        },
+        "peak": {
+          "s": 1.583,
+          "f60": 95
+        },
+        "end": {
+          "s": 3.792,
+          "f60": 227.5
+        },
+        "duration": {
+          "s": 2.667,
+          "f60": 160
+        },
+        "onsetToPeak": {
+          "s": 0.5,
+          "f60": 30
+        },
+        "peakToRest": {
+          "s": 2.208,
+          "f60": 132.5
+        },
+        "asymmetry": 4.42,
+        "peakEnergy": 5.33,
+        "peakRegionalSpeedPxPerFrame": 7.49,
+        "peakGlobalSpeedPxPerFrame": 6.6
+      },
+      {
+        "start": {
+          "s": 4.958,
+          "f60": 297.5
+        },
+        "peak": {
+          "s": 5.25,
+          "f60": 315
+        },
+        "end": {
+          "s": 5.792,
+          "f60": 347.5
+        },
+        "duration": {
+          "s": 0.833,
+          "f60": 50
+        },
+        "onsetToPeak": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "peakToRest": {
+          "s": 0.542,
+          "f60": 32.5
+        },
+        "asymmetry": 1.63,
+        "peakEnergy": 1.4,
+        "peakRegionalSpeedPxPerFrame": 3.12,
+        "peakGlobalSpeedPxPerFrame": 2.16
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 123,
+    "searchSaturatedBlockPct": 0.1,
+    "globalMedian": 0.95,
+    "globalP95": 5.27,
+    "regionalMedian": 2.26,
+    "regionalP95": 5.87,
+    "regionalMax": 7.49
+  },
+  "meta": {
+    "id": "ui-8732",
+    "category": "ui_product",
+    "catalogCaseId": "c-349d66f3d2edc493",
+    "catalogFile": "873263f0c39bb5d35603.mp4",
+    "creator": "Vincentwei1021",
+    "creditLink": "https://vincentwei1021.github.io/mg-styles-15/#12-aurora-glass",
+    "catalogStyleId": "glass"
+  }
+}

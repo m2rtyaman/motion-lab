@@ -1,0 +1,165 @@
+{
+  "source": "44e9bc366f5b6031d945.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 240,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 10,
+    "f60": 600
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 3.016,
+    "median": 0.448,
+    "p90": 2.776,
+    "max": 76.679,
+    "pctFramesStill": 42.1
+  },
+  "cuts": {
+    "count": 4,
+    "perTenSeconds": 4,
+    "at": {
+      "s": [
+        1.25,
+        4.5,
+        5.042,
+        7
+      ],
+      "f60": [
+        75,
+        270,
+        302.5,
+        420
+      ]
+    }
+  },
+  "shots": {
+    "count": 5,
+    "lengths": {
+      "s": [
+        1.25,
+        3.25,
+        0.542,
+        1.958,
+        3
+      ],
+      "f60": [
+        75,
+        195,
+        32.5,
+        117.5,
+        180
+      ]
+    },
+    "median": {
+      "s": 1.958,
+      "f60": 117.5
+    }
+  },
+  "holds": {
+    "count": 6,
+    "lengths": {
+      "s": [
+        2.042,
+        0.25,
+        0.417,
+        0.375,
+        0.458,
+        0.5
+      ],
+      "f60": [
+        122.5,
+        15,
+        25,
+        22.5,
+        27.5,
+        30
+      ]
+    },
+    "starts": {
+      "s": [
+        2.458,
+        5.292,
+        5.583,
+        6.083,
+        6.5,
+        9.5
+      ],
+      "f60": [
+        147.5,
+        317.5,
+        335,
+        365,
+        390,
+        570
+      ]
+    },
+    "final": {
+      "s": 0.5,
+      "f60": 30
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 1.792,
+          "f60": 107.5
+        },
+        "peak": {
+          "s": 2,
+          "f60": 120
+        },
+        "end": {
+          "s": 2.417,
+          "f60": 145
+        },
+        "duration": {
+          "s": 0.625,
+          "f60": 37.5
+        },
+        "onsetToPeak": {
+          "s": 0.25,
+          "f60": 15
+        },
+        "peakToRest": {
+          "s": 0.417,
+          "f60": 25
+        },
+        "asymmetry": 1.67,
+        "peakEnergy": 8.3,
+        "peakRegionalSpeedPxPerFrame": 22.23,
+        "peakGlobalSpeedPxPerFrame": 0.57
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 158,
+    "searchSaturatedBlockPct": 1.6,
+    "globalMedian": 0.08,
+    "globalP95": 0.33,
+    "regionalMedian": 0.13,
+    "regionalP95": 17,
+    "regionalMax": 25.4
+  },
+  "meta": {
+    "id": "kin-44e9",
+    "category": "kinetic_editorial",
+    "catalogCaseId": "lemomo-caption-news",
+    "catalogFile": "44e9bc366f5b6031d945.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://github.com/lemomo-ai/lemo-opuscar/blob/f17136060781a0068a7951245a3aa7835a7230de/styles/caption-news/STYLE.md",
+    "catalogStyleId": "cinematic"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "source": "55dccbe9e5fdf94b4040.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 144,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 6,
+    "f60": 360
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.002,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 9.373,
+    "median": 4.35,
+    "p90": 19.452,
+    "max": 68.829,
+    "pctFramesStill": 0.7
+  },
+  "cuts": {
+    "count": 5,
+    "perTenSeconds": 8.33,
+    "at": {
+      "s": [
+        0.5,
+        1.5,
+        2.5,
+        5.083,
+        5.542
+      ],
+      "f60": [
+        30,
+        90,
+        150,
+        305,
+        332.5
+      ]
+    }
+  },
+  "shots": {
+    "count": 6,
+    "lengths": {
+      "s": [
+        0.5,
+        1,
+        1,
+        2.583,
+        0.458,
+        0.458
+      ],
+      "f60": [
+        30,
+        60,
+        60,
+        155,
+        27.5,
+        27.5
+      ]
+    },
+    "median": {
+      "s": 0.75,
+      "f60": 45
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 0,
+          "f60": 0
+        },
+        "peak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "end": {
+          "s": 0.458,
+          "f60": 27.5
+        },
+        "duration": {
+          "s": 0.458,
+          "f60": 27.5
+        },
+        "onsetToPeak": {
+          "s": 0.125,
+          "f60": 7.5
+        },
+        "peakToRest": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "asymmetry": 3,
+        "peakEnergy": 5.79,
+        "peakRegionalSpeedPxPerFrame": 19.76,
+        "peakGlobalSpeedPxPerFrame": 3.76
+      },
+      {
+        "start": {
+          "s": 0.583,
+          "f60": 35
+        },
+        "peak": {
+          "s": 1.333,
+          "f60": 80
+        },
+        "end": {
+          "s": 1.5,
+          "f60": 90
+        },
+        "duration": {
+          "s": 0.917,
+          "f60": 55
+        },
+        "onsetToPeak": {
+          "s": 0.792,
+          "f60": 47.5
+        },
+        "peakToRest": {
+          "s": 0.167,
+          "f60": 10
+        },
+        "asymmetry": 0.21,
+        "peakEnergy": 9.21,
+        "peakRegionalSpeedPxPerFrame": 18.37,
+        "peakGlobalSpeedPxPerFrame": 10.24
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 124,
+    "searchSaturatedBlockPct": 1.9,
+    "globalMedian": 1.37,
+    "globalP95": 10.9,
+    "regionalMedian": 3.23,
+    "regionalP95": 27.84,
+    "regionalMax": 43.7
+  },
+  "meta": {
+    "id": "char-55dc",
+    "category": "character",
+    "catalogCaseId": "c-fb9bbe4f983626d9",
+    "catalogFile": "55dccbe9e5fdf94b4040.mp4",
+    "creator": "Vincentwei1021",
+    "creditLink": "https://vincentwei1021.github.io/mg-styles-15/#05-cel-boil",
+    "catalogStyleId": "handdrawn"
+  }
+}

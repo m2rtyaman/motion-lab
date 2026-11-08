@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "harness": 2,
+  "title": "FIXTURE",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "audit": { "allow": [ { "code": "T006", "reason": "fixture uses raw tweens on purpose" }, { "code": "T008", "reason": "fixture demonstrates wrong eases" }, { "code": "T010", "reason": "fixture demonstrates simultaneous starts" }, { "code": "T011", "reason": "fixture has equal beats on purpose" }, { "code": "T012", "reason": "fixture demonstrates linear motion" }, { "code": "T013", "reason": "fixture demonstrates slow and tiny tweens" } ] },
+  "beats": [
+    { "id": "a", "startFrame": 0, "endFrame": 119 },
+    { "id": "b", "startFrame": 120, "endFrame": 239 },
+    { "id": "c", "startFrame": 240, "endFrame": 359 }
+  ]
+}

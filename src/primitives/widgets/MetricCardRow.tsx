@@ -20,7 +20,7 @@ export interface MetricCardRowProps {
 }
 
 /**
- * METRIC CARD ROW (v0.8)
+ * METRIC CARD ROW (v0.9)
  *
  * SaaS telemetri ve KPI özet kartları satırı.
  * Başlık rozeti, büyük metrik sayısı, alt detay dökümü ve aksiyon butonu içerir.

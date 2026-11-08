@@ -1,0 +1,119 @@
+{
+  "source": "97e55e1237082fe6b93f.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.5,
+    "noiseFloor": 0.692,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 5.161,
+    "median": 2.238,
+    "p90": 13.226,
+    "max": 21.851,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 1,
+    "list": [
+      {
+        "start": {
+          "s": 3.708,
+          "f60": 222.5
+        },
+        "peak": {
+          "s": 6.292,
+          "f60": 377.5
+        },
+        "end": {
+          "s": 7.292,
+          "f60": 437.5
+        },
+        "duration": {
+          "s": 3.583,
+          "f60": 215
+        },
+        "onsetToPeak": {
+          "s": 2.625,
+          "f60": 157.5
+        },
+        "peakToRest": {
+          "s": 1,
+          "f60": 60
+        },
+        "asymmetry": 0.38,
+        "peakEnergy": 21.85,
+        "peakRegionalSpeedPxPerFrame": 12.69,
+        "peakGlobalSpeedPxPerFrame": 10.58
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 179,
+    "searchSaturatedBlockPct": 0,
+    "globalMedian": 0.33,
+    "globalP95": 7.5,
+    "regionalMedian": 0.56,
+    "regionalP95": 10.93,
+    "regionalMax": 12.69
+  },
+  "meta": {
+    "id": "ui-97e5",
+    "category": "ui_product",
+    "catalogCaseId": "lemomo-teardown",
+    "catalogFile": "97e55e1237082fe6b93f.mp4",
+    "creator": "Lemomo",
+    "creditLink": "https://github.com/lemomo-ai/lemo-opuscar/releases/tag/films",
+    "catalogStyleId": "product"
+  }
+}

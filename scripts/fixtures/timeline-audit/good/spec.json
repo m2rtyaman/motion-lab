@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "harness": 2,
+  "title": "FIXTURE",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "beats": [
+    { "id": "a", "startFrame": 0, "endFrame": 89 },
+    { "id": "b", "startFrame": 90, "endFrame": 209 },
+    { "id": "c", "startFrame": 210, "endFrame": 359 }
+  ]
+}

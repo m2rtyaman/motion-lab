@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Social Promo: Brewmark",
+  "mode": "cinematic-world",
+  "aspect": "9:16",
+  "fps": 60,
+  "durationInSeconds": 8,
+  "safeZone": {
+    "top": 250,
+    "bottom": 300
+  },
+  "theme": {
+    "surfaceMode": "vibrant-brand"
+  },
+  "beats": [
+    {
+      "id": "hook",
+      "startFrame": 0,
+      "endFrame": 149,
+      "intent": "The promise lands while the character walks in",
+      "board": {
+        "focal": ".headline-word",
+        "zone": "top-center",
+        "start": "Navy canvas with faint rings, nothing on screen",
+        "end": "Skip the line headline sharp at the top, the large character arrived at the left of the empty card slot",
+        "text": [
+          "Skip the line."
+        ],
+        "transitionIn": "cut",
+        "why": "state the promise first and let the actor arrive beside the slot where the product will appear"
+      }
+    },
+    {
+      "id": "card",
+      "startFrame": 150,
+      "endFrame": 249,
+      "intent": "The order card resolves and the character looks at it",
+      "board": {
+        "focal": ".order-card",
+        "zone": "middle-center",
+        "start": "Headline and character, empty slot at the right",
+        "end": "Large order card sharp right of the character with Oat latte, price and the orange button, the character looking at it",
+        "text": [
+          "Oat latte"
+        ],
+        "transitionIn": "cut",
+        "why": "show the product the character is looking at before anyone touches it"
+      }
+    },
+    {
+      "id": "tap",
+      "startFrame": 250,
+      "endFrame": 359,
+      "intent": "The cursor taps Order ahead; the toast answers and the character reacts",
+      "board": {
+        "focal": ".order-btn",
+        "zone": "middle-center",
+        "start": "Cursor enters at the lower right, button idle",
+        "end": "Button tapped, camera leaned in, the Order placed toast under the card, the character arms up in a delighted pose",
+        "text": [
+          "Order placed"
+        ],
+        "transitionIn": "cut",
+        "why": "the tap is the cause; the toast and the character delight are its effect"
+      }
+    },
+    {
+      "id": "cta",
+      "startFrame": 360,
+      "endFrame": 480,
+      "intent": "The call to action resolves and everything holds",
+      "board": {
+        "focal": ".cta-pill",
+        "zone": "bottom-center",
+        "start": "Toast and character settled, no button at the bottom",
+        "end": "Get Brewmark free pill large and sharp in the bottom band under the card, toast and character, holding still",
+        "text": [
+          "Get Brewmark free"
+        ],
+        "transitionIn": "cut",
+        "why": "the benefit is proven, so the ask follows and holds still for the full 1.2s"
+      }
+    }
+  ]
+}

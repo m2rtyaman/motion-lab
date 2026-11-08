@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Orbit Logo Sting",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 4,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "form", "startFrame": 0, "endFrame": 89, "intent": "A single ring draws itself in on a quiet field",
+      "board": {"focal":".ring-wrap","zone":"center","start":"Quiet empty field","end":"A single ring drawn in at the centre of the field","text":[],"transitionIn":"cut","why":"one shape first so the eye has nothing else to compete with"} },
+    { "id": "resolve", "startFrame": 90, "endFrame": 240, "intent": "The ring settles into the mark; wordmark and tagline resolve (1.2s hold)",
+      "board": {"focal":".wordmark","zone":"middle-center","start":"Ring settling into the mark at the left of the lockup","end":"Mark, wordmark and tagline resolved side by side and still","text":["Orbit","Time, arranged."],"transitionIn":"cut","why":"the name arrives after the mark that explains it, then holds still for 1.2s"} }
+  ]
+}

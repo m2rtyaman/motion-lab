@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
  * visual-qa.mjs
- * Motion Studio v0.8 Görsel Doğrulama & Boş Ekran Denetçisi.
- * npx remotion still ve contact-sheet ile üretilen kareleri analiz eder:
- * - Dosya boyutu < 20KB (boş/çizilmemiş ekran) kontrolü
- * - Siyah/ölü ekran analizi
- * - Beat sürekliliği ve fiziksel görüntü varlığı
- * - vision-notes.md mevcudiyeti ve derinliği
+ * Motion Studio v0.9 Visual Verification & Blank Screen Auditor.
+ * Analyzes frames produced by npx remotion still and contact-sheet:
+ * - File size < 20KB check (blank/undrawn screen)
+ * - Black/dead screen analysis
+ * - Beat continuity and presence of physical imagery
+ * - Presence and depth of vision-notes.md
  *
- * Kullanım:
+ * Usage:
  *   node scripts/visual-qa.mjs [--project <slug>]
  */
 
@@ -26,7 +26,7 @@ const BOLD = '\x1b[1m';
 const RESET = '\x1b[0m';
 
 console.log(`\n${BOLD}==================================================${RESET}`);
-console.log(`${BOLD}👁️  VISUAL QA & GÖRSEL KANIT DENETİMİ${RESET}`);
+console.log(`${BOLD}👁️  VISUAL QA & VISUAL EVIDENCE AUDIT${RESET}`);
 console.log(`${BOLD}==================================================${RESET}`);
 
 let totalErrors = 0;
@@ -39,7 +39,7 @@ for (const project of targets) {
   console.log(`\n▶ [${project.slug}]`);
 
   if (!fs.existsSync(gridImage)) {
-    console.log(`  ${YELLOW}⚠️  ${project.slug}: visual-audit-grid.png henüz üretilmemiş. (pnpm render:contact-sheet --project ${project.slug})${RESET}`);
+    console.log(`  ${YELLOW}⚠️  ${project.slug}: visual-audit-grid.png has not been generated yet. (pnpm render:contact-sheet --project ${project.slug})${RESET}`);
     continue;
   }
 
@@ -48,31 +48,31 @@ for (const project of targets) {
   console.log(`  📸 Visual Audit Grid: ${fileSizeKb} KB`);
 
   if (fileSizeKb < 30) {
-    console.error(`  ${RED}❌ P0 HATA: visual-audit-grid.png dosya boyutu çok küçük (${fileSizeKb} KB)!${RESET}`);
-    console.error(`     Bu durum sahnenin siyah kaldığını veya bileşenlerin 0x0 boyutuna çöktüğünü gösterir.`);
+    console.error(`  ${RED}❌ P0 ERROR: visual-audit-grid.png file size is too small (${fileSizeKb} KB)!${RESET}`);
+    console.error(`     This means the scene stayed black or its components collapsed to 0x0 size.`);
     totalErrors++;
     continue;
   }
 
   if (!fs.existsSync(visionNotesFile)) {
-    console.warn(`  ${YELLOW}⚠️  UYARI: vision-notes.md bulunamadı.${RESET}`);
+    console.warn(`  ${YELLOW}⚠️  WARNING: vision-notes.md not found.${RESET}`);
   } else {
     const visionContent = fs.readFileSync(visionNotesFile, 'utf8');
     if (visionContent.trim().length < 50) {
-      console.warn(`  ${YELLOW}⚠️  UYARI: vision-notes.md çok kısa veya yetersiz gözlem içeriyor.${RESET}`);
+      console.warn(`  ${YELLOW}⚠️  WARNING: vision-notes.md is too short or has insufficient observations.${RESET}`);
     } else {
-      console.log(`  ${GREEN}✓ vision-notes.md görsel gözlem notları onaylı (${visionContent.trim().length} karakter).${RESET}`);
+      console.log(`  ${GREEN}✓ vision-notes.md visual observation notes approved (${visionContent.trim().length} karakter).${RESET}`);
     }
   }
 
-  console.log(`  ${GREEN}✓ Visual QA doğrulamasından başarıyla geçti (${fileSizeKb} KB render kanıtı).${RESET}`);
+  console.log(`  ${GREEN}✓ Visual QA verification passed (${fileSizeKb} KB render evidence).${RESET}`);
 }
 
 console.log(`\n==================================================`);
 if (totalErrors > 0) {
-  console.error(`${RED}${BOLD}🛑 Visual QA denetimi başarısız oldu! Boş veya çökmüş görsel paftalar tespit edildi.${RESET}\n`);
+  console.error(`${RED}${BOLD}🛑 Visual QA audit failed! Blank or collapsed visual sheets detected.${RESET}\n`);
   process.exit(1);
 }
 
-console.log(`${GREEN}${BOLD}✨ Tüm görsel paftalar ve denetim notları doğrulandı.${RESET}\n`);
+console.log(`${GREEN}${BOLD}✨ All visual sheets and audit notes verified.${RESET}\n`);
 process.exit(0);

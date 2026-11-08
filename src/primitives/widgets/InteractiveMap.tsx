@@ -36,6 +36,7 @@ export interface InteractiveMapProps {
  * Şehir ızgarası, kıyı çizgisi, animasyonlu pinler ve saha rota hattı içerir.
  * Tamamen prop-driven ve deterministiktir; veri kodun içine gömülmez.
  */
+/** @deprecated legacy look — not for v2 */
 export const InteractiveMap: FC<InteractiveMapProps> = ({
   theme = LIGHT_SAAS_THEME,
   pins = [],

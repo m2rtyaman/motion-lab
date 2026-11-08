@@ -25,7 +25,7 @@ export interface DataTableProps {
 }
 
 /**
- * DATA TABLE (v0.8)
+ * DATA TABLE (v0.9)
  *
  * Yüksek yoğunluklu profesyonel SaaS müşteri & veri tablosu.
  * Özel sütunlar, sıralama başlıkları, fırsat skoru rozetleri ve

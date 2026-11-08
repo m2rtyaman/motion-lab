@@ -86,6 +86,7 @@ export interface JaggedPaperTearProps {
 /**
  * High-frequency irregular SVG jagged paper-tear edge mask dividing the canvas with dynamic tear progress.
  */
+/** @deprecated legacy look — not for v2 */
 export const JaggedPaperTear: React.FC<JaggedPaperTearProps> = ({
   progress = 0,
   width = 1920,
@@ -232,6 +233,7 @@ export interface ObjectScatterProps {
 /**
  * Small independent 2D sticker/label tags that explode outward along radial vectors with varied rotations upon paper-tear impact.
  */
+/** @deprecated legacy look — not for v2 */
 export const ObjectScatter: React.FC<ObjectScatterProps> = ({
   progress = 0,
   items,
@@ -342,6 +344,7 @@ export interface MetronomeGaugeProps {
  * Circular gauge housing a swinging metronome needle with realistic pendulum oscillation physics
  * (left -> center -> right -> center with eased reversals).
  */
+/** @deprecated legacy look — not for v2 */
 export const MetronomeGauge: React.FC<MetronomeGaugeProps> = ({
   time,
   frame = 0,
@@ -560,6 +563,7 @@ export interface ScribbleAnchorProps {
 /**
  * Organic hand-drawn SVG scribble that acts as a stationary landing anchor for cards with an elliptical contact shadow.
  */
+/** @deprecated legacy look — not for v2 */
 export const ScribbleAnchor: React.FC<ScribbleAnchorProps> = ({
   width = 340,
   height = 90,
@@ -679,6 +683,7 @@ export interface PastelBubbleOcclusionProps {
 /**
  * Large translucent pastel depth circles swelling from canvas edges to create a soft foreground occlusion wipe without hard cuts.
  */
+/** @deprecated legacy look — not for v2 */
 export const PastelBubbleOcclusion: React.FC<PastelBubbleOcclusionProps> = ({
   progress = 0,
   width = 1920,
@@ -794,6 +799,7 @@ export interface ChecklistScrubberProps {
 /**
  * Vertical checklist card with a linked path orange dot and line tracking through rows.
  */
+/** @deprecated legacy look — not for v2 */
 export const ChecklistScrubber: React.FC<ChecklistScrubberProps> = ({
   items,
   progress = 0,
@@ -965,6 +971,7 @@ export interface PaperCardProps {
 /**
  * 2.5D physical paper-like card with rounded corners, slight rotation/perspective, and soft contact shadow.
  */
+/** @deprecated legacy look — not for v2 */
 export const PaperCard: React.FC<PaperCardProps> = ({
   children,
   rotateX = 2,
@@ -1028,6 +1035,7 @@ export interface PapercraftCutoutStageProps {
  * Full viewport papercraft editorial stage container providing warm paper tone substrate,
  * subtle surface grain, and physical layered backdrop.
  */
+/** @deprecated legacy look — not for v2 */
 export const PapercraftCutoutStage: React.FC<PapercraftCutoutStageProps> = ({
   children,
   width = 1920,

@@ -196,3 +196,74 @@ export const RECIPE = {
   glintDistance: 600,
   dockOvershootScale: 1.14,
 } as const;
+
+/* ============================================================================
+ * DESIGN SYSTEM TOKENS (additive). Numbers for models: docs/DESIGN_SYSTEM.md is generated from these
+ * by scripts/gen-design-system.mjs. Pixel values are for the final frame (1920x1080 or 1080x1920).
+ * ========================================================================== */
+
+export type AspectKey = '16:9' | '9:16';
+
+/** Type scale: px on the final frame. `wordsPerLine` is the readable maximum, not a hard limit. */
+export const TYPE_SCALE = {
+  '16:9': {
+    display: { px: 112, lineHeight: 1.04, tracking: '-0.04em', weight: 900, wordsPerLine: 5 },
+    headline: { px: 72, lineHeight: 1.08, tracking: '-0.03em', weight: 800, wordsPerLine: 8 },
+    title: { px: 48, lineHeight: 1.15, tracking: '-0.025em', weight: 700, wordsPerLine: 10 },
+    body: { px: 28, lineHeight: 1.35, tracking: '-0.01em', weight: 500, wordsPerLine: 14 },
+    label: { px: 20, lineHeight: 1.2, tracking: '0.08em', weight: 700, wordsPerLine: 4 },
+    caption: { px: 18, lineHeight: 1.3, tracking: '0.01em', weight: 500, wordsPerLine: 12 },
+  },
+  '9:16': {
+    display: { px: 120, lineHeight: 1.04, tracking: '-0.04em', weight: 900, wordsPerLine: 3 },
+    headline: { px: 84, lineHeight: 1.08, tracking: '-0.03em', weight: 800, wordsPerLine: 4 },
+    title: { px: 56, lineHeight: 1.15, tracking: '-0.025em', weight: 700, wordsPerLine: 5 },
+    body: { px: 36, lineHeight: 1.35, tracking: '-0.01em', weight: 500, wordsPerLine: 7 },
+    label: { px: 22, lineHeight: 1.2, tracking: '0.08em', weight: 700, wordsPerLine: 3 },
+    caption: { px: 20, lineHeight: 1.3, tracking: '0.01em', weight: 500, wordsPerLine: 6 },
+  },
+} as const;
+
+/** Absolute minimum text size on the final frame (RULES.md: no micro-fonts). */
+export const MIN_TEXT_PX = 18;
+
+/** 8 px spacing grid. */
+export const SPACE = { s0: 0, s1: 8, s2: 16, s3: 24, s4: 32, s5: 48, s6: 64, s7: 96, s8: 128 } as const;
+
+/** Padding and gaps inside surfaces, px on the final frame. */
+export const SURFACE_PADDING = {
+  '16:9': { card: 32, cardGap: 24, shell: 32, shellHeader: 24, pill: [8, 20], button: [20, 40] },
+  '9:16': { card: 40, cardGap: 32, shell: 40, shellHeader: 32, pill: [10, 24], button: [24, 48] },
+} as const;
+
+/** Layout grids. Safe-zone top/bottom minimums equal scripts/validate-spec.mjs (S008/S009). */
+export const LAYOUT = {
+  '16:9': { width: 1920, height: 1080, safeTop: 30, safeBottom: 30, marginX: 120, columns: 12, gutter: 24 },
+  '9:16': { width: 1080, height: 1920, safeTop: 250, safeBottom: 300, marginX: 70, columns: 6, gutter: 20 },
+} as const;
+
+/** Corner radii, px. Match ThemeGeometry (radiusSm/Md/Lg) plus xl and pill. */
+export const RADII = { sm: 8, md: 14, lg: 22, xl: 32, pill: 999 } as const;
+
+/** Stroke widths, px. */
+export const STROKES = { hairline: 1, default: 2, emphasis: 4, specularRim: 1 } as const;
+
+/** Elevation shadows (no colored glow). */
+export const SHADOWS = {
+  light: {
+    e1: '0 10px 25px -8px rgba(15, 23, 42, 0.06)',
+    e2: '0 10px 30px -10px rgba(15, 23, 42, 0.08)',
+    e3: '0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.05)',
+  },
+  dark: {
+    e1: '0 10px 25px -8px rgba(0, 0, 0, 0.5)',
+    e2: '0 10px 30px -10px rgba(0, 0, 0, 0.5)',
+    e3: '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08)',
+  },
+} as const;
+
+/** UI shown at broadcast scale: scale = MIN_TEXT_PX / native font px; widgets draw labels at 15-16 px native. */
+export const UI_SCALE = { minTextPx: MIN_TEXT_PX, widgetNativeLabelPx: 15, widgetNativeBodyPx: 18, recommendedZoom: [1.2, 1.7] } as const;
+
+/** Color usage limits per frame. */
+export const COLOR_RULES = { maxAccentsPerFrame: 2, secondaryAccentMaxAreaPct: 10, statusColorsOnlyForStatus: true } as const;

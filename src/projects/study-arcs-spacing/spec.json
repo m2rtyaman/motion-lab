@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "title": "Study: Arcs and Spacing",
+  "mode": "editorial-ui",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 6.2,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "audit": { "allow": [ { "code": "T012", "reason": "left ball is the deliberate linear wrong example (straight, constant speed) shown beside the eased arc" } ] },
+  "beats": [
+    { "id": "draw", "startFrame": 0, "endFrame": 71, "intent": "Two panels with their paths and the 13 spacing dots of each move",
+      "board": {"focal":".path","zone":"middle-center","start":"Dark grid with a centre divider","end":"Two panels, each with its path and 13 spacing dots, labelled wrong and right","text":[],"transitionIn":"cut","why":"both answers are visible before any ball moves"} },
+    { "id": "go", "startFrame": 72, "endFrame": 155, "intent": "Same distance, same 48 frames: straight and linear on the left, arc and eased on the right", "samples": [96, 108, 120],
+      "board": {"focal":".ball","zone":"middle-right","start":"Both balls at their left start","end":"Both balls at the right end after the same 48 frames","text":[],"transitionIn":"cut","why":"same distance and time, only the path and spacing differ"} },
+    { "id": "back", "startFrame": 156, "endFrame": 263, "intent": "The same comparison on the way back",
+      "board": {"focal":".ball","zone":"middle-left","start":"Both balls at the right end","end":"Both balls back at the left start","text":[],"transitionIn":"cut","why":"repeat the comparison so the difference is not a one-off"} },
+    { "id": "rest", "startFrame": 264, "endFrame": 372, "intent": "Caption states the difference, then the 1.2s hold",
+      "board": {"focal":".caption","zone":"bottom-left","start":"Balls at rest, caption absent","end":"Caption states the difference under the finished panels","text":["Same 700 px, same 48 f."],"transitionIn":"cut","why":"the conclusion follows the evidence and holds still for the 1.2s"} }
+  ]
+}

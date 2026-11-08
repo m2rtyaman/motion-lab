@@ -1,0 +1,149 @@
+{
+  "source": "767ec1372e781597be9d.mp4",
+  "native": {
+    "fps": 24,
+    "frames": 192,
+    "width": 640,
+    "height": 360,
+    "analysisSize": "192x108"
+  },
+  "duration": {
+    "s": 8,
+    "f60": 480
+  },
+  "params": {
+    "still": 0.3,
+    "noiseFloor": 0.001,
+    "minHoldSec": 0.25,
+    "analysisWidth": 192
+  },
+  "energy": {
+    "mean": 4.098,
+    "median": 2.853,
+    "p90": 5.591,
+    "max": 29.725,
+    "pctFramesStill": 0
+  },
+  "cuts": {
+    "count": 0,
+    "perTenSeconds": 0,
+    "at": {
+      "s": [],
+      "f60": []
+    }
+  },
+  "shots": {
+    "count": 1,
+    "lengths": {
+      "s": [
+        8
+      ],
+      "f60": [
+        480
+      ]
+    },
+    "median": {
+      "s": 8,
+      "f60": 480
+    }
+  },
+  "holds": {
+    "count": 0,
+    "lengths": {
+      "s": [],
+      "f60": []
+    },
+    "starts": {
+      "s": [],
+      "f60": []
+    },
+    "final": {
+      "s": 0,
+      "f60": 0
+    }
+  },
+  "events": {
+    "count": 2,
+    "list": [
+      {
+        "start": {
+          "s": 2.458,
+          "f60": 147.5
+        },
+        "peak": {
+          "s": 2.5,
+          "f60": 150
+        },
+        "end": {
+          "s": 2.833,
+          "f60": 170
+        },
+        "duration": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "asymmetry": 4,
+        "peakEnergy": 29.72,
+        "peakRegionalSpeedPxPerFrame": 24.37,
+        "peakGlobalSpeedPxPerFrame": 16.62
+      },
+      {
+        "start": {
+          "s": 6.042,
+          "f60": 362.5
+        },
+        "peak": {
+          "s": 6.083,
+          "f60": 365
+        },
+        "end": {
+          "s": 6.417,
+          "f60": 385
+        },
+        "duration": {
+          "s": 0.375,
+          "f60": 22.5
+        },
+        "onsetToPeak": {
+          "s": 0.083,
+          "f60": 5
+        },
+        "peakToRest": {
+          "s": 0.333,
+          "f60": 20
+        },
+        "asymmetry": 4,
+        "peakEnergy": 28.14,
+        "peakRegionalSpeedPxPerFrame": 33.4,
+        "peakGlobalSpeedPxPerFrame": 10.23
+      }
+    ]
+  },
+  "speed": {
+    "unit": "px/frame @ 1080 short-side, 60fps",
+    "movingFrames": 191,
+    "searchSaturatedBlockPct": 1.1,
+    "globalMedian": 2.51,
+    "globalP95": 6.98,
+    "regionalMedian": 5.54,
+    "regionalP95": 18.05,
+    "regionalMax": 33.4
+  },
+  "meta": {
+    "id": "char-767e",
+    "category": "character",
+    "catalogCaseId": "x-2102773737129156730",
+    "catalogFile": "767ec1372e781597be9d.mp4",
+    "creator": "unattributed",
+    "creditLink": "https://x.com/MustaphaFenzar/status/2102773737129156730",
+    "catalogStyleId": "paper"
+  }
+}

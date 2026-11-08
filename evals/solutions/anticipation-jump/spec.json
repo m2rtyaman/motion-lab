@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "harness": 2,
+  "evalTask": "anticipation-jump",
+  "title": "Pip Jumps",
+  "mode": "kinetic-poster",
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 3,
+  "safeZone": { "top": 30, "bottom": 30 },
+  "theme": { "surfaceMode": "dark" },
+  "beats": [
+    { "id": "ready", "startFrame": 0, "endFrame": 39, "intent": "Ground, target and the character appear; the character waits alive",
+      "board": {"focal":".block-wrap","zone":"bottom-center","start":"Dark grid, empty","end":"Ground, target and the block waiting alive at the left","text":[],"transitionIn":"cut","why":"show the goal before the jump so the viewer knows where it is going"} },
+    { "id": "jump", "startFrame": 40, "endFrame": 81, "intent": "Crouch (wind-up), stretch up fast, overshoot and settle on the target",
+      "board": {"focal":".block-wrap","zone":"middle-center","start":"Block waiting at the start","end":"Block stretched up, overshot and settled on the target","text":[],"transitionIn":"cut","why":"crouch (wind-up) before the stretch, overshoot before settle"} },
+    { "id": "land", "startFrame": 82, "endFrame": 180, "intent": "A small punch confirms the landing, then 1.2s of stillness",
+      "board": {"focal":".block-wrap","zone":"bottom-center","start":"Block settling on the target","end":"Block still on the target after a small landing punch","text":[],"transitionIn":"cut","why":"the punch confirms the landing, then the pose holds still for 1.2s"} }
+  ]
+}

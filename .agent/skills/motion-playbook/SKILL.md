@@ -1,322 +1,111 @@
 ---
 name: motion-playbook
-description: Single source of truth for producing professional motion graphics in this repo. Read FIRST for any video task. Defines transition grammar, theme selection, beat structure, camera discipline, forbidden patterns, reference projects and the quality gate. Other skills defer to this one.
+description: How to plan and build a harness-v2 Motion Lab scene from a brief - read order, beat planning, preset choice, copy-an-example workflow, and the contact-sheet self-check. Use at the start of any new video project or when a scene fails `pnpm check`. RULES.md wins on any conflict.
 ---
 
-# Master Motion Playbook (Single Source of Truth & Ultimate Motion Guide v7)
+# Motion playbook (harness v2)
 
-This repository is not a "slide presentation" generator or static UI screen recorder; it is a **continuous, cinematic, and editorial motion graphics studio**. A video is not a sequential list of boxes fading in; it is an orchestrated perceptual journey guiding the viewer's eye across the canvas with deliberate momentum and choreography.
+Optional guide. `RULES.md` is the canonical rule file; this skill only sequences the work.
+Specialised topics: `kinetic-type`, `product-ui-motion`, `character-animation`, `sound-design`, `asset-harvester`.
+Pictures of every usable primitive: `docs/COMPONENT_GALLERY.md` (import from `src/primitives/curated.ts`). Type, spacing, grid and contrast numbers: `docs/DESIGN_SYSTEM.md`.
 
-In case of conflict, this document supersedes all other skills, documents, and assumptions in the repository.
+## 1. Read in this order (no web search needed)
+1. `RULES.md` - what the scripts enforce.
+2. `docs/STORYBOARD.md` - the board per beat you write in `spec.json` before any code (focal, zone, key poses, text, why).
+3. `docs/DESIGN_SYSTEM.md` - type scale, spacing, safe areas, contrast, UI scale (numbers, not adjectives).
+4. `docs/COMPONENT_GALLERY.md` (pictures of the curated primitives) and `docs/COMPONENT_RECIPES.md` (cards, rows, charts, buttons, CTA, toasts, app windows: BAD/GOOD pairs).
+5. `docs/PRESETS.md` - the closed vocabulary (`enter`, `exit`, `emphasize`, `camera`, `transition`, physics helpers).
+6. `docs/MOTION_MATH.md` - why the numbers are what they are (easing, overlap, px/frame, beat lengths).
+7. `docs/ANIMATION_STUDIES.md` (physics) or `docs/CHARACTER_ANIMATION.md` (characters), when the brief needs them.
+8. The closest example, then copy its structure (not its content):
+   - `src/projects/example-editorial-data` - 16:9 data story with a `components/` folder
+   - `src/projects/example-social-promo` - 9:16 promo, RigCharacter reacting to a UI card
+   - `src/projects/example-feature-tour` - 16:9 app window, three features, camera moves
+   - `src/projects/example-kinetic-type` - headline-driven type piece, 9:16
+   - `src/projects/example-product-ui` - product UI in a shell, 16:9
+   - `src/projects/example-logo-sting` - short logo sting with the final hold
+   - `src/projects/study-*` - one physics principle each (bounce, arcs, overlap, stagger, walk)
 
----
+## 2. Plan the beats before the code
+- Write the brief as one sentence of message, then 3-6 beats. Vary lengths (about 1-2.5 s); equal beats trigger T011.
+- Each beat changes exactly one thing: focus, camera or depth. One focal point at a time.
+- The last beat is the message/logo/CTA and ends with `holdFinal(tl, at, 1.2)`; `at + 1.2` must not pass the video end (ideally it equals it).
+- Put the beats in `spec.json` (`"harness": 2`): first starts at frame 0, beats touch, last `endFrame` = duration x 60.
+- Give every beat a `board` (`focal`, `zone`, `start`/`end` key poses, `text`, `transitionIn`, `why`); cause comes before effect. `pnpm check` runs SB001-SB007 on it.
+- Keep one hero element across beats where you can instead of cutting between unrelated screens.
 
-## 0.5. MASTER STORYBOARD CONSTITUTION (THE 5 UNIVERSAL LAWS)
-> **Comprehensive Guide:** `references/MASTER_STORYBOARD_RULES.md`
+## 3. Choose motion by role, not by number
+| Need | Preset |
+|---|---|
+| something arrives | `enter`: `rise`, `pop`, `blurIn`, `wipe`, `stagger`, `words` |
+| something leaves | `exit`: `sink`, `shrink`, `wipeOut` |
+| draw the eye | `emphasize`: `punch`, `shake`, `glint` |
+| camera | `camera`: `pushIn`, `pullOut`, `drift`, `settle` |
+| scene change | `transition`: `whip`, `maskWipe`, `morph`, `zoomPunch`, `takeover`, `dive` |
+| weight, arcs, walk | `src/core/physics.ts`: `bounce`, `launch`, `arcMove`, `followThrough`, `pendulum`, `walkCycle` |
+Options are only `stagger`, `intensity`, `direction` (see PRESETS.md). Do not invent durations, eases or px values.
+Never call `gsap.to/from/set/timeline` directly (V2-004); use `tl` only when no preset fits, and rarely.
 
-Every project (`src/projects/<slug>/`) during the storyboard phase must adhere to the 5 universal laws without exception:
-1. **Zero Traditional Cuts (Continuous Kinetic Handoff):** Slide-deck crossfades are forbidden. A single hero element (`TheHeroActor`) lives from frame 0 through the final frame, evolving dynamically to carry the scene.
-2. **1.0 – 1.5s Micro-Beat Pulse & 1.2s Stillness Hold:** Visual action pivots in depth/direction every 60–90 frames; the final takeaway receives at least 1.2s (72 frames) of unblurred stillness for retention.
-3. **Three-Layer Depth Architecture (3-Layer Depth System):** Reject flat 2D designs in favor of Background Base (atmospheric grid) $\to$ Secondary Depth (ghost outlines, trailing lag) $\to$ Foreground Hero (crystalline typography, solid accents).
-4. **Spatial & Luminosity Contrast:** Construct intentional shifts between focused dark editing environments and warm, inviting brand spaces.
-5. **Three-Input Separation of Concerns (3-Input Rule):** Decouple Script (*What/Why*), Storyboard (*Visual Anatomy & Depth*), and Motion Reference (*Spring Physics & Momentum*).
-
----
-
-## 1. The Three-Question Gate (Mandatory Pre-Flight Validation)
-1. **Where is the viewer's eye focused right now?**
-   - Two primary actions cannot compete simultaneously. Focus transfers at beat boundaries via *directional momentum and kinetic handoff*, never via abrupt hard cuts.
-2. **Which transition carries this boundary, and why?**
-   - Transitions are not decorative; they emerge from narrative motivation:
-     - Velocity, launch, forward step → `transitionWhipPan`
-     - Layer reveal, curtain opening → `transitionMaskWipe`
-     - Macro-to-micro dive / portal jump → `transitionZoomPunch`
-     - Object metamorphosis, container expansion → `transitionContainerMorph` / `flipContainerTransition`
-3. **Why is this video dark or light?**
-   - Defaulting to "dark glass" is banned. Choose themes intentionally based on product identity (`light` for B2B SaaS / Fintech, `editorial-warm` for manifestos, `dark` for infrastructure/cyber core), applying full-bleed color blocking (`beatPalettes`) between beats.
-
----
-
-## 1.5. PHASE 0: Live Web, Official Vectors & Studio Breakdowns (Mandatory Research Gate)
-Never guess brand logos, product UIs, or scene transitions from memory. Before writing code, execute **4 targeted searches** via `search_web` and record them in `choreography-blueprint.md`:
-
-1. **Official Brand & Exact SVG `<path>` Coordinates:**
-   - Sourced from `simpleicons.org`, `github.com/simple-icons`, raw SVG sources, `lucide.dev`, and official brand guidelines for exact hex codes and `<path d="...">` strings.
-2. **Authentic Product UI Anatomy (UI Tear-Down):**
-   - Extract authentic UI components (e.g. speech bubble tails `tail-in`/`tail-out`, encryption badges, participant video grids) from official changelogs, `mobbin.com`, or `pageflows.com`.
-3. **Elite Studio Case Studies (Creative Breakdowns):**
-   - Learn transition metaphors (**Match-Cut**, **3D Exploded Layer**, **Macro-to-Wide Camera Pull**) from breakdowns by *Ordinary Folk*, *Buck.co*, *ManvsMachine*, *Ravie.co*, and *Giant Ant*.
-4. **Technical SVG Filters & 3D Depth Patterns:**
-   - Reference *Codrops*, *GSAP Showcase*, and *Frontend Horse* for `<feGaussianBlur>` + `<feColorMatrix>` gooey liquid filters, multi-stop gradients, and CSS 3D `preserve-3d` layer separations.
-
----
-
-## 2. Disney's 12 Principles of Animation Adapted for UI & Motion Design
-
-Traditional Disney animation principles form the foundation of elite digital motion design:
-
-### 1. Squash & Stretch (Volume Conservation)
-- UI cards and buttons do not behave like rigid plastic. Volume is always conserved ($scaleX \times scaleY \approx 1.0$).
-- When pressed: `scaleY: 0.90, scaleX: 1.08`.
-- When rebounding: `scaleY: 1.08, scaleX: 0.94`.
-
-### 2. Anticipation (Anticipatory Stillness — 300–500ms)
-- Prior to major impacts, whip-pans, or modal reveals, hold the scene in 300–500 ms (18–30 frames @ 60 FPS) of micro-windup or anticipatory breath.
-- Cursors compress (`scale: 0.88`) before clicking; windows spring (`scale: 0.97, y: +6px`) before launching.
-
-### 3. Staging (Single Focal Hierarchy)
-- The human eye tracks only one dominant action at a time.
-- Direct viewer attention across the canvas using directional momentum—an outgoing card's exit vector triggers the incoming element's trajectory.
-
-### 4. Straight Ahead Action & Pose to Pose
-- Primary narrative beats and key poses are planned frame-by-frame in `spec.json` (Pose to Pose).
-- Secondary procedural dynamics (dust, sparks, particles, micro-shakes) compute dynamically using seeded Mulberry32 math (Straight Ahead).
-
-### 5. Follow Through & Overlapping Action
-- When a container halts, internal headlines, charts, and buttons do not stop simultaneously.
-- Children settle sequentially with an intentional stagger (`staggerInterval: TIMING.itemStagger`).
-
-### 6. Slow In & Slow Out (Natural Damping)
-- No physical object moves at `linear` velocity.
-- Employ `expoOut` (`expo.out`), `powerOut` (`power3.out`), or `backOut` (`back.out(1.6)`) across all UI tweening.
-
-### 7. Arcs (Bézier Trajectories)
-- Cursors and flying elements never travel in straight Euclidean lines.
-- Incorporate subtle parabolic arcs (`curvature: 0.22`) via `bezier-trajectories` reflecting natural human biomechanics.
-
-### 8. Secondary Action
-- Reinforce primary actions with subtle secondary accents: softening contact shadows, specular edge sweeps (`specularGlintGlance`).
-
-### 9. Timing & Spacing (Rhythm & Frame Budgets)
-- Ban uniform beat durations ($\sigma > 18$ frames required).
-- Staccato impacts: 35–55 frames (0.6s–0.9s).
-- Deep data reading holds: 75–120 frames (1.25s–2.0s).
-
-### 10. Exaggeration
-- Controlled overshoot on spring settlements (`scale: 1.06 -> 1.00`), subtle bank tilt on fast cursor moves (`rotateZ: 3.5°`).
-
-### 11. Solid Drawing / Clean Surfaces
-- Replace muddy neon glows with physical light separation: 1px specular highlights (`specularRimTop`), soft ambient contact shadows (`ambientShadow`).
-
-### 12. Appeal
-- Pristine typographic hierarchy, global glyph support, and zero illegible micro-fonts.
-
----
-
-## 3. Eye Tracking & Cognitive Readability Standards (WPM)
-
-1. **Visual Trajectory:**
-   - Viewers scan in F-patterns or Z-patterns. Connect the exit coordinates of beat $N$ to the entry coordinates of beat $N+1$.
-2. **Minimum Hold Duration:**
-   - Every primary headline or core data point must remain stable and crisp on screen for **at least 1.2 seconds (72 frames @ 60 FPS)**.
-3. **Cognitive Word Budget (WPM):**
-   - The ceiling for on-screen text consumption is 220–240 WPM:
-     $$\text{WPM} = \frac{\text{Word Count}}{\text{Duration (seconds)}} \times 60 \le 240$$
-   - A 4-word heading requires at least 1.0s – 1.2s of dedicated screen time.
-
----
-
-## 4. Single Container Principle & FLIP Architecture
-
-Abrupt scene jumps break cognitive continuity. High-end motion design anchors the canvas with a central hero container (Container / Shell):
-
+## 4. Minimal v2 scene skeleton
 ```tsx
-// Single Container Architecture with GPU-Pure FLIP Transform
-<ContainerMorph
-  stages={[
-    {
-      id: 'search-pill',
-      startFrame: 0,
-      endFrame: 120,
-      width: 480,
-      height: 64,
-      borderRadius: 32,
-      content: <CommandSearchBar />,
-    },
-    {
-      id: 'dashboard-card',
-      startFrame: 120,
-      endFrame: 300,
-      width: 920,
-      height: 540,
-      borderRadius: 20,
-      content: <DashboardAnalytics />,
-    },
-  ]}
-  transitionFrames={28}
-/>
-```
-
-- Using container morphing (`width`, `height`, `borderRadius`, `strokeDashoffset`) or FLIP (`scaleX`, `scaleY`), elements evolve continuously across scenes without cutting.
-
----
-
-## 4.5. `SvgFilterLab` & `LayeredStage3D` (Multi-Layer Vector & 3D Depth)
-
-1. **`SvgFilterLab` (`src/primitives/SvgFilterLab.tsx`):**
-   - Every scene incorporates `<SvgFilterLab />` for rich graphic definitions:
-     - `url(#gooey-liquid-morph)`: Organic fluid merging/splitting via `<feGaussianBlur>` + `<feColorMatrix>`.
-     - `url(#specular-rim-glow)`: Crystalline specular edge highlights and depth shadows.
-     - Multi-stop metallic, emerald, and glass `<linearGradient>` / `<radialGradient>` stops.
-     - Verified vector assets (`SpeechBubbleTailSVG`, official brand icons).
-2. **`LayeredStage3D` (`src/primitives/LayeredStage3D.tsx`):**
-   - Replaces flat 2D boxes with 3D stages featuring `perspective: 1400px` and `transformStyle: 'preserve-3d'`.
-   - Distribute elements along `<LayerPlane z={0}>` (base chassis), `<LayerPlane z={45}>` (cards/bubbles), `<LayerPlane z={85}>` (shields/waveforms), and `<LayerPlane z={120}>` (cursors/badges) to produce authentic 3D parallax on camera tilts.
-
----
-
-## 5. Transition Grammar Dictionary (`src/core/transitions.ts`)
-
-| Function | Signature Character | Required Parameters |
-|---|---|---|
-| `transitionWhipPan` | High velocity, directional inertia, dynamic wipe | `(tl, outgoing, incoming, { at, direction: 'left'\|'right'\|'up'\|'down', duration })` |
-| `transitionMaskWipe` | Architectural reveal, precision wipe | `(tl, incoming, { at, type: 'diagonal'\|'horizontal'\|'vertical'\|'iris', outgoingSelector })` |
-| `transitionZoomPunch` | Macro/micro depth dive, portal jump | `(tl, outgoing, incoming, { at, duration, zoomScale, portalRingSelector })` |
-| `transitionContainerMorph` | Single-container metamorphosis | `(tl, container, outContent, inContent, { at, duration })` |
-
-### Transition Rules:
-- Every beat boundary must feature an intentional transition (`M001 / M004`).
-- Projects with 3+ beats must combine at least 2 distinct transition families (`M003`).
-- Beats must never unmount (`{isBeat && <X/>}` is forbidden, `M002`).
-
----
-
-## 6. Production Reference Pattern
-
-```tsx
-import React, { useMemo } from 'react';
-import { useCurrentFrame } from 'remotion';
+import { type FC } from 'react';
+import { AbsoluteFill } from 'remotion';
 import { useRemotionGSAP } from '../../core/useRemotionGSAP';
-import { DURATIONS, EASING, TIMING, RECIPE } from '../../core/tokens';
-import { blurScaleReveal, kineticBaselineWipe, cursorClickImpulse } from '../../core/recipes';
-import { transitionWhipPan } from '../../core/transitions';
+import { beat, enter, emphasize, camera, holdFinal } from '../../core/presets';
+import { getTheme } from '../../core/theme-contract';
+import { BackdropField } from '../../primitives/curated';
 
-export const MasterScene: React.FC = () => {
-  const frame = useCurrentFrame();
-  const fps = 60;
+const theme = getTheme('editorial-warm');
 
-  const { timeline, scopeRef } = useRemotionGSAP((tl) => {
-    // 1. Beat 1: Headline reveal
-    kineticBaselineWipe(tl, '.hero-headline', 0.2);
+export const buildTimeline = (tl: gsap.core.Timeline) => {
+  beat(tl, 'hook', 0);
+  enter(tl, '.hook-word', 'words', 0.1);
+  camera(tl, '.backdrop', 'drift', 0.1, { intensity: 'soft' });
+  beat(tl, 'proof', 1.6);
+  enter(tl, '.proof-card', 'pop', 1.7);
+  emphasize(tl, '.proof-card', 'glint', 2.4);
+  holdFinal(tl, 3.8, 1.2);
+  return tl;
+};
 
-    // 2. Cursor click impulse
-    cursorClickImpulse(tl, '.cursor-pointer', 1.4, { rippleSelector: '.click-ripple' });
-
-    // 3. Beat 1 -> Beat 2 Transition (Whip-Pan)
-    transitionWhipPan(tl, '.beat-1-view', '.beat-2-view', {
-      at: 2.1,
-      direction: 'left',
-      duration: DURATIONS.panel,
-    });
-
-    // 4. Beat 2: Card focal reveal
-    blurScaleReveal(tl, '.analytics-card', 2.3);
-  }, [fps]);
-
-  useMemo(() => {
-    if (timeline) {
-      timeline.seek(frame / fps);
-    }
-  }, [frame, fps, timeline]);
-
+export const Scene: FC = () => {
+  useRemotionGSAP(buildTimeline);
+  const { colors } = theme;
   return (
-    <div ref={scopeRef} className="relative w-full h-full overflow-hidden bg-[#09090b] text-[#fafafa]">
-      {/* Beat 1 Layer */}
-      <div className="beat-1-view absolute inset-0 flex flex-col items-center justify-center">
-        <h1 className="hero-headline text-[64px] font-bold tracking-tight">Autonomous Motion Studio</h1>
-        <div className="cursor-pointer absolute top-1/2 left-1/2 w-6 h-6 bg-white rounded-full pointer-events-none" />
-        <div className="click-ripple absolute top-1/2 left-1/2 w-16 h-16 rounded-full border border-white pointer-events-none opacity-0" />
-      </div>
-
-      {/* Beat 2 Layer */}
-      <div className="beat-2-view absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none">
-        <div className="analytics-card w-[800px] h-[480px] bg-[#17171d] border border-white/10 rounded-2xl p-8">
-          <h2 className="text-[36px] font-semibold">Telemetry Dashboard</h2>
+    <AbsoluteFill style={{ backgroundColor: colors.bgPrimary, color: colors.textPrimary }}>
+      <div className="backdrop absolute inset-0"><BackdropField theme={theme} variant="rays" intensity={0.5} /></div>
+      <div className="absolute inset-0 flex flex-col justify-center gap-10 px-16 pt-[250px] pb-[300px]">
+        <h1 className="flex flex-wrap gap-x-6 text-[150px] font-black leading-[0.95]">
+          {['Say', 'less.'].map((w) => <span key={w} className="hook-word">{w}</span>)}
+        </h1>
+        <div className="proof-card rounded-3xl px-10 py-8 text-[56px] font-bold" style={{ backgroundColor: colors.bgSurface }}>
+          One idea per beat
         </div>
       </div>
-    </div>
+      {/* real copy only, 18px or larger, inside the safe zone */}
+    </AbsoluteFill>
   );
 };
+export default Scene;
 ```
+`buildTimeline` must be exported and passed to `useRemotionGSAP` (V2-001). Imports come only from react, remotion, gsap,
+`src/core/*`, `src/primitives/curated.ts` (+ `characters/RigCharacter`) and your own folder (V2-002). Scene.tsx keeps at most 2 local components; larger pieces go in `components/*.tsx` (max 6 files, each <= 120 lines, presentational only: no motion, no raw colors, text >= 18px, root forwards `className`).
 
----
+## 5. Loop
+1. `pnpm new <slug> --mode editorial-ui|kinetic-poster|cinematic-world [--aspect 9:16|16:9] [--duration 6]`
+   (all scaffold v2 with boards; `cinematic-world` gives a `RigCharacter` scene; `--legacy` is the old layout).
+2. Edit the boards in `spec.json` and a short `direction.md`; build the static layout in `Scene.tsx` using the closest example.
+   `pnpm render:poses --project <slug>`: open `out/<slug>/poses/poses-grid.png`, check every pose against its board, fix the layout. Only then add motion.
+3. `pnpm check --project <slug>`; fix every error, then the warnings (each message names the fix and a MOTION_MATH link).
+4. `pnpm render:contact-sheet --project <slug>`, open `out/<slug>/visual-audit-grid.png` and answer the generic block of
+   `evals/VISUAL_RUBRIC.md` (legible, safe-zone, focal-point, no-empty, no-overlap, final-still) from what you see.
+   Fix every "no", re-run check, re-render the sheet.
+5. `pnpm render --project <slug>` -> `out/<slug>/<slug>.mp4`.
+For a graded exercise: `pnpm eval:score --task <id> --project <slug>`.
 
-## 6.5. Hybrid Template Engine (html-video & Native Remotion)
-
-The studio supports a two-tier hybrid template architecture:
-1. **Native Remotion Templates (RFC-08 Phase 2):**
-   - `<TemplateFrame templateId="frame-data-rollup" data={{ items: [...] }} theme={LIGHT_SAAS_THEME} />`
-   - Numeric counter interpolation and spring bars compute deterministically within Remotion.
-2. **Deterministic HTML Frame Driver (RFC-08 Phase 1 / `HtmlFrameDriver`):**
-   - 22 editorial, data-viz, and manifesto templates run within sandboxed iframes.
-   - All CSS `@keyframes` and GSAP timelines lock to `(frame / fps) * 1000` ms via `doc.getAnimations()` and `tl.time()`.
-   - Font loading is neutralized via `neutralizeBlockingResources` to prevent black frames or FOUT.
-3. **RFC-07 Three-Layer Provenance:**
-   - Every template tracks L1 origin, L2 via_skill, and L3 transformation metadata.
-
----
-
-## 6.8. Visual Styles & Mastering Standards
-
-### 1. Visual Style Taxonomy
-1. **Surreal Collage (Terry Gilliam / Cutout):** 2–4px paper-cut borders, stepped stop-motion holds, articulated puppets (`CutoutPuppetStage`).
-2. **Papercraft & Paper Theater:** Layered dioramas, 3D plane depth, light slit shadows.
-3. **Hand-drawn & Whiteboard:** Procedural stroke paths, eraser dust, pen scratch audio.
-4. **Painting & Ink:** Oil/watercolor diffusion, procedural brush strokes, ink bleed.
-5. **Printmaking & Halftone:** Dot matrix, halftone screening, S-curve print mapping (`printToneCurve`).
-6. **Continuous Line:** Unbroken vector stroke navigating space to form icons.
-7. **Mosaic & Stained Glass:** Luminous glass cells divided by 1px lead solder lines.
-8. **Flat Geometry:** Euclidean geometry, Bauhaus and Swiss grid discipline.
-9. **Kinetic Typography:** Word bursts, split masks, variable-font weight interpolation.
-10. **Charts & Maps (Telestrator):** Homography plane transformation (`homography-math`), tactical routes, radar pulses.
-11. **Pixel Art & HD-2D:** Low-res sprites combined with modern 3D depth and lighting.
-12. **Retro Neon:** CRT scanlines, phosphor glow, analog curve distortion.
-13. **Sci-fi HUD:** Tactical telemetry, corner crosshairs, 18px mono readouts.
-14. **Particles & Light Fields:** Vector flow fields, magnetic dispersion, particle emission.
-15. **Glass & Liquid (Gooey Morph):** Fluid SVG filters, 1px crystalline specular refraction.
-16. **2D Animation & Anime:** 12 animation principles, speedlines, impact frames.
-17. **Clay & Toys:** Tactile clay textures, fingerprint noise, low-framerate stutters.
-18. **Products & Exploded Views:** 3D exploded hardware assemblies, callout leader lines.
-19. **Miniature & Isometric:** Tilt-shift depth of field, 30°/60° isometric perspective.
-20. **Nature & Cosmos:** Volumetric atmosphere, orbital paths, fractal particles.
-21. **Blueprints & Cutaways:** Drafting blue surfaces, white hairline dimension arrows.
-22. **Cinematography & Editing:** 2.39:1 anamorphic ratio, rack focus, motivated camera acceleration.
-23. **Forensic Desk & Archives:** Cold research slate (`#0B0C0E`), loupe inspection (`LoupeMagnifier`), ledger sheets (`LedgerCardStage`), broadcast strap (`BroadcastPackageStrap`).
-24. **Product Interfaces:** Apple/Linear style micro-interactions, FLIP container morphing, smooth Bézier cursor trajectories.
-
-### 2. Negative Constraints (Adversarial Anti-Slop Gates)
-- **No Floating Unanchored Bento Slop:** Floating disconnected boxes are banned. UI must be anchored within defined hardware shells (`AppShell`, `BrowserFrame`, `PrecisionDashboardShell`) or a 1px shared hairline grid (`gap-[1px] bg-white/[0.08]`).
-- **Single Container Continuity:** Ban crossfade dissolves; a single hero container morphs at peak velocity across scene boundaries (`transitionContainerMorph`).
-- **Forensic Restraint:** In investigative and disaster reconstructions, cheap fire graphics or exaggerated slow-motion are banned; communicate via quantified data points and verified geometry.
-
-### 3. Audio Mastering & AAC Standards
-- **-14 LUFS Broadcast Normalization:** Integrated audio normalized to -14 LUFS, max -1.2 dBTP true peak.
-- **AAC Sample-0 Guard (`applySample0Guard`):** To eliminate AAC/MP3 MDCT filter clipping at t=0, apply a 2.0 ms Hann window fade-in locking sample 0 to zero.
-- **Dynamic Audio Ducking:** Automatically duck background music by -9 dB to -12 dB during voiceover or spoken dialogue.
-
----
-
-## 7. Zero-Tolerance Quality Gate
-
-```bash
-# 1. Dynamic registry & spec contract verification
-node scripts/gen-registry.mjs
-node scripts/validate-spec.mjs
-
-# 2. Shift-Left Storyboard and motion quality audits
-node scripts/audit-storyboard.mjs
-node scripts/motion-audit.mjs
-
-# 3. AST Syntax and anti-slop scan
-node scripts/ast-lint.mjs
-node scripts/slop-linter.mjs
-
-# 4. Motion Lab director evaluation and typography audits
-node scripts/critic-audit.mjs
-node scripts/glyph-audit.mjs
-
-# 5. TypeScript typecheck
-npx tsc --noEmit
-```
-
-A task is complete only when all audits pass **100% green** and the physical MP4 video file is verified on disk.
+## 6. Do not
+- Edit `scripts/`, `evals/`, `docs/`, `src/core`, `src/primitives`, `specs/` or `RULES.md` to make a check pass (TAMPERED = 0); fix the scene. Do not copy `evals/solutions` (C001).
+- Animate in React (`spring`, `interpolate`/`useCurrentFrame` for style or visibility: V2-005) or tween rig parts yourself; use presets and rig helpers.
+- Silence warnings with `"audit": { "allow": [...] }` unless the scene is an intentional wrong-example demo.
+- Use `Math.random`, `Date.now`, timers, CSS transitions, emoji, lorem ipsum, fake telemetry or a real brand's logo.
+- Write text under 18px or inside the unsafe margins (9:16: top 250, bottom 300).

@@ -1,18 +1,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { parseArgs, resolveTargets, rootDir, rel } from './lib/projects.mjs';
+import { parseArgs, resolveTargets, rootDir, rel, isHarnessV2 } from './lib/projects.mjs';
 import { calculateRequiredReadingTime, countTextUnits } from '../src/core/readability-meter.ts';
 
 /**
  * CRITIC AUDIT (Motion Lab Animasyon Rehberi Prompt 10 Cilalama Motoru)
  *
- * Bir sahneyi sert bir motion tasarım direktörü gözüyle puanlar ve denetler:
- * 1. Ölü Zaman Kontrolü (0.5s'den uzun hiçbir hareketin olmadığı anlar)
- * 2. Okunabilirlik Süresi (Ana metinler en az 1.2 sn ekranda kalmalı)
- * 3. Yapay Zeka Şablonu Tespiti (Mor/cyan gradyan, anlamsız parçacık, ortalanmış boşluk)
- * 4. P0 (Zorunlu), P1 (Büyük İyileştirme), P2 (Cila) Puanlama Tablosu
+ * Scores and audits a scene through the eyes of a demanding motion design director:
+ * 1. Dead Time Check (moments with no motion for longer than 0.5s)
+ * 2. Readability Duration (main text must stay on screen for at least 1.2 s)
+ * 3. AI Template Detection (purple/cyan gradient, meaningless particles, centered empty space)
+ * 4. P0 (Mandatory), P1 (Major Improvement), P2 (Polish) scoring table
  *
- * Kullanım: node scripts/critic-audit.mjs [--project <slug>]
+ * Usage: node scripts/critic-audit.mjs [--project <slug>]
  */
 
 const args = parseArgs();
@@ -44,16 +44,17 @@ for (const project of targets) {
   const directionText = fs.existsSync(directionPath) ? fs.readFileSync(directionPath, 'utf-8') : '';
 
   const findings = {
-    P0: [], // Zorunlu düzeltme
-    P1: [], // Büyük iyileştirme
+    P0: [], // Mandatory fix
+    P1: [], // Major improvement
     P2: [], // Cila
   };
 
   const isLegacy = spec.legacy === true;
+  const v2 = isHarnessV2(spec); // v2: structure/color-block/vector-richness/blueprint keyword rules are skipped
   let score = 10;
 
-  // 1. ÖLÜ ZAMAN DENETİMİ (Dead Time Check)
-  // Not: Metin veya veri odağında kameranın sakin kalması erdemdir; kinetik vektör sahnelerinde sürekli 2D hareket sağlandığı için kamera ölü zaman cezası verilmez.
+  // 1. DEAD TIME CHECK
+  // Note: keeping the camera calm during text or data focus is a virtue; kinetic vector scenes provide continuous 2D motion, so no camera dead-time penalty is applied.
   const camera = Array.isArray(spec.camera) ? spec.camera : [];
   const isKineticReel = spec.mode === 'creative-motion-reel' || spec.mode === 'kinetic-poster';
   const isSingleContainer =
@@ -66,22 +67,22 @@ for (const project of targets) {
       if (gap > 4.0) {
         findings.P1.push({
           time: `${(camera[i].at + camera[i].duration).toFixed(2)}s – ${camera[i + 1].at.toFixed(2)}s`,
-          issue: `Kamera ${(gap).toFixed(2)}s boyunca tamamen hareketsiz (Aşırı ölü zaman > 4.0s)`,
-          fix: 'Geçiş veya odak hareketi ekleyin.',
+          issue: `Camera is completely still for ${(gap).toFixed(2)}s (excessive dead time > 4.0s)`,
+          fix: 'Add a transition or focus movement.',
         });
         if (!isLegacy) score -= 0.5;
       }
     }
   }
 
-  // 2. METİN OKUNABİLİRLİK SÜRESİ (Lemomo Dinamik Okuma Formülü & Kinetik Tipografi Ritim İstisnası)
+  // 2. TEXT READABILITY DURATION (dynamic reading formula & kinetic typography rhythm exception)
   const beats = Array.isArray(spec.beats) ? spec.beats : [];
   beats.forEach((b) => {
     const durationSec = (b.endFrame - b.startFrame + 1) / spec.fps;
     const textContent = typeof b.text === 'string' ? b.text.trim() : '';
     const hasText = Boolean(textContent);
     const isKineticBeat = b.kinetic === true || b.isKinetic === true || isKineticReel;
-    const minHoldSec = isKineticBeat ? 0.12 : 1.2; // Ritmik kinetik kesmeler (EASE / IN / OUT) için 8-28 kare serbesttir
+    const minHoldSec = isKineticBeat ? 0.12 : 1.2; // 8-28 frames are allowed for rhythmic kinetic cuts (EASE / IN / OUT)
     const isComparisonOrVerdict = Boolean(
       b.isComparison ||
       b.isVerdict ||
@@ -92,8 +93,8 @@ for (const project of targets) {
     if (isComparisonOrVerdict && durationSec < 2.5) {
       findings.P0.push({
         beat: b.id,
-        issue: `Karşılaştırma / Karar (verdict) ekranı için beat süresi (${durationSec.toFixed(2)}s) minimum 2.5s hold kuralının altında.`,
-        fix: `Beat süresini en az 2.5 saniyeye (${Math.round(2.5 * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
+        issue: `Beat duration (${durationSec.toFixed(2)}s) for a comparison / verdict screen is below the 2.5s minimum hold rule.`,
+        fix: `Raise the beat duration to at least 2.5 seconds (${Math.round(2.5 * spec.fps)} frames @${spec.fps}fps).`,
       });
       if (!isLegacy) score -= 1.0;
     } else if (hasText && !isKineticBeat) {
@@ -102,43 +103,43 @@ for (const project of targets) {
       if (durationSec < requiredDuration) {
         findings.P0.push({
           beat: b.id,
-          issue: `Beat süresi (${durationSec.toFixed(2)}s) dinamik okunabilirlik ihtiyacının (${requiredDuration.toFixed(2)}s - CJK: ${cjkChars}, Latin: ${latinWords} kelime) altında; izleyici metni rahatça okuyamaz.`,
-          fix: `Beat süresini en az ${requiredDuration.toFixed(2)} saniyeye (${Math.round(requiredDuration * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
+          issue: `Beat duration (${durationSec.toFixed(2)}s) is below the dynamic readability requirement (${requiredDuration.toFixed(2)}s - CJK: ${cjkChars}, Latin: ${latinWords} words); the viewer cannot comfortably read the text.`,
+          fix: `Raise the beat duration to at least ${requiredDuration.toFixed(2)} seconds (${Math.round(requiredDuration * spec.fps)} frames @${spec.fps}fps).`,
         });
         if (!isLegacy) score -= 1.0;
       }
     } else if (!isLegacy && durationSec < minHoldSec) {
       findings.P0.push({
         beat: b.id,
-        issue: `Beat süresi (${durationSec.toFixed(2)}s) ${minHoldSec} saniyenin altında; izleyici sahneyi algılayamaz.`,
-        fix: `Beat süresini en az ${minHoldSec} saniyeye (${Math.round(minHoldSec * spec.fps)} kare @${spec.fps}fps) çıkarın.`,
+        issue: `Beat duration (${durationSec.toFixed(2)}s) is below ${minHoldSec} seconds; the viewer cannot perceive the scene.`,
+        fix: `Raise the beat duration to at least ${minHoldSec} seconds (${Math.round(minHoldSec * spec.fps)} frames @${spec.fps}fps).`,
       });
       if (!isLegacy) score -= 1.0;
     }
   });
 
-  // 3. YAPAY ZEKA ŞABLONU KONTROLÜ (AI Template Slop & Emoji Slop & 3-Part Sandwich Slop)
+  // 3. AI TEMPLATE CHECK (AI Template Slop & Emoji Slop & 3-Part Sandwich Slop)
   if (sceneCode.includes('blur-3xl') && sceneCode.includes('bg-purple')) {
     findings.P0.push({
-      issue: 'Klasik jenerik yapay zeka mor-cyan blur lekesi tespit edildi.',
-      fix: 'Koyu cam veya net geometrik sahne aydınlatması ile değiştirin.',
+      issue: 'Generic AI purple-cyan blur smudge detected.',
+      fix: 'Replace with dark glass or clean geometric scene lighting.',
     });
     score -= 1.5;
   }
 
   if (!isLegacy && /[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2702}-\u{2712}\u{2716}-\u{27BF}\u{2B50}]/u.test(sceneCode)) {
     findings.P0.push({
-      issue: 'Sahne içinde ucuz sistem emojisi tespit edildi (Gerçek vektör SVG zorunluluğu ihlali).',
-      fix: 'Tüm emojileri kaldırıp çok parçalı <svg>, <path>, <circle>, <rect>, strokeDasharray/strokeDashoffset vektör çizimlerine dönüştürün.',
+      issue: 'Cheap system emoji detected in the scene (violates the real vector SVG requirement).',
+      fix: 'Remove all emojis and convert them into multi-part vector drawings using <svg>, <path>, <circle>, <rect>, strokeDasharray/strokeDashoffset.',
     });
     score -= 2.0;
   }
 
   const svgCount = (sceneCode.match(/<svg\b/g) || []).length;
-  if (!isLegacy && spec.mode === 'editorial-ui' && svgCount < 6) {
+  if (!v2 && !isLegacy && spec.mode === 'editorial-ui' && svgCount < 6) {
     findings.P1.push({
-      issue: `Yetersiz vektör zenginliği: Sahnede yalnızca ${svgCount} adet <svg> bulundu (Minimum 6 çok parçalı vektör gerekli).`,
-      fix: 'Her ikonu, ses dalgasını ve illüstrasyonu çok parçalı <svg>/<path>/<circle> olarak çizin.',
+      issue: `Insufficient vector richness: the scene has only ${svgCount} <svg> element(s) (minimum 6 multi-part vectors required).`,
+      fix: 'Draw every icon, sound wave and illustration as multi-part <svg>/<path>/<circle> elements.',
     });
     score -= 1.0;
   }
@@ -150,13 +151,13 @@ for (const project of targets) {
   const numberedSlideEyebrows = new Set((contentWithoutSvg.match(/(?:>|\b)0[1-9]\s*[•·—-]/g) || []).map((s) => s.slice(0, 2))).size;
   if (!isLegacy && !isKineticReel && ((headerCount >= 3 && footerCount >= 3) || (topBlockCount >= 3 && footerCount >= 3) || numberedSlideEyebrows >= 3)) {
     findings.P0.push({
-      issue: `Monoton "Sabit Başlık + Ortada Kutu + Sabit Footer / Numaralı Slayt Başlığı" tekrarı (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, slideEyebrow=${numberedSlideEyebrows}).`,
-      fix: 'Her beat için kendine özgü tam ekran (full-bleed) motion graphic kompozisyonu (Kinetik Tipografi, Makro Vektör Çarpışması, Çok Katmanlı Kanvas, Geometrik Logo Birleşimi) kurgulayın.',
+      issue: `Monotonous repetition of "Fixed Header + Centered Box + Fixed Footer / Numbered Slide Heading" (header=${headerCount}, footer=${footerCount}, topBlock=${topBlockCount}, slideEyebrow=${numberedSlideEyebrows}).`,
+      fix: 'Design a unique full-bleed motion graphic composition for each beat (Kinetic Typography, Macro Vector Collision, Multi-Layer Canvas, Geometric Logo Merge).',
     });
     score -= 2.0;
   }
 
-  // 4. TEK KAP İLKESİ & NESNE MORPHING (Single Container Principle & Object Morphing)
+  // 4. SINGLE CONTAINER PRINCIPLE & OBJECT MORPHING
   const hasContainerStructure =
     sceneCode.includes('SpotlightStage') ||
     sceneCode.includes('VirtualCanvas') ||
@@ -174,15 +175,15 @@ for (const project of targets) {
     spec.mode === 'kinetic-poster' ||
     spec.mode === 'creative-motion-reel';
 
-  if (!hasContainerStructure) {
+  if (!v2 && !hasContainerStructure) {
     findings.P1.push({
-      issue: 'Sahne tek bir yapısal iskelet (Single Container) veya akıcı geçiş motoru içinde tutulmuyor.',
-      fix: '<AppShell>, <VirtualCanvas>, <SpotlightStage> veya transitions.* motoru ile kapsülleyin.',
+      issue: 'The scene is not held within a single structural skeleton (Single Container) or a fluid transition engine.',
+      fix: 'Encapsulate with <AppShell>, <VirtualCanvas>, <SpotlightStage> or the transitions.* engine.',
     });
     if (!isLegacy) score -= 0.8;
   }
 
-  // 5. BEAT'LER ARASI RENK KONTRASTI (Color Blocking Check)
+  // 5. COLOR CONTRAST BETWEEN BEATS (Color Blocking Check)
   const darkHex = (sceneCode.match(/#[0-2][0-9a-fA-F]{5}\b/g) ?? []).length;
   const lightHex = (sceneCode.match(/#[fFeEdDcC][0-9a-fA-F]{5}\b/g) ?? []).length;
   const hasColorBlocking =
@@ -194,31 +195,31 @@ for (const project of targets) {
     (darkHex >= 1 && lightHex >= 1) ||
     spec.mode === 'creative-motion-reel' ||
     spec.mode === 'kinetic-poster';
-  if (!isLegacy && beats.length >= 3 && !hasColorBlocking) {
+  if (!v2 && !isLegacy && beats.length >= 3 && !hasColorBlocking) {
     findings.P1.push({
-      issue: 'Tüm video tekdüze arka planda geçiyor; beat sınırlarında tam ekran Renk Kontrastı (Color Blocking) eksik.',
-      fix: 'Sahneler arasında açık/koyu kontrast renk bloklaması (Color Blocking) veya beatPalettes ile tam ekran renk geçişi uygulayın.',
+      issue: 'The entire video runs on a uniform background; full-screen color contrast (Color Blocking) is missing at beat boundaries.',
+      fix: 'Apply light/dark contrast color blocking (Color Blocking) between scenes, or a full-screen color transition via beatPalettes.',
     });
     score -= 0.8;
   }
 
-  // 6. TEK CÜMLELİK HEDEF KONTROLÜ
+  // 6. ONE-SENTENCE GOAL CHECK
   const hasTargetGoal =
     directionText.includes('Hedef') ||
-    directionText.includes('Concept') ||
+    directionText.includes('Concept') || /one-sentence goal/i.test(directionText) ||
     directionText.includes('tek cümlelik');
 
   if (!hasTargetGoal) {
     findings.P2.push({
-      issue: 'direction.md içinde tek cümlelik izleyici hedefi eksik.',
-      fix: 'İzleyicinin aklında kalacak tek ana mesajı direction.md içine ekleyin.',
+      issue: 'The one-sentence viewer goal is missing from direction.md.',
+      fix: 'Add the single main message the viewer should remember into direction.md.',
     });
     if (!isLegacy) score -= 0.3;
   }
 
-  // 7. VEKTÖR FİLTRE/GRADYAN & 3D KATMAN DERİNLİĞİ (CRITIC-SVG-CRAFT)
+  // 7. VECTOR FILTER/GRADIENT & 3D LAYER DEPTH (CRITIC-SVG-CRAFT)
   const hasBlueprint = fs.existsSync(path.join(project.dir, 'choreography-blueprint.md'));
-  if (!isLegacy && hasBlueprint && spec.mode === 'editorial-ui') {
+  if (!v2 && !isLegacy && hasBlueprint && spec.mode === 'editorial-ui') {
     const hasSvgCraft =
       sceneCode.includes('SvgFilterLab') ||
       (sceneCode.includes('<defs') && /linearGradient|radialGradient|feGaussianBlur/.test(sceneCode));
@@ -230,15 +231,15 @@ for (const project of targets) {
 
     if (!hasSvgCraft) {
       findings.P0.push({
-        issue: 'CRITIC-SVG-CRAFT: Sahnede SvgFilterLab veya <defs> (linearGradient/radialGradient/filter) eksik; SVG çizimleri düz ve tek boyutlu.',
-        fix: '<SvgFilterLab /> ekleyerek çok duraklı gradyan, sıvı (gooey) morph ve specular rim filtrelerini kullanın.',
+        issue: 'CRITIC-SVG-CRAFT: the scene is missing SvgFilterLab or <defs> (linearGradient/radialGradient/filter); SVG drawings are flat and one-dimensional.',
+        fix: 'Add <SvgFilterLab /> and use multi-stop gradients, gooey morph and specular rim filters.',
       });
       score -= 1.5;
     }
     if (!has3DDepth) {
       findings.P0.push({
-        issue: 'CRITIC-3D-STAGE: Sahnede LayeredStage3D / LayerPlane (preserve-3d + translateZ) eksik; bileşenler düz 2D kutu olarak duruyor.',
-        fix: '<LayeredStage3D> ve <LayerPlane z={...}> kullanarak bileşenleri 3D Z-ekseninde ayrıştırın.',
+        issue: 'CRITIC-3D-STAGE: the scene is missing LayeredStage3D / LayerPlane (preserve-3d + translateZ); components sit as flat 2D boxes.',
+        fix: 'Use <LayeredStage3D> and <LayerPlane z={...}> to separate components along the 3D Z-axis.',
       });
       score -= 1.5;
     }

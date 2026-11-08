@@ -35,6 +35,7 @@ export interface ContainerMorphProps {
  * FLIP (First, Last, Invert, Play) mantığı ile GPU saflığında (scaleX, scaleY, x, y)
  * çalışır; layout-reflow ve CSS transition içermez.
  */
+/** @deprecated legacy look — not for v2 */
 export const ContainerMorph: React.FC<ContainerMorphProps> = ({
   stages,
   transitionFrames = 24,
