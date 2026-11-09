@@ -1,0 +1,115 @@
+{
+  "$schema": "../../../specs/motion-spec.schema.json",
+  "version": 1,
+  "title": "Beach Padel Cover — Sunset 2v2",
+  "mode": "creative-motion-reel",
+  "legacy": true,
+  "aspect": "16:9",
+  "fps": 60,
+  "durationInSeconds": 16,
+  "continuousShot": true,
+  "safeZone": {
+    "top": 40,
+    "bottom": 40
+  },
+  "theme": {
+    "surfaceMode": "vibrant-brand"
+  },
+  "camera": [
+    {
+      "at": 0.0,
+      "duration": 1.2,
+      "zoom": 1.0,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power2.out",
+      "intent": "Wide cover framing of the 3/4 beach padel court as the serve leaves the far-left racket"
+    },
+    {
+      "at": 3.0,
+      "duration": 1.2,
+      "zoom": 1.0,
+      "panX": -2,
+      "panY": 2,
+      "ease": "power2.inOut",
+      "intent": "Held camera lets the net exchange read; only a 1px smash shake accents contact"
+    },
+    {
+      "at": 6.0,
+      "duration": 1.5,
+      "zoom": 1.0,
+      "panX": 2,
+      "panY": 1,
+      "ease": "power2.out",
+      "intent": "Tracking the leaping bandeja and the deep glass rebound without breaking the pixel grid"
+    },
+    {
+      "at": 9.5,
+      "duration": 1.4,
+      "zoom": 1.0,
+      "panX": -1,
+      "panY": -1,
+      "ease": "power2.inOut",
+      "intent": "Aerial lob and off-the-wall recovery keep the whole court in frame"
+    },
+    {
+      "at": 13.0,
+      "duration": 1.5,
+      "zoom": 1.0,
+      "panX": 0,
+      "panY": 0,
+      "ease": "power2.out",
+      "intent": "Loop-reset lob settles the four players back onto their serve marks"
+    }
+  ],
+  "beats": [
+    {
+      "id": "rally-serve",
+      "startFrame": 0,
+      "endFrame": 119,
+      "intent": "Far-left player floats a cross-court serve into the sand and the 2v2 rally is live"
+    },
+    {
+      "id": "near-drive",
+      "startFrame": 120,
+      "endFrame": 239,
+      "intent": "Near-left player steps in and fires a flat drive down the line"
+    },
+    {
+      "id": "net-volley-clash",
+      "startFrame": 240,
+      "endFrame": 359,
+      "intent": "Reflex net exchange: far-right volley answered by a near-right drive"
+    },
+    {
+      "id": "deep-glass-rebound",
+      "startFrame": 360,
+      "endFrame": 479,
+      "intent": "High lob pulled down by a jumping near-left smash, glass ripple on the right wall"
+    },
+    {
+      "id": "aerial-bandeja",
+      "startFrame": 480,
+      "endFrame": 599,
+      "intent": "Defensive lob met by a leaping near-right bandeja overhead"
+    },
+    {
+      "id": "wall-bajada-recovery",
+      "startFrame": 600,
+      "endFrame": 719,
+      "intent": "Low dig off the back glass turns into a counter drop"
+    },
+    {
+      "id": "diving-corner-save",
+      "startFrame": 720,
+      "endFrame": 839,
+      "intent": "Far-left player reads the drop and scoops it out of the corner sand"
+    },
+    {
+      "id": "loop-reset-climax",
+      "startFrame": 840,
+      "endFrame": 960,
+      "intent": "Final defensive lob returns ball and players to the exact frame-0 pose"
+    }
+  ]
+}

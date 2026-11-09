@@ -10,6 +10,30 @@ See [Versioning](#versioning) for the compatibility policy.
 
 ---
 
+## [0.9.1] — 2026-11-09 — Pre-release
+
+Patch release: adds the `beach-padel-cover` scene and embeds its render at the
+top of the README.
+
+### Added
+
+- **`beach-padel-cover`:** a 16-second seamless-loop, 1920×1080 / 60 FPS
+  pixel-art scene. The composition is drawn on a `384×216` canvas and upscaled
+  exactly 5× with integer coordinates and `crispEdges`, so there is no
+  anti-aliasing. A 2v2 beach padel rally on a glass-walled sand court, side 3/4
+  view: 16 contacts at 120 BPM, synchronized music and hit SFX, no on-screen
+  text. Verified with `pnpm check`, `pnpm render:contact-sheet`,
+  `pnpm render:poses` and `pnpm render`; the 959 → 0 loop seam measures the same
+  mean frame delta as a normal mid-rally step.
+- **README:** the finished MP4 (`media/beach-padel-cover.mp4`) is embedded at the
+  top of the README together with the prompt that produced it.
+
+### Changed
+
+- Version bumped to `0.9.1`.
+
+---
+
 ## [0.9.0] — 2026-11-08 — Pre-release
 
 Harness v2: a rule, preset and grading system designed so that mid-size models
@@ -137,5 +161,6 @@ published as **pre-releases** until `1.0.0`.
 
 ---
 
+[0.9.1]: https://github.com/m2rtyaman/motion-lab/releases/tag/v0.9.1
 [0.9.0]: https://github.com/m2rtyaman/motion-lab/releases/tag/v0.9.0
 [0.8.0]: https://github.com/m2rtyaman/motion-lab/releases/tag/v0.8.0
