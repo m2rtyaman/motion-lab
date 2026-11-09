@@ -1,6 +1,7 @@
 // AUTO-GENERATED: scripts/gen-registry.mjs — do not edit manually.
 import type { FC } from 'react';
 import { Scene as Scene_batman_noir } from './batman-noir/Scene';
+import { Scene as Scene_beach_padel_cover } from './beach-padel-cover/Scene';
 import { Scene as Scene_claude_motion_reel } from './claude-motion-reel/Scene';
 import { Scene as Scene_dwarf_arena } from './dwarf-arena/Scene';
 import { Scene as Scene_editorial_telemetry } from './editorial-telemetry/Scene';
@@ -57,6 +58,17 @@ export const PROJECTS: ProjectEntry[] = [
     width: 1920,
     height: 1080,
     Scene: Scene_batman_noir,
+  },
+  {
+    slug: "beach-padel-cover",
+    title: "Beach Padel Cover — Sunset 2v2",
+    mode: "creative-motion-reel",
+    aspect: "16:9",
+    fps: 60,
+    durationInFrames: 960,
+    width: 1920,
+    height: 1080,
+    Scene: Scene_beach_padel_cover,
   },
   {
     slug: "claude-motion-reel",
